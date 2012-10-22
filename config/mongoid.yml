@@ -1,0 +1,27 @@
+production:
+  sessions:
+    default:
+      database: cloudchart
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :eventual
+        safe: true
+  options:
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
+
+development:
+  sessions:
+    default:
+      database: cloudchart
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        safe: true
+  options:
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
