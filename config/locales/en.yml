@@ -61,3 +61,5 @@ en:
   # APP
   app:
     name: "CloudChart"
+  common:
+    sign_linkedin: "Sign in with Linkedin"

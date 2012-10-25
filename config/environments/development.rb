@@ -16,6 +16,12 @@ Cloudchart::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # Write to file mailer
+  config.action_mailer.delivery_method = :file
+
+  # Mailer host
+  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false
 
@@ -26,7 +32,7 @@ Cloudchart::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  config.action_controller.asset_host = "//cloudchart.dev"
+  # config.action_controller.asset_host = "//cloudchart.dev"
 
   # Do not compress assets
   config.assets.compress = false

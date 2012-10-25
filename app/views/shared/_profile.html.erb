@@ -1,0 +1,11 @@
+<% if user_signed_in? %>
+  <p><%= current_user.name %></p>
+  <p><%= link_to t("common.logout"), destroy_session_path(current_user), class: "sign_out" %></p>
+<% else %>
+  <%=
+    content_tag :button, "",
+      class: "sign_in",
+      title: t("common.sign_linkedin"),
+      data: { href: user_omniauth_authorize_path(provider: :linkedin) }
+  %>
+<% end %>

@@ -1,0 +1,12 @@
+<script>
+  if(window.opener && window.opener.App) {
+    window.opener.App.user.reload()
+    window.close()
+  }else if(window.opener){
+    window.opener.location.reload(true)
+    window.close()
+  }else{
+    alert('Error')
+    window.close()
+  }
+</script>

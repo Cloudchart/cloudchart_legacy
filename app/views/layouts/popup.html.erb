@@ -7,11 +7,9 @@
   <%= csrf_meta_tags %>
   <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </head>
-<body>
+<body class="popup">
 
-  <%= render partial: "/shared/header" %>
   <%= yield %>
-  <%= render partial: "/shared/footer" %>
 
 </body>
 </html>
