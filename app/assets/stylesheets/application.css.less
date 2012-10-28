@@ -32,6 +32,7 @@ body {
   header {
     figure {
       float: left;
+      height: 49px;
       
       img {
         width: 253px;
@@ -39,22 +40,28 @@ body {
       }
     }
     
-    div {
+    aside {
+      display: table;
       float: right;
+      height: 49px;
       
-      button {
-        width: 192px;
-        height: 32px;
-        margin: 19px 0 0 0;
-        background: url(btn-linkedin.png);
-        background-size: 192px 32px;
-        border: 0;
-        padding: 0;
-      }
-      
-      p {
-        padding: 0;
-        margin: 0;
+      .profile {
+        display: table-cell;
+        vertical-align: bottom;
+        
+        button {
+          width: 192px;
+          height: 32px;
+          background: url(btn-linkedin.png);
+          background-size: 192px 32px;
+          border: 0;
+          padding: 0;
+        }
+        
+        p {
+          padding: 0;
+          margin: 0;
+        }
       }
     }
   }

@@ -25,6 +25,8 @@ gem 'omniauth'
 gem 'omniauth-linkedin'
 gem 'linkedin'
 
+gem 'rails_admin'
+
 # Client
 gem 'execjs'
 gem 'therubyracer'

@@ -63,3 +63,4 @@ en:
     name: "CloudChart"
   common:
     sign_linkedin: "Sign in with Linkedin"
+    sign_out: "Sign out"

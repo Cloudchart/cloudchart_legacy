@@ -52,11 +52,17 @@ class User
   end
   
   ## Other
+  field :is_god, type: Boolean
+  
   def self.find_by_email(email)
     self.where(email: email).first
   end
   
   def self.find_by_username(username)
     self.where(username: username).first
+  end
+  
+  def god?
+    Rails.env.development? ? true : self.is_god
   end
 end

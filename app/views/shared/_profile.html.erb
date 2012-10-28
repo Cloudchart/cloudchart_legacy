@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
   <p><%= current_user.name %></p>
-  <p><%= link_to t("common.logout"), destroy_session_path(current_user), class: "sign_out" %></p>
+  <p><%= link_to t("common.sign_out"), destroy_session_path(current_user), class: "sign_out" %></p>
 <% else %>
   <%=
     content_tag :button, "",
