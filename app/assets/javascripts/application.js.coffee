@@ -26,7 +26,7 @@ App =
         left: -> (screen.width/2) - (@width/2)
         top: -> (screen.height/2) - (@height/2)
         opts: ->
-          "menubar=no,toolbar=no,status=no,width=#{@width},height=#{@height},toolbar=no,left=#{@left()},top=#{@top()}"
+          "menubar=no,toolbar=no,status=no,toolbar=no,scrollbars=yes,width=#{@width},height=#{@height},left=#{@left()},top=#{@top()}"
         
       window.open($this.attr('data-href'), "sign_in", popup.opts())
       false
