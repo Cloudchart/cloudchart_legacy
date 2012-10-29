@@ -21,12 +21,12 @@ App =
     $('.sign_in').live 'click', ->
       $this = $(this)
       popup =
-        width: 640
-        height: 480
+        width: 800
+        height: 600
         left: -> (screen.width/2) - (@width/2)
         top: -> (screen.height/2) - (@height/2)
         opts: ->
-          "menubar=no,toolbar=no,status=no,toolbar=no,scrollbars=yes,width=#{@width},height=#{@height},left=#{@left()},top=#{@top()}"
+          "menubar=no,toolbar=no,status=no,scrollbars=yes,width=#{@width},height=#{@height},left=#{@left()},top=#{@top()}"
         
       window.open($this.attr('data-href'), "sign_in", popup.opts())
       false
