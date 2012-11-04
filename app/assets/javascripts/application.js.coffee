@@ -76,6 +76,7 @@ App =
     reload: ->
       $j.ajax url: "/users/profile", type: "GET", complete: (data) ->
         $j(".profile").html(data.responseText)
+        App.user.init()
   
   # Initialize
   init: ->
