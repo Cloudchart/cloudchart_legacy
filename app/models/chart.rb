@@ -1,3 +1,4 @@
+# coding: utf-8
 class Chart
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -70,30 +71,28 @@ class Chart
   end
   
   def to_xdot!
-    xdot = GraphViz::new(:G, type: :digraph) { |g|
-      # Create root node with chart name
-      root = g.add_nodes(self.title, shape: "ellipse")
-      
-      # Recursive add nodes
-      self.cached = self.nodes.cache
-      add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
-    }.output(xdot: String)
-    
-    # FIXME: Investigate
-    # привет
-    # вот один пункт
-    # дима делает какие-то штуки, но я не понимаю
-    #  а вот другой
-    #  или понимаю
-    #    а вот третий
-    #    скорее всего нет, конечно
-
+    xdot = to_graph.output(xdot: String)
     self.set(:xdot, xdot.force_encoding("utf-8"))
     xdot
   end
   
+  def to_pdf
+    to_graph.output(pdf: String)
+  end
+  
   private
   
+    def to_graph
+      GraphViz::new(:G, type: :digraph) { |g|
+        # Create root node with chart name
+        root = g.add_nodes(self.title, shape: "ellipse")
+        
+        # Recursive add nodes
+        self.cached = self.nodes.cache
+        add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
+      }
+    end
+    
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root

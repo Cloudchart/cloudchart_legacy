@@ -24,6 +24,7 @@ class ChartsController < ApplicationController
       format.html { render }
       format.json { render json: @chart.as_json }
       format.xdot { render text: @chart.xdot }
+      format.pdf  { render text: @chart.to_pdf }
     }
   end
   

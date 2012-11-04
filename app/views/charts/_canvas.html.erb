@@ -2,10 +2,13 @@
   @chart ||= nil
 %>
 <div class="chart canvas" data-init="chart">
+  <div class="edit">
   <% if @chart && user_signed_in? && @chart.user == current_user %>
-    <div class="edit">
-      <%= link_to t("charts.edit"), edit_chart_path(@chart.id) %>
-    </div>
+    <%= link_to t("charts.edit"), edit_chart_path(@chart.id) %> |
   <% end %>
+  <% if @chart %>
+    <%= link_to t("charts.pdf"), chart_path(@chart.id, format: :pdf) %>
+  <% end %>
+  </div>
   <div id="canvas" data-no-turbolink></div>
 </div>
