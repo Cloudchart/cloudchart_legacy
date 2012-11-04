@@ -1,11 +1,11 @@
-# jQuery
-//= require jquery
-//= require jquery_ujs
 # Graph
 //= require graph/prototype
 //= require graph/path
 //= require graph/canviz
 //= require graph/colors
+# jQuery
+//= require jquery
+//= require jquery_ujs
 # Other
 //= require turbolinks
 
@@ -14,7 +14,6 @@ window.$j = $j
 
 App = 
   loading: (flag) ->
-    console.log flag
     if flag
       $j(".progress").show()
     else
