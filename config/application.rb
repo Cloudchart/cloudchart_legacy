@@ -15,6 +15,9 @@ if defined?(Bundler)
   # Bundler.require(:default, :assets, Rails.env)
 end
 
+# Requirements
+require "graphviz"
+
 module Cloudchart
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.

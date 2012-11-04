@@ -1,0 +1,3 @@
+<%= render partial: "/charts/panel" %>
+<%= render partial: "/charts/canvas", locals: { chart: @chart } %>
+<ins data-init="chart-show" data-chart="<%= chart_path(@chart.id, format: "xdot") %>" data-not-loaded></ins>

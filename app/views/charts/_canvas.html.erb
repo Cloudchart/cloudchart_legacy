@@ -1,0 +1,11 @@
+<%
+  @chart ||= nil
+%>
+<div class="chart canvas" data-init="chart">
+  <% if @chart && user_signed_in? && @chart.user == current_user %>
+    <div class="edit">
+      <%= link_to t("charts.edit"), edit_chart_path(@chart.id) %>
+    </div>
+  <% end %>
+  <div id="canvas" data-no-turbolink></div>
+</div>

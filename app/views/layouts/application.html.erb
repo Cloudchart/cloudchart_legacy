@@ -10,7 +10,10 @@
 <body>
 
   <%= render partial: "/shared/header" %>
-  <%= yield %>
+  <section>
+    <%= yield %>
+    <%= render partial: "/shared/progress" %>
+  </section>
   <%= render partial: "/shared/footer" %>
 
 </body>

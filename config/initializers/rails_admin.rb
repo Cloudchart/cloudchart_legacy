@@ -156,5 +156,7 @@ RailsAdmin.config do |config|
   config.model "Authorization" do
     visible false
   end
-  
+  config.model "Node" do
+    visible false
+  end
 end

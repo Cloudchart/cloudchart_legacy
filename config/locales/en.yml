@@ -64,3 +64,7 @@ en:
   common:
     sign_linkedin: "Sign in with Linkedin"
     sign_out: "Sign out"
+  charts:
+    title: "My chart"
+    create: "Create chart"
+    charts: "Charts"

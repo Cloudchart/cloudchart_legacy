@@ -3,7 +3,7 @@
     <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>
   </figure>
   <aside>
-    <div class="profile">
+    <div class="profile" data-init="user">
       <%= render partial: "/shared/profile" %>
     </div>
   </aside>

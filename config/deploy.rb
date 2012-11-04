@@ -40,6 +40,14 @@ namespace :bundler do
   end
 end
 
+# Utils
+namespace :utils do
+  desc "Remove and create MongoDB indexes"
+  task :reindex, roles: :db do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake utils:reindex"
+  end
+end
+
 # Deployment
 after 'deploy:update', 'deploy:cleanup'
 after 'deploy:setup', 'deploy:initial'
@@ -51,6 +59,7 @@ namespace :deploy do
     run "#{sudo} apt-get install git-core build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion pkg-config -y"
     run "#{sudo} apt-get install imagemagick libmagick9-dev libpq-dev sendmail -y"
     run "#{sudo} apt-get install nginx mongodb-10gen redis-server -y"
+    run "#{sudo} apt-get install graphviz -y"
     run "#{sudo} ln -s #{current_path}/config/nginx.conf /etc/nginx/sites-enabled/cloudchart.conf"
   end
 

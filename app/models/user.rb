@@ -51,8 +51,15 @@ class User
     end
   end
   
-  ## Other
+  # Relations
+  has_many :charts, dependent: :destroy
+  
+  # Other
   field :is_god, type: Boolean
+  
+  def as_json(options = {})
+    super except: [:_id], methods: [:id, :charts]
+  end
   
   def self.find_by_email(email)
     self.where(email: email).first

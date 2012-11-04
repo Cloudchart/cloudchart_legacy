@@ -18,15 +18,10 @@ body {
   }
   
   header, section, footer {
+    .clearfix();
+    position: relative;
     width: 960px;
     margin: 20px auto 0 auto;
-    
-    &:after {
-      content: "";
-      display: block;
-      height: 0;
-      clear: both;
-    }
   }
   
   header {
@@ -83,11 +78,71 @@ body {
       color: #A13224;
     }
   }
+  
+  .progress {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -32px;
+    margin-left: -32px;
+  }
 }
 
-/* Canvas container */
-.canvas {
-  .rounded(5px);
-  height: 530px;
-  background: #fff;
+.chart {
+  /* Canvas container */
+  &.canvas, &.form {
+    .rounded(5px);
+    height: 530px;
+    padding: 0 0 20px 0;
+    background: #fff;
+    overflow: auto;
+    
+    #canvas {
+      margin: 20px auto;
+    }
+    
+    .edit {
+      position: absolute;
+    }
+  }
+  
+  /* Panel */
+  &.panel {
+    .clearfix();
+    margin: 10px 0 10px 0;
+    
+    aside {
+      float: right;
+      
+      button {
+        width: 31px;
+        height: 31px;
+        background: url(btn-create.png);
+        background-size: 31px 31px;
+        border: 0;
+        padding: 0;
+      }
+    }
+  }
+  
+  /* Form */
+  &.form {
+    padding: 20px;
+    
+    input[type="text"] {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+    }
+    
+    textarea {
+      display: block;
+      width: 100%;
+    }
+    
+    input[type="submit"] {
+      margin: 10px 0;
+    }
+  }
 }

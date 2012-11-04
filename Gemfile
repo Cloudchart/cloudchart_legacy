@@ -17,6 +17,8 @@ end
 # Server
 gem 'unicorn'
 gem 'mongoid'
+gem 'mongoid_token'
+gem 'mongoid-tree'
 gem 'bson_ext'
 gem 'json'
 
@@ -26,9 +28,11 @@ gem 'omniauth-linkedin'
 gem 'linkedin'
 
 gem 'rails_admin'
+gem 'ruby-graphviz'
 
 # Client
 gem 'execjs'
 gem 'therubyracer'
 gem 'jquery-rails'
 gem 'i18n-js'
+gem 'turbolinks'
