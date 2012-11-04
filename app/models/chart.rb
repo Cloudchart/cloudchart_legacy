@@ -79,6 +79,15 @@ class Chart
       add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
     }.output(xdot: String)
     
+    # FIXME: Investigate
+    # привет
+    # вот один пункт
+    # дима делает какие-то штуки, но я не понимаю
+    #  а вот другой
+    #  или понимаю
+    #    а вот третий
+    #    скорее всего нет, конечно
+
     self.set(:xdot, xdot.force_encoding("utf-8"))
     xdot
   end
