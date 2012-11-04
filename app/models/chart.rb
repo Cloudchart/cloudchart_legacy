@@ -79,7 +79,7 @@ class Chart
       add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
     }.output(xdot: String)
     
-    self.set(:xdot, xdot)
+    self.set(:xdot, xdot.force_encoding("utf-8"))
     xdot
   end
   
