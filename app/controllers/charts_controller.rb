@@ -20,9 +20,12 @@ class ChartsController < ApplicationController
   
   def token
     not_found unless @chart.token == params[:token]
-    charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
-    charts[@chart.id.to_s] = { id: @chart.id.to_s, token: @chart.token }
-    cookies["charts"] = { value: charts.to_json, expires: 1.year.from_now, path: "/" }
+    if !user_signed_in? || @chart.user_id != current_user.id
+      charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
+      charts[@chart.id.to_s] = { id: @chart.id.to_s, token: @chart.token }
+      cookies["charts"] = { value: charts.to_json, expires: 1.year.from_now, path: "/" }
+    end
+    
     render :show
   end
   
