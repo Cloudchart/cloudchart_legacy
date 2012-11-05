@@ -66,14 +66,18 @@ class Chart
   # Accessors
   attr_accessor :cached
   
-  def as_json(options = {})
-    super except: [:_id, :nodes, :token], methods: [:id, :xdot]
+  def serializable_hash(options)
+    super (options || {}).merge(except: [:_id, :nodes, :token, :is_demo], methods: [:id])
   end
   
   def to_xdot!
-    xdot = to_graph.output(xdot: String)
-    self.set(:xdot, xdot.force_encoding("utf-8"))
-    xdot
+    self.set(:xdot, to_graph.output(xdot: String).force_encoding("utf-8"))
+    self.xdot
+  end
+  
+  def to_xdot
+    self.to_xdot! if self.xdot.blank?
+    self.xdot
   end
   
   def to_pdf

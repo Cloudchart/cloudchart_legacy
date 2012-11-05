@@ -5,4 +5,3 @@
 # Mime::Type.register_alias "text/html", :iphone
 
 Mime::Type.register "text/plain", :xdot
-Mime::Type.register "application/pdf", :pdf

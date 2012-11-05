@@ -6,6 +6,7 @@
 # jQuery
 //= require jquery
 //= require jquery_ujs
+//= require jquery/cookie
 # Other
 //= require turbolinks
 
@@ -21,6 +22,12 @@ App =
   
   # Chart methods
   chart:
+    store: (chart) ->
+      if !chart.user_id
+        charts = if $j.cookie("charts") then JSON.parse($j.cookie("charts")) else {}
+        charts[chart.id] = { id: chart.id, token: chart.token }
+        $j.cookie("charts", JSON.stringify(charts), { path: '/' })
+    
     init: ->
       # Canvas
       App.canvas = new Canviz("canvas")
@@ -30,23 +37,19 @@ App =
       $j(".create").bind "click", ->
         App.chart.create()
       
-    demo: ->
-      App.loading(true)
-      $j.ajax url: "/charts/demo.xdot", type: "GET", complete: (data) ->
-        App.canvas.parse(data.responseText)
-        App.loading(false)
+    demo: ($this) ->
+      App.chart.show($this)
     
     create: ->
       App.loading(true)
       $j.ajax url: "/charts", dataType: "json", type: "POST", complete: (data) ->
         result = eval "(#{data.responseText})"
+        App.chart.store(result.chart)
         Turbolinks.visit(result.redirect)
     
     show: ($this) ->
-      App.loading(true)
-      $j.ajax url: $this.attr("data-chart"), type: "GET", complete: (data) ->
-        App.canvas.parse(data.responseText)
-        App.loading(false)
+      App.chart.chart = JSON.parse($this.attr("data-chart"))
+      App.canvas.parse(App.chart.chart.xdot)
       
   # User methods
   user:
@@ -55,6 +58,7 @@ App =
       $j(".sign_out").unbind "click"
       $j(".sign_out").bind "click", ->
         $j.ajax url: $j(this).attr("href"), type: "GET", complete: (data) ->
+          Turbolinks.visit("/")
           App.user.reload()
         
         false
@@ -77,12 +81,14 @@ App =
       $j.ajax url: "/users/profile", type: "GET", complete: (data) ->
         $j(".profile").html(data.responseText)
         App.user.init()
+        Turbolinks.visit(location.pathname) if $j('section form').length == 0
   
   # Initialize
   init: ->
     # Search for init
     $j("[data-init]").each ->
       $this = $j(this)
+      
       switch $j(this).attr("data-init")
         when "user"
           App.user.init($this)

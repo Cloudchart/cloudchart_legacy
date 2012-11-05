@@ -67,5 +67,7 @@ en:
   charts:
     title: "My chart"
     create: "Create chart"
+    edit: "Edit chart"
+    edit_token: "Private edit link"
     charts: "Charts"
     pdf: "Pdf"

@@ -1,19 +1,9 @@
 class ChartsController < ApplicationController
-  before_filter :preload
-  
-  def demo
-    @chart = Chart.demo.first
-    
-    respond_to { |format|
-      format.xdot { render text: @chart.xdot }
-    }
-  end
-  
   def index
     if user_signed_in?
       @charts = current_user.charts
     else
-      @charts = []
+      @charts = charts_from_tokens
     end
   end
   
@@ -23,31 +13,39 @@ class ChartsController < ApplicationController
     respond_to { |format|
       format.html { render }
       format.json { render json: @chart.as_json }
-      format.xdot { render text: @chart.xdot }
+      format.xdot { render text: @chart.to_xdot }
       format.pdf  { render text: @chart.to_pdf }
     }
+  end
+  
+  def token
+    not_found unless @chart.token == params[:token]
+    charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
+    charts[@chart.id.to_s] = { id: @chart.id.to_s, token: @chart.token }
+    cookies["charts"] = { value: charts.to_json, expires: 1.year.from_now, path: "/" }
+    render :show
   end
   
   def create
     if user_signed_in?
       @chart = current_user.charts.create(title: I18n.t("charts.title"))
     else
-      @chart = Chart.new
+      @chart = Chart.create(title: I18n.t("charts.title"))
     end
     
     respond_to { |format|
       format.json {
-        render json: { chart: @chart, redirect: chart_path(@chart.id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: chart_path(@chart.id) }
       }
     }
   end
   
   def edit
-    not_found unless @chart || !user_signed_in? || @chart.user != current_user
+    not_found unless can?(:edit, @chart)
   end
   
   def update
-    not_found unless @chart || !user_signed_in? || @chart.user != current_user
+    not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
     redirect_to chart_path(@chart.id)
   end
@@ -56,6 +54,7 @@ class ChartsController < ApplicationController
     
     def preload
       super
+      
       @chart ||= Chart.find(params[:id]) if params[:id].present?
     end
 end

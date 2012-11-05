@@ -16,7 +16,7 @@ class Node
   # Callbacks
   before_destroy :destroy_children
   
-  def as_json(options = {})
-    super except: [:_id], methods: [:id]
+  def serializable_hash(options)
+    super (options || {}).merge(except: [:_id], methods: [:id])
   end
 end

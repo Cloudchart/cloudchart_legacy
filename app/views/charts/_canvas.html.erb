@@ -1,14 +1,18 @@
 <%
-  @chart ||= nil
+  chart ||= nil
 %>
 <div class="chart canvas" data-init="chart">
-  <div class="edit">
-  <% if @chart && user_signed_in? && @chart.user == current_user %>
-    <%= link_to t("charts.edit"), edit_chart_path(@chart.id) %> |
-  <% end %>
-  <% if @chart %>
-    <%= link_to t("charts.pdf"), chart_path(@chart.id, format: :pdf) %>
-  <% end %>
+  <% if chart %>
+  <div class="side">
+    <% if can?(:edit, chart) %>
+      <%= link_to t("charts.edit"), edit_chart_path(chart.id) %> |
+      <% if chart.user_id %>
+        <%= link_to t("charts.edit_token"), token_chart_path(id: chart.id, token: chart.token) %> |
+      <% end %>
+    <% end %>
+    <%= link_to t("charts.pdf"), chart_path(chart.id, format: :pdf) %>
   </div>
+  <% end %>
+  
   <div id="canvas" data-no-turbolink></div>
 </div>

@@ -45,7 +45,7 @@ private
       # end
     end
   end
-
+  
   def find_for_ouath(provider, access_token, resource = nil)
     auth = {
       uid: access_token['uid'],
@@ -65,7 +65,12 @@ private
       raise "Provider #{provider} not handled"
     end
     
-    authorization = Authorization.where(provider: provider, uid: auth[:uid]).first
+    user = User.where("authorizations.provider" => provider, "authorizations.uid" => auth[:uid]).first
+    if user
+      authorization = user.authorizations.where(provider: provider, uid: auth[:uid]).first
+    else
+      authorization = nil
+    end
     
     # Not signed
     if resource.nil?

@@ -93,6 +93,7 @@ body {
   /* Canvas container */
   &.canvas, &.form {
     .rounded(5px);
+    position: relative;
     height: 530px;
     padding: 0 0 20px 0;
     background: #fff;
@@ -102,8 +103,11 @@ body {
       margin: 20px auto;
     }
     
-    .edit {
+    .side {
       position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 1;
     }
   }
   

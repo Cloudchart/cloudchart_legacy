@@ -45,11 +45,12 @@ class User
   # field :authentication_token, :type => String
 
   ## Omniauthable
-  has_many :authorizations do
+  embeds_many :authorizations do
     def find_by_uid(uid)
       self.where(uid: uid).first
     end
   end
+  accepts_nested_attributes_for :authorizations
   
   # Relations
   has_many :charts, dependent: :destroy
@@ -57,8 +58,14 @@ class User
   # Other
   field :is_god, type: Boolean
   
-  def as_json(options = {})
-    super except: [:_id], methods: [:id, :charts]
+  # Indexes
+  ## User unique identifiers
+  index({ email: 1 })
+  ## Omniauth query
+  index({ "authorizations.provider" => 1, "authorizations.uid" => 1 })
+  
+  def serializable_hash(options)
+    super (options || {}).merge(except: [:_id, :is_god, :email], methods: [:id, :charts])
   end
   
   def self.find_by_email(email)
