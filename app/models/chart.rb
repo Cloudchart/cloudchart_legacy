@@ -73,8 +73,13 @@ class Chart
   def to_xdot!
     xdot = to_graph.output(xdot: String)
     # Magically fix broken characters
-    xdot.encode!("utf-16", "utf-8", invalid: :replace, replace: "?")
-    xdot.encode!("utf-8", "utf-16")
+    begin
+      # xdot.encode!("utf-16", "utf-8", fallback: Proc.new { |x| "?" })
+      xdot.encode!("utf-8")
+    rescue
+      xdot.encode!("utf-16", "utf-8", invalid: :replace, replace: "?")
+      xdot.encode!("utf-8", "utf-16")
+    end
     
     self.set(:xdot, xdot)
     self.xdot
