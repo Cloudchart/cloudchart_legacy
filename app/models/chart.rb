@@ -71,7 +71,12 @@ class Chart
   end
   
   def to_xdot!
-    self.set(:xdot, to_graph.output(xdot: String).force_encoding("utf-8"))
+    xdot = to_graph.output(xdot: String)
+    # Magically fix broken characters
+    xdot.encode!("utf-16", "utf-8", invalid: :replace, replace: "?")
+    xdot.encode!("utf-8", "utf-16")
+    
+    self.set(:xdot, xdot)
     self.xdot
   end
   
