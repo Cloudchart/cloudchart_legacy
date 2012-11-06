@@ -100,7 +100,7 @@ class Chart
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root
-        node = g.add_nodes(n.title, shape: "box")
+        node = g.add_nodes(n.title, shape: "box", href: "javascript:alert('#{n.title}')")
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
