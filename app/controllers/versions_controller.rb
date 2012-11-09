@@ -6,6 +6,7 @@ class VersionsController < ChartsController
   def show
     @version = @chart.versions.where(version: params[:id]).first
     @version.id = @chart.id
+    @version.slug = @chart.slug
     @chart = @version
     
     super
@@ -14,6 +15,7 @@ class VersionsController < ChartsController
   def edit
     @version = @chart.versions.where(version: params[:id]).first
     @version.id = @chart.id
+    @version.slug = @chart.slug
     @chart = @version
     
     super
