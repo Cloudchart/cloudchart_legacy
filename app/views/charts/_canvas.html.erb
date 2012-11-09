@@ -6,8 +6,8 @@
   <div class="side">
     <% if can?(:edit, chart) %>
       <% if params[:controller] == "versions" %>
-        <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %>
-        <%= link_to t("charts.edit"), edit_chart_version_path(chart.id) %> |
+        <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %> |
+        <%= link_to t("charts.edit"), edit_chart_version_path(chart.id) %>
       <% else %>
         <% if can?(:token, chart) %>
           <%= link_to t("charts.versions"), chart_versions_path(chart.slug_or_id) %> |
