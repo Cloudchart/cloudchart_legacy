@@ -38,7 +38,7 @@ class Chart
   
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["300x300#", :png] }
+    styles: { preview: ["150x150#", :png] }
   
   # Versioning
   max_versions 100
