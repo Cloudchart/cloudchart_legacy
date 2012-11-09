@@ -1,5 +1,6 @@
 # coding: utf-8
 class Chart
+  include ActionView::Helpers::TextHelper
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Versioning
@@ -119,9 +120,9 @@ class Chart
       self.save!
       
       io.unlink
-    # rescue Exception
-    #   self.picture = nil
-    #   self.picture_updated_at = Time.new
+    rescue Exception
+      self.picture = nil
+      self.picture_updated_at = Time.new
     end
   end
   
@@ -142,7 +143,7 @@ class Chart
         root = g.add_nodes(self.title, shape: "ellipse")
         
         # Recursive add nodes
-        self.cached = self.nodes.cache
+        self.cached = self.nodes.ordered.cache
         add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
       }
     end
@@ -150,7 +151,7 @@ class Chart
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root
-        node = g.add_nodes(n.title, shape: "box", href: "javascript:alert('#{n.title}')")
+        node = g.add_nodes(word_wrap(n.title, 40), shape: "box", href: "javascript:alert('#{n.title}')")
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
