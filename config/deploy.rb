@@ -6,7 +6,7 @@ default_run_options[:pty] = true
 # Application
 set   :application, "cloudchart"
 set   :project, "cloudchart"
-set   :domain, "cloudchart.krasnoukhov.com"
+set   :domain, "cloudorgchart.com"
 set   :deploy_to, "/home/#{project}/www/#{project}/"
 role  :web, domain
 role  :app, domain
