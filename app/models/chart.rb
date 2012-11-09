@@ -38,7 +38,7 @@ class Chart
   
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["100x100#", :png] }
+    styles: { preview: ["300x300#", :png] }
   
   # Versioning
   max_versions 100
@@ -127,9 +127,9 @@ class Chart
     end
   end
   
-  def to_png
+  def to_png(style = nil)
     self.to_png! unless self.picture?
-    self.picture.url
+    self.picture.url(style)
   end
   
   def to_pdf

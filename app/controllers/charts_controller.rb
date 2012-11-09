@@ -13,7 +13,7 @@ class ChartsController < ApplicationController
     @meta = {
       title: @chart.title,
       description: I18n.t("charts.author", author: @chart.user.name),
-      image: @chart.to_png
+      image: @chart.to_png(:preview)
     }
     
     respond_to { |format|
