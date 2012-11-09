@@ -10,6 +10,12 @@ class ChartsController < ApplicationController
   def show
     not_found unless @chart
     
+    @meta = {
+      title: @chart.title,
+      description: I18n.t("charts.author", author: @chart.user.name),
+      image: @chart.to_png
+    }
+    
     respond_to { |format|
       format.html { render }
       format.json { render json: @chart.as_json }

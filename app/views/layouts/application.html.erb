@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= t("app.name") %></title>
-  <%= stylesheet_link_tag    "application", media: "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-  <%= analytics_init if Rails.env.production? %>
+  <%= render partial: "/shared/meta" %>
 </head>
 <body>
 

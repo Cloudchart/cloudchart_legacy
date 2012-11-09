@@ -1,0 +1,16 @@
+<% @meta ||= {} %>
+
+<title><%= @meta[:title] || t("app.name") %></title>
+<%= stylesheet_link_tag    "application", media: "all" %>
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>
+<!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<%= analytics_init if Rails.env.production? %>
+
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="<%= request.url %>" />
+<meta property="og:title" content="<%= @meta[:title] || t("app.name") %>" />
+<meta property="og:site_name" content="<%= t("app.name") %>" />
+<meta property="og:description" content="<%= @meta[:description] || t("app.description") %>" />
+<meta property="og:image" content="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || image_path("logo.png"))}" %>" />
+<link rel="image_src" href="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || image_path("logo.png"))}" %>" />

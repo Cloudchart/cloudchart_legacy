@@ -74,6 +74,7 @@ en:
     charts: "Charts"
     pdf: "Pdf"
     png: "Png (for site)"
+    author: "Author: %{author}"
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"
