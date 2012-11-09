@@ -66,6 +66,7 @@ GEM
     font-awesome-sass-rails (2.0.0.0)
       railties (>= 3.1.1)
       sass-rails (>= 3.1.1)
+    google-analytics-rails (0.0.3)
     haml (3.1.7)
     hashie (1.2.0)
     highline (1.6.15)
@@ -234,6 +235,7 @@ DEPENDENCIES
   coffee-rails
   devise
   execjs
+  google-analytics-rails
   i18n-js
   jquery-rails
   json
