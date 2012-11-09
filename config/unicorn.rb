@@ -1,5 +1,5 @@
 # Workers
-worker_processes 2
+worker_processes 16
 working_directory "/home/cloudchart/www/cloudchart/current"
 
 # This loads the application in the master process before forking
