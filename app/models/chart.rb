@@ -2,7 +2,9 @@
 class Chart
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Versioning
   include Mongoid::Paperclip
+  include Mongoid::Slugify
   include Mongoid::Token
   store_in collection: "charts"
   
@@ -36,6 +38,9 @@ class Chart
   # Picture
   has_mongoid_attached_file :picture,
     styles: { preview: ["100x100#", :png] }
+  
+  # Versioning
+  max_versions 100
   
   # Callbacks
   before_save {
@@ -76,7 +81,11 @@ class Chart
   attr_accessor :cached
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :nodes, :token, :is_demo], methods: [:id])
+    super (options || {}).merge(except: [:_id, :slug, :nodes, :token, :is_demo], methods: [:id])
+  end
+  
+  def slug_or_id
+    self.slug || self.id
   end
   
   def to_xdot!
@@ -110,9 +119,9 @@ class Chart
       self.save!
       
       io.unlink
-    rescue Exception
-      self.picture = nil
-      self.picture_updated_at = Time.new
+    # rescue Exception
+    #   self.picture = nil
+    #   self.picture_updated_at = Time.new
     end
   end
   
@@ -150,5 +159,9 @@ class Chart
           add_nodes(g, node, children)
         end
       end
+    end
+    
+    def generate_slug
+      title.to_slug.normalize.to_s
     end
 end

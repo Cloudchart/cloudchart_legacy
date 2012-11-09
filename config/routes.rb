@@ -1,6 +1,7 @@
 Cloudchart::Application.routes.draw do
   # App
   resources :charts do
+    resources :versions, except: [:new, :create]
     member do
       get "token/:token", action: "token", via: [:get], as: :token
     end

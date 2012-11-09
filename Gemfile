@@ -21,6 +21,8 @@ gem 'mongoid'
 gem 'mongoid_token'
 gem 'mongoid-tree'
 gem 'mongoid-paperclip'
+gem 'mongoid-slugify'
+gem 'babosa'
 gem 'bson_ext'
 gem 'json'
 

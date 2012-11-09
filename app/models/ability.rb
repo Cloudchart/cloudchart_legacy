@@ -10,11 +10,13 @@ class Ability
     # User abilities
     if !user
       can :read, :all
+      cannot :token, Chart
     elsif user && user.is_god?
       can :manage, :all
     else
       can :read, :all
       can :manage, Chart, user_id: user.id
+      can :token, Chart, user_id: user.id
     end
   end
 end

@@ -39,7 +39,7 @@ class ChartsController < ApplicationController
     
     respond_to { |format|
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: chart_path(@chart.id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: chart_path(@chart.slug_or_id) }
       }
     }
   end
@@ -51,7 +51,7 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
-    redirect_to chart_path(@chart.id)
+    redirect_to chart_path(@chart.slug_or_id)
   end
   
   private
@@ -59,6 +59,6 @@ class ChartsController < ApplicationController
     def preload
       super
       
-      @chart ||= Chart.find(params[:id]) if params[:id].present?
+      @chart ||= Chart.find_by_slug_or_id(params[:id]) if params[:id].present?
     end
 end
