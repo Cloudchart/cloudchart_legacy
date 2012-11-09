@@ -10,7 +10,8 @@
         <%= link_to t("charts.edit_token"), token_chart_path(id: chart.id, token: chart.token) %> |
       <% end %>
     <% end %>
-    <%= link_to t("charts.pdf"), chart_path(chart.id, format: :pdf) %>
+    <%= link_to t("charts.pdf"), chart_path(chart.id, format: :pdf) %> |
+    <%= link_to t("charts.png"), chart_path(chart.id, format: :png) %>
   </div>
   <% end %>
   

@@ -17,6 +17,9 @@ end
 
 # Requirements
 require "graphviz"
+require "bson"
+require "timeout"
+require "mongoid_paperclip"
 
 module Cloudchart
   class Application < Rails::Application

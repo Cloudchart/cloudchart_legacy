@@ -50,7 +50,9 @@ App =
     
     show: ($this) ->
       App.chart.chart = JSON.parse($this.attr("data-chart"))
+      $j(".canvas").css("overflow", "none")
       App.canvas.parse(App.chart.chart.xdot)
+      $j(".canvas").css("overflow", "auto")
       
   # User methods
   user:

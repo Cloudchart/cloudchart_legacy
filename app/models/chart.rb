@@ -2,6 +2,7 @@
 class Chart
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paperclip
   include Mongoid::Token
   store_in collection: "charts"
   
@@ -32,6 +33,10 @@ class Chart
   ## Demo
   index({ user_id: 1, is_demo: 1, created_at: 1 })
   
+  # Picture
+  has_mongoid_attached_file :picture,
+    styles: { preview: ["100x100#", :png] }
+  
   # Callbacks
   before_save {
     if self.text_changed?
@@ -58,6 +63,10 @@ class Chart
           node.set(:parent_id, levels[level-1].id)
         end
       end
+      
+      # Clear image
+      self.picture = nil
+      self.save
     end
     
     self.to_xdot!
@@ -88,6 +97,28 @@ class Chart
   def to_xdot
     self.to_xdot! if self.xdot.blank?
     self.xdot
+  end
+  
+  def to_png!
+    begin
+      io = Tempfile.new(['chart', '.png'])
+      io.binmode
+      timeout(10) { io.write to_graph.output(png: String) }
+      io.close
+      
+      self.picture = File.open(io.path)
+      self.save!
+      
+      io.unlink
+    rescue Exception
+      self.picture = nil
+      self.picture_updated_at = Time.new
+    end
+  end
+  
+  def to_png
+    self.to_png! unless self.picture?
+    self.picture.url
   end
   
   def to_pdf

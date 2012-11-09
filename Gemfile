@@ -16,9 +16,11 @@ end
 
 # Server
 gem 'unicorn'
+gem 'paperclip'
 gem 'mongoid'
 gem 'mongoid_token'
 gem 'mongoid-tree'
+gem 'mongoid-paperclip'
 gem 'bson_ext'
 gem 'json'
 
