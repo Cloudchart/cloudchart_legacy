@@ -61,6 +61,7 @@ en:
   # APP
   app:
     name: "CloudChart"
+    description: "Create orgcharts in the cloud"
   common:
     sign_linkedin: "Sign in with Linkedin"
     sign_out: "Sign out"
