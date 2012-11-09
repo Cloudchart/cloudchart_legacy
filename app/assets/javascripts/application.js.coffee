@@ -61,18 +61,7 @@ App =
       App.chart.status = $j(".edit_chart h3")
       clearInterval(App.chart.interval) if App.chart.interval
       App.chart.interval = setInterval( ->
-        return if App.chart.status.text() != I18n.t("charts.autosave.changed")
-        
-        App.chart.status.text(I18n.t("charts.autosave.saving"))
-        $form = $j(".edit_chart")
-        $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
-          result = eval "(#{data.responseText})"
-          if result.id
-            if App.chart.status.text() != I18n.t("charts.autosave.changed")
-              App.chart.status.text(I18n.t("charts.autosave.saved"))
-          else
-            App.chart.status.text(I18n.t("charts.autosave.error"))
-        
+        App.chart.update()
       , 30000)
       
       $j(".edit_chart").unbind "submit"
@@ -97,6 +86,23 @@ App =
           
           # For Safari
           return msg
+    
+    check: ->
+      if $j(".edit_chart").length > 0
+        App.chart.update()
+    
+    update: ->
+      return if App.chart.status.text() != I18n.t("charts.autosave.changed")
+      
+      App.chart.status.text(I18n.t("charts.autosave.saving"))
+      $form = $j(".edit_chart")
+      $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
+        result = eval "(#{data.responseText})"
+        if result.id
+          if App.chart.status.text() != I18n.t("charts.autosave.changed")
+            App.chart.status.text(I18n.t("charts.autosave.saved"))
+        else
+          App.chart.status.text(I18n.t("charts.autosave.error"))
       
   # User methods
   user:
@@ -153,6 +159,7 @@ App =
 $j ->
   # Turbolinks
   $j(document).live "page:fetch", ->
+    App.chart.check()
     App.loading(true)
   $j(document).live "page:change", ->
     App.loading($j("[data-not-loaded]").length != 0)
