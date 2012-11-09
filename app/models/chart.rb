@@ -42,6 +42,7 @@ class Chart
   
   # Versioning
   max_versions 100
+  accepts_nested_attributes_for :versions
   
   # Callbacks
   before_save {
