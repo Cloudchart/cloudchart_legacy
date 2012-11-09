@@ -7,13 +7,13 @@
     <% if can?(:edit, chart) %>
       <% if params[:controller] == "versions" %>
         <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %>
-        <%= link_to t("charts.edit"), edit_chart_version_path(chart.slug_or_id) %> |
+        <%= link_to t("charts.edit"), edit_chart_version_path(chart.id) %> |
       <% else %>
         <% if can?(:token, chart) %>
           <%= link_to t("charts.versions"), chart_versions_path(chart.slug_or_id) %> |
         <% end %>
         
-        <%= link_to t("charts.edit"), edit_chart_path(chart.slug_or_id) %> |
+        <%= link_to t("charts.edit"), edit_chart_path(chart.id) %> |
         <% if chart.user_id && can?(:token, chart) %>
           <%= link_to t("charts.edit_token"), token_chart_path(id: chart.slug_or_id, token: chart.token) %> |
         <% end %>

@@ -8,8 +8,11 @@
 //= require jquery_ujs
 //= require jquery/cookie
 //= require jquery/base64
+//= require jquery/textchange
 # Other
 //= require turbolinks
+//= require i18n
+//= require i18n/translations
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -53,6 +56,41 @@ App =
       $j(".canvas").css("overflow", "none")
       App.canvas.parse(App.chart.chart.xdot)
       $j(".canvas").css("overflow", "auto")
+    
+    edit: ($this) ->
+      App.chart.status = $j(".edit_chart h3")
+      clearInterval(App.chart.interval) if App.chart.interval
+      App.chart.interval = setInterval( ->
+        return if App.chart.status.text() != I18n.t("charts.autosave.changed")
+        
+        App.chart.status.text(I18n.t("charts.autosave.saving"))
+        $form = $j(".edit_chart")
+        $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
+          result = eval "(#{data.responseText})"
+          if result.id
+            if App.chart.status.text() != I18n.t("charts.autosave.changed")
+              App.chart.status.text(I18n.t("charts.autosave.saved"))
+          else
+            App.chart.status.text(I18n.t("charts.autosave.error"))
+        
+      , 30000)
+      
+      $j(".edit_chart textarea, .edit_chart input").unbind "textchange"
+      $j(".edit_chart textarea, .edit_chart input").bind "textchange", ->
+        App.chart.status.text(I18n.t("charts.autosave.changed"))
+      
+      $j(window).unbind "beforeunload"
+      $j(window).bind "beforeunload", (e) ->
+        e = e || window.event
+        msg = I18n.t("charts.autosave.lost");
+        
+        if App.chart.status.text() == I18n.t("charts.autosave.changed")
+          # For IE and Firefox prior to version 4
+          if e
+            e.returnValue = msg
+          
+          # For Safari
+          return msg
       
   # User methods
   user:
@@ -101,6 +139,8 @@ App =
           App.chart.demo($this)
         when "chart-show"
           App.chart.show($this)
+        when "chart-edit"
+          App.chart.edit($this)
       
       $j(this).attr("data-init", null)
     

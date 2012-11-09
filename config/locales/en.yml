@@ -74,3 +74,10 @@ en:
     charts: "Charts"
     pdf: "Pdf"
     png: "Png (for site)"
+    autosave:
+      lost: "All unsaved changes will be lost"
+      loaded: "Loaded"
+      changed: "Changed"
+      saving: "Saving..."
+      saved: "Saved"
+      error: "Error"

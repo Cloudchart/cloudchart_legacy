@@ -1,5 +1,6 @@
-<div class="chart form">
-  <%= form_for @chart, url: chart_path(@chart.slug_or_id) do |f| %>
+<div class="chart form" data-init="chart-edit">
+  <%= form_for @chart, url: chart_path(@chart.id) do |f| %>
+    <h3><%= t("charts.autosave.loaded") %></h3>
     <%= f.text_field :title %>
     <%= f.text_area :text %>
     <%= f.submit %>
