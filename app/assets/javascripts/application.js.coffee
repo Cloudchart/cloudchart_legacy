@@ -75,6 +75,12 @@ App =
         
       , 30000)
       
+      $j(".edit_chart").unbind "submit"
+      $j(".edit_chart").bind "submit", ->
+        App.chart.status.text(I18n.t("charts.autosave.saving"))
+        $j(window).unbind "beforeunload"
+        return true
+      
       $j(".edit_chart textarea, .edit_chart input").unbind "textchange"
       $j(".edit_chart textarea, .edit_chart input").bind "textchange", ->
         App.chart.status.text(I18n.t("charts.autosave.changed"))
