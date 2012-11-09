@@ -1,6 +1,7 @@
 # coding: utf-8
 class Chart
   include ActionView::Helpers::TextHelper
+  include ApplicationHelper
   include Mongoid::Document
   include Mongoid::Timestamps
   include Mongoid::Versioning
@@ -152,7 +153,7 @@ class Chart
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root
-        node = g.add_nodes(word_wrap(n.title, 40), shape: "box", href: "javascript:alert('#{n.title}')")
+        node = g.add_nodes(breaking_word_wrap(n.title, 40), shape: "box", href: "javascript:alert('#{n.title}')")
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
