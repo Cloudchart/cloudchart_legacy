@@ -9,6 +9,7 @@ end
 
 group :development do
   gem 'thin'
+  gem 'powify'
   gem 'capistrano'
   gem 'capistrano_colors'
   gem 'rvm-capistrano'
@@ -41,4 +42,5 @@ gem 'therubyracer'
 gem 'jquery-rails'
 gem 'i18n-js'
 gem 'turbolinks'
+gem 'turbolinks-analytics'
 gem 'google-analytics-rails'

@@ -11,6 +11,7 @@
 //= require jquery/textchange
 # Other
 //= require turbolinks
+//= require turbolinks-analytics
 //= require i18n
 //= require i18n/translations
 
