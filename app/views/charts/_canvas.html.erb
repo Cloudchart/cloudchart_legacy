@@ -15,7 +15,7 @@
         
         <%= link_to t("charts.edit"), edit_chart_path(chart.id) %> |
         <% if chart.user_id && can?(:token, chart) %>
-          <%= link_to t("charts.edit_token"), token_chart_path(id: chart.slug_or_id, token: chart.token) %> |
+          <%= link_to t("charts.edit_token"), token_chart_path(id: chart.id, token: chart.token) %> |
         <% end %>
       <% end %>
     <% end %>

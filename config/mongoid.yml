@@ -5,9 +5,11 @@ production:
       hosts:
         - localhost:27017
       options:
-        consistency: :eventual
+        consistency: :strong
         safe: true
   options:
+    allow_dynamic_fields: false
+    identity_map_enabled: true
     preload_models: true
     raise_not_found_error: true
     use_utc: true
@@ -22,6 +24,8 @@ development:
         consistency: :strong
         safe: true
   options:
+    allow_dynamic_fields: false
+    identity_map_enabled: true
     preload_models: true
     raise_not_found_error: true
     use_utc: true
