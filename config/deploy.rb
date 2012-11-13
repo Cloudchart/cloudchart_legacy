@@ -1,6 +1,6 @@
-require 'capistrano_colors'
-require 'rvm/capistrano'
-load 'deploy/assets'
+require "capistrano_colors"
+require "rvm/capistrano"
+load "deploy/assets"
 default_run_options[:pty] = true
 
 # Application
@@ -23,18 +23,18 @@ set   :user, "cloudchart"
 # Options
 set   :use_sudo, false
 set   :rails_env, :production
-set   :rvm_ruby_string, 'ruby-1.9.3-p286'
+set   :rvm_ruby_string, "ruby-1.9.3-p327"
 set   :rvm_type, :user
 set   :keep_releases, 2
 set   :shared_children, shared_children + %w(tmp/sockets)
 set   :assets_role, :app
 
 # Bundler
-after 'deploy:finalize_update', 'bundler:install'
+after "deploy:finalize_update", "bundler:install"
 namespace :bundler do
   task :install, roles: :app do
-    shared_dir = File.join(shared_path, 'bundle')
-    release_dir = File.join(current_release, '.bundle')
+    shared_dir = File.join(shared_path, "bundle")
+    release_dir = File.join(current_release, ".bundle")
     run "mkdir -p #{shared_dir}; ln -s #{shared_dir} #{release_dir}" 
     run "cd #{current_release} && RAILS_ENV=#{rails_env} bundle install --without test"
   end
@@ -49,8 +49,8 @@ namespace :utils do
 end
 
 # Deployment
-after 'deploy:update', 'deploy:cleanup'
-after 'deploy:setup', 'deploy:initial'
+after "deploy:update", "deploy:cleanup"
+after "deploy:setup", "deploy:initial"
 namespace :deploy do
   # Initial
   task :initial do
