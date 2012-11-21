@@ -68,7 +68,8 @@ class Chart
         
         # Set parent
         if levels[level-1].present?
-          node.set(:parent_id, levels[level-1].id)
+          node.parent = levels[level-1]
+          node.save!
         end
       end
       
@@ -81,18 +82,32 @@ class Chart
   }
   
   # Accessors
-  attr_accessor :cached
+  attr_accessor :cached, :previous_text
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :slug, :nodes, :token, :is_demo], methods: [:id])
+    super (options || {}).merge(except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at], methods: [:id, :nodes])
   end
   
   def slug_or_id
     self.slug || self.id
   end
   
-  def to_xdot!
-    xdot = to_graph.output(xdot: String)
+  def to_png(style = nil)
+    self.to_png! unless self.picture?
+    self.picture.url(style)
+  end
+  
+  def to_pdf
+    to_graph.output(pdf: String)
+  end
+  
+  def to_xdot
+    self.to_xdot! if self.xdot.blank?
+    self.xdot
+  end
+  
+  def to_xdot_with_parent(node)
+    xdot = to_graph(node).output(xdot: String)
     # Magically fix broken characters
     begin
       # xdot.encode!("utf-16", "utf-8", fallback: Proc.new { |x| "?" })
@@ -102,13 +117,19 @@ class Chart
       xdot.encode!("utf-8", "utf-16")
     end
     
-    self.set(:xdot, xdot)
-    self.xdot
+    xdot
   end
   
-  def to_xdot
-    self.to_xdot! if self.xdot.blank?
-    self.xdot
+  def to_text_with_parent(node)
+    text = []
+    node.traverse(:depth_first).map { |n|
+      text << " " * n.depth + n.title
+    }
+    text.join("\n")
+  end
+  
+  def prepare_text_with_parent(node, text)
+    text.split("\n").map { |x| " " * node.depth + x }.join("\n")
   end
   
   def to_png!
@@ -128,32 +149,42 @@ class Chart
     end
   end
   
-  def to_png(style = nil)
-    self.to_png! unless self.picture?
-    self.picture.url(style)
-  end
-  
-  def to_pdf
-    to_graph.output(pdf: String)
+  def to_xdot!
+    xdot = to_graph.output(xdot: String)
+    # Magically fix broken characters
+    begin
+      # xdot.encode!("utf-16", "utf-8", fallback: Proc.new { |x| "?" })
+      xdot.encode!("utf-8")
+    rescue
+      xdot.encode!("utf-16", "utf-8", invalid: :replace, replace: "?")
+      xdot.encode!("utf-8", "utf-16")
+    end
+    
+    self.set(:xdot, xdot)
+    self.xdot
   end
   
   private
   
-    def to_graph
+    def to_graph(parent = nil)
       GraphViz::new(:G, type: :digraph) { |g|
         # Create root node with chart name
-        root = g.add_nodes(self.title, shape: "ellipse")
+        if parent
+          root = g.add_nodes(parent.title, shape: "ellipse")
+        else
+          root = g.add_nodes(self.title, shape: "ellipse")
+        end
         
         # Recursive add nodes
         self.cached = self.nodes.ordered.cache
-        add_nodes(g, root, self.cached.select { |x| x.parent_id.nil? })
+        add_nodes(g, root, self.cached.select { |x| x.parent_id == (parent ? parent.id : nil) })
       }
     end
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root
-        node = g.add_nodes(breaking_word_wrap(n.title, 40), shape: "box", href: "javascript:alert('#{n.title}')")
+        node = g.add_nodes(breaking_word_wrap(n.title, 40), shape: "box", href: "javascript:App.chart.click('#{n.id}')")
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children

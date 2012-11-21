@@ -8,6 +8,9 @@
       <% if params[:controller] == "versions" %>
         <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %> |
         <%= link_to t("charts.edit"), edit_chart_version_path(chart.id) %>
+      <% elsif params[:controller] == "nodes" %>
+        <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %> |
+        <%= link_to t("charts.edit_node"), edit_chart_node_path(chart.id) %>
       <% else %>
         <% if can?(:token, chart) %>
           <%= link_to t("charts.versions"), chart_versions_path(chart.slug_or_id) %> |
@@ -20,7 +23,7 @@
       <% end %>
     <% end %>
     
-    <% if params[:controller] != "versions" %>
+    <% if !["versions", "nodes"].include?(params[:controller]) %>
       <%= link_to t("charts.pdf"), chart_path(chart.slug_or_id, format: :pdf) %> |
       <%= link_to t("charts.png"), chart_path(chart.slug_or_id, format: :png) %>
     <% end %>

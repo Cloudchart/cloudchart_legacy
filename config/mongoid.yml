@@ -8,7 +8,7 @@ production:
         consistency: :strong
         safe: true
   options:
-    allow_dynamic_fields: false
+    allow_dynamic_fields: true
     identity_map_enabled: true
     preload_models: true
     raise_not_found_error: true
@@ -24,7 +24,7 @@ development:
         consistency: :strong
         safe: true
   options:
-    allow_dynamic_fields: false
+    allow_dynamic_fields: true
     identity_map_enabled: true
     preload_models: true
     raise_not_found_error: true

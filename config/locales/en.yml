@@ -69,6 +69,7 @@ en:
     title: "My chart"
     create: "Create chart"
     edit: "Edit chart"
+    edit_node: "Edit subchart"
     versions: "Versions"
     latest: "Back to latest"
     edit_token: "Private edit link"

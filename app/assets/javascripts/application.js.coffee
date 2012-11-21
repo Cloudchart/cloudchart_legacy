@@ -92,6 +92,9 @@ App =
       if $j(".edit_chart").length > 0
         App.chart.update()
     
+    click: (id) ->
+      Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
+    
     update: ->
       return if App.chart.status.text() != I18n.t("charts.autosave.changed")
       
