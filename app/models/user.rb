@@ -79,4 +79,14 @@ class User
   def god?
     Rails.env.development? ? true : self.is_god
   end
+  
+  def linkedin
+    @linkedin ||= self.authorizations.find_by(provider: "Linkedin")
+  end
+  
+  def linkedin_client
+    @linkedin_client ||= LinkedIn::Client.new
+    @linkedin_client.authorize_from_access(self.linkedin.token, self.linkedin.secret)
+    @linkedin_client
+  end
 end

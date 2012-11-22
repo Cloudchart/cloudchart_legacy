@@ -72,6 +72,7 @@ en:
     edit_node: "Edit subchart"
     versions: "Versions"
     latest: "Back to latest"
+    back: "Back"
     edit_token: "Private edit link"
     charts: "Charts"
     pdf: "Pdf"

@@ -9,7 +9,7 @@
         <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %> |
         <%= link_to t("charts.edit"), edit_chart_version_path(chart.id) %>
       <% elsif params[:controller] == "nodes" %>
-        <%= link_to t("charts.latest"), chart_path(chart.slug_or_id) %> |
+        <%= link_to t("charts.back"), chart_path(chart.slug_or_id) %> |
         <%= link_to t("charts.edit_node"), edit_chart_node_path(chart.id) %>
       <% else %>
         <% if can?(:token, chart) %>

@@ -122,14 +122,15 @@ class Chart
   
   def to_text_with_parent(node)
     text = []
-    node.traverse(:depth_first).map { |n|
-      text << " " * n.depth + n.title
+    node.traverse(:depth_first).each { |n|
+      next if n == node
+      text << " " * (n.depth - node.depth - 1) + n.title
     }
     text.join("\n")
   end
   
   def prepare_text_with_parent(node, text)
-    text.split("\n").map { |x| " " * node.depth + x }.join("\n")
+    text.split("\n").map { |x| " " * (node.depth + 1) + x }.join("\n")
   end
   
   def to_png!

@@ -5,6 +5,7 @@ class Node
   
   # Scopes
   scope :ordered, order_by(:id.asc)
+  default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   
   # Relations
