@@ -1,6 +1,6 @@
 class PersonsController < ApplicationController
   def index
-    # not_found unless can?(:update, @chart)
+    not_found unless can?(:update, @chart)
     
     @client = current_user.linkedin_client
     @persons = @client.people_search(keywords: params[:query])

@@ -18,7 +18,12 @@ class NodesController < ChartsController
     
     prepared_text = @chart.prepare_text_with_parent(@node, params[:chart][:text])
     current_text = @chart.prepare_text_with_parent(@node, params[:chart][:current_text])
-    final_text = params[:chart][:previous_text].gsub(current_text, prepared_text)
+    
+    if current_text.present?
+      final_text = params[:chart][:previous_text].gsub(current_text, prepared_text)
+    else
+      final_text = params[:chart][:previous_text].gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text}\r\n")
+    end
     
     @chart.text = final_text
     @chart.save!
