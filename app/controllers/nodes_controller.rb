@@ -28,7 +28,7 @@ class NodesController < ChartsController
     @chart.text = final_text
     @chart.save!
     
-    redirect_to chart_path(@chart.slug_or_id)
+    redirect_to edit_chart_path(@chart.slug_or_id)
   end
   
   private

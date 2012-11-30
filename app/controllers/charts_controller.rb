@@ -1,7 +1,7 @@
 class ChartsController < ApplicationController
   def index
     if user_signed_in?
-      @charts = current_user.charts
+      @charts = current_user.charts.ordered
     else
       @charts = charts_from_tokens
     end
@@ -12,7 +12,7 @@ class ChartsController < ApplicationController
     
     @meta = {
       title: @chart.title,
-      description: I18n.t("charts.author", author: @chart.user.name),
+      description: @chart.user_id ? I18n.t("charts.author", author: @chart.user.name) : nil,
       image: @chart.to_png(:preview)
     }
     
@@ -44,8 +44,33 @@ class ChartsController < ApplicationController
     end
     
     respond_to { |format|
+      format.html {
+        redirect_to edit_chart_path(@chart.slug_or_id)
+      }
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: chart_path(@chart.slug_or_id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: edit_chart_path(@chart.slug_or_id) }
+      }
+    }
+  end
+  
+  def clone
+    @cloned_chart = @chart
+    
+    if user_signed_in?
+      @chart = current_user.charts.create(title: @cloned_chart.title)
+    else
+      @chart = Chart.create(title: @cloned_chart.title)
+    end
+    
+    @chart.text = @cloned_chart.text
+    @chart.save!
+    
+    respond_to { |format|
+      format.html {
+        redirect_to edit_chart_path(@chart.slug_or_id)
+      }
+      format.json {
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: edit_chart_path(@chart.slug_or_id) }
       }
     }
   end
@@ -57,7 +82,7 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
-    redirect_to chart_path(@chart.slug_or_id)
+    redirect_to edit_chart_path(@chart.slug_or_id)
   end
   
   private

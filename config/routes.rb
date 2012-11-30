@@ -2,7 +2,8 @@ Cloudchart::Application.routes.draw do
   # App
   resources :charts do
     member do
-      get "token/:token", action: "token", via: [:get], as: :token
+      get  "token/:token", action: "token", via: [:get], as: :token
+      post :clone
     end
     resources :versions, except: [:new, :create, :destroy]
     resources :nodes, except: [:index, :new, :create, :destroy]

@@ -42,13 +42,20 @@ App =
       $j(".create").unbind "click"
       $j(".create").bind "click", ->
         App.chart.create()
+        false
+      
+      # Clone button
+      $j(".clone").unbind "click"
+      $j(".clone").bind "click", ->
+        App.chart.create($j(this).attr("href"))
+        false
       
     demo: ($this) ->
       App.chart.show($this)
     
-    create: ->
+    create: (href = "/charts") ->
       App.loading(true)
-      $j.ajax url: "/charts", dataType: "json", type: "POST", complete: (data) ->
+      $j.ajax url: href, dataType: "json", type: "POST", complete: (data) ->
         result = eval "(#{data.responseText})"
         App.chart.store(result.chart)
         Turbolinks.visit(result.redirect)
