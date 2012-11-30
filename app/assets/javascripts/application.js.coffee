@@ -22,9 +22,11 @@ window.$j = $j
 App = 
   loading: (flag) ->
     if flag
-      $j(".progress").show()
+      height = $j("footer").offset().top - $j("header").height()
+      $j(".loading .bar").css(top: Math.min(height/2, (screen.availHeight - $j("header").height())/2) - $j(".loading .bar").height()/2)
+      $j(".loading").css(height: height).show()
     else
-      $j(".progress").hide()
+      $j(".loading").hide()
   
   # Chart methods
   chart:

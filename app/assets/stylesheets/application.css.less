@@ -124,13 +124,22 @@ body {
     }
   }
   
-  .progress {
+  .loading {
     display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -32px;
-    margin-left: -32px;
+    top: 96px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    .opacity(60);
+    
+    .bar {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-top: -32px;
+      margin-left: -32px;
+    }
   }
 }
 
