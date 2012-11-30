@@ -39,7 +39,7 @@ class Chart
   
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["150x150#", :png] }
+    styles: { preview: ["560x260>", :png] }
   
   # Versioning
   max_versions 100
@@ -169,11 +169,23 @@ class Chart
   
     def to_graph(parent = nil)
       GraphViz::new(:G, type: :digraph) { |g|
+        # Set background
+        g.graph[:bgcolor] = "#ffffff00"
+        g.graph[:truecolor] = true
+        
         # Create root node with chart name
         if parent
-          root = g.add_nodes(parent.title, shape: "ellipse")
+          root = g.add_nodes(parent.title,
+            shape: "ellipse",
+            style: "filled",
+            fillcolor: "#ffffffff"
+          )
         else
-          root = g.add_nodes(self.title, shape: "ellipse")
+          root = g.add_nodes(self.title,
+            shape: "ellipse",
+            style: "filled",
+            fillcolor: "#ffffffff"
+          )
         end
         
         # Recursive add nodes
@@ -185,7 +197,12 @@ class Chart
     def add_nodes(g, root, nodes)
       nodes.each do |n|
         # Add node to root
-        node = g.add_nodes(breaking_word_wrap(n.title, 40), shape: "box", href: "javascript:App.chart.click('#{n.id}')")
+        node = g.add_nodes(breaking_word_wrap(n.title, 40),
+          href: "javascript:App.chart.click('#{n.id}')",
+          shape: "box",
+          style: "filled",
+          fillcolor: "#ffffffff"
+        )
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children

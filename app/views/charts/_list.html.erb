@@ -1,0 +1,29 @@
+<%
+  charts = charts.to_a
+  charts.delete_if { |x| x.new_record? }
+  charts.unshift(Chart.new)
+%>
+<% charts.each_slice(3) do |sliced| %>
+<div class="charts row-fluid">
+  <% sliced.each do |chart| %>
+    <div class="item span4">
+      <% if chart.new_record? %>
+      <div class="inner create" data-href="<%= charts_path %>">
+      </div>
+      <% else %>
+      <div class="inner">
+        <h1><%= link_to chart.title, edit_chart_path(chart.slug_or_id) %></h1>
+        <div class="img">
+          <%= link_to image_tag(chart.to_png(:preview), alt: chart.title, title: chart.title), edit_chart_path(chart.slug_or_id) %>
+        </div>
+        <p>
+          <span><%= t("charts.last_saved", time: pretty_time(chart.updated_at)).downcase %></span>
+          <%= link_to image_tag("btn-small-arrow.png"), "#" %>
+        </p>
+      </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+<% end %>
+<ins data-init="chart"></ins>

@@ -14,6 +14,7 @@
 //= require turbolinks-analytics
 //= require i18n
 //= require i18n/translations
+//= require twitter/bootstrap
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -35,7 +36,7 @@ App =
     
     init: ->
       # Canvas
-      App.canvas = new Canviz("canvas")
+      App.canvas = new Canviz("canvas") if $j("#canvas").length > 0
       
       # Create button
       $j(".create").unbind "click"

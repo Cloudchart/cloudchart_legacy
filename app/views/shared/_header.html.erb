@@ -1,10 +1,13 @@
 <header>
-  <figure>
-    <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>
-  </figure>
-  <aside>
-    <div class="profile" data-init="user">
-      <%= render partial: "/shared/profile" %>
-    </div>
-  </aside>
+  <div class="wrapper">
+    <figure>
+      <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>
+    </figure>
+    <span><%= t("app.description").downcase %></span>
+    <aside>
+      <div class="profile" data-init="user">
+        <%= render partial: "/shared/profile" %>
+      </div>
+    </aside>
+  </div>
 </header>

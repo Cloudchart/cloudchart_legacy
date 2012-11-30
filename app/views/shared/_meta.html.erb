@@ -7,6 +7,8 @@
 <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <%= analytics_init if Rails.env.production? %>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="<%= request.url %>" />
 <meta property="og:title" content="<%= @meta[:title] || t("app.name") %>" />

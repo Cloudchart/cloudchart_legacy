@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def pretty_time(time)
+    if time > 24.hours.ago
+      "#{distance_of_time_in_words_to_now(time)} #{t("common.ago")}"
+    else
+      time.to_formatted_s(:short)
+    end
+  end
+  
   def breaking_word_wrap(text, *args)
     options = args.extract_options!
     unless args.blank?

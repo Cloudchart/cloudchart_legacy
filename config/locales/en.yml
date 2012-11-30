@@ -61,10 +61,16 @@ en:
   # APP
   app:
     name: "CloudChart"
-    description: "Create orgcharts in the cloud"
+    description: "Structure your organisation in seconds"
+  
+  # dates:
+  #   long: ""
+  
   common:
     sign_linkedin: "Sign in with Linkedin"
     sign_out: "Sign out"
+    ago: "ago"
+  
   charts:
     title: "My chart"
     create: "Create chart"
@@ -78,6 +84,7 @@ en:
     pdf: "Pdf"
     png: "Png (for site)"
     author: "Author: %{author}"
+    last_saved: "Last saved %{time}"
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"

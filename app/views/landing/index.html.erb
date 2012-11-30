@@ -1,3 +1,1 @@
-<%= render partial: "/charts/panel" %>
-<%= render partial: "/charts/canvas" %>
-<ins data-init="chart-demo" data-chart="<%= Chart.demo.first.to_json %>"></ins>
+<%= render partial: "/charts/list", locals: { charts: @charts } %>

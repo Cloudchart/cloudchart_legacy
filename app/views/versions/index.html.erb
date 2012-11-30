@@ -1,5 +1,5 @@
 <h1><%= t("charts.versions") %></h1>
-<p><%= @chart.title %>, <%= distance_of_time_in_words_to_now(@chart.updated_at) %> ago</p>
+<p><%= @chart.title %>, <%= pretty_time(@chart.updated_at) %> ago</p>
 <% @versions.reverse.each do |chart| %>
   <p><%= link_to chart.title, chart_version_path(@chart.slug_or_id, chart.version) %>, <%= distance_of_time_in_words_to_now(chart.updated_at) %> ago</p>
 <% end %>

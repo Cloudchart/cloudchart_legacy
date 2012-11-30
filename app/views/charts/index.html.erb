@@ -1,4 +1,1 @@
-<h1><%= t("charts.charts") %></h1>
-<% @charts.each do |chart| %>
-  <p><%= link_to chart.title, chart_path(chart.slug_or_id) %></p>
-<% end %>
+<%= render partial: "/charts/list", locals: { charts: @charts } %>
