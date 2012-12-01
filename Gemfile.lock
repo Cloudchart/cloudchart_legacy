@@ -247,6 +247,7 @@ DEPENDENCIES
   i18n-js
   jquery-rails
   json
+  less
   less-rails
   linkedin
   mongoid
