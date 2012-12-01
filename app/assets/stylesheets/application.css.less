@@ -147,6 +147,12 @@ body {
       margin: 38px 0 36px 0;
       
       li {
+        &:last-child {
+          a:hover {
+            text-decoration: none;
+          }
+        }
+        
         a {
           font-family: @lightSansFontFamily;
           color: #fff;
@@ -213,8 +219,10 @@ body {
       
       &.create {
         border: 3px solid #e9eff2;
-        background: url(btn-new-chart.png) #fff no-repeat center center;
-        background-size: 35px;
+        .at2x('btn-new-chart.png', 35px, 35px);
+        background-color: #fff;
+        background-repeat: no-repeat;
+        background-position: center center;
         cursor: pointer;
       }
       
