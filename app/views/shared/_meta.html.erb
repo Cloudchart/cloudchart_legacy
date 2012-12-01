@@ -14,5 +14,5 @@
 <meta property="og:title" content="<%= @meta[:title] || t("app.name") %>" />
 <meta property="og:site_name" content="<%= t("app.name") %>" />
 <meta property="og:description" content="<%= @meta[:description] || t("app.description") %>" />
-<meta property="og:image" content="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || image_path("logo.png"))}" %>" />
-<link rel="image_src" href="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || image_path("logo.png"))}" %>" />
+<meta property="og:image" content="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || "/logo.png")}" %>" />
+<link rel="image_src" href="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || "/logo.png")}" %>" />
