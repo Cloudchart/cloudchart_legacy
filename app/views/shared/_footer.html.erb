@@ -1,3 +1,21 @@
 <footer>
-  &copy; <%= t("app.name") %>, <%= Time.now.year %>
+  <div class="wrapper">
+    <div class="row-fluid">
+      <% t("features").each do |feature, _| %>
+      <div class="item span4">
+        <div class="inner">
+          <h1><%= feature["title"] %></h1>
+          <p><%= simple_format(feature["descr"]) %></p>
+        </div>
+      </div>
+      <% end %>
+    </div>
+    
+    <ul class="nav nav-pills">
+      <li><%= link_to t("pages.about"), "#" %></li>
+      <li><%= link_to t("pages.legal"), "#" %></li>
+      <li><%= link_to t("pages.terms"), "#" %></li>
+      <li><%= link_to raw("&copy; #{t("app.name")}, #{Time.now.year}."), "#" %></li>
+    </ul>
+  </div>
 </footer>

@@ -71,6 +71,19 @@ en:
     sign_out: "Sign out"
     ago: "ago"
   
+  pages:
+    about: "About"
+    legal: "Legal"
+    terms: "Terms of Service"
+  
+  features:
+    - title: "Create"
+      descr: "in the cloud.\n No registration\n required."
+    - title: "Export"
+      descr: "to paper,\nsite,\n or PDF."
+    - title: "Share"
+      descr: "with everyone\n if you sign in\n with Linkedin."
+  
   charts:
     title: "My chart"
     create: "Create chart"
