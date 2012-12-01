@@ -1,4 +1,6 @@
 class VersionsController < ChartsController
+  layout "chart", only: [:index, :show, :edit]
+  
   def index
     @versions = @chart.versions
   end

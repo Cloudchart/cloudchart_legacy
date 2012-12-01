@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render partial: "/shared/meta" %>
+</head>
+<body>
+
+  <%= render partial: "/shared/header", locals: { chart: @chart } %>
+  <section>
+    <%= yield %>
+  </section>
+  <%= render partial: "/shared/footer" %>
+  <%= render partial: "/shared/loading" %>
+
+</body>
+</html>

@@ -1,4 +1,6 @@
 class ChartsController < ApplicationController
+  layout "chart", only: [:show, :token, :edit]
+  
   def index
     if user_signed_in?
       @charts = current_user.charts.ordered

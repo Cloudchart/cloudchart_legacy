@@ -68,7 +68,8 @@ en:
   
   common:
     sign_linkedin: "Sign in with Linkedin"
-    sign_out: "Sign out"
+    sign_out: "Quit"
+    settings: "Settings"
     ago: "ago"
   
   pages:
@@ -87,7 +88,7 @@ en:
   charts:
     title: "My chart"
     create: "Create chart"
-    edit: "Edit chart"
+    edit: "Edit"
     edit_node: "Edit subchart"
     versions: "Versions"
     latest: "Back to latest"

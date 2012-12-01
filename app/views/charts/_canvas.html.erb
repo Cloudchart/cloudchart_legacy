@@ -2,6 +2,9 @@
   chart ||= nil
 %>
 <div class="chart canvas" data-init="chart">
+<%
+=begin
+%>
   <% if chart %>
   <div class="side">
     <% if can?(:edit, chart) %>
@@ -29,6 +32,9 @@
     <% end %>
   </div>
   <% end %>
-  
+<%
+=end
+%>
+
   <div id="canvas" data-no-turbolink></div>
 </div>

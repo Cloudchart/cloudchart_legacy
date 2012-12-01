@@ -1,13 +1,58 @@
+<%
+  chart ||= nil
+%>
 <header>
   <div class="wrapper">
-    <figure>
-      <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>
-    </figure>
-    <span><%= t("app.description").downcase %></span>
-    <aside>
-      <div class="profile" data-init="user">
-        <%= render partial: "/shared/profile" %>
+    <div class="row-fluid">
+      <div class="span<% if !user_signed_in? && !chart %>8<% else %>6<% end %>">
+        <% if chart %>
+          <figure>
+            <%= link_to image_tag("logo-icon.png", title: t("app.name"), alt: t("app.name")), root_path, class: "icon" %>
+          </figure>
+          
+          <div class="table">
+            <div class="cell title">
+              <h1><%= link_to chart.title, chart_path(chart.slug_or_id) %></h1>
+              <%= link_to image_tag("btn-big-arrow.png"), "#" %>
+            </div>
+          </div>
+        <% else %>
+          <figure>
+            <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>
+          </figure>
+          
+          <% if !user_signed_in? %>
+          <span class="slogan"><%= t("app.description").downcase %></span>
+          <% end %>
+        <% end %>
       </div>
-    </aside>
+      
+      <% if user_signed_in? || chart %>
+      <div class="span3">
+        <div class="table">
+          <div class="cell controls">
+            <%= link_to image_tag("btn-create-white.png", alt: t("charts.create"), title: t("charts.create")), charts_path, class: "create" %>
+            
+            <% if chart %>
+              <% if params[:action] != "edit" && can?(:edit, chart) && !["versions", "nodes"].include?(params[:controller]) %>
+                <%= link_to t("charts.edit"), edit_chart_path(chart.slug_or_id), class: "box" %>
+              <% elsif !["versions", "nodes"].include?(params[:controller]) %>
+                <%= link_to t("charts.pdf"), chart_path(chart.slug_or_id, format: :pdf), target: "_blank", class: "box" %>
+                <!--<%= link_to t("charts.png"), chart_path(chart.slug_or_id, format: :png) %>-->
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+      
+      <div class="span<% if !user_signed_in? && !chart %>4<% else %>3<% end %>">
+        <aside class="table">
+          <div class="cell profile" data-init="user">
+            <%= render partial: "/shared/profile" %>
+          </div>
+        </aside>
+      </div>
+    </div>
   </div>
 </header>

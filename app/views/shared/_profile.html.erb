@@ -1,8 +1,6 @@
 <% if user_signed_in? %>
-  <p><%= current_user.name %></p>
-  <p>
-    <%= link_to t("common.sign_out"), destroy_session_path(current_user), class: "sign_out", data: { "no-turbolink" => "" } %>
-  </p>
+  <%= link_to t("common.sign_out"), destroy_session_path(current_user), class: "sign_out", data: { "no-turbolink" => "" } %>
+  <%= link_to image_tag("btn-settings.png", alt: t("common.settings"), title: t("common.settings")), edit_user_registration_path, class: "settings" %>
 <% else %>
   <%=
     content_tag :button, "",
