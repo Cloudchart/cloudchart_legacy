@@ -1,12 +1,6 @@
 source 'https://rubygems.org'
 gem 'rails', '3.2.8'
 
-group :assets do
-  gem 'less-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
-
 group :development do
   gem 'thin'
   gem 'powify'
@@ -37,6 +31,9 @@ gem 'rails_admin'
 gem 'ruby-graphviz'
 
 # Client
+gem 'less-rails'
+gem 'coffee-rails'
+gem 'uglifier'
 gem 'execjs'
 gem 'therubyracer'
 gem 'jquery-rails'
@@ -45,4 +42,3 @@ gem 'turbolinks'
 gem 'turbolinks-analytics'
 gem 'google-analytics-rails'
 gem 'twitter-bootstrap-rails'
-gem 'less'
