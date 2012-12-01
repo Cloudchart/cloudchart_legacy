@@ -10,9 +10,12 @@
       if can?(:edit, chart)
         link = edit_chart_path(chart.slug_or_id)
         cls = ""
-      else
+      elsif chart.demo?
         link = clone_chart_path(chart.slug_or_id)
         cls = "clone"
+      elsif
+        link = chart_path(chart.slug_or_id)
+        cls = ""
       end
     %>
     <div class="item span4">

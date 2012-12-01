@@ -92,6 +92,10 @@ class Chart
     self.slug || self.id
   end
   
+  def demo?
+    self.is_demo
+  end
+  
   def to_png(style = nil)
     self.to_png! unless self.picture?
     self.picture.url(style)

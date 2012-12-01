@@ -54,6 +54,7 @@ class ChartsController < ApplicationController
   end
   
   def clone
+    not_found unless @chart.demo?
     @cloned_chart = @chart
     
     if user_signed_in?
