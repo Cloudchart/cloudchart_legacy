@@ -213,6 +213,9 @@ GEM
     treetop (1.4.11)
       polyglot
       polyglot (>= 0.3.1)
+    turbo-sprockets-rails3 (0.2.12)
+      railties (>= 3.1.0, < 3.2.9)
+      sprockets (>= 2.0.0)
     turbolinks (0.5.1)
     turbolinks-analytics (0.0.1)
       turbolinks
@@ -264,6 +267,7 @@ DEPENDENCIES
   rvm-capistrano
   therubyracer
   thin
+  turbo-sprockets-rails3
   turbolinks
   turbolinks-analytics
   twitter-bootstrap-rails
