@@ -11,7 +11,7 @@ class Chart
   store_in collection: "charts"
   
   # Scopes
-  scope :ordered, order_by(:created_at.desc)
+  scope :ordered, order_by(:updated_at.desc)
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   scope :demo, ordered.where(is_demo: true)
   

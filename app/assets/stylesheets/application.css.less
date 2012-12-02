@@ -99,8 +99,10 @@ body {
     .title {
       h1 {
         display: inline-block;
-        margin: 8px 0 0 12px;
+        margin: 13px 0 0 11px;
         color: #fff;
+        font-family: @lightSansFontFamily;
+        font-weight: normal;
       }
       
       img {
@@ -120,8 +122,8 @@ body {
     }
     
     .controls {
-      padding: 4px 0 0 0;
-      height: 92px;
+      padding: 6px 0 0 0;
+      height: 90px;
       
       .create {
         img {
@@ -145,8 +147,8 @@ body {
     aside.table {
       text-align: right;
       width: 100%;
-      height: 94px;
-      padding: 2px 0 0 0;
+      height: 92px;
+      padding: 4px 0 0 0;
       
       .profile {
         button {
@@ -302,6 +304,11 @@ body {
         background-repeat: no-repeat;
         background-position: center center;
         cursor: pointer;
+      }
+      
+      &.placeholder {
+        border: 3px solid #e9eff2;
+        background: #fff;
       }
       
       h1 {
