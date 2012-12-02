@@ -343,28 +343,59 @@ body {
 }
 
 .chart {
+  float: left;
+  position: relative;
+  width: 100%;
+  height: 600px;
+  
+  /* Columns */
+  .left {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 400px;
+    height: 600px;
+    overflow: auto;
+    background: #e9eff2;
+    border-right: 1px solid #b7c6cd;
+  }
+  
+  .right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 410px;
+  }
+  
+  .btn-versions {
+    position: absolute;
+    width: 21px;
+    height: 50px;
+    left: 390px;
+    top: 50%;
+    margin-top: -25px;
+    border: 0;
+    background: url(btn-history.png) no-repeat;
+    background-size: 21px 50px;
+  }
+  
   /* Canvas container */
-  &.canvas, &.form {
+  .canvas, .form {
+    .box-sizing();
     .rounded(5px);
     position: relative;
-    height: 530px;
+    height: 600px;
     padding: 0 0 20px 0;
-    /*overflow: auto;*/
     
     #canvas {
       margin: 20px auto;
     }
-    
-    .side {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 1;
-    }
   }
   
   /* Form */
-  &.form {
+  .form {
     padding: 20px;
     
     h3 {

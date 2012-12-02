@@ -1,1 +1,10 @@
-<%= render partial: "/charts/form", locals: { hidden: { previous_text: @chart.previous_text, current_text: @chart.text } } %>
+<div class="chart">
+  <div class="left">
+    <%= render partial: "/charts/form", locals: { hidden: { previous_text: @chart.previous_text, current_text: @chart.text } } %>
+  </div>
+  <div class="right">
+    <%= render partial: "/charts/canvas", locals: { chart: @chart } %>
+    <ins data-init="chart-show" data-chart="<%= @chart.to_json %>"></ins>
+  </div>
+  <div class="clr"></div>
+</div>

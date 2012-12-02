@@ -1,7 +1,7 @@
 <%
   hidden ||= {}
 %>
-<div class="chart form" data-init="chart-edit">
+<div class="form" data-init="chart-edit">
   <%= form_for @chart, url: url_for(params[:chart_id] ? { chart_id: @chart.id, action: :update } : { id: @chart.id, action: :update }) do |f| %>
     <% hidden.each do |key, value| %>
       <%= f.hidden_field key, value: value %>

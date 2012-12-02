@@ -22,8 +22,8 @@ window.$j = $j
 App = 
   loading: (flag) ->
     if flag
-      height = $j("footer").offset().top - $j("header").height()
-      $j(".loading .bar").css(top: Math.min(height/2, (screen.availHeight - $j("header").height())/2) - $j(".loading .bar").height()/2)
+      height = if $j("footer").length > 0 then $j("footer").offset().top else $j("html").height() - $j("header").height()
+      $j(".loading .bar").css(top: Math.min(height/2, ($j("html").height() - $j("header").height())/2) - $j(".loading .bar").height()/2)
       $j(".loading").css(height: height).show()
     else
       $j(".loading").hide()
@@ -37,6 +37,12 @@ App =
         $j.cookie("charts", JSON.stringify(charts), { path: "/", expires: 365 })
     
     init: ->
+      # Fill height
+      App.chart.resize = -> $j(".chart, .chart .left, .chart .canvas").css("height", Math.max(600, $j("html").height() - $j("header").height()))
+      App.chart.resize()
+      $j(window).unbind "resize"
+      $j(window).bind "resize", -> App.chart.resize()
+      
       # Canvas
       App.canvas = new Canviz("canvas") if $j("#canvas").length > 0
       
