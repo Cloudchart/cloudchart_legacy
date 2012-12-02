@@ -374,7 +374,7 @@ body {
     top: 0;
     right: 0;
     bottom: 0;
-    left: 410px;
+    left: 400px;
   }
   
   .btn-versions {
@@ -389,37 +389,81 @@ body {
     background-size: 21px 50px;
   }
   
-  /* Canvas container */
-  .canvas, .form {
+  /* Canvas */
+  .canvas {
     .box-sizing();
     .rounded(5px);
     position: relative;
     height: 600px;
-    padding: 0 0 20px 0;
     
     #canvas {
-      margin: 20px auto;
+      padding: 10px;
     }
   }
   
-  /* Form */
-  .form {
-    padding: 20px;
-    
+  /* Editor */
+  .editor {
     h3 {
       padding: 0;
       margin: 0 0 10px 0;
     }
     
-    input[type="text"] {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
+    .buttons {
+      margin: 12px 0 12px 35px;
+      height: 20px;
+      
+      .btn {
+        height: 20px;
+        line-height: 10px;
+        text-transform: uppercase;
+        font-size: 12px;
+        padding: 4px 6px;
+        
+        span {
+          &.r {
+            display: inline-block;
+            .rotate(90deg);
+          }
+        }
+      }
     }
     
-    textarea {
-      display: block;
-      width: 100%;
+    .text {
+      .clearfix();
+      
+      ul {
+        float: left;
+        width: 35px;
+        margin: 0;
+        padding: 0;
+        -webkit-padding-start: 0;
+        list-style: none;
+        list-style-type: none;
+        
+        li {
+          .box-sizing();
+          padding: 0 10px 0 0;
+          text-align: right;
+          line-height: 24px;
+          font-size: 12px;
+          font-family: @lightSansFontFamily;
+          color: #01405a;
+        }
+      }
+      
+      textarea {
+        .box-sizing();
+        .box-shadow(none);
+        display: block;
+        float: right;
+        width: 365px;
+        padding: 0;
+        background: none;
+        border: 0;
+        line-height: 24px;
+        font-size: 18px;
+        color: #01405a;
+      }
     }
     
     input[type="submit"] {

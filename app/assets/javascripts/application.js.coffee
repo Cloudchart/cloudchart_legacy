@@ -9,6 +9,7 @@
 //= require jquery/cookie
 //= require jquery/base64
 //= require jquery/textchange
+//= require jquery/caret
 # Other
 //= require turbolinks
 //= require turbolinks-analytics
@@ -82,6 +83,9 @@ App =
         App.chart.update()
       , 30000)
       
+      # Buttons
+      $j(".buttons .btn").bind "click", -> false
+      
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
         App.chart.status.text(I18n.t("charts.autosave.saving"))
@@ -110,7 +114,7 @@ App =
         App.chart.update()
     
     click: (id) ->
-      Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
+      Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
     
     update: ->
       return if App.chart.status.text() != I18n.t("charts.autosave.changed")

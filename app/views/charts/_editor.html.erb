@@ -1,0 +1,30 @@
+<%
+  hidden ||= {}
+%>
+<div class="editor" data-init="chart-edit">
+  <%= form_for @chart, url: url_for(params[:chart_id] ? { chart_id: @chart.id, action: :update } : { id: @chart.id, action: :update }) do |f| %>
+    <h3 class="hidden"><%= t("charts.autosave.loaded") %></h3>
+    <% hidden.each do |key, value| %>
+      <%= f.hidden_field key, value: value %>
+    <% end %>
+    
+    <div class="buttons">
+      <button class="btn add-person"><span>+</span> <%= t("charts.add_person") %></button>
+      <button class="btn left-indent"><span>&larr;</span> <%= t("charts.indent") %></button>
+      <button class="btn right-indent"><span>&rarr;</span> <%= t("charts.indent") %></button>
+      <button class="btn move"><span class="r">&harr;</span> <%= t("charts.move") %></button>
+    </div>
+    
+    <div class="text">
+      <ul>
+        <!--<% @chart.text.scan(/\n/m).size.times do |i| %>
+          <li><%= i+1 %></li>
+        <% end %>-->
+      </ul>
+      
+      <%= f.text_area :text %>
+    </div>
+    
+    <%= f.submit %>
+  <% end %>
+</div>

@@ -7,6 +7,9 @@ class NodesController < ChartsController
   end
   
   def edit
+    # Replace xdot
+    @chart.xdot = @chart.to_xdot_with_parent(@node)
+    
     # Replace text
     @chart.previous_text = @chart.text
     @chart.text = @chart.to_text_with_parent(@node)

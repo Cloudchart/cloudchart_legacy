@@ -36,6 +36,8 @@
             <% if chart %>
               <% if params[:action] != "edit" && can?(:edit, chart) && !["versions", "nodes"].include?(params[:controller]) %>
                 <%= link_to t("charts.edit"), edit_chart_path(chart.slug_or_id), class: "box" %>
+              <% elsif params[:action] == "edit" && params[:controller] == "nodes" %>
+                <%= link_to t("charts.back"), edit_chart_path(chart.slug_or_id), class: "box" %>
               <% elsif !["versions", "nodes"].include?(params[:controller]) %>
                 <%= link_to t("charts.pdf"), chart_path(chart.slug_or_id, format: :pdf), target: "_blank", class: "box" %>
                 <!--<%= link_to t("charts.png"), chart_path(chart.slug_or_id, format: :png) %>-->

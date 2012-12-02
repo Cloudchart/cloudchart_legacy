@@ -1,6 +1,6 @@
 <div class="chart">
   <div class="left">
-    <%= render partial: "/charts/form", locals: { hidden: { previous_text: @chart.previous_text, current_text: @chart.text } } %>
+    <%= render partial: "/charts/editor", locals: { hidden: { previous_text: @chart.previous_text, current_text: @chart.text } } %>
   </div>
   <div class="right">
     <%= render partial: "/charts/canvas", locals: { chart: @chart } %>
