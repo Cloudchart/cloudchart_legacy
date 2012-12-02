@@ -22,9 +22,10 @@ window.$j = $j
 App = 
   loading: (flag) ->
     if flag
-      height = if $j("footer").length > 0 then $j("footer").offset().top else $j("html").height() - $j("header").height()
-      $j(".loading .bar").css(top: Math.min(height/2, ($j("html").height() - $j("header").height())/2) - $j(".loading .bar").height()/2)
-      $j(".loading").css(height: height).show()
+      # height = if $j("footer").length > 0 then $j("footer").offset().top else $j("html").height() - $j("header").height()
+      # $j(".loading .bar").css(top: Math.min(height/2, ($j("html").height() - $j("header").height())/2) - $j(".loading .bar").height()/2)
+      # $j(".loading").css(height: height).show()
+      $j(".loading").show()
     else
       $j(".loading").hide()
   
