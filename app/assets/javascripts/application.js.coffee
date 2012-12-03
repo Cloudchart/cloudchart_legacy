@@ -17,6 +17,7 @@
 //= require i18n
 //= require i18n/translations
 //= require twitter/bootstrap
+//= require mousetrap
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -107,9 +108,24 @@ App =
       $j(".buttons .btn").bind "click", -> false
       
       # Key event
+      $j(".edit_chart textarea").unbind "keydown"
+      $j(".edit_chart textarea").bind "keydown", (e) ->
+        # Tab?
+        if e.keyCode == 9
+          e.preventDefault()
+          # text = $j(this).val()
+          
+        
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
+        # Enter?
+        if e.keyCode == 13
+          App.chart.update()
+        
+        # Render lines
         App.chart.lines()
+      
+      # Render lines first time
       App.chart.lines()
       
       # Autosize
@@ -153,6 +169,10 @@ App =
       $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
         result = eval "(#{data.responseText})"
         if result.chart
+          # Show
+          $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
+          App.chart.show($j("[data-chart]"))
+          
           if App.chart.status.text() != I18n.t("charts.autosave.changed")
             App.chart.status.text(I18n.t("charts.autosave.saved"))
         else

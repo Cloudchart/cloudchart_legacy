@@ -116,6 +116,7 @@ GEM
     mongoid_token (1.1.0)
       mongoid (~> 3.0)
     moped (1.3.0)
+    mousetrap-rails (0.0.7)
     multi_json (1.4.0)
     nested_form (0.2.3)
     net-scp (1.0.4)
@@ -257,6 +258,7 @@ DEPENDENCIES
   mongoid-slugify
   mongoid-tree
   mongoid_token
+  mousetrap-rails
   omniauth
   omniauth-linkedin
   paperclip
