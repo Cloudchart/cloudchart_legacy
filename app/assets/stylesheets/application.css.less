@@ -364,7 +364,6 @@ body {
     left: 0;
     width: 400px;
     height: 600px;
-    overflow: auto;
     background: #e9eff2;
     border-right: 1px solid #b7c6cd;
   }
@@ -445,6 +444,10 @@ body {
     
     .text {
       .clearfix();
+      position: absolute;
+      overflow: auto;
+      top: 44px;
+      bottom: 0px;
       
       ul {
         float: left;
@@ -466,6 +469,10 @@ body {
         }
       }
       
+      form {
+        margin: 0;
+      }
+      
       textarea {
         .box-sizing();
         .box-shadow(none);
@@ -473,6 +480,7 @@ body {
         float: right;
         width: 365px;
         padding: 0;
+        margin: 0;
         background: none;
         border: 0;
         line-height: 24px;

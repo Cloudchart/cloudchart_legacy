@@ -85,7 +85,14 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
-    redirect_to edit_chart_path(@chart.slug_or_id)
+    respond_to { |format|
+      format.html {
+        redirect_to edit_chart_path(@chart.slug_or_id)
+      }
+      format.json {
+        render json: { chart: @chart }
+      }
+    }
   end
   
   private

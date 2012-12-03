@@ -10,6 +10,7 @@
 //= require jquery/base64
 //= require jquery/textchange
 //= require jquery/caret
+//= require jquery/autosize
 # Other
 //= require turbolinks
 //= require turbolinks-analytics
@@ -77,6 +78,24 @@ App =
       App.chart.resize()
       $j(".canvas").css("overflow", "auto")
     
+    lines: ->
+      lines = $j(".edit_chart textarea").val().split("\n")
+      levels = {}
+      list = for line in lines
+        num = _i + 1
+        
+        level = line.match(/^[\s]*/g)[0].length
+        levels[level] = 0 unless levels[level]
+        levels[level]++
+        
+        str = []
+        for lvl in [0..level]
+          str.push levels[lvl]
+        
+        "<li>#{str.join(".")}</li>"
+      
+      $j(".text ul").html(list.join("\n"))
+    
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
       clearInterval(App.chart.interval) if App.chart.interval
@@ -86,6 +105,15 @@ App =
       
       # Buttons
       $j(".buttons .btn").bind "click", -> false
+      
+      # Key event
+      $j(".edit_chart textarea").unbind "keyup"
+      $j(".edit_chart textarea").bind "keyup", (e) ->
+        App.chart.lines()
+      App.chart.lines()
+      
+      # Autosize
+      $j(".edit_chart textarea").autosize()
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
@@ -124,7 +152,7 @@ App =
       $form = $j(".edit_chart")
       $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
         result = eval "(#{data.responseText})"
-        if result.id
+        if result.chart
           if App.chart.status.text() != I18n.t("charts.autosave.changed")
             App.chart.status.text(I18n.t("charts.autosave.saved"))
         else
