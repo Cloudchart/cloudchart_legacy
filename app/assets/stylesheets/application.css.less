@@ -394,7 +394,9 @@ body {
     .rounded(5px);
     position: relative;
     height: 600px;
-    background: #fff;
+    background: url(bg.png) #fff repeat center center;
+    background-position: fixed;
+    background-size: 96px 96px;
     
     #canvas {
       margin: 0 auto;
@@ -405,12 +407,6 @@ body {
         &:last-child {
           /*overflow-x: hidden;*/
         }
-      }
-      
-      #canviz_canvas_1 {
-        background: url(bg.png) #fff repeat center center;
-        background-position: fixed;
-        background-size: 96px 96px;
       }
     }
   }
