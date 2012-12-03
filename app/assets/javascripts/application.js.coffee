@@ -40,7 +40,7 @@ App =
     
     init: ->
       # Fill height
-      App.chart.resize = -> $j(".chart, .chart .left, .chart .canvas").css("height", Math.max(600, $j("html").height() - $j("header").height()))
+      App.chart.resize = -> $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css("height", Math.max(600, $j("html").height() - $j("header").height()))
       App.chart.resize()
       $j(window).unbind "resize"
       $j(window).bind "resize", -> App.chart.resize()
@@ -74,6 +74,7 @@ App =
       App.chart.chart = JSON.parse($this.attr("data-chart"))
       $j(".canvas").css("overflow", "none")
       App.canvas.parse(App.chart.chart.xdot)
+      App.chart.resize()
       $j(".canvas").css("overflow", "auto")
     
     edit: ($this) ->

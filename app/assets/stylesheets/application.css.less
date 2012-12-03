@@ -395,9 +395,24 @@ body {
     .rounded(5px);
     position: relative;
     height: 600px;
+    background: #fff;
     
     #canvas {
-      padding: 10px;
+      margin: 0 auto;
+      
+      div {
+        width: 100%;
+        
+        &:last-child {
+          /*overflow-x: hidden;*/
+        }
+      }
+      
+      #canviz_canvas_1 {
+        background: url(bg.png) #fff repeat center center;
+        background-position: fixed;
+        background-size: 96px 96px;
+      }
     }
   }
   
