@@ -11,6 +11,7 @@ end
 
 # Server
 gem 'unicorn'
+gem 'unicorn-worker-killer'
 gem 'paperclip'
 gem 'mongoid'
 gem 'mongoid_token'

@@ -229,6 +229,8 @@ GEM
       kgio (~> 2.6)
       rack
       raindrops (~> 0.7)
+    unicorn-worker-killer (0.2.0)
+      unicorn (~> 4)
     warden (1.2.1)
       rack (>= 1.0)
 
@@ -270,3 +272,4 @@ DEPENDENCIES
   twitter-bootstrap-rails
   uglifier
   unicorn
+  unicorn-worker-killer
