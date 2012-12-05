@@ -99,6 +99,9 @@ en:
     png: "Png (for site)"
     author: "Author: %{author}"
     last_saved: "Last saved %{time}"
+    add_person: "Add person"
+    indent: "Indent"
+    move: "Move"
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"

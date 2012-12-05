@@ -17,12 +17,16 @@
     
     <div class="text">
       <ul>
-        <!--<% (@chart.text || "").scan(/\n/m).size.times do |i| %>
-          <li><%= i+1 %></li>
-        <% end %>-->
       </ul>
+      
       <!--<%= f.text_field :title %>-->
       <%= f.text_area :text %>
+      
+      <div class="hidden">
+        <h2><%= t("charts.connections") %></h2>
+        <ul>
+        </ul>
+      </div>
     </div>
     
     <!--<%= f.submit %>-->

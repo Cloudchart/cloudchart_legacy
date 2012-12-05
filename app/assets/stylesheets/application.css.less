@@ -428,6 +428,17 @@ body {
         text-transform: uppercase;
         font-size: 12px;
         padding: 4px 6px;
+        color: #01405a;
+        text-shadow: none;
+        .gradient(#e2eaee, #d2dee3, #f5f8fa);
+        .rounded(3px);
+        border: 1px solid #b2c5cf;
+        box-shadow: none;
+        margin-right: 5px;
+        
+        &:hover {
+          .gradient(#e2eaee, #d2dee3, #e2eaee);
+        }
         
         span {
           &.r {
@@ -456,7 +467,7 @@ body {
         
         li {
           .box-sizing();
-          padding: 0 10px 0 0;
+          padding: 0 15px 0 15px;
           text-align: right;
           line-height: 24px;
           font-size: 12px;
@@ -482,6 +493,11 @@ body {
         line-height: 24px;
         font-size: 18px;
         color: #01405a;
+        
+        -moz-tab-size: 2;
+        -o-tab-size: 2;
+        -webkit-tab-size: 2;
+        tab-size: 2;
       }
     }
     

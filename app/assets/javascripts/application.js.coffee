@@ -110,11 +110,37 @@ App =
       # Key event
       $j(".edit_chart textarea").unbind "keydown"
       $j(".edit_chart textarea").bind "keydown", (e) ->
-        # Tab?
-        if e.keyCode == 9
-          e.preventDefault()
-          # text = $j(this).val()
+        # Enter?
+        if e.keyCode == 13
+          line = $j(this).caretLine() - 1
+          lines = $j(this).val().split("\n")
           
+          if lines[line].trim() == ""
+            e.preventDefault()
+        
+        # Tab?
+        else if e.keyCode == 9
+          e.preventDefault()
+          
+          line = $j(this).caretLine() - 1
+          lines = $j(this).val().split("\n")          
+          line_level = lines[line].match(/^[\t]*/g)[0].length
+          
+          if e.shiftKey
+            if line_level > 0
+              lines[line] = lines[line].replace(/\t/, "")
+              pos = $j(this).caret() - 1
+          else
+            prev_level = if lines[line-1] then lines[line-1].match(/^[\t]*/g)[0].length else 0
+            
+            if line_level < prev_level + 1
+              lines[line] = "\t#{lines[line]}"
+              pos = $j(this).caret() + 1
+            else
+              pos = $j(this).caret()
+          
+          $j(this).val(lines.join("\n"))
+          $j(this).caret(pos)
         
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
@@ -130,6 +156,7 @@ App =
       
       # Autosize
       $j(".edit_chart textarea").autosize()
+      $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
@@ -162,22 +189,30 @@ App =
       Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
     
     update: ->
-      return if App.chart.status.text() != I18n.t("charts.autosave.changed")
+      $form = $j(".edit_chart")
+      return if $form.attr("data-saving") || App.chart.status.text() != I18n.t("charts.autosave.changed")
       
       App.chart.status.text(I18n.t("charts.autosave.saving"))
-      $form = $j(".edit_chart")
-      $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"), complete: (data) ->
-        result = eval "(#{data.responseText})"
-        if result.chart
-          # Show
-          $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
-          App.chart.show($j("[data-chart]"))
-          
-          if App.chart.status.text() != I18n.t("charts.autosave.changed")
-            App.chart.status.text(I18n.t("charts.autosave.saved"))
-        else
-          App.chart.status.text(I18n.t("charts.autosave.error"))
+      $form.attr("data-saving", true)
       
+      $j.ajax(url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"))
+        .always ->
+          $form.attr("data-saving", null)
+        
+        .error (xhr, status, error) ->
+          console.error error
+        
+        .done (result) ->
+          if result.chart
+            # Show
+            $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
+            App.chart.show($j("[data-chart]"))
+            
+            if App.chart.status.text() != I18n.t("charts.autosave.changed")
+              App.chart.status.text(I18n.t("charts.autosave.saved"))
+          else
+            App.chart.status.text(I18n.t("charts.autosave.error"))
+        
   # User methods
   user:
     init: ->
