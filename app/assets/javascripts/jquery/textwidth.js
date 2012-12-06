@@ -9,6 +9,7 @@
     
     $('body').append(html);
     var width = html.outerWidth();
+    // console.log(width, text);
     html.remove();
     return width;
   }

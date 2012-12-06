@@ -36,6 +36,9 @@ App =
   
   # Chart methods
   chart:
+    cache:
+      breaks: {}
+    
     store: (chart) ->
       if !chart.user_id
         charts = if $j.cookie("charts") then JSON.parse($j.cookie("charts")) else {}
@@ -86,6 +89,7 @@ App =
       
       lines = $this.val().split("\n")
       levels = {}
+      
       list = for line in lines
         num = _i + 1
         
@@ -93,8 +97,13 @@ App =
         levels[level] = 0 unless levels[level]
         levels[level]++
         
-        width = $this.textWidth("__" + line.replace(/\t/g, "&nbsp;&nbsp;"))
-        breaks = Math.ceil((width + 1) / $this.width())
+        text = "__" + line.replace(/\t/g, "&nbsp;&nbsp;")
+        if App.chart.cache.breaks[text]
+          breaks = App.chart.cache.breaks[text]
+        else
+          width = $this.textWidth(text)
+          breaks = App.chart.cache.breaks[text] = Math.ceil((width + 1) / $this.width())
+        
         
         str = []
         for lvl in [0..level]
@@ -128,10 +137,10 @@ App =
       $this.caret(pos)
       
     
-    # TODO: Long lines
     # TODO: Indent on newline
     # TODO: Persons
     # TODO: Moving
+    # TODO: Speedup?
     # TODO: Autosave?
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
