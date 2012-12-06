@@ -6,11 +6,13 @@
 # jQuery
 //= require jquery
 //= require jquery_ujs
+//= require jquery/prototypes
 //= require jquery/cookie
 //= require jquery/base64
 //= require jquery/textchange
 //= require jquery/caret
 //= require jquery/autosize
+//= require jquery/textwidth
 # Other
 //= require turbolinks
 //= require turbolinks-analytics
@@ -80,7 +82,9 @@ App =
       $j(".canvas").css("overflow", "auto")
     
     lines: ->
-      lines = $j(".edit_chart textarea").val().split("\n")
+      $this = $j(".edit_chart textarea")
+      
+      lines = $this.val().split("\n")
       levels = {}
       list = for line in lines
         num = _i + 1
@@ -89,11 +93,14 @@ App =
         levels[level] = 0 unless levels[level]
         levels[level]++
         
+        width = $this.textWidth("__" + line.replace(/\t/g, "&nbsp;&nbsp;"))
+        breaks = Math.ceil((width + 1) / $this.width())
+        
         str = []
         for lvl in [0..level]
           str.push levels[lvl]
         
-        "<li>#{str.join(".")}</li>"
+        "<li>#{str.join(".")}</li>" + ("<li>&nbsp;</li>".repeat(breaks-1))
       
       $j(".text ul").html(list.join("\n"))
     
@@ -151,7 +158,7 @@ App =
           line = $j(this).caretLine() - 1
           lines = $j(this).val().split("\n")
           
-          if lines[line].trim() == ""
+          if lines[line].trim() == "" || (lines[line-1] != undefined && lines[line-1].trim() == "")
             e.preventDefault()
         
         # Tab?
