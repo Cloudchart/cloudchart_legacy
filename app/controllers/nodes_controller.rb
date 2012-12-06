@@ -31,7 +31,18 @@ class NodesController < ChartsController
     @chart.text = final_text
     @chart.save!
     
-    redirect_to edit_chart_path(@chart.slug_or_id)
+    # Replace xdot
+    @node = @chart.nodes.find_by(title: @node.title)
+    @chart.xdot = @chart.to_xdot_with_parent(@node)
+    
+    respond_to { |format|
+      format.html {
+        redirect_to edit_chart_path(@chart.slug_or_id)
+      }
+      format.json {
+        render json: { chart: @chart, redirect_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id) }
+      }
+    }
   end
   
   private

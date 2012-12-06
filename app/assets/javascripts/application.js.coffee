@@ -250,6 +250,9 @@ App =
           console.error error
         
         .done (result) ->
+          if result.redirect_to
+            $form.attr("action", result.redirect_to)
+            
           if result.chart
             # Show
             $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
