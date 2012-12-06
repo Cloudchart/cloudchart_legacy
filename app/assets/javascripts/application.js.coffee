@@ -85,7 +85,7 @@ App =
       list = for line in lines
         num = _i + 1
         
-        level = line.match(/^[\s]*/g)[0].length
+        level = line.match(/^[\t]*/g)[0].length
         levels[level] = 0 unless levels[level]
         levels[level]++
         
@@ -97,6 +97,35 @@ App =
       
       $j(".text ul").html(list.join("\n"))
     
+    indent: (direction = true) ->
+      $this = $j(".edit_chart textarea")
+      
+      line = $this.caretLine() - 1
+      lines = $this.val().split("\n")
+      line_level = lines[line].match(/^[\t]*/g)[0].length
+      
+      if !direction
+        if line_level > 0
+          lines[line] = lines[line].replace(/\t/, "")
+          pos = $this.caret() - (if $this.val().substr($this.caret(), 1) == "\t" then 0 else 1)
+      else
+        prev_level = if lines[line-1] then lines[line-1].match(/^[\t]*/g)[0].length else -1
+        
+        if line_level < prev_level + 1
+          lines[line] = "\t#{lines[line]}"
+          pos = $this.caret() + 1
+        else
+          pos = $this.caret()
+      
+      $this.val(lines.join("\n"))
+      $this.caret(pos)
+      
+    
+    # TODO: Long lines
+    # TODO: Indent on newline
+    # TODO: Persons
+    # TODO: Moving
+    # TODO: Autosave?
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
       clearInterval(App.chart.interval) if App.chart.interval
@@ -105,7 +134,14 @@ App =
       , 30000)
       
       # Buttons
-      $j(".buttons .btn").bind "click", -> false
+      $j(".buttons .left-indent").bind "click", ->
+        App.chart.indent(false)
+        App.chart.lines()
+        false
+      $j(".buttons .right-indent").bind "click", ->
+        App.chart.indent(true)
+        App.chart.lines()
+        false
       
       # Key event
       $j(".edit_chart textarea").unbind "keydown"
@@ -121,26 +157,7 @@ App =
         # Tab?
         else if e.keyCode == 9
           e.preventDefault()
-          
-          line = $j(this).caretLine() - 1
-          lines = $j(this).val().split("\n")          
-          line_level = lines[line].match(/^[\t]*/g)[0].length
-          
-          if e.shiftKey
-            if line_level > 0
-              lines[line] = lines[line].replace(/\t/, "")
-              pos = $j(this).caret() - 1
-          else
-            prev_level = if lines[line-1] then lines[line-1].match(/^[\t]*/g)[0].length else 0
-            
-            if line_level < prev_level + 1
-              lines[line] = "\t#{lines[line]}"
-              pos = $j(this).caret() + 1
-            else
-              pos = $j(this).caret()
-          
-          $j(this).val(lines.join("\n"))
-          $j(this).caret(pos)
+          App.chart.indent(!e.shiftKey)
         
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->

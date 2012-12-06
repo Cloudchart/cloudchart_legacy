@@ -63,7 +63,7 @@ class Chart
         node = self.nodes.create(title: line.strip)
         
         # Calculate current level
-        level = line[/([\s]*)/, 1].length
+        level = line[/([\t]*)/, 1].length
         levels[level] = node
         
         # Set parent
