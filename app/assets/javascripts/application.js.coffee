@@ -104,7 +104,6 @@ App =
           width = $this.textWidth(text)
           breaks = App.chart.cache.breaks[text] = Math.ceil((width + 1) / $this.width())
         
-        
         str = []
         for lvl in [0..level]
           str.push levels[lvl]
@@ -137,11 +136,10 @@ App =
       $this.caret(pos)
       
     
-    # TODO: Indent on newline
-    # TODO: Persons
     # TODO: Moving
-    # TODO: Speedup?
-    # TODO: Autosave?
+    # TODO: Persons
+    # TODO: Speedup - ?
+    # TODO: Autosave - ?
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
       clearInterval(App.chart.interval) if App.chart.interval
@@ -162,18 +160,34 @@ App =
       # Key event
       $j(".edit_chart textarea").unbind "keydown"
       $j(".edit_chart textarea").bind "keydown", (e) ->
+        $this = $j(this)
+        
         # Enter?
         if e.keyCode == 13
-          line = $j(this).caretLine() - 1
-          lines = $j(this).val().split("\n")
+          line = $this.caretLine() - 1
+          lines = $this.val().split("\n")
           
           if lines[line].trim() == "" || (lines[line-1] != undefined && lines[line-1].trim() == "")
+            e.preventDefault()
+          else
+            # Indent
+            indent = lines[line].match(/^[\t]*/g)[0]
+            caret = $this.caret()
+            text = $this.val().insert(caret, "\n#{indent}")
+            $this.val(text)
+            $this.caret(caret + "\n#{indent}".length)
             e.preventDefault()
         
         # Tab?
         else if e.keyCode == 9
           e.preventDefault()
           App.chart.indent(!e.shiftKey)
+          
+        # Space?
+        else if e.keyCode == 32
+          prev = $this.val().substr($this.caret()-1, 1)
+          if $this.caret() == 0 || prev == "\n" || prev == "\t"
+            e.preventDefault()
         
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
