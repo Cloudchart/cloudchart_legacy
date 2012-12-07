@@ -20,6 +20,7 @@
 //= require i18n/translations
 //= require twitter/bootstrap
 //= require mousetrap
+//= require underscore
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -112,30 +113,55 @@ App =
       
       $j(".text ul").html(list.join("\n"))
     
-    indent: (direction = true) ->
+    indent: (right = true) ->
       $this = $j(".edit_chart textarea")
       
-      line = $this.caretLine() - 1
       lines = $this.val().split("\n")
-      line_level = lines[line].match(/^[\t]*/g)[0].length
+      line = $this.caretLine()-1
+      caret = $this.caret()
+      sel = [$this.getSelectionStart(), $this.getSelectionEnd()]
       
-      if !direction
-        if line_level > 0
-          lines[line] = lines[line].replace(/\t/, "")
-          pos = $this.caret() - (if $this.val().substr($this.caret(), 1) == "\t" then 0 else 1)
+      if $this.caretSelection().trim() != ""
+        indent = _.map([1..$this.caretSelection().trim().split("\n").length], (i) -> line+i-1)
       else
-        prev_level = if lines[line-1] then lines[line-1].match(/^[\t]*/g)[0].length else -1
-        
-        if line_level < prev_level + 1
-          lines[line] = "\t#{lines[line]}"
-          pos = $this.caret() + 1
-        else
-          pos = $this.caret()
+        indent = [line]
+      
+      prev_line_level = lines[indent[0]-1].match(/^[\t]*/g)[0].length
+      first_line_level = lines[indent[0]].match(/^[\t]*/g)[0].length
+      last_line_level = lines[indent[indent.length-1]].match(/^[\t]*/g)[0].length
+      offset = 0
+      first = true
+      if (right && first_line_level < prev_line_level + 1) || (!right && last_line_level > 0)
+        if indent.length == 1
+          offset += if right then 1 else -1
+          
+        _.each(indent, (line, _i) ->
+          if right
+            lines[line] = "\t#{lines[line]}"
+            if _i == 0 && $this.val().substr($this.caret()-1, 1) != "\n"
+              sel[0] = sel[0] + 1
+            
+            sel[1] = sel[1] + 1
+          
+          # Left
+          else
+            match = lines[line].match(/\t/)
+            if match
+              sel[1] = sel[1] - 1
+              lines[line] = lines[line].replace(/\t/, "")
+            
+            if _i == 0 && match && $this.val().substr($this.caret()-1, 1) != "\n"
+              sel[0] = sel[0] - 1
+        )
       
       $this.val(lines.join("\n"))
-      $this.caret(pos)
+      if indent.length > 1
+        # console.log sel
+        $this.setCaretSelection(sel[0], sel[1])
+      else
+        $this.caret(caret+offset)
       
-    
+    # TODO: Mass indent
     # TODO: Moving
     # TODO: Persons
     # TODO: Speedup - ?

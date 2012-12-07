@@ -44,3 +44,5 @@ gem 'turbolinks-analytics'
 gem 'google-analytics-rails'
 gem 'twitter-bootstrap-rails'
 gem 'mousetrap-rails'
+gem 'underscore-rails'
+
