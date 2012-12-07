@@ -129,7 +129,7 @@ App =
       else
         indent = [line]
       
-      prev_line_level = lines[indent[0]-1].match(/^[\t]*/g)[0].length
+      prev_line_level = (lines[indent[0]-1] || "").match(/^[\t]*/g)[0].length
       first_line_level = lines[indent[0]].match(/^[\t]*/g)[0].length
       last_line_level = lines[indent[indent.length-1]].match(/^[\t]*/g)[0].length
       offset = 0
@@ -245,7 +245,7 @@ App =
           caret = $this.caret()
           if e.keyCode == 38
             # Up
-            if lines[line-1]
+            if lines[line-1] != undefined
               swap = lines[line-1]
               lines[line-1] = lines[line]
               lines[line] = swap
@@ -253,7 +253,7 @@ App =
           
           else if e.keyCode == 40
             # Down
-            if lines[line+1]
+            if lines[line+1] != undefined
               swap = lines[line+1]
               lines[line+1] = lines[line]
               lines[line] = swap
