@@ -176,6 +176,24 @@ App =
       , 30000)
       
       # Buttons
+      $j(".buttons .add-person").bind "click", ->
+        $area = $j(".edit_chart textarea")
+        text = $area.val()
+        caret = $area.caret()
+        
+        if caret >= 0
+          prev = text.substr(caret-1, 1)
+          insert = "@"
+          
+          if caret != 0 && !_.include(["\n", "\t", " "], prev)
+            insert = " @"
+          
+          text = text.insert(caret, insert)
+          $area.val(text)
+          $area.caret(caret+insert.length)
+        
+        false
+      
       $j(".buttons .left-indent").bind "click", ->
         App.chart.indent(false)
         App.chart.lines()
@@ -188,10 +206,8 @@ App =
       
       $j(".buttons .move").bind "click", ->
         $j(this).toggleClass("selected")
-        
         $area = $j(".edit_chart textarea")
         $area.caret($area.caret())
-        
         false
       
       # Key event
