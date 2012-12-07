@@ -97,6 +97,9 @@ App =
         level = line.match(/^[\t]*/g)[0].length
         levels[level] = 0 unless levels[level]
         levels[level]++
+        _.each(levels, (_, i) ->
+          levels[i] = 0 if i > level
+        )
         
         text = "__" + line.replace(/\t/g, "&nbsp;&nbsp;")
         if App.chart.cache.breaks[text]
@@ -161,7 +164,6 @@ App =
       else
         $this.caret(caret+offset)
       
-    # TODO: Mass indent
     # TODO: Moving
     # TODO: Persons
     # TODO: Speedup - ?
@@ -178,9 +180,18 @@ App =
         App.chart.indent(false)
         App.chart.lines()
         false
+      
       $j(".buttons .right-indent").bind "click", ->
         App.chart.indent(true)
         App.chart.lines()
+        false
+      
+      $j(".buttons .move").bind "click", ->
+        $j(this).toggleClass("selected")
+        
+        $area = $j(".edit_chart textarea")
+        $area.caret($area.caret())
+        
         false
       
       # Key event
@@ -215,11 +226,41 @@ App =
           if $this.caret() == 0 || prev == "\n" || prev == "\t"
             e.preventDefault()
         
+        # Arrows
+        if $j(".move").hasClass("selected")
+          e.preventDefault() if e.keyCode == 38 || e.keyCode == 40
+        
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
+        $this = $j(this)
+        
         # Enter?
         if e.keyCode == 13
           App.chart.update()
+          
+        # Arrows
+        if $j(".move").hasClass("selected") && (e.keyCode == 38 || e.keyCode == 40)
+          line = $this.caretLine() - 1
+          lines = $this.val().split("\n")
+          caret = $this.caret()
+          if e.keyCode == 38
+            # Up
+            if lines[line-1]
+              swap = lines[line-1]
+              lines[line-1] = lines[line]
+              lines[line] = swap
+              caret = caret - swap.length - 1
+          
+          else if e.keyCode == 40
+            # Down
+            if lines[line+1]
+              swap = lines[line+1]
+              lines[line+1] = lines[line]
+              lines[line] = swap
+              caret = caret + swap.length + 1
+          
+          $this.val(lines.join("\n"))
+          $this.caret(caret)
         
         # Render lines
         App.chart.lines()
