@@ -1,3 +1,10 @@
+GIT
+  remote: git://github.com/krasnoukhov/turbolinks.git
+  revision: 00b997127a036470053b2360845dbd8c930e74c2
+  specs:
+    turbolinks (0.6.1)
+      coffee-rails
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -215,7 +222,6 @@ GEM
     treetop (1.4.12)
       polyglot
       polyglot (>= 0.3.1)
-    turbolinks (0.5.1)
     turbolinks-analytics (0.0.1)
       turbolinks
     twitter-bootstrap-rails (2.1.6)
@@ -270,7 +276,7 @@ DEPENDENCIES
   rvm-capistrano
   therubyracer
   thin
-  turbolinks
+  turbolinks!
   turbolinks-analytics
   twitter-bootstrap-rails
   uglifier

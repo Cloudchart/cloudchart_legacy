@@ -35,11 +35,11 @@ private
       @user.remember_me!
       
       sign_in @user
-      render "/users/success", layout: false
+      render "/users/success"
       
       # if session[:redirect_to]
       #   sign_in @user
-      #   redirect_to session.delete(:redirect_to) 
+      #   redirect_to session.delete(:redirect_to)
       # else
       #   sign_in_and_redirect @user, event: :authentication
       # end

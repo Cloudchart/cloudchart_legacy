@@ -213,7 +213,6 @@ body {
           padding: 36px 50px;
           width: 90%;
           margin: 0 auto;
-          min-height: 234px;
           text-align: center;
           
           p {
@@ -417,6 +416,8 @@ body {
   
   /* Editor */
   .editor {
+    width: 400px;
+    
     h3 {
       padding: 0;
       margin: 0 0 10px 0;
@@ -463,8 +464,13 @@ body {
       overflow: auto;
       top: 44px;
       bottom: 0px;
+      width: 100%;
       
       ul {
+        .box-sizing();
+        position: absolute;
+        top: 0;
+        left: 0;
         float: left;
         width: 35px;
         margin: 0;
@@ -493,8 +499,8 @@ body {
         .box-shadow(none);
         display: block;
         float: right;
-        width: 365px;
-        padding: 0;
+        width: 100%;
+        padding: 0 0 0 35px;
         margin: 0;
         background: none;
         border: 0;

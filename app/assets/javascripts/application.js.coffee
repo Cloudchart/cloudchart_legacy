@@ -101,7 +101,9 @@ App =
           levels[i] = 0 if i > level
         )
         
-        text = "__" + line.replace(/\t/g, "&nbsp;&nbsp;")
+        tab = if $j.browser.safari || $j.browser.opera then "____" else "__"
+        text = "#{tab}#{line.replace(/\t/g, tab)}"
+        
         if App.chart.cache.breaks[text]
           breaks = App.chart.cache.breaks[text]
         else
