@@ -13,6 +13,8 @@
 //= require jquery/caret
 //= require jquery/autosize
 //= require jquery/textwidth
+//= require jquery/caretposition
+//= require jquery/sew
 # Other
 //= require turbolinks
 //= require turbolinks-analytics
@@ -166,7 +168,6 @@ App =
       else
         $this.caret(caret+offset)
       
-    # TODO: Moving
     # TODO: Persons
     # TODO: Speedup - ?
     # TODO: Autosave - ?
@@ -291,6 +292,41 @@ App =
       # Autosize
       $j(".edit_chart textarea").autosize()
       $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
+      
+      # Autocomplete
+      values = [{val:'santiagotactivos', meta:'Santiago Montero'},
+        {val:'johnnyhalife', meta:'Johnny Halife'},
+        {val:'arielflesler', meta:'Ariel Flesler'},
+        {val:'rbajales', meta:'Raul Bajales'}]
+      
+      $j(".edit_chart textarea").sew
+        values: (sew, callback) ->
+          return if sew.options.loading
+          
+          clearTimeout(sew.options.timeout) if sew.options.timeout
+          sew.options.timeout = setTimeout(->
+            $this = $j(".edit_chart textarea")
+            sew.options.loading = true
+            
+            $j.ajax(url: $this.attr("data-autocomplete"), data: { q: sew.options.val }, dataType: "json", type: "GET")
+              .always ->
+                sew.options.loading = false
+              
+              .error (xhr, status, error) ->
+                console.error error
+              
+              .done (result) ->
+                callback.call(sew, _.map(result.persons, (x) ->
+                  name = "#{x.first_name} #{x.last_name}"
+                  { val: "#{name} (#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
+                ))
+          , 500)
+          
+        
+        elementFactory: (element, e) ->
+          element.append(
+            "<div><span>#{e.name}</span>&nbsp;<small>#{e.headline}</small></div>"
+          )
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
