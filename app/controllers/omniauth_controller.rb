@@ -48,7 +48,7 @@ private
   
   def find_for_ouath(provider, access_token, resource = nil)
     auth = {
-      uid: access_token['uid'],
+      uid: access_token['uid'].to_s,
       token: access_token['credentials']['token'],
       secret: access_token['credentials']['secret'],
       name: access_token['info']['name'] || access_token['info']['email'] || "",

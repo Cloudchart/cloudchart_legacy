@@ -101,7 +101,7 @@ App =
           levels[i] = 0 if i > level
         )
         
-        tab = if $j.browser.safari || $j.browser.opera then "____" else "__"
+        tab = if $j.browser.safari || $j.browser.opera || $j.browser.msie then "____" else "__"
         text = "#{tab}#{line.replace(/\t/g, tab)}"
         
         if App.chart.cache.breaks[text]
@@ -247,6 +247,8 @@ App =
         # Arrows
         if $j(".move").hasClass("selected")
           e.preventDefault() if e.keyCode == 38 || e.keyCode == 40
+        
+        true
         
       $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
