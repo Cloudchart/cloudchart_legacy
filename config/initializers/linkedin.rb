@@ -2,7 +2,7 @@ module LinkedIn
   module Api
     module QueryMethods
       
-      def people_search(options)
+      def people_search(options = {})
         simple_query("/people-search#{options.delete(:path)}", options)
       end
       

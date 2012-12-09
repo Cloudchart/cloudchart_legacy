@@ -318,14 +318,15 @@ App =
               .done (result) ->
                 callback.call(sew, _.map(result.persons, (x) ->
                   name = "#{x.first_name} #{x.last_name}"
-                  { val: "#{name} (#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
+                  { val: "#{name}(#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
                 ))
           , 250)
           
         
         elementFactory: (element, e) ->
+          image = if e.picture then e.picture else "/images/ico-person.png"
           element.append(
-            "<div><span>#{e.name}</span>&nbsp;<small>#{e.headline}</small></div>"
+            "<div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>"
           )
       
       $j(".edit_chart").unbind "submit"

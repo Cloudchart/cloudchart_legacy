@@ -285,37 +285,53 @@ body {
   
   /* Autocomplete */
   .-sew-list-container {
+    .box-sizing();
     background: white;
-    border: 1px solid #DDD;
-    border-radius: 3px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-    min-width: 180px;
-  }
-  
-  .-sew-list {
-    list-style: none;
+    border: 1px solid #bac8cf;
+    min-width: 200px;
+    max-width: 300px;
     margin: 0;
     padding: 0;
-  }
-  
-  .-sew-list-item {
-    display: block;
-    padding: 5px 10px;
-    border-bottom: 1px solid #DDD;
-  }
-  
-  .-sew-list-item div {
-    pointer-events: auto;
-  }
-  
-  .-sew-list-item small {
-    color: #afafaf;
-  }
-  
-  .-sew-list-item.selected {
-    color: white;
-    background: #4183C4;
-    text-decoration: none;
+    
+    .-sew-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      
+      .-sew-list-item {
+        display: block;
+        padding: 3px 6px 3px 6px;
+        margin: 0;
+        color: #01405a;
+        
+        &.selected {
+          background: #f0f0f0;
+        }
+        
+        img {
+          float: left;
+          width: 30px;
+          height: 30px;
+          padding-right: 6px;
+        }
+        
+        h3 {
+          font-size: 16px;
+          line-height: 17px;
+          margin: 0;
+        }
+        
+        p {
+          font-size: 12px;
+          line-height: 14px;
+          margin: 0;
+          max-width: 260px;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+    }
   }
 }
 
@@ -393,6 +409,7 @@ body {
   
   /* Columns */
   .left {
+    .box-sizing();
     position: absolute;
     top: 0;
     bottom: 0;
@@ -411,16 +428,16 @@ body {
     left: 400px;
   }
   
-  .btn-versions {
+  .btn-divider {
     position: absolute;
-    width: 21px;
+    width: 13px;
     height: 50px;
-    left: 390px;
+    left: 399px;
     top: 50%;
     margin-top: -25px;
     border: 0;
-    background: url(btn-history.png) no-repeat;
-    background-size: 21px 50px;
+    background: url(btn-divider.png) no-repeat left top;
+    background-size: 13px 50px;
   }
   
   /* Canvas */

@@ -24,6 +24,7 @@ class Chart
   field :title,     type: String
   field :text,      type: String
   field :xdot,      type: String
+  field :persons,   type: Hash, default: {}
   
   # Validations
   validates :title, presence: true
@@ -50,6 +51,13 @@ class Chart
     if self.text_changed?
       # Destroy all nodes
       self.nodes.destroy_all
+      
+      # Find all persons
+      mentions = self.text.scan(/@([^\(]+)\(([^\)]+)\)/)
+      client = self.user.linkedin_client
+      mentions.delete_if { |x| self.persons[x[1]].is_a? Hash }.each { |x|
+        self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
+      }
       
       # Parse lines
       lines = self.text.split("\r\n")
@@ -85,7 +93,7 @@ class Chart
   attr_accessor :cached, :previous_text
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at], methods: [:id, :nodes])
+    super (options || {}).merge(except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons], methods: [:id, :nodes])
   end
   
   def slug_or_id
@@ -200,8 +208,19 @@ class Chart
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
+        title = n.title
+        
+        # Find all persons
+        title = title.gsub(/@([^\(]+)\(([^\)]+)\)/) { |x|
+          if person = self.persons[$2]
+            "#{person["first_name"]} #{person["last_name"]} (#{person["headline"]})"
+          else
+            x
+          end
+        }
+        
         # Add node to root
-        node = g.add_nodes(breaking_word_wrap(n.title, 40),
+        node = g.add_nodes(breaking_word_wrap(title, 40),
           href: "javascript:App.chart.click('#{n.id}')",
           shape: "box",
           style: "filled",
