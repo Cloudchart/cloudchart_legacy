@@ -22,12 +22,7 @@ $(function($) {
       'overflow-y': 'auto'
     },
 
-    simulator : $('<div id="textarea_simulator"/>').css({
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        visibility: 'hidden'
-      }).appendTo(document.body),
+    simulator : null,
 
     toHtml : function(text) {
       return text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g, '<br>')
@@ -48,6 +43,17 @@ $(function($) {
               top: parseInt(range.boundingTop) - elementOffset.top + element.scrollTop
             + document.documentElement.scrollTop + parseInt(self.getComputedStyle("fontSize"))
           };
+      }
+
+      // PATCH
+      cal.simulator = $("#textarea_simulator")
+      if(!cal.simulator || cal.simulator.length == 0) {
+        cal.simulator = $('<div id="textarea_simulator"/>').css({
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          visibility: 'hidden'
+        }).appendTo(document.body)
       }
 
       cal.simulator.empty();

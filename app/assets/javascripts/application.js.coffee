@@ -320,7 +320,7 @@ App =
                   name = "#{x.first_name} #{x.last_name}"
                   { val: "#{name} (#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
                 ))
-          , 500)
+          , 250)
           
         
         elementFactory: (element, e) ->
