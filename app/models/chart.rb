@@ -53,11 +53,13 @@ class Chart
       self.nodes.destroy_all
       
       # Find all persons
-      mentions = self.text.scan(/@([^\(]+)\(([^\)]+)\)/)
-      client = self.user.linkedin_client
-      mentions.delete_if { |x| self.persons[x[1]].is_a? Hash }.each { |x|
-        self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
-      }
+      if self.user
+        mentions = self.text.scan(/@([^\(]+)\(([^\)]+)\)/)
+        client = self.user.linkedin_client
+        mentions.delete_if { |x| self.persons[x[1]].is_a? Hash }.each { |x|
+          self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
+        }
+      end
       
       # Parse lines
       lines = self.text.split("\r\n")
