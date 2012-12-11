@@ -41,10 +41,10 @@ namespace :bundler do
 end
 
 # Utils
-namespace :utils do
+namespace :mongo do
   desc "Remove and create MongoDB indexes"
-  task :reindex, roles: :db do
-    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake utils:reindex"
+  task :indexes, roles: :db do
+    run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle exec rake mongo:indexes"
   end
 end
 

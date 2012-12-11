@@ -21,6 +21,12 @@ class Node
   # Callbacks
   before_destroy :destroy_children
   
+  # Indexes
+  ## Ordered
+  index({ chart_id: 1, _id: 1 })
+  ## Tree
+  index({ parent_id: 1, _id: 1 })
+  
   def serializable_hash(options)
     super (options || {}).merge(except: [:_id], methods: [:id])
   end

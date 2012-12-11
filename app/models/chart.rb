@@ -33,10 +33,12 @@ class Chart
   token length: 16
   
   # Indexes
+  ## Slug
+  index({ slug: 1, _id: 1 })
   ## Ordered
-  index({ user_id: 1, created_at: 1 })
+  index({ user_id: 1, updated_at: 1 })
   ## Demo
-  index({ user_id: 1, is_demo: 1, created_at: 1 })
+  index({ is_demo: 1, updated_at: 1 })
   
   # Picture
   has_mongoid_attached_file :picture,
