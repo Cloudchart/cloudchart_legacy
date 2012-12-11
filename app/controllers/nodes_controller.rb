@@ -40,7 +40,11 @@ class NodesController < ChartsController
         redirect_to edit_chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart, redirect_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id) }
+        render json: {
+          chart: @chart,
+          action_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id),
+          redirect_to: edit_chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)
+        }
       }
     }
   end

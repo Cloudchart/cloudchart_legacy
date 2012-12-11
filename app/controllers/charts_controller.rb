@@ -50,11 +50,12 @@ class ChartsController < ApplicationController
         redirect_to edit_chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: edit_chart_path(@chart.slug_or_id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: edit_chart_path(@chart.slug_or_id) }
       }
     }
   end
   
+  # TODO: Check
   def clone
     not_found unless @chart.demo?
     @cloned_chart = @chart
@@ -73,7 +74,7 @@ class ChartsController < ApplicationController
         redirect_to edit_chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect: edit_chart_path(@chart.slug_or_id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: edit_chart_path(@chart.slug_or_id) }
       }
     }
   end
@@ -90,7 +91,11 @@ class ChartsController < ApplicationController
         redirect_to edit_chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart }
+        render json: {
+          chart: @chart,
+          action_to: chart_path(@chart.id),
+          redirect_to: edit_chart_path(@chart.slug_or_id)
+        }
       }
     }
   end

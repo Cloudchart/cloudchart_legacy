@@ -236,7 +236,11 @@ class Chart
       end
     end
     
+    def assign_slug?
+      self.title.blank? || self.title_changed?
+    end
+    
     def generate_slug
-      title.to_slug.normalize.to_s
+      self.title.to_slug.normalize.to_s
     end
 end

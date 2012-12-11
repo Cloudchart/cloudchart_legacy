@@ -78,7 +78,7 @@ App =
       $j.ajax url: href, dataType: "json", type: "POST", complete: (data) ->
         result = eval "(#{data.responseText})"
         App.chart.store(result.chart)
-        Turbolinks.visit(result.redirect)
+        Turbolinks.visit(result.redirect_to)
     
     show: ($this) ->
       App.chart.chart = JSON.parse($this.attr("data-chart"))
@@ -168,7 +168,6 @@ App =
       else
         $this.caret(caret+offset)
       
-    # TODO: Persons
     # TODO: Speedup - ?
     # TODO: Autosave - ?
     edit: ($this) ->
@@ -354,12 +353,12 @@ App =
     
     check: ->
       if $j(".edit_chart").length > 0
-        App.chart.update()
+        App.chart.update(false)
     
     click: (id) ->
       Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
     
-    update: ->
+    update: (current = true) ->
       $form = $j(".edit_chart")
       return if $form.attr("data-saving") || App.chart.status.text() != I18n.t("charts.autosave.changed")
       
@@ -374,8 +373,18 @@ App =
           console.error error
         
         .done (result) ->
+          # Reload
+          if !current
+            Turbolinks.visit(document.location.href)
+            return
+          
           if result.redirect_to
-            $form.attr("action", result.redirect_to)
+            # Replace state
+            if window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
+              window.history.replaceState window.history.state, '', result.redirect_to
+          
+          if result.action_to
+            $form.attr("action", result.action_to)
             
           if result.chart
             # Show
