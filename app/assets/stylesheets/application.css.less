@@ -52,9 +52,8 @@ body {
   
   header {
     height: 96px;
-    /*background: url(bg-header.png) repeat-x;
-    background-size: 1px auto;*/
-    .gradient(#013f5a, #006590, #013f5a);
+    .at2x('bg-header.png', 1px, 96px);
+    /*.gradient(#013f5a, #006590, #013f5a);*/
     color: #fff;
     font-size: 22px;
     
@@ -133,23 +132,25 @@ body {
           margin-top: -4px;
         }
       }
-      
-      .box {
-        .box-sizing();
-        margin: 0 0 0 10px;
-        .rounded(5px);
-        border: 2px solid #fff;
-        padding: 3px 5px 2px 5px;
-        text-transform: uppercase;
-        text-decoration: none;
-      }
+    }
+    
+    .box {
+      .box-sizing();
+      margin: 0 0 0 10px;
+      .rounded(5px);
+      .gradient(#016c99, #02638c, #0077a9);
+      border: 2px solid #fff;
+      padding: 3px 8px 2px 8px;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-family: @lightSansFontFamily;
     }
     
     aside.table {
       text-align: right;
       width: 100%;
-      height: 92px;
-      padding: 4px 0 0 0;
+      padding: 6px 0 0 0;
+      height: 90px;
       
       .profile {
         button {
@@ -162,20 +163,16 @@ body {
         }
         
         .sign_out {
-          border-bottom: 1px solid #fff;
-          
-          &:hover {
-            border: 0;
-            text-decoration: none;
-          }
+          text-transform: none;
         }
         
         .settings {
-          padding-left: 20px;
+          padding-left: 10px;
           
           img {
-            width: 36px;
-            height: 36px;
+            margin-top: -4px;
+            width: 34px;
+            height: 34px;
           }
         }
       }
@@ -345,11 +342,11 @@ body {
       .rounded(10px);
       padding: 12px;
       min-height: 234px;
-      background: #e9eff2;
+      background: #fff2ce;
       text-align: center;
       
       &.create {
-        border: 3px solid #e9eff2;
+        border: 3px solid #fff2ce;
         .at2x('btn-create.png', 35px, 35px);
         background-color: #fff;
         background-repeat: no-repeat;
@@ -358,7 +355,7 @@ body {
       }
       
       &.placeholder {
-        border: 3px solid #e9eff2;
+        border: 3px solid #fff2ce;
         background: #fff;
       }
       
