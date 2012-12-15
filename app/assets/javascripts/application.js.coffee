@@ -6,6 +6,7 @@
 # jQuery
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.draggable
 //= require jquery/prototypes
 //= require jquery/cookie
 //= require jquery/base64
@@ -54,6 +55,12 @@ App =
       App.chart.resize()
       $j(window).unbind "resize"
       $j(window).bind "resize", -> App.chart.resize()
+      
+      # Sidebar width
+      if $j("[name='chart[sidebar]']").length > 0
+        sidebar = Math.max(400, Math.min(screen.width*(2/3), $j("[name='chart[sidebar]']").val()))
+        $j(".left, .editor").css(width: sidebar)
+        $j(".right, .btn-divider").css(left: sidebar)
       
       # Canvas
       App.canvas = new Canviz("canvas") if $j("#canvas").length > 0
@@ -350,7 +357,18 @@ App =
           
           # For Safari
           return msg
-    
+          
+      # Sidebar resize
+      $j(".btn-divider").draggable
+        axis: "x"
+        drag: (e, ui) ->
+          sidebar = Math.max(400, Math.min(screen.width*(2/3), ui.offset.left))
+          $j(".left, .editor").css(width: sidebar)
+          $j(".right, .btn-divider").css(left: sidebar)
+          $j("[name='chart[sidebar]']").val(sidebar)
+          
+          return false if ui.offset.left != sidebar
+      
     check: ->
       if $j(".edit_chart").length > 0
         App.chart.update(false)

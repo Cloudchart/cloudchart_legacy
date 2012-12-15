@@ -258,6 +258,7 @@ DEPENDENCIES
   google-analytics-rails
   i18n-js
   jquery-rails
+  jquery-ui-rails
   json
   less-rails
   lesselements-rails

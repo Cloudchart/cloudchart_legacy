@@ -4,6 +4,7 @@
 <div class="editor" data-init="chart-edit">
   <%= form_for @chart, url: url_for(params[:chart_id] ? { chart_id: @chart.id, action: :update } : { id: @chart.id, action: :update }) do |f| %>
     <h3 class="hidden"><%= t("charts.autosave.loaded") %></h3>
+    <%= f.hidden_field :sidebar %>
     <% hidden.each do |key, value| %>
       <%= f.hidden_field key, value: value %>
     <% end %>
