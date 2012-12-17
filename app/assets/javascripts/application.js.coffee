@@ -58,9 +58,11 @@ App =
       
       # Sidebar width
       if $j("[name='chart[sidebar]']").length > 0
-        sidebar = Math.max(400, Math.min(screen.width*(2/3), $j("[name='chart[sidebar]']").val()))
+        sidebar = Math.max(0, Math.min(screen.availWidth-13, parseInt($j("[name='chart[sidebar]']").val())))
         $j(".left, .editor").css(width: sidebar)
         $j(".right, .btn-divider").css(left: sidebar)
+        App.chart.cache.breaks = {}
+        App.chart.lines()
       
       # Canvas
       App.canvas = new Canviz("canvas") if $j("#canvas").length > 0
@@ -362,10 +364,16 @@ App =
       $j(".btn-divider").draggable
         axis: "x"
         drag: (e, ui) ->
-          sidebar = Math.max(400, Math.min(screen.width*(2/3), ui.offset.left))
+          sidebar = Math.max(0, Math.min(screen.availWidth-13, ui.offset.left))
           $j(".left, .editor").css(width: sidebar)
           $j(".right, .btn-divider").css(left: sidebar)
           $j("[name='chart[sidebar]']").val(sidebar)
+          
+          clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
+          App.chart.sidebarTimeout = setTimeout ->
+            App.chart.cache.breaks = {}
+            App.chart.lines()
+          , 500
           
           return false if ui.offset.left != sidebar
       
