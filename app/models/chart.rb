@@ -25,7 +25,7 @@ class Chart
   field :text,      type: String
   field :xdot,      type: String
   field :persons,   type: Hash, default: {}
-  field :sidebar,   type: Integer, default: 0
+  field :sidebar,   type: Integer, default: 400
   
   # Validations
   validates :title, presence: true
