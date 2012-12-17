@@ -113,7 +113,7 @@ App =
         )
         
         tab = if $j.browser.safari || $j.browser.opera || $j.browser.msie then "____" else "__"
-        text = "#{tab}#{line.replace(/\t/g, tab)}"
+        text = "#{line.replace(/\t/g, tab)}"
         
         if App.chart.cache.breaks[text]
           breaks = App.chart.cache.breaks[text]
@@ -302,11 +302,6 @@ App =
       $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
       
       # Autocomplete
-      values = [{val:'santiagotactivos', meta:'Santiago Montero'},
-        {val:'johnnyhalife', meta:'Johnny Halife'},
-        {val:'arielflesler', meta:'Ariel Flesler'},
-        {val:'rbajales', meta:'Raul Bajales'}]
-      
       $j(".edit_chart textarea").sew
         values: (sew, callback) ->
           return if sew.options.loading
@@ -326,7 +321,7 @@ App =
               .done (result) ->
                 callback.call(sew, _.map(result.persons, (x) ->
                   name = "#{x.first_name} #{x.last_name}"
-                  { val: "#{name}(#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
+                  { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
                 ))
           , 250)
           

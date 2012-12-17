@@ -57,7 +57,7 @@ class Chart
       
       # Find all persons
       if self.user
-        mentions = self.text.scan(/@([^\(]+)\(([^\)]+)\)/)
+        mentions = self.text.scan(/@([^\(]+)\(ln\:([^\)]+)\)/)
         client = self.user.linkedin_client
         mentions.delete_if { |x| self.persons[x[1]].is_a? Hash }.each { |x|
           self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
@@ -139,7 +139,7 @@ class Chart
   
   def to_text_with_parent(node)
     text = []
-    node.traverse(:depth_first).each { |n|
+    find_persons(node.traverse(:depth_first)).each { |n|
       next if n == node
       text << "\t" * (n.depth - node.depth - 1) + n.title
     }
@@ -190,6 +190,9 @@ class Chart
         g.graph[:bgcolor] = "#ffffff00"
         g.graph[:truecolor] = true
         
+        # Find nodes
+        self.cached = self.nodes.ordered.cache
+        
         # Create root node with chart name
         if parent
           root = g.add_nodes(parent.title,
@@ -197,6 +200,8 @@ class Chart
             style: "filled",
             fillcolor: "#ffffffff"
           )
+          
+          self.cached = find_persons(self.cached)
         else
           root = g.add_nodes(self.title,
             shape: "ellipse",
@@ -206,26 +211,23 @@ class Chart
         end
         
         # Recursive add nodes
-        self.cached = self.nodes.ordered.cache
         add_nodes(g, root, self.cached.select { |x| x.parent_id == (parent ? parent.id : nil) })
       }
     end
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
-        title = n.title
+        title = breaking_word_wrap(find_person(n.title), 40)
         
-        # Find all persons
-        title = title.gsub(/@([^\(]+)\(([^\)]+)\)/) { |x|
-          if person = self.persons[$2]
-            "#{person["first_name"]} #{person["last_name"]} (#{person["headline"]})"
-          else
-            x
-          end
-        }
+        # Find nested people
+        people = find_persons(self.cached.select { |x| x.parent_id == n.id })
+        if people.any?
+          names = people.map { |x| breaking_word_wrap(find_person(x.title), 40) }
+          title = "#{title}\n#{names.join(', ')}"
+        end
         
         # Add node to root
-        node = g.add_nodes(breaking_word_wrap(title, 40),
+        node = g.add_nodes(title,
           href: "javascript:App.chart.click('#{n.id}')",
           shape: "box",
           style: "filled",
@@ -234,11 +236,29 @@ class Chart
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
-        children = self.cached.select { |x| x.parent_id == n.id }
+        children = find_nodes(self.cached.select { |x| x.parent_id == n.id })
         if children.any?
           add_nodes(g, node, children)
         end
       end
+    end
+    
+    def find_persons(nodes)
+      nodes.select { |x| x.title =~ /^@/ }
+    end
+    
+    def find_nodes(nodes)
+      nodes.select { |x| x.title =~ /^[^@]/ }
+    end
+    
+    def find_person(title)
+      title.gsub(/@([^\(]+)\(ln\:([^\)]+)\)/) { |x|
+        if person = self.persons[$2]
+          "#{person["first_name"]} #{person["last_name"]}"
+        else
+          x
+        end
+      }
     end
     
     def assign_slug?

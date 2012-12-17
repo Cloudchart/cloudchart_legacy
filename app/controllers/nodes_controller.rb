@@ -23,7 +23,17 @@ class NodesController < ChartsController
     current_text = @chart.prepare_text_with_parent(@node, params[:chart][:current_text])
     
     if current_text.present?
-      final_text = params[:chart][:previous_text].gsub(current_text, prepared_text)
+      final_text = params[:chart][:previous_text]
+      prepared_text = prepared_text.split("\r\n")
+      current_text = current_text.split("\r\n")
+      
+      current_text.each_with_index do |line, idx|
+        final_text.gsub!(line, prepared_text[idx] || "")
+      end
+      
+      if current_text.length < prepared_text.length && prepared_text[current_text.length..-1].any?
+        final_text.gsub!(prepared_text[current_text.length-1], prepared_text[current_text.length-1..-1].join("\r\n"))
+      end
     else
       final_text = params[:chart][:previous_text].gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text}\r\n")
     end

@@ -95,7 +95,8 @@
 
   Plugin.prototype.replace = function (replacement) {
     var startpos = this.$element.getCursorPosition();
-    var separator = startpos === 1 ? '' : ' ';
+    // PATCH: Space
+    var separator = startpos === 1 ? '' : '';
 
     var fullStuff = this.getText();
     var val = fullStuff.substring(0, startpos);
@@ -103,6 +104,9 @@
     var match = val.match(this.expression);
     if(match && match[0] && match[0][0] == "\t") {
       separator = "\t";
+    }
+    if(match && match[0] && match[0][0] == "\n") {
+      separator = "\n";
     }
     val = val.replace(this.expression, separator + this.options.token + replacement);
 

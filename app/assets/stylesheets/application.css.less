@@ -406,7 +406,6 @@ body {
   
   /* Columns */
   .left {
-    .box-sizing();
     position: absolute;
     top: 0;
     bottom: 0;
@@ -416,7 +415,6 @@ body {
     overflow: hidden;
     height: 600px;
     background: #e9eff2;
-    border-right: 1px solid #b7c6cd;
   }
   
   .right {
@@ -425,6 +423,7 @@ body {
     right: 0;
     bottom: 0;
     left: 400px;
+    border-left: 1px solid #b7c6cd;
   }
   
   .btn-divider {
@@ -432,7 +431,6 @@ body {
     width: 13px;
     height: 50px;
     left: 400px;
-    margin-left: -1px;
     top: 50%;
     margin-top: -25px;
     border: 0;
