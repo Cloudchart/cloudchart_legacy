@@ -30,4 +30,14 @@ class Node
   def serializable_hash(options)
     super (options || {}).merge(except: [:_id], methods: [:id])
   end
+  
+  def parents
+    node = self
+    parents = []
+    while parent = node.parent
+      parents << parent
+      node = parent
+    end
+    parents
+  end
 end

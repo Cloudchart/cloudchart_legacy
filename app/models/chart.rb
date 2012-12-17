@@ -139,7 +139,7 @@ class Chart
   
   def to_text_with_parent(node)
     text = []
-    find_persons(node.traverse(:depth_first)).each { |n|
+    self.class.find_persons(node.children).each { |n|
       next if n == node
       text << "\t" * (n.depth - node.depth - 1) + n.title
     }
@@ -182,6 +182,14 @@ class Chart
     self.xdot
   end
   
+  def self.find_persons(nodes)
+    nodes.select { |x| x.title =~ /^@/ }
+  end
+  
+  def self.find_nodes(nodes)
+    nodes.select { |x| x.title =~ /^[^@]/ }
+  end
+  
   private
   
     def to_graph(parent = nil)
@@ -201,7 +209,7 @@ class Chart
             fillcolor: "#ffffffff"
           )
           
-          self.cached = find_persons(self.cached)
+          self.cached = self.class.find_persons(self.cached)
         else
           root = g.add_nodes(self.title,
             shape: "ellipse",
@@ -220,7 +228,7 @@ class Chart
         title = breaking_word_wrap(find_person(n.title), 40)
         
         # Find nested people
-        people = find_persons(self.cached.select { |x| x.parent_id == n.id })
+        people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
         if people.any?
           names = people.map { |x| breaking_word_wrap(find_person(x.title), 40) }
           title = "#{title}\n#{names.join(', ')}"
@@ -236,19 +244,11 @@ class Chart
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
-        children = find_nodes(self.cached.select { |x| x.parent_id == n.id })
+        children = self.class.find_nodes(self.cached.select { |x| x.parent_id == n.id })
         if children.any?
           add_nodes(g, node, children)
         end
       end
-    end
-    
-    def find_persons(nodes)
-      nodes.select { |x| x.title =~ /^@/ }
-    end
-    
-    def find_nodes(nodes)
-      nodes.select { |x| x.title =~ /^[^@]/ }
     end
     
     def find_person(title)

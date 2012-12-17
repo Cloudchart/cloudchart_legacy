@@ -51,7 +51,12 @@ App =
     
     init: ->
       # Fill height
-      App.chart.resize = -> $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css("height", Math.max(600, $j("html").height() - $j("header").height()))
+      App.chart.resize = ->
+        $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
+          "height",
+          Math.max(550, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+        )
+      
       App.chart.resize()
       $j(window).unbind "resize"
       $j(window).bind "resize", -> App.chart.resize()
