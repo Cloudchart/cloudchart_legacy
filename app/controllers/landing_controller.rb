@@ -8,4 +8,21 @@ class LandingController < ApplicationController
     
     @charts = Chart.demo.all unless @charts.any?
   end
+  
+  def beta
+    if params[:password].present?
+      if params[:password] == "sayonara555"
+        cookies[:beta] = params[:password]
+        redirect_to root_path
+      else
+        redirect_to url_for(wrong: 1)
+      end
+    end
+    
+    @meta = {
+      description: I18n.t("app.beta")
+    }
+    
+    render layout: false unless performed?
+  end
 end

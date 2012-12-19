@@ -19,6 +19,8 @@ class ApplicationController < ActionController::Base
     end
     
     def preload
+      redirect_to beta_path if cookies[:beta] != "sayonara555" && params[:action] != "beta"
+      
       if user_signed_in? && charts_from_tokens.any?
         charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
         charts_from_tokens.each do |chart|

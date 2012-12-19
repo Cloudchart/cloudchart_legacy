@@ -16,6 +16,7 @@ Cloudchart::Application.routes.draw do
   end
   
   # Root
+  match '/beta', to: "landing#beta"
   root to: "landing#index"
   
   # Admin

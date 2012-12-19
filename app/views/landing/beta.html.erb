@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render partial: "/shared/meta" %>
+</head>
+<body class="beta">
+
+  <section>
+    <%= image_tag("logo-beta.png", class: "logo") %>
+    <h1><%= params[:wrong] ? "No, not really." : t("app.beta") %></h1>
+    
+    <form class="form-horizontal" action="<%= beta_path %>" method="GET">
+      <input type="password" name="password" autofocus />
+      <input type="submit" value="&crarr;" />
+    </form>
+  </section>
+
+</body>
+</html>

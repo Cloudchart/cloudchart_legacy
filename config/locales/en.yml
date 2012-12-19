@@ -62,6 +62,7 @@ en:
   app:
     name: "CloudChart"
     description: "Structure your organisation in seconds"
+    beta: "Make us happy."
   
   # dates:
   #   long: ""
