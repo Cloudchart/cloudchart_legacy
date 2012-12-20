@@ -64,6 +64,12 @@ en:
     description: "Structure your organisation in seconds"
     beta: "Make us happy."
   
+  errors:
+    chart: "Alternatively, here’s a chart<br />you might find interesting:"
+    :404:
+      title: "404 Not Found"
+      text: "Twinkle, twinkle, little star<br />Guide me to the <a href='/'>nearest chart</a><br />Please don’t tell me it’s too far<br /> I won’t touch the address bar."
+  
   # dates:
   #   long: ""
   

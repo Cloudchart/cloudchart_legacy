@@ -1,0 +1,17 @@
+<div class="error">
+  <div class="left">
+    <%= image_tag "ico-star.png", alt: "404" %>
+  </div>
+  <div class="right">
+    <div class="msg">
+      <h1><%= raw t("errors.404.title") %></h1>
+      <p><%= raw t("errors.404.text") %></p>
+      <p><%= raw t("errors.chart") %></p>
+    </div>
+    
+    <div class="charts">
+      <% chart = user_signed_in? ? current_user.charts.first : Chart.demo.all.sample %>
+      <%= render partial: "/charts/chart", locals: { chart: chart } %>
+    </div>
+  </div>
+</div>

@@ -73,5 +73,10 @@ module Cloudchart
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+
+    # Catch 404s
+    config.after_initialize do |app|
+      app.routes.append{ match '*path', :to => 'application#not_found' }
+    end
   end
 end

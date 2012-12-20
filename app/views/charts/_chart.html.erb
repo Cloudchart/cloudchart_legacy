@@ -1,0 +1,34 @@
+<%
+  if !chart
+    link = ""
+    cls = ""
+  elsif can?(:edit, chart)
+    link = edit_chart_path(chart.slug_or_id)
+    cls = ""
+  elsif chart.demo?
+    link = clone_chart_path(chart.slug_or_id)
+    cls = "clone"
+  elsif
+    link = chart_path(chart.slug_or_id)
+    cls = ""
+  end
+%>
+<div class="item span4">
+  <% if !chart %>
+  <div class="inner placeholder"></div>
+  <% elsif chart.new_record? %>
+  <div class="inner create" data-href="<%= charts_path %>">
+  </div>
+  <% else %>
+  <div class="inner">
+    <h1><%= link_to chart.title, link, class: cls %></h1>
+    <div class="img">
+      <%= link_to image_tag(chart.to_png(:preview), alt: chart.title, title: chart.title), link, class: cls %>
+    </div>
+    <p>
+      <span><%= t("charts.last_saved", time: pretty_time(chart.updated_at)).downcase %></span>
+      <%= link_to image_tag("btn-small-arrow.png"), "#" %>
+    </p>
+  </div>
+  <% end %>
+</div>

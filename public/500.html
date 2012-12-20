@@ -1,25 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
-  <style type="text/css">
-    body { background-color: #fff; color: #666; text-align: center; font-family: arial, sans-serif; }
-    div.dialog {
-      width: 25em;
-      padding: 0 4em;
-      margin: 4em auto 0 auto;
-      border: 1px solid #ccc;
-      border-right-color: #999;
-      border-bottom-color: #999;
-    }
-    h1 { font-size: 100%; color: #f00; line-height: 1.5em; }
-  </style>
-</head>
 
-<body>
-  <!-- This file lives in public/500.html -->
-  <div class="dialog">
-    <h1>We're sorry, but something went wrong.</h1>
+<title>CloudChart</title>
+<!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/* Errors */
+.application {
+  background: #fff;
+}
+.application .error {
+  *zoom: 1;
+  *zoom: 1;
+  *zoom: 1;
+  width: 600px;
+  color: #026590;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -300px;
+  margin-top: -90px;
+}
+.application .error:after {
+  content: "";
+  display: block;
+  height: 0;
+  clear: both;
+}
+.application .error:before,
+.application .error:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.application .error:after {
+  clear: both;
+}
+.application .error:before,
+.application .error:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.application .error:after {
+  clear: both;
+}
+.application .error:before,
+.application .error:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.application .error:after {
+  clear: both;
+}
+.application .error .left {
+  float: left;
+  width: 137px;
+}
+.application .error .left img {
+  width: 137px;
+}
+.application .error .right {
+  float: right;
+  width: 400px;
+}
+.application .error .right .msg a {
+  color: #026590;
+  text-decoration: underline;
+}
+.application .error .right .msg a:hover {
+  text-decoration: none;
+}
+.application .error .right .msg h1 {
+  color: #026590;
+  margin: 0 0 20px 0;
+  padding: 0;
+  font-size: 34px;
+  line-height: 34px;
+}
+.application .error .right .msg p {
+  font-family: "proxima_nova_ltregular", sans-serif;
+  font-size: 24px;
+  line-height: 30px;
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+.application .error .right .charts {
+  width: 70% !important;
+  margin: 20px auto;
+  float: left;
+}
+.application .error .right .charts .item {
+  width: 100%;
+  margin: 0;
+}
+</style>
+</head>
+<body class="application">
+
+  <section>
+    <div class="error">
+  <div class="left">
+    <img alt="404" src="/images/ico-star.png" />
   </div>
+  <div class="right">
+    <div class="msg">
+      <h1>500 Difficult Times</h1>
+      <p>
+        I might be wrong<br />
+        I might be wrong<br />
+        I could have sworn<br />
+        I saw a <a href="#" onclick="location.href=location.href; return false">light coming on</a>.<br />
+      </p>
+    </div>
+  </div>
+  </section>
+ 
 </body>
 </html>

@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
     raise ActionController::RoutingError.new('Not Found')
   end
   
+  rescue_from(
+    ActionController::RoutingError,
+    ActionController::UnknownController,
+    ::AbstractController::ActionNotFound,
+    Mongoid::Errors::DocumentNotFound, {
+      with: lambda {
+        render "/errors/404", layout: "application", locals: { cls: "application" }
+      }
+    })
+  
   def current_ability
     @current_ability ||= Ability.new(current_user, charts_from_tokens)
   end
