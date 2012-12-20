@@ -12,6 +12,7 @@
     <div class="charts">
       <% chart = user_signed_in? ? current_user.charts.ordered.first : Chart.demo.all.sample %>
       <%= render partial: "/charts/chart", locals: { chart: chart } %>
+      <ins data-init="chart"></ins>
     </div>
   </div>
 </div>

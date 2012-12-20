@@ -12,7 +12,7 @@ class LandingController < ApplicationController
   def beta
     if params[:password].present?
       if params[:password] == "sayonara555"
-        cookies[:beta] = params[:password]
+        cookies[:beta] = { value: params[:password], expires: 365.days.from_now }
         redirect_to root_path
       else
         redirect_to url_for(wrong: 1)
