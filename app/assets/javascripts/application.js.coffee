@@ -7,6 +7,7 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.draggable
+//= require jquery.ui.position
 //= require jquery/prototypes
 //= require jquery/cookie
 //= require jquery/base64
@@ -24,6 +25,7 @@
 //= require twitter/bootstrap
 //= require mousetrap
 //= require underscore
+//= require jquery/popover
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -83,6 +85,12 @@ App =
       $j(".clone").bind "click", ->
         App.chart.create($j(this).attr("href"))
         false
+        
+      # Breadcrumb
+      $j(".breadcrumb .active a").popover
+        my: "center top",
+        at: "center bottom",
+        offset: "0 18px"
       
     demo: ($this) ->
       App.chart.show($this)

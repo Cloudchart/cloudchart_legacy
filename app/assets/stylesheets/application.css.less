@@ -387,6 +387,7 @@ body {
     height: 100%;
     background: #fff;
     .opacity(75);
+    z-index: 1011;
     
     .bar {
       position: absolute;
@@ -467,6 +468,15 @@ body {
         line-height: 46px;
         color: #e9eff2;
         text-shadow: none;
+        
+        a {
+          border-bottom: 1px solid #95a6af;
+          text-decoration: none;
+          
+          &:hover {
+            border: 0;
+          }
+        }
       }
       
       .divider {
@@ -481,6 +491,72 @@ body {
         line-height: 46px;
         color: #e9eff2;
         text-shadow: none;
+        text-decoration: none;
+        border: 0;
+        
+        &:hover {
+          border-bottom: 1px solid #95a6af;
+        }
+      }
+    }
+  }
+  
+  /* Popover */
+  .popover {
+    .rounded(10px);
+    position: absolute;
+    background: #e9eff2;
+    border: 4px solid #04415b;
+    color: #013044;
+    width: 200px;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    
+    .before {
+      border-top: 10px solid transparent;
+      border-left: 8px solid #04415b;
+      content: '';
+      top: -12px;
+      height: 0;
+      margin-left: 2px;
+      left: 50%;
+      position: absolute;
+      width: 0;
+    }
+    
+    .after {
+      border-top: 10px solid transparent;
+      border-right: 8px solid #04415b;
+      content: '';
+      top: -12px;
+      height: 0;
+      margin-left: -6px;
+      left: 50%;
+      position: absolute;
+      width: 0;
+    }
+    
+    .list {
+      a {
+        border-bottom: 4px solid #04415b;
+        display: block;
+        padding: 10px;
+        color: #013044;
+        font-size: 20px;
+        text-decoration: none;
+        
+        &:active {
+          background: #fff;
+        }
+        
+        &:first-child {
+          .border-radius(8px 8px 0 0);
+        }
+        
+        &:last-child {
+          .border-radius(0 0 8px 8px);
+          border: 0;
+        }
       }
     }
   }

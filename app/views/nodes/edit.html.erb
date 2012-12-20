@@ -5,11 +5,22 @@
   <% end %>
   
   <% children = Chart.find_nodes(@node.children) %>
-  <li class="active"><%= @node.title %> <% if children.any? %><span class="divider">&rarr;</span><% end %></li>
-  <% if children.any? %>
-  <li>
-    <%= raw children.map { |node| link_to node.title, edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) }.join(", ") %>
+  <li class="active">
+    <% if children.any? %>
+      <%= link_to @node.title, "#nodes" %>
+    <% else %>
+      <%= @node.title %>
+    <% end %>
   </li>
+  
+  <% if children.any? %>
+  <div id="nodes" class="popover">
+    <div class="list">
+    <% children.each do |node| %>
+      <%= link_to node.title, edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+    <% end %>
+    </div>
+  </div>
   <% end %>
 </ul>
 <div class="chart">
