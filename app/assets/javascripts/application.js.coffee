@@ -241,6 +241,8 @@ App =
         
         # Enter?
         if e.keyCode == 13
+          return true if $j(".-sew-list-container").is(":visible")
+          
           line = $this.caretLine() - 1
           lines = $this.val().split("\n")
           
@@ -317,13 +319,19 @@ App =
       # Autocomplete
       $j(".edit_chart textarea").sew
         values: (sew, callback) ->
-          return if sew.options.loading
+          sew.cache = {} unless sew.cache
+          if sew.cache[sew.options.val]
+            callback.call(sew, sew.cache[sew.options.val])
+            return true
+          
+          return false if sew.options.loading
           
           clearTimeout(sew.options.timeout) if sew.options.timeout
           sew.options.timeout = setTimeout(->
             $this = $j(".edit_chart textarea")
             sew.options.loading = true
             
+            cache_key = sew.options.val
             $j.ajax(url: $this.attr("data-autocomplete"), data: { q: sew.options.val }, dataType: "json", type: "GET")
               .always ->
                 sew.options.loading = false
@@ -332,11 +340,14 @@ App =
                 console.error error
               
               .done (result) ->
-                callback.call(sew, _.map(result.persons, (x) ->
+                values = _.map(result.persons, (x) ->
                   name = "#{x.first_name} #{x.last_name}"
                   { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
-                ))
+                )
+                sew.cache[cache_key] = values
+                callback.call(sew, values) if cache_key == sew.options.val
           , 250)
+          false
           
         
         elementFactory: (element, e) ->

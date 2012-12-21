@@ -127,6 +127,7 @@
 
     var container = this.$itemList.find(".-sew-list-item").parent();
     var element = this.filtered[this.index].element.addClass("selected");
+    element.focus();
 
     var scrollPosition = element.position().top;
     container.scrollTop(container.scrollTop() + scrollPosition);
@@ -177,11 +178,8 @@
     
     // PATCH: Async
     if(typeof values == "function") {
-      this.hideList();
-      
-      values(this, function(vals) {
+      var result = values(this, function(vals) {
         this.filtered = vals;
-        
         if(vals.length) {
           this.renderElements(vals);
           this.$itemList.show();
@@ -189,13 +187,19 @@
           this.hideList();
         }
       });
+      
+      if(!result) {
+        this.hideList();
+      }else{
+        this.$itemList.show();
+      }
     }else{
       var vals = this.filtered = values.filter(function (e) {
         var exp = new RegExp('\\W*' + this.options.token + e.val + '(\\W|$)');
         if(!this.options.repeat && this.getText().match(exp)) {
           return false;
         }
-      
+        
         return	val === "" ||
                 e.val.toLowerCase().indexOf(val.toLowerCase()) >= 0 ||
                 (e.meta || "").toLowerCase().indexOf(val.toLowerCase()) >= 0;
@@ -237,25 +241,27 @@
   };
 
   Plugin.prototype.onKeyUp = function (e) {
-    var startpos = this.$element.getCursorPosition();
-    var val = this.getText().substring(0, startpos);
-    var matches = val.match(this.expression);
+    if(e.keyCode != 40 && e.keyCode != 38) {
+      var startpos = this.$element.getCursorPosition();
+      var val = this.getText().substring(0, startpos);
+      var matches = val.match(this.expression);
 
-    if(!matches && this.matched) {
-      this.matched = false;
-      this.dontFilter = false;
-      this.hideList();
-      return;
-    }
+      if(!matches && this.matched) {
+        this.matched = false;
+        this.dontFilter = false;
+        this.hideList();
+        return;
+      }
 
-    if(matches && !this.matched) {
-      this.displayList();
-      this.lastFilter = "\n";
-      this.matched = true;
-    }
+      if(matches && !this.matched) {
+        this.displayList();
+        this.lastFilter = "\n";
+        this.matched = true;
+      }
 
-    if(matches && !this.dontFilter) {
-      this.filterList(matches[1]);
+      if(matches && !this.dontFilter) {
+        this.filterList(matches[1]);
+      }
     }
   };
 
