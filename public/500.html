@@ -22,6 +22,12 @@
   margin-left: -300px;
   margin-top: -90px;
 }
+@media (max-width: 767px) {
+  .application .error {
+    width: 380px;
+    margin-left: -180px;
+  }
+}
 .application .error:after {
   content: "";
   display: block;
@@ -59,12 +65,22 @@
   float: left;
   width: 137px;
 }
+@media (max-width: 767px) {
+  .application .error .left {
+    display: none;
+  }
+}
 .application .error .left img {
   width: 137px;
 }
 .application .error .right {
   float: right;
   width: 400px;
+}
+@media (max-width: 767px) {
+  .application .error .right {
+    width: 380px;
+  }
 }
 .application .error .right .msg a {
   color: #026590;

@@ -76,6 +76,10 @@
     margin: 50px auto;
     color: #026590;
     
+    @media (max-width: 767px) {
+      width: 90%;
+    }
+    
     .left {
       float: left;
       width: 137px;
@@ -83,11 +87,19 @@
       img {
         width: 137px;
       }
+      
+      @media (max-width: 767px) {
+        display: none;
+      }
     }
     
     .right {
       float: right;
       width: 400px;
+      
+      @media (max-width: 767px) {
+        width: 100%;
+      }
       
       .msg {
         a {
