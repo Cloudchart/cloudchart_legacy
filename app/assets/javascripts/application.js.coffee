@@ -26,6 +26,7 @@
 //= require mousetrap
 //= require underscore
 //= require jquery/popover
+//= require jquery/touch-punch
 
 $j = jQuery.noConflict()
 window.$j = $j

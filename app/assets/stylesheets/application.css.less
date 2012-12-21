@@ -137,6 +137,10 @@ body {
   background-size: 96px 96px;
   color: #494b4d;
   
+  @media (max-width: 767px) {
+    padding: 0 !important;
+  }
+  
   h1, h2, h3, h4, h5, h6, strong, b {
     font-family: @sansFontFamily;
   }
@@ -158,9 +162,13 @@ body {
   
   .wrapper {
     width: 86%;
-    min-width: 970px;
+    max-width: 1400px;
     margin: 0 auto;
     .clearfix();
+    
+    @media (max-width: 767px) {
+      width: 96%;
+    }
   }
   
   header, section, footer {
@@ -173,6 +181,37 @@ body {
     /*.gradient(#013f5a, #006590, #013f5a);*/
     color: #fff;
     font-size: 22px;
+    
+    @media (max-width: 767px) {
+      .span8 {
+        width: 60% !important;
+        float: left !important;
+      }
+      
+      .span6 {
+        width: 80% !important;
+        float: left !important;
+      }
+      
+      .span4 {
+        width: 30% !important;
+        float: right !important;
+        overflow: hidden;
+      }
+      
+      .span3{
+        width: 10% !important;
+        float: left !important;
+        
+        .table {
+          text-align: center;
+          
+          .settings {
+            padding-left: 0;
+          }
+        }
+      }
+    }
     
     .table {
       display: table;
@@ -303,27 +342,15 @@ body {
       margin: 42px 0 0 0;
       
       .item {
-        &:first-child {
-          .inner {
-            margin-left: 0;
-          }
-        }
-        
-        &:last-child {
-          .inner {
-            margin-left: 10%;
-          }
-        }
-        
         .inner {
           .gradient(#97DEF7, #97DEF7, #C8EEFC);
           .box-sizing();
           .rounded(10px);
           .box-shadow(inset 0px 0 10px rgba(255,255,255,0.3));
           border: 1px solid rgba(255,255,255,.6);
-          padding: 36px 50px;
-          width: 90%;
-          margin: 0 auto;
+          padding: 10% 5%;
+          width: 94%;
+          margin: 0 3%;
           text-align: center;
           
           p {
@@ -331,6 +358,32 @@ body {
             font-family: @lightSansFontFamily;
             font-size: 26px;
             line-height: 32px;
+          }
+        }
+        
+        @media (max-width: 767px) {
+          margin: 20px 0;
+          
+          br {
+            display: none;
+          }
+          
+          .inner {
+            padding: 2% 5%;
+          }
+        }
+        
+        @media (min-width: 768px) {
+          &:first-child {
+            .inner {
+              margin-left: 0;
+            }
+          }
+          
+          &:last-child {
+            .inner {
+              margin-left: 10%;
+            }
           }
         }
       }
@@ -566,7 +619,23 @@ body {
   width: 93% !important;
   margin: 35px auto;
   
+  @media (max-width: 767px) {
+    margin: 0 auto;
+    
+    &:first-child {
+      margin: 15px auto 0 auto;
+    }
+    
+    &:last-child {
+      margin: 0 auto 15px auto;
+    }
+  }
+  
   .item {
+    @media (max-width: 767px) {
+      margin: 0 0 20px 0;
+    }
+    
     .inner {
       .box-sizing();
       .rounded(10px);
