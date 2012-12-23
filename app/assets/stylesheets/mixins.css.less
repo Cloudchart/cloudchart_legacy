@@ -18,6 +18,46 @@
   }
 }
 
+.cc-rotate(@value) {
+  -webkit-transform: rotateY(@value);
+  -moz-transform: rotateY(@value);
+  -ms-transform: rotateY(@value);
+  -o-transform: rotateY(@value);
+  transform: rotateY(@value);
+}
+
+.cc-perspective(@value) {
+  -webkit-perspective: @value;
+  -moz-perspective: @value;
+  -ms-perspective: @value;
+  -o-perspective: @value;
+  perspective: @value;
+}
+
+.cc-transition(@property: background, @transition: all .4s ease-in-out) {
+  -webkit-transition: @transition;
+  -moz-transition: @transition;
+  -ms-transition: @transition;
+  -o-transition: @transition;
+  transition: @transition;
+
+  -webkit-transition-property: -webkit-transform, @property;
+  -moz-transition-property: -moz-transform, @property;
+  -ms-transition-property: -ms-transform, @property;
+  -o-transition-property: -o-transform, @property;
+  transition-property: transform, @property;
+}
+
+.cc-rolling {
+  .cc-transition();
+
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 /*---------------------------------------------------
     LESS Elements 0.7
   ---------------------------------------------------

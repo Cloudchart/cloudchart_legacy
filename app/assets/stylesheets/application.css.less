@@ -195,6 +195,8 @@ body {
     font-size: 22px;
     
     @media (max-width: 767px) {
+      height: 44px;
+      
       .span8 {
         width: 60% !important;
         float: left !important;
@@ -235,6 +237,14 @@ body {
         display: table-cell;
         vertical-align: middle;
       }
+      
+      @media (max-width: 767px) {
+        height: 44px;
+        
+        &.buttons {
+          float: right;
+        }
+      }
     }
     
     a {
@@ -243,6 +253,10 @@ body {
       
       &:hover {
         color: #fff;
+      }
+      
+      @media (max-width: 767px) {
+        line-height: 16px;
       }
     }
     
@@ -262,6 +276,23 @@ body {
         width: 246px;
         height: 41px;
       }
+      
+      @media (max-width: 767px) {
+        height: 22px;
+        margin: 11px 0 0 5px;
+        
+        .icon {
+          img {
+            width: 32px;
+            height: 22px;
+          }
+        }
+        
+        img {
+          width: 123px;
+          height: 22px;
+        }
+      }
     }
     
     .title {
@@ -271,12 +302,50 @@ body {
         color: #fff;
         font-family: @lightSansFontFamily;
         font-weight: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 340px;
+        
+        @media (max-width: 1090px) {
+          max-width: 270px;
+        }
+        @media (max-width: 915px) {
+          max-width: 200px;
+        }
+        @media (max-width: 767px) {
+          max-width: 300px;
+          font-size: 21px;
+          line-height: 21px;
+          margin: 10px 0 0 11px;
+        }
+        @media (max-width: 500px) {
+          max-width: 220px;
+        }
+        @media (max-width: 320px) {
+          max-width: 150px;
+        }
       }
       
       img {
         width: 19px;
         height: 19px;
         margin: -6px 0 0 6px;
+      }
+      
+      @media (max-width: 767px) {
+        a {
+          display: inline !important;
+        }
+        
+        .hidden-phone {
+          display: none !important;
+        }
+        
+        img {
+          width: 19px;
+          height: 14px;
+        }
       }
     }
     
@@ -298,6 +367,18 @@ body {
           width: 35px;
           height: 35px;
           margin-top: -4px;
+        }
+      }
+      
+      @media (max-width: 767px) {
+        padding: 3px 0 0 0;
+        height: 41px;
+        
+        .create {
+          img {
+            width: 20px;
+            height: 20px;
+          }
         }
       }
     }
@@ -341,6 +422,31 @@ body {
             margin-top: -4px;
             width: 34px;
             height: 34px;
+          }
+        }
+      }
+      
+      @media (max-width: 767px) {
+        padding: 3px 0 0 0;
+        height: 41px;
+        
+        .profile {
+          text-align: left;
+          padding-left: 10px;
+          
+          button {
+            width: 96px;
+            height: 16px;
+            background-size: 96px 16px;
+          }
+          
+          .settings {
+            padding-left: 0;
+            
+            img {
+              width: 20px;
+              height: 20px;
+            }
           }
         }
       }
@@ -757,6 +863,20 @@ body {
     overflow: hidden;
     height: 600px;
     background: #e9eff2;
+    
+    @media (max-width: 767px) {
+      .cc-rotate(180deg);
+      .cc-rolling();
+      
+      width: 100% !important;
+      min-width: 320px !important;
+      z-index: 1;
+      
+      .editor {
+        width: 100% !important;
+        min-width: 320px !important;
+      }
+    }
   }
   
   .right {
@@ -766,6 +886,29 @@ body {
     bottom: 0;
     left: 400px;
     border-left: 1px solid #b7c6cd;
+    
+    @media (max-width: 767px) {
+      .cc-rotate(0deg);
+      .cc-rolling();
+      
+      left: 0 !important;
+      border: 0;
+      /*z-index: 0;*/
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .cc-perspective(767px);
+    
+    &.editing {
+      .right {
+        .cc-rotate(-180deg);
+      }
+      
+      .left {
+        .cc-rotate(0deg);
+      }
+    }
   }
   
   .btn-divider {
@@ -805,6 +948,20 @@ body {
   }
   
   /* Editor */
+  .show-editor, .hide-editor {
+    display: none;
+    width: 20px;
+    height: 16px;
+    z-index: 1010;
+    
+    @media (max-width: 767px) {
+      display: block;
+      position: fixed;
+      top: 12px;
+      left: 7px;
+    }
+  }
+  
   .editor {
     width: 400px;
     min-width: 400px;

@@ -53,12 +53,24 @@ App =
         $j.cookie("charts", JSON.stringify(charts), { path: "/", expires: 365 })
     
     init: ->
-      # Fill height
       App.chart.resize = ->
+        # Fill height
         $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
           "height",
           Math.max(550, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
         )
+        
+        if $j(".edit_chart textarea").length > 0
+          # Autosize
+          $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
+          
+          # Editor lines
+          clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
+          App.chart.sidebarTimeout = setTimeout ->
+            App.chart.cache.breaks = {}
+            App.chart.lines()
+          , 500
+        
       
       App.chart.resize()
       $j(window).unbind "resize"
@@ -92,6 +104,18 @@ App =
         my: "center top",
         at: "center bottom",
         offset: "0 18px"
+      
+      # Switch editor buttons
+      $j(".show-editor").unbind "click"
+      $j(".show-editor").bind "click", ->
+        $j(".chart").addClass("editing")
+        false
+      
+      $j(".hide-editor").unbind "click"
+      $j(".hide-editor").bind "click", ->
+        App.chart.check()
+        $j(".chart").removeClass("editing")
+        false
       
     demo: ($this) ->
       App.chart.show($this)
