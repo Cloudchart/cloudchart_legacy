@@ -53,7 +53,7 @@ App =
         $j.cookie("charts", JSON.stringify(charts), { path: "/", expires: 365 })
     
     init: ->
-      App.chart.resize = ->
+      App.chart.resize = (timeout = 500) ->
         # Fill height
         $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
           "height",
@@ -65,8 +65,7 @@ App =
           $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
           
           # Editor lines
-          clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
-          App.chart.sidebarTimeout = setTimeout ->
+          sidebarTimeout = ->
             App.chart.cache.breaks = {}
             App.chart.lines()
             
@@ -77,9 +76,14 @@ App =
               $j(".right, .btn-divider").css(left: sidebar)
               App.chart.cache.breaks = {}
               App.chart.lines()
-          , 500
+          
+          clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
+          if timeout > 0
+            App.chart.sidebarTimeout = setTimeout(sidebarTimeout, timeout)
+          else
+            sidebarTimeout()
       
-      App.chart.resize()
+      App.chart.resize(0)
       $j(window).unbind "resize"
       $j(window).bind "resize", -> App.chart.resize()
       
