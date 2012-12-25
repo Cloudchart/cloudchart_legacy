@@ -1,3 +1,5 @@
+<%= link_to image_tag("btn-back.png"), "#", class: "hide-breadcrumb" if params[:action] != "show" %>
+
 <ul class="breadcrumb">
   <li><%= link_to @chart.title, edit_chart_path(@chart.slug_or_id) %> <span class="divider">&rarr;</span></li>
   <% @node.parents.each do |node| %>
@@ -14,13 +16,17 @@
   </li>
   
   <% if children.any? %>
-  <div id="nodes" class="popover">
-    <div class="list">
     <% children.each do |node| %>
-      <%= link_to node.title, edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+      <li class="visible-phone"><%= link_to node.title, edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %></li>
     <% end %>
+    
+    <div id="nodes" class="popover">
+      <div class="list">
+      <% children.each do |node| %>
+        <%= link_to node.title, edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+      <% end %>
+      </div>
     </div>
-  </div>
   <% end %>
 </ul>
 

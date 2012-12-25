@@ -120,6 +120,19 @@ App =
         $j(".chart").removeClass("editing")
         false
       
+      # Switch breadcrumb buttons
+      $j(".show-breadcrumb").unbind "click"
+      $j(".show-breadcrumb").bind "click", ->
+        $j(".hide-breadcrumb").show()
+        $j(".breadcrumb").addClass("showing")
+        false
+      
+      $j(".hide-breadcrumb").unbind "click"
+      $j(".hide-breadcrumb").bind "click", ->
+        $j(".hide-breadcrumb").hide()
+        $j(".breadcrumb").removeClass("showing")
+        false
+    
     demo: ($this) ->
       App.chart.show($this)
     

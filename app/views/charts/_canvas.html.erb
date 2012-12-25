@@ -1,7 +1,12 @@
 <%
   chart ||= nil
 %>
+
 <%= link_to image_tag("btn-editor.png"), "#", class: "show-editor" if params[:action] != "show" %>
+<% if @node %>
+  <%= link_to @node.title, "#", class: "show-breadcrumb" if params[:action] != "show" %>
+<% end %>
+
 <div class="canvas" data-init="chart">
 <%
 =begin
