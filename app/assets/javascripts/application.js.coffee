@@ -404,9 +404,30 @@ App =
           return msg
           
       # Sidebar resize
+      $j(".btn-divider").unbind "mousedown"
+      $j(".btn-divider").bind "mousedown", (e) ->
+        width = parseInt($j("[name='chart[sidebar]']").val())
+        App.chart.sidebarWidth = width unless width == 0
+        
+      $j(".btn-divider").unbind "mouseup"
+      $j(".btn-divider").bind "mouseup", (e) ->
+        if App.chart.sidebarWidth
+          if parseInt($j("[name='chart[sidebar]']").val()) != 0
+            width = 0
+          else
+            width = App.chart.sidebarWidth
+          
+          sidebar = Math.max(0, Math.min($j("html").width()-13, width))
+          $j(".left, .editor").css(width: sidebar)
+          $j(".right, .btn-divider").css(left: sidebar)
+          $j("[name='chart[sidebar]']").val(sidebar)
+      
       $j(".btn-divider").draggable
         axis: "x"
         drag: (e, ui) ->
+          # Clear sidebarWidth
+          App.chart.sidebarWidth = null
+          
           sidebar = Math.max(0, Math.min($j("html").width()-13, ui.offset.left))
           $j(".left, .editor").css(width: sidebar)
           $j(".right, .btn-divider").css(left: sidebar)
