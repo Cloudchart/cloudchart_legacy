@@ -57,7 +57,7 @@ App =
         # Fill height
         $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
           "height",
-          Math.max(350, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+          Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
         )
         
         if $j(".edit_chart textarea").length > 0
