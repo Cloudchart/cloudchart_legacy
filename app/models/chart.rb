@@ -98,7 +98,10 @@ class Chart
   attr_accessor :cached, :previous_text
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons], methods: [:id, :nodes])
+    super (options || {}).merge(
+      except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons, :nodes, :versions], 
+      methods: [:id]
+    )
   end
   
   def slug_or_id
