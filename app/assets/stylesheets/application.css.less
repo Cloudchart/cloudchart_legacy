@@ -261,6 +261,7 @@ body {
     }
     
     figure {
+      position: relative;
       float: left;
       height: 41px;
       margin: 24px 0 0 7px;
@@ -270,6 +271,46 @@ body {
           width: 63px;
           height: 41px;
         }
+      }
+      
+      @-webkit-keyframes rotate {
+        from { -webkit-transform: rotate(180deg); }
+        to { -webkit-transform: rotateY(360deg); }
+      }
+      
+      @-moz-keyframes rotate {
+        from { -moz-transform: rotate(180deg); }
+        to { -moz-transform: rotate(360deg); }
+      }
+      
+      @-o-keyframes rotate {
+        from { -o-transform: rotate(180deg); }
+        to { -o-transform: rotate(360deg); }
+      }
+      @-ms-keyframes rotate {
+        from {-ms-transform: rotate(180deg); }
+        to { -ms-transform: rotateY(360deg); }
+      }
+      
+      .saving {
+        position: absolute;
+        display: block;
+        left: 22px;
+        top: 14px;
+        width: 19px;
+        height: 19px;
+        background: url(ico-loading.png) no-repeat center center;
+        background-size: 19px 19px;
+        -webkit-animation: rotate 1s linear infinite 0s;
+        -moz-animation: rotate 1s linear infinite 0s;
+        -o-animation: rotate 1s linear infinite 0s;
+        -ms-animation: rotate 1s linear infinite 0s;
+        animation: rotate 1s linear infinite 0s;
+      }
+      
+      .popover {
+        width: 230px;
+        text-align: center;
       }
       
       img {
@@ -291,6 +332,14 @@ body {
         img {
           width: 123px;
           height: 22px;
+        }
+        
+        .saving {
+          left: 12px;
+          top: 9px;
+          width: 9px;
+          height: 9px;
+          background-size: 9px 9px;
         }
       }
     }

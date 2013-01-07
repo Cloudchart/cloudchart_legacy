@@ -108,6 +108,12 @@ App =
         at: "center bottom",
         offset: "0 18px"
       
+      # Error icon
+      $j("header figure .error").popover
+        my: "center top",
+        at: "center bottom",
+        offset: "0 18px"
+      
       # Switch editor buttons
       $j(".show-editor").unbind "click"
       $j(".show-editor").bind "click", ->
@@ -238,7 +244,7 @@ App =
       clearInterval(App.chart.interval) if App.chart.interval
       App.chart.interval = setInterval( ->
         App.chart.update()
-      , 30000)
+      , 10000)
       
       # Buttons
       $j(".buttons .add-person").bind "click", ->
@@ -320,8 +326,8 @@ App =
         $this = $j(this)
         
         # Enter?
-        if e.keyCode == 13
-          App.chart.update()
+        # if e.keyCode == 13
+        #   App.chart.update()
           
         # Arrows
         if $j(".move").hasClass("selected") && (e.keyCode == 38 || e.keyCode == 40)
@@ -399,8 +405,8 @@ App =
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
-        App.chart.status.text(I18n.t("charts.autosave.saving"))
         $j(window).unbind "beforeunload"
+        App.chart.update()
         return true
       
       $j(".edit_chart textarea, .edit_chart input").unbind "textchange"
@@ -470,14 +476,21 @@ App =
       return if $form.attr("data-saving") || App.chart.status.text() != I18n.t("charts.autosave.changed")
       
       App.chart.status.text(I18n.t("charts.autosave.saving"))
+      if current
+        $j("header figure .icon").addClass("hidden")
+        $j("header figure .filled").removeClass("hidden")
+        $j("header figure .saving").removeClass("hidden")
       $form.attr("data-saving", true)
       
       $j.ajax(url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: $form.attr("method"))
         .always ->
           $form.attr("data-saving", null)
+          $j("header figure .saving").addClass("hidden")
         
         .error (xhr, status, error) ->
-          console.error error
+          App.chart.status.text(I18n.t("charts.autosave.error"))
+          $j("header figure .icon").addClass("hidden")
+          $j("header figure .error").removeClass("hidden")
         
         .done (result) ->
           # Reload
@@ -500,8 +513,14 @@ App =
             
             if App.chart.status.text() != I18n.t("charts.autosave.changed")
               App.chart.status.text(I18n.t("charts.autosave.saved"))
+            
+            $j("header figure .icon").addClass("hidden")
+            $j("header figure .default").removeClass("hidden")
           else
             App.chart.status.text(I18n.t("charts.autosave.error"))
+            if current
+              $j("header figure .icon").addClass("hidden")
+              $j("header figure .error").removeClass("hidden")
         
   # User methods
   user:

@@ -7,7 +7,15 @@
       <div class="span<% if !user_signed_in? && !chart %>8<% else %>6<% end %>">
         <% if chart %>
           <figure>
-            <%= link_to image_tag("logo-icon.png", title: t("app.name"), alt: t("app.name")), root_path, class: "icon" %>
+            <%= link_to image_tag("logo-icon.png", title: t("app.name"), alt: t("app.name")), root_path, class: "icon default" %>
+            <%= link_to image_tag("logo-icon-filled.png", title: t("app.name"), alt: t("app.name")), root_path, class: "icon filled hidden" %>
+            <%= link_to image_tag("logo-icon-error.png", title: t("app.name"), alt: t("app.name")), "#error", class: "icon error hidden" %>
+            <div class="saving hidden"></div>
+            <div id="error" class="popover">
+              <div class="list">
+                <a href="#"><%= t("charts.autosave.connection") %></a>
+              </div>
+            </div>
           </figure>
           
           <div class="table">
