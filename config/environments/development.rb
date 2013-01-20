@@ -1,6 +1,3 @@
-# Turn off ssl check
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-
 Cloudchart::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 

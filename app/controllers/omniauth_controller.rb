@@ -112,6 +112,12 @@ private
       authorization = user.authorizations.build(provider: provider)
     end
     
+    # Update user
+    if auth[:picture].present?
+      user.picture = URI.parse(auth[:picture])
+      user.save
+    end
+    
     # Update auth
     auth.delete(:email)
     auth.delete(:picture)

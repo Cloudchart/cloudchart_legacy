@@ -440,6 +440,20 @@ body {
       text-transform: uppercase;
       text-decoration: none;
       font-family: @lightSansFontFamily;
+      
+      @media (max-width: 979px) {
+        margin-left: 5px;
+      }
+    }
+    
+    .picture {
+      .box-sizing();
+      
+      img {
+        margin-top: -4px;
+        width: 34px;
+        height: 34px;
+      }
     }
     
     aside.table {
@@ -469,6 +483,10 @@ body {
             margin-top: -4px;
             width: 34px;
             height: 34px;
+          }
+          
+          @media (max-width: 979px) {
+            padding-left: 5px;
           }
         }
       }

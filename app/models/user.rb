@@ -1,5 +1,6 @@
 class User
   include Mongoid::Document
+  include Mongoid::Paperclip
 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -63,6 +64,11 @@ class User
   index({ email: 1 })
   ## Omniauth query
   index({ "authorizations.provider" => 1, "authorizations.uid" => 1 })
+  
+  # Picture
+  has_mongoid_attached_file :picture,
+    styles: { preview: ["70x70#", :jpg] },
+    default_url: "/images/ico-person.png"
   
   def serializable_hash(options)
     super (options || {}).merge(except: [:_id, :is_god, :email], methods: [:id, :charts])

@@ -1,4 +1,5 @@
 <% if user_signed_in? %>
+  <%= link_to image_tag(current_user.picture.url(:preview)), current_user.linkedin.link, class: "picture hidden-phone", target: "_blank", data: { "no-turbolink" => "" } %>
   <%= link_to t("common.sign_out"), destroy_session_path(current_user), class: "box sign_out hidden-phone", data: { "no-turbolink" => "" } %>
   <%= link_to image_tag("btn-settings.png", alt: t("common.settings"), title: t("common.settings")), edit_user_registration_path, class: "settings" %>
 <% else %>
