@@ -15,7 +15,7 @@ role  :db, domain, primary: true
 # Source
 set   :scm, "git"
 set   :repository, "git@github.com:krasnoukhov/#{project}.git"
-set   :branch, "master"
+set   :branch, "staging"
 set   :repository_cache, "git"
 set   :deploy_via, :remote_cache
 set   :user, "cloudchart"
