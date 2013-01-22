@@ -1,16 +1,21 @@
 <%
-  charts = charts.to_a
-  charts.delete_if { |x| x.new_record? }
-  charts.push(Chart.new) if charts.length < 6
-  (6 - charts.length).times {
-    charts.push(nil)
-  } if charts.length < 5
+  if params[:view] != "list"
+    charts = charts.to_a
+    charts.delete_if { |x| x.new_record? }
+    charts.push(Chart.new) if charts.length < 6
+    (6 - charts.length).times {
+      charts.push(nil)
+    } if charts.length < 5
+  end
 %>
-<% charts.each_slice(3) do |sliced| %>
-<div class="charts row-fluid">
-  <% sliced.each do |chart| %>
-    <%= render partial: "/charts/chart", locals: { chart: chart } %>
+
+<div>
+  <% charts.each_slice(3) do |sliced| %>
+  <div class="charts row-fluid<%= " list" if params[:view] == "list" %>">
+    <% sliced.each do |chart| %>
+      <%= render partial: "/charts/chart", locals: { chart: chart } %>
+    <% end %>
+  </div>
   <% end %>
 </div>
-<% end %>
 <ins data-init="chart"></ins>

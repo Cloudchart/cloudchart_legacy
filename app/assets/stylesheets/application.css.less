@@ -417,6 +417,38 @@ body {
         }
       }
       
+      .icon-charts-grid {
+        width: 26px;
+        height: 26px;
+        background: url(ico-grid.png);
+        background-size: 26px 26px;
+        line-height: 26px;
+      }
+      
+      .icon-charts-list {
+        width: 29px;
+        height: 26px;
+        background: url(ico-list.png);
+        background-size: 29px 26px;
+        background-position: 0 1px;
+      }
+      
+      .btn-group {
+        top: -2px;
+        margin-right: 10px;
+        
+        .btn {
+          .box-sizing(border-box);
+          .gradient(#297698, #015275, #4f99b9);
+          padding: 8px 8px 4px 8px;
+          border: 1px solid #003850;
+          
+          &.active {
+            .gradient(#297698, #1c769d, #025376);
+          }
+        }
+      }
+      
       @media (max-width: 767px) {
         padding: 3px 0 0 0;
         height: 41px;
@@ -426,6 +458,12 @@ body {
             width: 20px;
             height: 20px;
           }
+        }
+      }
+      
+      @media (max-width: 767px) {
+        .btn-group {
+          display: none;
         }
       }
     }
@@ -977,6 +1015,108 @@ body {
             height: 9px;
             margin-top: -1px;
             padding-left: 1px;
+          }
+        }
+      }
+    }
+  }
+  
+  &.list {
+    margin: 0;
+    width: 100% !important;
+    
+    .item {
+      width: 100%;
+      margin: 0 auto;
+      
+      .inner {
+        .rounded(0);
+        padding: 0 4%;
+        background: #fff;
+        min-height: 80px;
+        height: 80px;
+        position: relative;
+        
+        h1 {
+          position: absolute;
+          left: 4%;
+          margin-left: 90px;
+          margin-bottom: 0;
+          line-height: 80px;
+          text-align: left;
+          
+          max-width: 60%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          
+          a {
+            color: #026590;
+          }
+        }
+        
+        .img {
+          .rounded(5px);
+          position: absolute;
+          top: 17px;
+          left: 4%;
+          width: 70px;
+          height: 45px;
+          background: #fff2ce;
+          
+          img {
+            max-width: 70px;
+            max-height: 45px;
+          }
+        }
+        
+        p {
+          float: right;
+          line-height: 80px;
+          font-size: 18px;
+          
+          a {
+            display: none;
+          }
+        }
+      }
+    }
+    
+    &:nth-child(odd) {
+      .item:nth-child(even) {
+        .inner {
+          background: #f1fbff;
+        }
+      }
+    }
+    
+    &:nth-child(even) {
+      .item:nth-child(odd) {
+        .inner {
+          background: #f1fbff;
+        }
+      }
+    }
+    
+    @media (max-width: 915px) {
+      .item {
+        .inner {
+          h1 {
+            max-width: 50%;
+          }
+        }
+      }
+    }
+    
+    @media (max-width: 767px) {
+      .item {
+        .inner {
+          h1 {
+            max-width: 70%;
+          }
+          
+          p {
+            display: none;
           }
         }
       }
