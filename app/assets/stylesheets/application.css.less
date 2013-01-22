@@ -417,6 +417,38 @@ body {
         }
       }
       
+      .icon-charts-grid {
+        width: 26px;
+        height: 26px;
+        background: url(ico-grid.png);
+        background-size: 26px 26px;
+        line-height: 26px;
+      }
+      
+      .icon-charts-list {
+        width: 29px;
+        height: 26px;
+        background: url(ico-list.png);
+        background-size: 29px 26px;
+        background-position: 0 1px;
+      }
+      
+      .btn-group {
+        top: -2px;
+        margin-right: 10px;
+        
+        .btn {
+          .box-sizing(border-box);
+          .gradient(#297698, #015275, #4f99b9);
+          padding: 8px 8px 4px 8px;
+          border: 1px solid #003850;
+          
+          &.active {
+            .gradient(#297698, #1c769d, #025376);
+          }
+        }
+      }
+      
       @media (max-width: 767px) {
         padding: 3px 0 0 0;
         height: 41px;
@@ -426,6 +458,12 @@ body {
             width: 20px;
             height: 20px;
           }
+        }
+      }
+      
+      @media (max-width: 767px) {
+        .btn-group {
+          display: none;
         }
       }
     }

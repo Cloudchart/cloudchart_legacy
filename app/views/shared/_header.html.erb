@@ -42,8 +42,8 @@
           <div class="cell controls">
             <% if user_signed_in? && !chart %>
               <div class="btn-group">
-                <a href="<%= url_for(view: nil) %>" class="btn btn-grid"><i class="icon-align-left"></i></a>
-                <a href="<%= url_for(view: :list) %>" class="btn btn-list"><i class="icon-align-left"></i></a>
+                <a href="<%= url_for(view: nil) %>" class="btn btn-grid<%= " active" if params[:view].blank? %>"><i class="icon-charts-grid"></i></a>
+                <a href="<%= url_for(view: :list) %>" class="btn btn-list<%= " active" if params[:view] == "list" %>"><i class="icon-charts-list"></i></a>
               </div>
             <% end %>
             
