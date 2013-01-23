@@ -381,7 +381,7 @@ body {
       }
       
       @media (max-width: 767px) {
-        a {
+        .chart-title, .context {
           display: inline !important;
         }
         
@@ -858,6 +858,16 @@ body {
     width: 200px;
     padding: 0;
     -webkit-font-smoothing: antialiased;
+    
+    &.tiny {
+      width: 120px;
+      
+      .list {
+        a {
+          padding: 5px 10px;
+        }
+      }
+    }
     
     .before {
       border-top: 10px solid transparent;

@@ -114,6 +114,38 @@ App =
         at: "center bottom",
         offset: "0 18px"
       
+      # Context
+      $j("header .context").unbind "click"
+      $j("header .context").bind "click", ->
+        $j(this).toggleClass("active")
+        src = $j(this).find("img").attr("src")
+        if $j(this).hasClass("active") && src.match(/arrow/)
+          $j(this).find("img").attr("src", src.replace(".png", "-selected.png"))
+        else
+          $j(this).find("img").attr("src", src.replace("-selected.png", ".png"))
+        
+      $j("header .context").popover
+        my: "center top",
+        at: "center bottom",
+        offset: "0 -1px"
+        
+      # Context buttons
+      $j("header .btn-share").unbind "click"
+      $j("header .btn-share").bind "click", ->
+        false
+      
+      $j("header .btn-rename").unbind "click"
+      $j("header .btn-rename").bind "click", ->
+        false
+        
+      $j("header .btn-history").unbind "click"
+      $j("header .btn-history").bind "click", ->
+        false
+      
+      $j("header .btn-delete").unbind "click"
+      $j("header .btn-delete").bind "click", ->
+        false
+      
       # Switch editor buttons
       $j(".show-editor").unbind "click"
       $j(".show-editor").bind "click", ->

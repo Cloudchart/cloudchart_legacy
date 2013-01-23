@@ -20,9 +20,18 @@
           
           <div class="table">
             <div class="cell title">
-              <h1><%= link_to chart.title, chart_path(chart.slug_or_id) %></h1>
-              <%= link_to image_tag("btn-big-arrow.png"), "#", class: "hidden-phone" %>
-              <%= link_to image_tag("btn-share.png"), "#", class: "visible-phone" %>
+              <h1><%= link_to chart.title, chart_path(chart.slug_or_id), class: "chart-title" %></h1>
+              <%= link_to image_tag("btn-big-arrow.png"), "#context", class: "context hidden-phone" %>
+              <%= link_to image_tag("btn-share.png"), "#context", class: "context visible-phone" %>
+              
+              <div id="context" class="popover tiny">
+                <div class="list">
+                  <%= link_to t("charts.share"), chart_path(chart.slug_or_id), class: "btn-share" %>
+                  <%= link_to t("charts.rename"), chart_path(chart.slug_or_id), class: "btn-rename" %>
+                  <%= link_to t("charts.history"), chart_path(chart.slug_or_id), class: "btn-history" %>
+                  <%= link_to t("charts.delete"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+                </div>
+              </div>
             </div>
           </div>
         <% else %>
