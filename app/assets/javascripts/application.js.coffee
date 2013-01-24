@@ -129,22 +129,36 @@ App =
         at: "center bottom",
         offset: "0 -1px"
         
-      # Context buttons
-      $j("header .btn-share").unbind "click"
-      $j("header .btn-share").bind "click", ->
+      # Context buttons and overlays
+      $j("header .btn-share, header .btn-history, header .btn-delete").unbind "click"
+      $j("header .btn-share, header .btn-history, header .btn-delete").bind "click", ->
+        cls = $j(this).attr("class").replace("btn-", "")
+        
+        $j(".popover").hide()
+        $j(".context img").attr("src", $j(".context img").attr("src").replace("-selected.png", ".png"))
+        
+        $j(".overlay.#{cls}").fadeIn()
         false
       
+      $j(".overlay .cancel").unbind "click"
+      $j(".overlay .cancel").bind "click", ->
+        $j(this).closest(".overlay").fadeOut ->
+          $j(this).hide()
+      
+      # Rename
       $j("header .btn-rename").unbind "click"
       $j("header .btn-rename").bind "click", ->
         false
         
-      $j("header .btn-history").unbind "click"
-      $j("header .btn-history").bind "click", ->
-        false
-      
-      $j("header .btn-delete").unbind "click"
-      $j("header .btn-delete").bind "click", ->
-        false
+      # Delete
+      $j(".overlay.delete .fire").unbind "click"
+      $j(".overlay.delete .fire").bind "click", ->
+        $j(".overlay.delete .cancel").trigger "click"
+        App.loading(true)
+        
+        $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "DELETE", complete: (data) ->
+          result = eval "(#{data.responseText})"
+          Turbolinks.visit(result.redirect_to)
       
       # Switch editor buttons
       $j(".show-editor").unbind "click"

@@ -948,6 +948,89 @@ body {
       }
     }
   }
+  
+  /* Overlay */
+  .overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.7);
+    
+    &.delete {
+      .box {
+        top: 30%;
+        left: 50%;
+        width: 460px;
+        margin-left: -230px;
+        
+        .content {
+          h1 {
+            background: url(ico-delete.png) no-repeat left center;
+            background-size: 33px 42px;
+            padding: 12px 0 8px 50px;
+          }
+        }
+      }
+    }
+    
+    .box {
+      .rounded(10px);
+      .gradient(#fefefe, #fcf3f1, #fefefe);
+      position: absolute;
+      
+      .content {
+        .box-sizing(border-box);
+        padding: 20px 30px 12px 30px;
+        
+        h1 {
+          font-size: 38px;
+        }
+      }
+      
+      .buttons {
+        button {
+          .box-sizing(border-box);
+          .gradient(#044763, #094e6b, #044763);
+          display: block;
+          float: left;
+          position: relative;
+          top: 5px;
+          border-top: 2px solid #155c79;
+          border-right: 0;
+          border-left: 0;
+          border-bottom: 0;
+          width: 100%;
+          padding: 15px 0;
+          color: #fff;
+          text-transform: uppercase;
+          font-family: @lightSansFontFamily;
+          
+          &.half {
+            width: 50%;
+          }
+          
+          &:active {
+            .gradient(#044763, #044763, #094e6b);
+          }
+          
+          &:first-child {
+            .border-radius(0, 0, 10px, 0);
+          }
+          
+          &:last-child {
+            .border-radius(0, 10px, 0, 0);
+          }
+          
+          &:not(:last-child) {
+            border-right: 1px solid #155c79;
+          }
+        }
+      }
+    }
+  }
 }
 
 .charts {

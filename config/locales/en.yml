@@ -109,6 +109,7 @@ en:
     add_person: "Add person"
     indent: "Indent"
     move: "Move"
+    cancel: "Cancel"
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"
@@ -117,3 +118,13 @@ en:
       saved: "Saved"
       error: "Error"
       connection: "No Internet Connection"
+    share:
+      title: "Share"
+    rename:
+      title: "Rename"
+    history:
+      title: "History"
+    delete:
+      title: "Delete"
+      confirm: "Delete this chart?"
+      fire: "Delete"

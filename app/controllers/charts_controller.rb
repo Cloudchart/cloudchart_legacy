@@ -88,6 +88,7 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
+    
     respond_to { |format|
       format.html {
         redirect_to edit_chart_path(@chart.slug_or_id)
@@ -97,6 +98,19 @@ class ChartsController < ApplicationController
           chart: @chart,
           action_to: chart_path(@chart.id),
           redirect_to: edit_chart_path(@chart.slug_or_id)
+        }
+      }
+    }
+  end
+  
+  def destroy
+    not_found unless can?(:destroy, @chart)
+    @chart.destroy
+    
+    respond_to { |format|
+      format.json {
+        render json: {
+          redirect_to: charts_path
         }
       }
     }
