@@ -120,9 +120,9 @@ App =
         $j(this).toggleClass("active")
         src = $j(this).find("img").attr("src")
         if $j(this).hasClass("active") && src.match(/arrow/)
-          $j(this).find("img").attr("src", src.replace(".png", "-selected.png"))
+          $j(this).find("img").attr("src", $j(this).attr("data-selected"))
         else
-          $j(this).find("img").attr("src", src.replace("-selected.png", ".png"))
+          $j(this).find("img").attr("src", $j(this).attr("data-normal"))
         
       $j("header .context").popover
         my: "center top",
@@ -135,7 +135,7 @@ App =
         cls = $j(this).attr("class").replace("btn-", "")
         
         $j(".popover").hide()
-        $j(".context img").attr("src", $j(".context img").attr("src").replace("-selected.png", ".png"))
+        $j(".context img").attr("src", $j(".context").attr("data-normal"))
         
         $j(".overlay.#{cls}").fadeIn()
         false

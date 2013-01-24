@@ -21,7 +21,7 @@
           <div class="table">
             <div class="cell title">
               <h1><%= link_to chart.title, chart_path(chart.slug_or_id), class: "chart-title" %></h1>
-              <%= link_to image_tag("btn-big-arrow.png"), "#context", class: "context hidden-phone" %>
+              <%= link_to image_tag("btn-big-arrow.png"), "#context", class: "context hidden-phone", data: { normal: image_path("btn-big-arrow.png"), selected: image_path("btn-big-arrow-selected.png") } %>
               <%= link_to image_tag("btn-share.png"), "#context", class: "context visible-phone" %>
               
               <div id="context" class="popover tiny">
