@@ -131,8 +131,8 @@ App =
         offset: "0 -1px"
         
       # Context buttons and overlays
-      $j("header .btn-share, header .btn-history, header .btn-delete").unbind "click"
-      $j("header .btn-share, header .btn-history, header .btn-delete").bind "click", ->
+      $j("header .btn-share, header .btn-rename, header .btn-history, header .btn-delete").unbind "click"
+      $j("header .btn-share, header .btn-rename, header .btn-history, header .btn-delete").bind "click", ->
         cls = $j(this).attr("class").replace("btn-", "")
         
         $j(".popover").hide()
@@ -148,8 +148,17 @@ App =
           $j(this).hide()
       
       # Rename
-      $j("header .btn-rename").unbind "click"
       $j("header .btn-rename").bind "click", ->
+        $form = $j(".edit_chart")
+        title = prompt(I18n.t("charts.rename.descr"), $form.find("[name='chart[title]']").val())
+        title = title.strip() if title
+        
+        if title && title != ""
+          App.chart.status.text(I18n.t("charts.autosave.changed"))
+          $form.find("[name='chart[title]']").val(title)
+          $j("header .chart-title").text(title)
+          App.chart.update()
+        
         false
         
       # Delete

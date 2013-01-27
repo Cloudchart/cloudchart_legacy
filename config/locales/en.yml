@@ -122,6 +122,7 @@ en:
       title: "Share"
     rename:
       title: "Rename"
+      descr: "Please enter chart name"
     history:
       title: "History"
       descr: "Let’s go back in time"

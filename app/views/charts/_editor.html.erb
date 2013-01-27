@@ -21,7 +21,7 @@
       <ul>
       </ul>
       
-      <!--<%= f.text_field :title %>-->
+      <%= f.hidden_field :title %>
       <%= f.text_area :text, class: "edit", data: { autocomplete: chart_persons_path(chart_id: @chart.id) } %>
       
       <div class="hidden">
