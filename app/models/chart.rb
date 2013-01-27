@@ -54,6 +54,7 @@ class Chart
     if self.text_changed?
       # Destroy all nodes
       self.nodes.destroy_all
+      self.text ||= ""
       
       # Find all persons
       if self.user
@@ -110,6 +111,30 @@ class Chart
   
   def demo?
     self.is_demo
+  end
+  
+  def restore_from_version!(version)
+    version = self.versions.where(version: version).first
+    return unless version
+    
+    [:title, :text].each do |field|
+      self.send("#{field}=", version.send(field))
+    end
+    
+    self.save!
+  end
+  
+  def create_from_version!(version)
+    version = self.versions.where(version: version).first
+    return unless version
+    
+    chart = self.user.charts.create(title: self.title)
+    [:text].each do |field|
+      chart.send("#{field}=", version.send(field))
+    end
+    
+    chart.save!
+    chart
   end
   
   def to_png(style = nil)

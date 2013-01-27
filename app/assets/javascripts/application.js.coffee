@@ -162,6 +162,24 @@ App =
           result = eval "(#{data.responseText})"
           Turbolinks.visit(result.redirect_to)
       
+      # History
+      $j(".overlay.history .restore").unbind "click"
+      $j(".overlay.history .restore").bind "click", ->
+        $j(".overlay.history .cancel").trigger "click"
+        App.loading(true)
+        
+        $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "PUT", complete: (data) ->
+          result = eval "(#{data.responseText})"
+          Turbolinks.visit(result.redirect_to)
+      $j(".overlay.history .clone").unbind "click"
+      $j(".overlay.history .clone").bind "click", ->
+        $j(".overlay.history .cancel").trigger "click"
+        App.loading(true)
+        
+        $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "POST", complete: (data) ->
+          result = eval "(#{data.responseText})"
+          Turbolinks.visit(result.redirect_to)
+      
       # Switch editor buttons
       $j(".show-editor").unbind "click"
       $j(".show-editor").bind "click", ->
