@@ -2,10 +2,16 @@ class VersionsController < ChartsController
   layout "chart", only: [:index, :show, :edit]
   
   def index
+    # Disable
+    not_found
+    
     @versions = @chart.versions
   end
   
   def show
+    # Disable
+    not_found
+    
     @version = @chart.versions.where(version: params[:id]).first
     @version.id = @chart.id
     @version.slug = @chart.slug
@@ -15,6 +21,9 @@ class VersionsController < ChartsController
   end
   
   def edit
+    # Disable
+    not_found
+    
     @version = @chart.versions.where(version: params[:id]).first
     @version.id = @chart.id
     @version.slug = @chart.slug

@@ -124,6 +124,10 @@ en:
       title: "Rename"
     history:
       title: "History"
+      descr: "Let’s go back in time"
+      changed: "Last changed %{changed} ago"
+      restore: "Restore"
+      copy: "Copy"
     delete:
       title: "Delete"
       confirm: "Delete this chart?"

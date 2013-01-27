@@ -88,6 +88,7 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
+    # @chart.to_png
     
     respond_to { |format|
       format.html {
