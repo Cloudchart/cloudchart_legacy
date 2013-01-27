@@ -1,0 +1,23 @@
+<%
+  versions = chart.versions.select { |x| x.text.present? }
+%>
+<% if versions.any? %>
+  <% versions.reverse.each do |chart| %>
+  <div class="item">
+    <h1><%= chart.title %></h1>
+    <p><%= t("charts.history.changed", changed: pretty_time(chart.updated_at)) %></p>
+    <div class="buttons">
+      <button class="restore" data-action="<%= chart_version_restore_path(chart.slug_or_id, chart.version) %>">
+        <%= t("charts.history.restore") %>
+      </button>
+      <button class="clone" data-action="<%= chart_version_clone_path(chart.slug_or_id, chart.version) %>">
+        <%= t("charts.history.copy") %>
+      </button>
+    </div>
+  </div>
+  <% end %>
+<% else %>
+  <div class="item">
+    <h1><%= t("charts.history.empty") %></h1>
+  </div>
+<% end %>

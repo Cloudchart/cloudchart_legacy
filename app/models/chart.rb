@@ -54,7 +54,6 @@ class Chart
     if self.text_changed?
       # Destroy all nodes
       self.nodes.destroy_all
-      self.text ||= ""
       
       # Find all persons
       if self.user

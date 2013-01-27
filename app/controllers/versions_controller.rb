@@ -2,10 +2,11 @@ class VersionsController < ChartsController
   layout "chart", only: [:index, :show, :edit]
   
   def index
-    # Disable
-    not_found
-    
-    @versions = @chart.versions
+    respond_to { |format|
+      format.html {
+        render partial: "/versions/list", locals: { chart: @chart }
+      }
+    }
   end
   
   def show

@@ -10,27 +10,13 @@
   </div>
 </div>
 
-<div class="overlay history">
+<div class="overlay history" data-action="<%= chart_versions_path(chart.slug_or_id) %>">
   <div class="box">
     <div class="header">
       <h1><%= t("charts.history.descr") %></h1>
       <button class="cancel"></button>
     </div>
     <div class="content">
-      <% chart.versions.reverse.each do |chart| %>
-      <div class="item">
-        <h1><%= chart.title %></h1>
-        <p><%= t("charts.history.changed", changed: pretty_time(chart.updated_at)) %></p>
-        <div class="buttons">
-          <button class="restore" data-action="<%= chart_version_restore_path(chart.slug_or_id, chart.version) %>">
-            <%= t("charts.history.restore") %>
-          </button>
-          <button class="clone" data-action="<%= chart_version_clone_path(chart.slug_or_id, chart.version) %>">
-            <%= t("charts.history.copy") %>
-          </button>
-        </div>
-      </div>
-      <% end %>
     </div>
   </div>
 </div>
