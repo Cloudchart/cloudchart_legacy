@@ -51,6 +51,12 @@ Cloudchart::Application.configure do
   # Disable delivery errors, bad email addresses will be ignored
   # config.action_mailer.raise_delivery_errors = false
 
+  # Postmark
+  config.action_mailer.delivery_method   = :sendmail
+  config.action_mailer.default_url_options = { host: "cloudorgchart.com" }
+  # config.action_mailer.delivery_method   = :postmark
+  # config.action_mailer.postmark_settings = { api_key: "5bec768f-00d8-4830-b743-bfefded7659a" }
+
   # Enable threaded mode
   # config.threadsafe!
 

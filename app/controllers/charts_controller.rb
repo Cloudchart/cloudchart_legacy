@@ -105,7 +105,31 @@ class ChartsController < ApplicationController
   end
   
   def share
+    not_found unless can?(:update, @chart)
     
+    begin
+      email = params[:share][:"#{params[:share][:type]}_email"]
+      raise StandardError unless email =~ Devise.email_regexp
+      
+      ApplicationMailer.share(
+        current_user,
+        @chart,
+        email,
+        { link: params[:share][:"#{params[:share][:type]}"] }
+      ).deliver
+      
+      respond_to { |format|
+        format.json {
+          render json: {}
+        }
+      }
+    rescue
+      respond_to { |format|
+        format.json {
+          render json: {}, status: :unprocessable_entity
+        }
+      }
+    end
   end
   
   def destroy

@@ -129,7 +129,16 @@ en:
       placeholder: "email, please"
       enter: "Enter"
       send: "Send"
+      error: "Error"
+      sent: "Sent"
       return: "Return"
+      mail: 
+        subject: "%{name} shared chart ’%{chart}’ with you"
+        body: |
+          Here is a link: %{link}
+          
+          Cloudchart, http://cloudorgchart.com
+        
     rename:
       title: "Rename"
       descr: "Please enter chart name"

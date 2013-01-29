@@ -184,7 +184,23 @@ App =
         $copy = $this.prev()
         
         if $this.hasClass("pressme")
-          console.log "Send"
+          $form = $j(".overlay.share form")
+          $form.find("[name='share[type]']").val($this.attr("data-type"))
+          
+          $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: "POST", complete: (data) ->
+            if data.status == 200
+              $this.removeClass("disabled")
+              $this.removeClass("pressme")
+              $this.removeClass("progress")
+              $copy.text($copy.attr("data-text"))
+              $this.text($this.attr("data-sent"))
+              $input.val("")
+              setTimeout ->
+                $this.text($this.attr("data-text"))
+              , 1000
+            else
+              $this.text($this.attr("data-error"))
+          
           return false
         
         return false if $this.hasClass("disabled")
