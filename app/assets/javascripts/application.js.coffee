@@ -25,6 +25,7 @@
 //= require twitter/bootstrap
 //= require mousetrap
 //= require underscore
+//= require jquery/zero
 //= require jquery/popover
 //= require jquery/touch-punch
 
@@ -147,6 +148,79 @@ App =
         $j(this).closest(".overlay").fadeOut ->
           $j(this).hide()
       
+      # Share
+      $j(".overlay.share .copy").each ->
+        zero = new ZeroClipboard(this,
+          moviePath: "/zero.swf"
+        )
+        zero.on "mousedown", ->
+          $this = $j(this)
+          $this.addClass("active")
+        zero.on "mouseup", ->
+          $this = $j(this)
+          $input = $this.prev().find("input")
+          $email = $this.next()
+          
+          $this.removeClass("active")
+          if $email.hasClass("progress")
+            if $input.val().strip() != ""
+              $email.removeClass("pressme")
+              $email.addClass("disabled")
+              $email.text($email.attr("data-enter"))
+              $input.val("")
+              return false
+            
+            $email.removeClass("disabled")
+            $email.removeClass("pressme")
+            $email.removeClass("progress")
+            $this.text($this.attr("data-text"))
+            $email.text($email.attr("data-text"))
+            return false
+      
+      $j(".overlay.share button.email").unbind "click"
+      $j(".overlay.share button.email").bind "click", ->
+        $this = $j(this)
+        $input = $this.prev().prev().find("input")
+        $copy = $this.prev()
+        
+        if $this.hasClass("pressme")
+          console.log "Send"
+          return false
+        
+        return false if $this.hasClass("disabled")
+        
+        $this.toggleClass("progress")
+        if $this.hasClass("progress")
+          $this.attr("data-text", $this.text()) unless $this.attr("data-text")
+          
+          if $input.val().strip() != ""
+            $this.addClass("pressme")
+            $this.text($this.attr("data-send"))
+          else
+            $this.addClass("disabled")
+            $this.text($this.attr("data-enter"))
+          
+          $copy.attr("data-text", $copy.text())
+          $copy.text($copy.attr("data-replace"))
+          
+        false
+        
+      $j(".overlay.share input.email").unbind "textchange"
+      $j(".overlay.share input.email").bind "textchange", ->
+        $this = $j(this)
+        $email = $this.parent().next().next()
+        
+        return false unless $email.hasClass("progress")
+        
+        if $this.val().strip() != ""
+          $email.removeClass("disabled")
+          $email.addClass("pressme")
+          $email.text($email.attr("data-send"))
+        else
+          $email.addClass("disabled")
+          $email.removeClass("pressme")
+          $email.text($email.attr("data-enter"))
+        
       # Rename
       $j("header .btn-rename").bind "click", ->
         $form = $j(".edit_chart")

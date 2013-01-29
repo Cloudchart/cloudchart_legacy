@@ -959,6 +959,134 @@ body {
     left: 0;
     background: rgba(0, 0, 0, 0.7);
     
+    &.share {
+      .box {
+        top: 30%;
+        background: #fff;
+        width: 450px;
+        margin-left: -225px;
+        
+        .content {
+          padding: 20px 30px;
+          
+          h1 {
+            background: url(ico-share.png) no-repeat left center;
+            background-size: 43px 33px;
+            padding: 12px 0 8px 53px;
+          }
+          
+          .form-horizontal {
+            margin: 15px 0 0 0;
+            
+            .control-group {
+              &:last-child {
+                margin-bottom: 10px;
+              }
+              
+              .control-label {
+                position: relative;
+                top: 3px;
+                width: 70px;
+                color: #044763;
+                font-size: 18px;
+                text-align: left;
+                
+                span {
+                  display: block;
+                  font-size: 13px;
+                  color: #77b5cc;
+                }
+              }
+              
+              .controls {
+                float: left;
+                position: relative;
+                width: 320px;
+                height: 50px;
+                margin-left: 0;
+                
+                .input {
+                  position: absolute;
+                  top: 50%;
+                  left: 0;
+                  margin-top: -25px;
+                  
+                  input {
+                    .rounded(15px);
+                    .box-shadow(inset 0 1px 15px #f1fafd);
+                    .placeholder(#81b8cc);
+                    .box-sizing(border-box);
+                    width: 254px;
+                    height: 40px;
+                    border: 1px solid #acd5e4;
+                    color: #000;
+                    padding: 24px 10px;
+                    background: #fff;
+                    
+                    &:focus {
+                      .box-shadow(inset 0 1px 15px #f1fafd);
+                    }
+                  }
+                }
+                
+                button {
+                  .rounded(7px);
+                  .gradient(#eef5f9, #e2eff5, #fdfefe);
+                  position: absolute;
+                  height: 26px;
+                  top: 50%;
+                  right: 0;
+                  margin-top: -13px;
+                  border: 1px solid #acd5e4;
+                  text-shadow: 1px solid #fff;
+                  color: #044763;
+                  font-size: 13px;
+                  text-transform: uppercase;
+                  
+                  &.active, &:active {
+                    &:not(.disabled) {
+                      .gradient(#eef5f9, #fdfefe, #e2eff5);
+                      .box-shadow(0 0 10px #acd5e4);
+                    }
+                  }
+                  
+                  &.disabled {
+                  
+                  }
+                  
+                  &.pressme {
+                    .box-shadow(0 0 10px #acd5e4);
+                  }
+                  
+                  &.copy {
+                    right: 75px;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .box {
+          left: 5%;
+          width: 90%;
+          margin-left: 0;
+          
+          .content {
+            padding: 10px 15px 6px 15px;
+            
+            h1 {
+              font-size: 32px;
+              background-size: 28px 22px;
+              padding-left: 38px;
+            }
+          }
+        }
+      }
+    }
+    
     &.delete {
       .box {
         top: 30%;
@@ -1110,6 +1238,7 @@ body {
         button {
           .box-sizing(border-box);
           .gradient(#044763, #094e6b, #044763);
+          .border-radius(0, 5px, 5px, 0);
           display: block;
           float: left;
           position: relative;
@@ -1126,18 +1255,18 @@ body {
           
           &.half {
             width: 50%;
+            
+            &:first-child {
+              .border-radius(0, 0, 10px, 0);
+            }
+            
+            &:last-child {
+              .border-radius(0, 10px, 0, 0);
+            }
           }
           
           &:active {
             .gradient(#044763, #044763, #094e6b);
-          }
-          
-          &:first-child {
-            .border-radius(0, 0, 10px, 0);
-          }
-          
-          &:last-child {
-            .border-radius(0, 10px, 0, 0);
           }
           
           &:not(:last-child) {

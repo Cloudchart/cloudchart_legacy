@@ -104,6 +104,10 @@ class ChartsController < ApplicationController
     }
   end
   
+  def share
+    
+  end
+  
   def destroy
     not_found unless can?(:destroy, @chart)
     @chart.destroy

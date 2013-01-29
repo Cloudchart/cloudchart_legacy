@@ -4,6 +4,7 @@ Cloudchart::Application.routes.draw do
     member do
       get  "token/:token", action: "token", via: [:get], as: :token
       post :clone
+      post :share
     end
     resources :versions, except: [:new, :create, :destroy] do
       put :restore
