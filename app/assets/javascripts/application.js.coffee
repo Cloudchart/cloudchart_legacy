@@ -140,7 +140,42 @@ App =
         if $j(".context:visible img").attr("src").match(/arrow/)
           $j(".context:visible img").attr("src", $j(".context").attr("data-normal"))
         
-        $j(".overlay.#{cls}").fadeIn()
+        $j(".overlay.#{cls}").fadeIn(->
+          if cls == "share"
+            # Share
+            $j(".overlay.share button.copy").unbind "click"
+            $j(".overlay.share button.copy").bind "click", (e) ->
+              if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
+                e.preventDefault()
+                window.open $j(this).parent().find(":first").find("input").val()
+              return false
+            
+            $j(".overlay.share button.copy").zclip
+              path: "/zero.swf"
+              copy: ->
+                $j(this).attr("data-clipboard-text")
+              afterCopy: ->
+                $this = $j(this)
+                $input = $this.prev().find("input")
+                $email = $this.next()
+                
+                if $email.hasClass("progress")
+                  if $input.val().strip() != ""
+                    $email.removeClass("pressme")
+                    $email.addClass("disabled")
+                    $email.text($email.attr("data-enter"))
+                    $input.val("")
+                    return false
+                  
+                  $email.removeClass("disabled")
+                  $email.removeClass("pressme")
+                  $email.removeClass("progress")
+                  $this.text($this.attr("data-text"))
+                  $email.text($email.attr("data-text"))
+                  return false
+            
+        )
+        
         false
       
       $j(".overlay .cancel").unbind "click"
@@ -148,42 +183,6 @@ App =
         $j(this).closest(".overlay").fadeOut ->
           $j(this).hide()
       
-      # Share
-      $j(".overlay.share button.copy").unbind "click"
-      $j(".overlay.share button.copy").bind "click", (e) ->
-        if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
-          e.preventDefault()
-          window.open $j(this).parent().find(":first").find("input").val()
-          return false
-      
-      $j(".overlay.share button.copy").each ->
-        zero = new ZeroClipboard(this,
-          moviePath: "/zero.swf"
-        )
-        zero.on "mousedown", ->
-          $this = $j(this)
-          $this.addClass("active")
-        zero.on "mouseup", ->
-          $this = $j(this)
-          $input = $this.prev().find("input")
-          $email = $this.next()
-          
-          $this.removeClass("active")
-          if $email.hasClass("progress")
-            if $input.val().strip() != ""
-              $email.removeClass("pressme")
-              $email.addClass("disabled")
-              $email.text($email.attr("data-enter"))
-              $input.val("")
-              return false
-            
-            $email.removeClass("disabled")
-            $email.removeClass("pressme")
-            $email.removeClass("progress")
-            $this.text($this.attr("data-text"))
-            $email.text($email.attr("data-text"))
-            return false
-          
       $j(".overlay.share button.email").unbind "click"
       $j(".overlay.share button.email").bind "click", ->
         $this = $j(this)
