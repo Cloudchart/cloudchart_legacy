@@ -4,7 +4,7 @@ class ApplicationMailer < ActionMailer::Base
   def share(current_user, chart, email, params)
     mail(
       to: email,
-      subject: I18n.t("charts.share.mail.subject", name: current_user.name, chart: chart.title)
+      subject: I18n.t("charts.share.mail.subject", name: current_user.name, chart: chart.title, link: params[:link])
     ) do |format|
       format.text do
         I18n.t("charts.share.mail.body", link: params[:link])

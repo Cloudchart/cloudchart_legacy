@@ -985,6 +985,7 @@ body {
               
               .control-label {
                 position: relative;
+                float: left;
                 top: 3px;
                 width: 70px;
                 color: #044763;
@@ -1070,17 +1071,34 @@ body {
       
       @media (max-width: 480px) {
         .box {
+          top: 5%;
           left: 5%;
           width: 90%;
           margin-left: 0;
           
           .content {
-            padding: 10px 15px 6px 15px;
+            padding: 0 15px 0 15px;
             
             h1 {
-              font-size: 32px;
+              font-size: 28px;
               background-size: 28px 22px;
               padding-left: 38px;
+            }
+            
+            .form-horizontal {
+              margin-top: 5px;
+              
+              .control-group {
+                .controls {
+                  width: 260px;
+                  
+                  .input {
+                    input {
+                      width: 194px;
+                    }
+                  }
+                }
+              }
             }
           }
         }

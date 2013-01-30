@@ -133,11 +133,14 @@ en:
       sent: "Sent"
       return: "Return"
       mail: 
-        subject: "%{name} shared chart ’%{chart}’ with you"
+        subject: "Hey, %{name} shares with you the %{chart} chart"
         body: |
-          Here is a link: %{link}
+          %{link}
           
-          Cloudchart, http://cloudorgchart.com
+          If you think this is some kind of error or abuse, kindly let us know: problems@cloudorgchart.com
+          
+          Sincerely,
+          your CloudChart team.
         
     rename:
       title: "Rename"
