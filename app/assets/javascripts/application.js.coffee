@@ -726,6 +726,13 @@ App =
           
         window.open($this.attr("data-href"), "sign_in", popup.opts())
         false
+      
+      # Edit
+      if $j("body").hasClass("users")
+        $j(".clear").unbind "click"
+        $j(".clear").bind "click", ->
+          $j(this).prev().val("")
+          false
     
     reload: ->
       $j.ajax url: "/users/profile", type: "GET", complete: (data) ->

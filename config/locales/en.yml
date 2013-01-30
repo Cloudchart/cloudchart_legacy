@@ -156,3 +156,18 @@ en:
       title: "Delete"
       confirm: "Delete this chart?"
       fire: "Delete"
+  
+  users:
+    edit:
+      title: "Preferences"
+      email: "Email"
+      password: "Password"
+      password_confirmation: "Confirm password"
+      current_password: "Current password"
+      return: "Return"
+      update: "Update"
+      cancel: "Cancel"
+    destroy:
+      title: "Cancel account?"
+      action: "Sadly, yes"
+      confirm: "Are you sure?"

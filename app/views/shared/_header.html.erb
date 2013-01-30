@@ -21,17 +21,19 @@
           <div class="table">
             <div class="cell title">
               <h1><%= link_to chart.title, chart_path(chart.slug_or_id), class: "chart-title" %></h1>
-              <%= link_to image_tag("btn-big-arrow.png"), "#context", class: "context hidden-phone", data: { normal: image_path("btn-big-arrow.png"), selected: image_path("btn-big-arrow-selected.png") } %>
-              <%= link_to image_tag("btn-share.png"), "#context", class: "context visible-phone" %>
-              
-              <div id="context" class="popover tiny">
-                <div class="list">
-                  <%= link_to t("charts.share.title"), chart_path(chart.slug_or_id), class: "btn-share" %>
-                  <%= link_to t("charts.rename.title"), chart_path(chart.slug_or_id), class: "btn-rename" %>
-                  <%= link_to t("charts.history.title"), chart_path(chart.slug_or_id), class: "btn-history" %>
-                  <%= link_to t("charts.delete.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+              <% if can?(:edit, chart) && params[:action] == "edit" %>
+                <%= link_to image_tag("btn-big-arrow.png"), "#context", class: "context hidden-phone", data: { normal: image_path("btn-big-arrow.png"), selected: image_path("btn-big-arrow-selected.png") } %>
+                <%= link_to image_tag("btn-share.png"), "#context", class: "context visible-phone" %>
+                
+                <div id="context" class="popover tiny">
+                  <div class="list">
+                    <%= link_to t("charts.share.title"), chart_path(chart.slug_or_id), class: "btn-share" %>
+                    <%= link_to t("charts.rename.title"), chart_path(chart.slug_or_id), class: "btn-rename" %>
+                    <%= link_to t("charts.history.title"), chart_path(chart.slug_or_id), class: "btn-history" %>
+                    <%= link_to t("charts.delete.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+                  </div>
                 </div>
-              </div>
+              <% end %>
             </div>
           </div>
         <% else %>
@@ -49,7 +51,7 @@
       <div class="span3">
         <div class="table buttons">
           <div class="cell controls">
-            <% if user_signed_in? && !chart %>
+            <% if user_signed_in? && !chart && ["landing", "charts", "versions", "nodes"].include?(params[:controller]) %>
               <div class="btn-group">
                 <a href="<%= url_for(view: nil) %>" class="btn btn-grid<%= " active" if params[:view].blank? %>"><i class="icon-charts-grid"></i></a>
                 <a href="<%= url_for(view: :list) %>" class="btn btn-list<%= " active" if params[:view] == "list" %>"><i class="icon-charts-list"></i></a>

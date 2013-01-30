@@ -5,4 +5,14 @@ class RegistrationsController < Devise::RegistrationsController
       format.json { render json: current_user }
     end
   end
+  
+  def edit
+    @cls = "users"
+    super
+  end
+  
+  def update
+    @cls = "users"
+    super
+  end
 end

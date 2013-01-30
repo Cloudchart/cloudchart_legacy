@@ -3,7 +3,7 @@
 <head>
   <%= render partial: "/shared/meta" %>
 </head>
-<body class="<%= cls ||= '' %>">
+<body class="<%= cls ||= @cls ||= '' %>">
 
   <%= render partial: "/shared/header" %>
   <section>

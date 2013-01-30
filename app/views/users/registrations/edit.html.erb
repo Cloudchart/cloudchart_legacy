@@ -1,25 +1,79 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
-
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
-  <%= devise_error_messages! %>
-
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email %></div>
-
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
-
-  <div><%= f.submit "Update" %></div>
+<%
+=begin
+%>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f| %>
+  <div class="control-group">
+    <div class="controls">
+      <h1><%= t("users.edit.title") %></h1>
+    </div>
+  </div>
+  <% errors = devise_error_messages! %>
+  <% if errors.present? %>
+  <div class="control-group">
+    <div class="controls">
+      <%= errors %>
+    </div>
+  </div>
+  <% end %>
+  
+  <div class="control-group">
+    <label class="control-label" for="user[email]"><%= t("users.edit.email") %></label>
+    <div class="controls">
+      <%= f.email_field :email %>
+      <button class="btn btn-small clear">×</button>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="user[password]"><%= t("users.edit.password") %></label>
+    <div class="controls">
+      <%= f.password_field :password, autocomplete: :off %>
+      <button class="btn btn-small clear">×</button>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="user[password_confirmation]"><%= t("users.edit.password_confirmation") %></label>
+    <div class="controls">
+      <%= f.password_field :password_confirmation, autocomplete: :off %>
+      <button class="btn btn-small clear">×</button>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <label class="control-label" for="user[current_password]"><%= t("users.edit.current_password") %></label>
+    <div class="controls">
+      <%= f.password_field :current_password, autocomplete: :off %>
+      <button class="btn btn-small clear">×</button>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit t("users.edit.update") %>
+    </div>
+  </div>
 <% end %>
+<%
+=end
+%>
 
-<h3>Cancel my account</h3>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :delete, class: "form-horizontal" }) do |f| %>
+<div class="control-group" style="margin: 80px 0 0 0;">
+  <div class="controls">
+    <h1><%= t("users.edit.title") %></h1>
+  </div>
+</div>
 
-<p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete %>.</p>
+<div class="control-group">
+  <div class="controls">
+    <h2><%= t("users.destroy.title") %></h2>
+  </div>
+</div>
 
-<%= link_to "Back", :back %>
+<div class="control-group">
+  <div class="controls">
+    <%= f.submit t("users.destroy.action"), data: { confirm: t("users.destroy.confirm") } %>
+  </div>
+</div>
+<% end %>
