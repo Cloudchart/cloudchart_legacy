@@ -56,9 +56,12 @@
                 <a href="<%= url_for(view: nil) %>" class="btn btn-grid<%= " active" if params[:view].blank? %>"><i class="icon-charts-grid"></i></a>
                 <a href="<%= url_for(view: :list) %>" class="btn btn-list<%= " active" if params[:view] == "list" %>"><i class="icon-charts-list"></i></a>
               </div>
+              
             <% end %>
-            
-            <%= link_to image_tag("btn-create-white.png", alt: t("charts.create"), title: t("charts.create")), charts_path, class: "create" %>
+
+            <% if ["landing", "charts", "versions", "nodes"].include?(params[:controller]) %>
+              <%= link_to image_tag("btn-create-white.png", alt: t("charts.create"), title: t("charts.create")), charts_path, class: "create" %>
+            <% end %>
             
             <% if chart %>
               <% if params[:action] != "edit" && can?(:edit, chart) && !["versions", "nodes"].include?(params[:controller]) %>
