@@ -14,6 +14,9 @@ Cloudchart::Application.routes.draw do
     resources :persons, only: [:index]
   end
   
+  get "/c/:id", to: "charts#show", as: :short_chart
+  get "/c/:id/t/:token", to: "charts#token", as: :short_token_chart
+  
   resources :pages, only: [:show]
   
   # Users
@@ -22,7 +25,7 @@ Cloudchart::Application.routes.draw do
   end
   
   # Root
-  match '/beta', to: "landing#beta"
+  match "/beta", to: "landing#beta"
   root to: "landing#index"
   
   # Admin
