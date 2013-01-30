@@ -149,7 +149,14 @@ App =
           $j(this).hide()
       
       # Share
-      $j(".overlay.share .copy").each ->
+      $j(".overlay.share button.copy").unbind "click"
+      $j(".overlay.share button.copy").bind "click", (e) ->
+        if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
+          e.preventDefault()
+          window.open $j(this).parent().find(":first").find("input").val()
+          return false
+      
+      $j(".overlay.share button.copy").each ->
         zero = new ZeroClipboard(this,
           moviePath: "/zero.swf"
         )
@@ -176,7 +183,7 @@ App =
             $this.text($this.attr("data-text"))
             $email.text($email.attr("data-text"))
             return false
-      
+          
       $j(".overlay.share button.email").unbind "click"
       $j(".overlay.share button.email").bind "click", ->
         $this = $j(this)
