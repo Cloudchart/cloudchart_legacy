@@ -262,7 +262,8 @@ class Chart
         end
         
         # Add node to root
-        node = g.add_nodes(title,
+        node = g.add_nodes(n.id.to_s,
+          label: title,
           href: "javascript:App.chart.click('#{n.id}')",
           shape: "box",
           style: "filled",
