@@ -24,6 +24,7 @@ gem 'bson_ext'
 gem 'json'
 
 gem 'devise'
+gem 'devise_invitable'
 gem 'simple_form'
 gem 'cancan'
 gem 'omniauth'
