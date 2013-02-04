@@ -33,6 +33,7 @@ gem 'linkedin'
 
 gem 'rails_admin'
 gem 'ruby-graphviz'
+gem 'crashlog'
 
 # Client
 gem 'less-rails'
