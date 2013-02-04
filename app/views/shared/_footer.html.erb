@@ -4,8 +4,8 @@
       <% t("features").each do |feature, _| %>
       <div class="item span4">
         <div class="inner">
-          <h1><%= feature["title"] %></h1>
-          <p><%= simple_format(feature["descr"]) %></p>
+          <h1><%= feature[:title] %></h1>
+          <p><%= simple_format(feature[:descr]) %></p>
         </div>
       </div>
       <% end %>
