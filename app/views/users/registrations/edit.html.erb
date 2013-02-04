@@ -58,22 +58,46 @@
 =end
 %>
 
+<%= form_for(:invite, url: user_invite_path, html: { method: :post, class: "form-horizontal" }) do |f| %>
+  <div class="control-group">
+    <div class="controls">
+      <h1><%= t("users.invite.title") %></h1>
+      <p><%= t("users.invite.left", count: resource.invitation_limit) %></p>
+    </div>
+  </div>
+  
+  <% if resource.invitation_limit > 0 %>
+  <div class="control-group">
+    <div class="controls">
+      <%= f.text_field :email, placeholder: t("users.invite.placeholder") %>
+      <button class="btn btn-small clear">×</button>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit t("users.invite.send") %>
+    </div>
+  </div>
+  <% end %>
+<% end %>
+
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :delete, class: "form-horizontal" }) do |f| %>
-<div class="control-group" style="margin: 80px 0 0 0;">
-  <div class="controls">
-    <h1><%= t("users.edit.title") %></h1>
+  <!--<div class="control-group">
+    <div class="controls">
+      <h1><%= t("users.edit.title") %></h1>
+    </div>
+  </div>-->
+  
+  <div class="control-group" style="margin: 60px 0 10px 0;">
+    <div class="controls">
+      <h2><%= t("users.destroy.title") %></h2>
+    </div>
   </div>
-</div>
-
-<div class="control-group">
-  <div class="controls">
-    <h2><%= t("users.destroy.title") %></h2>
+  
+  <div class="control-group">
+    <div class="controls">
+      <%= f.submit t("users.destroy.action"), data: { confirm: t("users.destroy.confirm") } %>
+    </div>
   </div>
-</div>
-
-<div class="control-group">
-  <div class="controls">
-    <%= f.submit t("users.destroy.action"), data: { confirm: t("users.destroy.confirm") } %>
-  </div>
-</div>
 <% end %>

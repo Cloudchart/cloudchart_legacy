@@ -13,6 +13,15 @@
       <input type="password" name="password" autofocus />
       <input type="submit" value="&crarr;" />
     </form>
+    
+    <div>
+      <%=
+        link_to t("common.have_account"), "#", {
+          class: "sign_in",
+          data: { init: "user", href: user_omniauth_authorize_path(provider: :linkedin) }
+        }
+      %>
+    </div>
   </section>
 
 </body>

@@ -11,4 +11,15 @@ class ApplicationMailer < ActionMailer::Base
       end
     end
   end
+  
+  def invite(current_user, email, params)
+    mail(
+      to: email,
+      subject: I18n.t("users.invite.mail.subject", name: current_user.name)
+    ) do |format|
+      format.text do
+        I18n.t("users.invite.mail.body", link: params[:link])
+      end
+    end
+  end
 end

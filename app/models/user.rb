@@ -7,29 +7,29 @@ class User
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable
+         :invitable, :omniauthable
 
   ## Database authenticatable
   field :name,               type: String, default: ""
-  field :email,              :type => String, :default => ""
-  field :encrypted_password, :type => String, :default => ""
+  field :email,              type: String, default: ""
+  field :encrypted_password, type: String, default: ""
 
   validates_presence_of :email
   validates_presence_of :encrypted_password
   
   ## Recoverable
-  field :reset_password_token,   :type => String
-  field :reset_password_sent_at, :type => Time
+  field :reset_password_token,   type: String
+  field :reset_password_sent_at, type: Time
 
   ## Rememberable
-  field :remember_created_at, :type => Time
+  field :remember_created_at, type: Time
 
   ## Trackable
-  field :sign_in_count,      :type => Integer, :default => 0
-  field :current_sign_in_at, :type => Time
-  field :last_sign_in_at,    :type => Time
-  field :current_sign_in_ip, :type => String
-  field :last_sign_in_ip,    :type => String
+  field :sign_in_count,      type: Integer, default: 0
+  field :current_sign_in_at, type: Time
+  field :last_sign_in_at,    type: Time
+  field :current_sign_in_ip, type: String
+  field :last_sign_in_ip,    type: String
 
   ## Confirmable
   # field :confirmation_token,   :type => String
@@ -44,6 +44,13 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
+
+  ## Invitable
+  include Mongoid::Token
+  token length: 16, field_name: :invitation_token
+  field :invitation_sent_at,      type: Time
+  field :invitation_accepted_at,  type: Time
+  field :invitation_limit,        type: Integer
 
   ## Omniauthable
   embeds_many :authorizations do

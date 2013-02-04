@@ -50,6 +50,17 @@ en:
     omniauth_callbacks:
       success: 'Successfully authenticated from %{kind} account.'
       failure: 'Could not authenticate you from %{kind} because "%{reason}".'
+    invitations:
+      send_instructions: 'An invitation email has been sent to %{email}.'
+      invitation_token_invalid: 'The invitation token provided is not valid!'
+      updated: 'Your password was set successfully. You are now signed in.'
+      no_invitations_remaining: "No invitations remaining"
+      new:
+        header: "Send invitation"
+        submit_button: "Send an invitation"
+      edit:
+        header: "Set your password"
+        submit_button: "Set my password"
     mailer:
       confirmation_instructions:
         subject: 'Confirmation instructions'
@@ -57,6 +68,8 @@ en:
         subject: 'Reset password instructions'
       unlock_instructions:
         subject: 'Unlock Instructions'
+      invitation_instructions:
+        subject: 'Invitation instructions'
   
   # APP
   app:
@@ -78,6 +91,7 @@ en:
     sign_out: "Quit"
     settings: "Settings"
     ago: "ago"
+    have_account: "Have account?"
   
   pages:
     about: "About"
@@ -167,6 +181,22 @@ en:
       return: "Return"
       update: "Update"
       cancel: "Cancel"
+    invite:
+      title: "Invitations"
+      left:
+        one: "1 invitation left"
+        other: "%{count} invitations left"
+      placeholder: "Please enter emails"
+      send: "Send"
+      mail: 
+        subject: "Hey! %{name} invited you to Cloud Chart"
+        body: |
+          Accept invitation through the link: %{link}
+          
+          If you think this is some kind of error or abuse, kindly let us know: problems@cloudorgchart.com
+          
+          Sincerely,
+          your CloudChart team.
     destroy:
       title: "Cancel account?"
       action: "Sadly, yes"

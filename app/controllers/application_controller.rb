@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
     end
     
     def preload
-      redirect_to beta_path if cookies[:beta] != "sayonara555" && params[:action] != "beta"
+      redirect_to beta_path if !beta_user_signed_in? && params[:action] != "beta" && !["invitations", "omniauth"].include?(params[:controller])
       
       if user_signed_in? && charts_from_tokens.any?
         charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
@@ -49,4 +49,17 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+    
+    def beta_token
+      "sayonara555"
+    end
+    
+    def sign_in_beta_user
+      cookies[:beta] = { value: beta_token, expires: 365.days.from_now }
+    end
+    
+    def beta_user_signed_in?
+      cookies[:beta] == beta_token
+    end
+    
 end

@@ -20,8 +20,10 @@ Cloudchart::Application.routes.draw do
   resources :pages, only: [:show]
   
   # Users
-  devise_for :users, controllers: { omniauth_callbacks: "omniauth", registrations: "registrations", sessions: "sessions" } do
-    get "/users/profile" => "registrations#profile", as: :user_profile
+  devise_for :users,
+    controllers: { omniauth_callbacks: "omniauth", registrations: "registrations", sessions: "sessions", invitations: "invitations" } do
+    get  "/users/profile" => "registrations#profile", as: :user_profile
+    post "/users/invite" => "registrations#invite", as: :user_invite
   end
   
   # Root

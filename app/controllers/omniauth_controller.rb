@@ -34,6 +34,7 @@ private
       remember_me(@user)
       @user.remember_me!
       
+      sign_in_beta_user
       sign_in @user
       render "/users/success"
       
@@ -72,6 +73,8 @@ private
       authorization = nil
     end
     
+    raise "Unregistered" if !authorization && !beta_user_signed_in?
+    
     # Not signed
     if resource.nil?
       user = nil
@@ -81,7 +84,7 @@ private
         user = authorization.user
       
       # Auth without user
-      els if authorization && authorization.user.nil?
+      elsif authorization && authorization.user.nil?
         authorization.destroy
         authorization = nil
       end

@@ -15,4 +15,20 @@ class RegistrationsController < Devise::RegistrationsController
     @cls = "users"
     super
   end
+  
+  def invite
+    if params[:invite] && params[:invite][:email].present?
+      emails = params[:invite][:email].split(",").map(&:strip).compact.uniq.delete_if { |x| x.blank? } rescue []
+      emails.each do |email|
+        result = User.invite!({ email: email, skip_invitation: true }, current_user)
+        ApplicationMailer.invite(
+          current_user,
+          email,
+          { link: accept_invitation_url(result, invitation_token: result.invitation_token) }
+        ).deliver if result
+      end
+    end
+    
+    redirect_to edit_user_registration_path
+  end
 end
