@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "noreply@cloudorgchart.com"
+  default from: "staff@cloudorgchart.com"
   
   def share(current_user, chart, email, params)
     mail(
