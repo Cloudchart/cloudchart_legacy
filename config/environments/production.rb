@@ -52,10 +52,10 @@ Cloudchart::Application.configure do
   # config.action_mailer.raise_delivery_errors = false
 
   # Postmark
-  config.action_mailer.delivery_method   = :sendmail
-  config.action_mailer.default_url_options = { host: "cloudorgchart.com" }
-  # config.action_mailer.delivery_method   = :postmark
-  # config.action_mailer.postmark_settings = { api_key: "5bec768f-00d8-4830-b743-bfefded7659a" }
+  # config.action_mailer.delivery_method   = :sendmail
+  # config.action_mailer.default_url_options = { host: "cloudorgchart.com" }
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { api_key: "72a89cbb-7351-466e-9b31-c515f84f9155" }
 
   # Enable threaded mode
   # config.threadsafe!

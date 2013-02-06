@@ -13,11 +13,11 @@ Cloudchart::Application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
-  # Write to file mailer
-  config.action_mailer.delivery_method = :file
-
-  # Mailer host
-  config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  # Postmark
+  # config.action_mailer.delivery_method = :file
+  # config.action_mailer.default_url_options = { host: 'localhost:3000' }
+  config.action_mailer.delivery_method   = :postmark
+  config.action_mailer.postmark_settings = { api_key: "72a89cbb-7351-466e-9b31-c515f84f9155" }
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

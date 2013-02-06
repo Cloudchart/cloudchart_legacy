@@ -34,6 +34,7 @@ gem 'linkedin'
 gem 'rails_admin'
 gem 'ruby-graphviz'
 gem 'crashlog'
+gem 'postmark-rails'
 
 # Client
 gem 'less-rails'
