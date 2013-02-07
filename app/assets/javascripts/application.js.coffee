@@ -474,10 +474,15 @@ App =
               $overlay.find(".list").empty()
               App.chart.autocomplete.select_current()
             
+            $input.unbind "keydown"
+            $input.bind "keydown", (e) ->
+              return Mousetrap.trigger("up") && false if e.keyCode == 38
+              return Mousetrap.trigger("down") && false if e.keyCode == 40
+              return Mousetrap.trigger("esc") && false if e.keyCode == 27
+            
             $input.unbind "keyup"
             $input.bind "keyup", (e) ->
-              return Mousetrap.trigger "esc" if e.keyCode == 27
-              return if e.keyCode == 13
+              return false if e.keyCode == 13
               autocomplete = App.chart.autocomplete
               
               # Close
@@ -541,6 +546,22 @@ App =
                 
                 $overlay.find(".fire").trigger "click"
               
+              Mousetrap.bind "up", ->
+                $list = $j(".overlay.persons .list")
+                $selected = $list.find(".selected")
+                if $selected.prev().length == 1
+                  App.chart.autocomplete.select_current($selected.prev())
+                else
+                  App.chart.autocomplete.select_current($j(".overlay.persons .list li:last"))
+              
+              Mousetrap.bind "down", ->
+                $list = $j(".overlay.persons .list")
+                $selected = $list.find(".selected")
+                if $selected.next().length == 1
+                  App.chart.autocomplete.select_current($selected.next())
+                else
+                  App.chart.autocomplete.select_current($j(".overlay.persons .list li:first"))
+              
               $overlay.find("form").bind "submit", ->
                 $overlay.find(".fire").trigger "click"
                 false
@@ -555,6 +576,8 @@ App =
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
                   Mousetrap.unbind "enter"
                   Mousetrap.unbind "esc"
+                  Mousetrap.unbind "up"
+                  Mousetrap.unbind "down"
                   
                   if App.chart.autocomplete.current
                     caret = $this.caret()
@@ -777,8 +800,9 @@ App =
           
           $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent(node.title)}/profile", type: "GET", complete: (data) ->
             $j(".overlay.person .content").html(data.responseText)
-            $j(".overlay.person").fadeIn ->
-              App.loading(false)
+            $j(".overlay.person").show()
+            $j(".overlay.person .box").css(marginTop: -$j(".overlay.person .box").height()/2)
+            App.loading(false)
         
         # Go to node
         else
