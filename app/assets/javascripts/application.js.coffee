@@ -532,7 +532,9 @@ App =
               false
             $input.trigger "keyup"
             
-            $overlay.fadeIn ->
+            # Fade in
+            (->
+              $overlay.show()
               $input.focus()
               
               Mousetrap.bind "enter", ->
@@ -600,6 +602,7 @@ App =
                   setTimeout ->
                     $this.focus()
                   , 0
+            )()
             
             false
         
