@@ -648,7 +648,20 @@ App =
         App.chart.update(false)
     
     click: (id) ->
-      Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
+      node = App.chart.chart?.nodes_as_hash[id]
+      if node
+        # Show person
+        if node.title.match(/^@/)
+          App.loading(true)
+          
+          $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent(node.title)}/profile", type: "GET", complete: (data) ->
+            $j(".overlay.person .content").html(data.responseText)
+            $j(".overlay.person").fadeIn ->
+              App.loading(false)
+        
+        # Go to node
+        else
+          Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
     
     update: (current = true) ->
       $form = $j(".edit_chart")

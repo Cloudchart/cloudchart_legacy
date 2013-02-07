@@ -87,7 +87,8 @@ en:
   #   long: ""
   
   common:
-    sign_linkedin: "Sign in with Linkedin"
+    linkedin: "LinkedIn"
+    sign_linkedin: "Sign in with LinkedIn"
     sign_out: "Quit"
     settings: "Settings"
     ago: "ago"
@@ -170,6 +171,9 @@ en:
       title: "Delete"
       confirm: "Delete this chart?"
       fire: "Delete"
+    person:
+      return: "Return"
+      not_found: "Not found"
   
   users:
     edit:

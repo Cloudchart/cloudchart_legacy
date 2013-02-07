@@ -6,12 +6,15 @@ Cloudchart::Application.routes.draw do
       post :clone
       post :share
     end
+    
     resources :versions, except: [:new, :create, :destroy] do
-      put :restore
+      put  :restore
       post :clone
     end
     resources :nodes, except: [:index, :new, :create, :destroy]
-    resources :persons, only: [:index]
+    resources :persons, only: [:index] do
+      get  :profile
+    end
   end
   
   get "/c/:id", to: "charts#show", as: :short_chart

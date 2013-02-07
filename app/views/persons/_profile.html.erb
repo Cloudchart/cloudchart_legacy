@@ -1,0 +1,20 @@
+<% if person %>
+  <% if person["picture_url"].present? %>
+    <%= image_tag person["picture_url"] %>
+  <% end %>
+  
+  <h2><%= "#{person["first_name"]} #{person["last_name"]}" %></h2>
+  <h3><%= person["headline"] %></h3>
+  
+  <% if person["summary"].present? %>
+    <p><%= person["summary"] %></p>
+  <% end %>
+  
+  <% if person["site-standard-profile-request"] %>
+  <p>
+    <%= link_to t("common.linkedin"), person["site-standard-profile-request"]["url"], class: "linkedin", target: "_blank" %>
+  </p>
+  <% end %>
+<% else %>
+  <h1><%= t("charts.person.not_found") %></h1>
+<% end %>

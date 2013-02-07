@@ -61,7 +61,7 @@ class Chart
       if self.user
         mentions = self.text.scan(/@([^\(]+)\(ln\:([^\)]+)\)/)
         client = self.user.linkedin_client
-        mentions.delete_if { |x| self.persons[x[1]].is_a? Hash }.each { |x|
+        mentions.delete_if { |x| self.persons[x[1]].is_a?(Hash) }.each { |x|
           self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
         }
       end
@@ -101,13 +101,17 @@ class Chart
   
   def serializable_hash(options)
     super (options || {}).merge(
-      except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons, :nodes, :versions], 
-      methods: [:id]
+      except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons, :versions],
+      methods: [:id, :nodes_as_hash]
     )
   end
   
   def slug_or_id
     self.slug || self.id
+  end
+  
+  def nodes_as_hash
+    Hash[self.nodes.map { |x| [x.id, x] }]
   end
   
   def demo?
@@ -211,6 +215,28 @@ class Chart
     self.xdot
   end
   
+  def load_person(title)
+    match = title.scan(/@([^\(]+)\(ln\:([^\)]+)\)/).first
+    if self.user && match
+      client = self.user.linkedin_client
+      client.profile(id: match[1], fields: "id,first-name,last-name,picture-url,headline,summary,site-standard-profile-request".split(","))
+    end
+  end
+  
+  def find_person(title)
+    match = title.scan(/@([^\(]+)\(ln\:([^\)]+)\)/).first
+    self.persons[match[1]] if match
+  end
+  
+  def find_person_title(title)
+    person = self.find_person(title)
+    if person
+      "#{person["first_name"]} #{person["last_name"]}"
+    else
+      title
+    end
+  end
+  
   def self.find_persons(nodes)
     nodes.select { |x| x.title =~ /^@/ }
   end
@@ -254,12 +280,12 @@ class Chart
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
-        title = breaking_word_wrap(find_person(n.title), 40)
+        title = breaking_word_wrap(find_person_title(n.title), 40)
         
         # Find nested people
         people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
         if people.any?
-          names = people.map { |x| breaking_word_wrap(find_person(x.title), 40) }
+          names = people.map { |x| breaking_word_wrap(find_person_title(x.title), 40) }
           title = "#{title}\n#{names.join(', ')}"
         end
         
@@ -279,16 +305,6 @@ class Chart
           add_nodes(g, node, children)
         end
       end
-    end
-    
-    def find_person(title)
-      title.gsub(/@([^\(]+)\(ln\:([^\)]+)\)/) { |x|
-        if person = self.persons[$2]
-          "#{person["first_name"]} #{person["last_name"]}"
-        else
-          x
-        end
-      }
     end
     
     def assign_slug?
