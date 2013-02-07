@@ -421,22 +421,22 @@ App =
       exp: new RegExp('(?:^|\\b|\\s)\@([\\w.]*)$')
       
       render: (data) ->
-        $j(".list").empty()
+        $j(".overlay.persons .list").empty()
         val = if App.chart.autocomplete.current then App.chart.autocomplete.current.val else null
         
         _.map(data, (x) ->
           html = $j("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
           html.data("person", x)
           html.addClass("selected") if x.val == val
-          $j(".list").append(html)
+          $j(".overlay.persons .list").append(html)
         )
         
-        $j(".list li").bind "click", ->
+        $j(".overlay.persons .list li").bind "click", ->
           App.chart.autocomplete.select_current($j(this))
       
       select_current: ($current) ->
         $overlay = $j(".overlay.persons")
-        $current = $j(".list li:first") unless $current
+        $current = $j(".overlay.persons .list li:first") unless $current
         $input = $overlay.find("[name='person[q]']")
         
         if $current.length != 1 || App.chart.autocomplete.loading
@@ -471,18 +471,19 @@ App =
             $input.unbind "textchange"
             $input.bind "textchange", ->
               # Clear current
-              $j(".list").empty()
+              $overlay.find(".list").empty()
               App.chart.autocomplete.select_current()
             
             $input.unbind "keyup"
             $input.bind "keyup", (e) ->
+              return Mousetrap.trigger "esc" if e.keyCode == 27
               return if e.keyCode == 13
               autocomplete = App.chart.autocomplete
               
               # Close
               if $input.val() == ""
                 # Clear current
-                $j(".list").empty()
+                $overlay.find(".list").empty()
                 autocomplete.select_current()
                 
                 $overlay.find(".fire").trigger "click"
@@ -529,6 +530,17 @@ App =
             $overlay.fadeIn ->
               $input.focus()
               
+              Mousetrap.bind "enter", ->
+                $overlay.find(".fire").trigger "click"
+              
+              Mousetrap.bind "esc", ->
+                # Clear current
+                $input.val("")
+                $overlay.find(".list").empty()
+                App.chart.autocomplete.select_current()
+                
+                $overlay.find(".fire").trigger "click"
+              
               $overlay.find("form").bind "submit", ->
                 $overlay.find(".fire").trigger "click"
                 false
@@ -541,15 +553,20 @@ App =
                   not_now = true
                 
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
-                  val = $this.val().substr(0, $this.caret()) + App.chart.autocomplete.current.val + $this.val().substr($this.caret())
+                  Mousetrap.unbind "enter"
+                  Mousetrap.unbind "esc"
+                  
+                  if App.chart.autocomplete.current
+                    caret = $this.caret()
+                    val = $this.val().substr(0, caret) + App.chart.autocomplete.current.val + $this.val().substr(caret)
+                    $this.val(val)
                   
                   # Clear current
-                  $j(".list").empty()
+                  $overlay.find(".list").empty()
                   App.chart.autocomplete.select_current()
                   
                   $overlay.hide()
                   $this.focus()
-                  $this.val(val)
                 
             
             false
