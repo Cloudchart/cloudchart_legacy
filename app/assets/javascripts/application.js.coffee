@@ -539,10 +539,10 @@ App =
                   # Select current
                   App.chart.autocomplete.select_current()
                   not_now = true
-                else
-                  val = "#{$this.val()}#{App.chart.autocomplete.current.val}"
                 
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
+                  val = $this.val().substr(0, $this.caret()) + App.chart.autocomplete.current.val + $this.val().substr($this.caret())
+                  
                   # Clear current
                   $j(".list").empty()
                   App.chart.autocomplete.select_current()
