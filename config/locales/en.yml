@@ -171,6 +171,8 @@ en:
       title: "Delete"
       confirm: "Delete this chart?"
       fire: "Delete"
+    persons:
+      okay: "Okay"
     person:
       return: "Return"
       not_found: "Not found"

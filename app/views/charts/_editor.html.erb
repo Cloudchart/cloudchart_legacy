@@ -22,7 +22,7 @@
       </ul>
       
       <%= f.hidden_field :title %>
-      <%= f.text_area :text, class: "edit", data: { autocomplete: chart_persons_path(chart_id: @chart.id) } %>
+      <%= f.text_area :text, class: "edit" %>
       
       <div class="hidden">
         <h2><%= t("charts.connections") %></h2>
@@ -30,7 +30,5 @@
         </ul>
       </div>
     </div>
-    
-    <!--<%= f.submit %>-->
   <% end %>
 </div>

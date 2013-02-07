@@ -558,7 +558,7 @@ App =
             sew.options.loading = true
             
             cache_key = sew.options.val
-            $j.ajax(url: $this.attr("data-autocomplete"), data: { q: sew.options.val }, dataType: "json", type: "GET")
+            $j.ajax(url: $j(".persons form").attr("action"), data: { q: sew.options.val }, dataType: "json", type: "GET")
               .always ->
                 sew.options.loading = false
               

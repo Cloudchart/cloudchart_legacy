@@ -59,19 +59,72 @@
   </div>
 </div>
 
-<!--<div class="overlay autocomplete">
+<div class="overlay persons" style="display: block;">
   <div class="box">
     <div class="content">
-      <h1><%= t("charts.share.descr") %></h1>
-      <%= simple_form_for(:share, html: { class: "form-horizontal" }, url: share_chart_path(chart.slug_or_id) ) do |f| %>
+      <%= simple_form_for(:person, html: { class: "form-horizontal" }, url: chart_persons_path(chart_id: @chart.id) ) do |f| %>
+        <div class="control-group">
+          <div class="control-label">
+            <%= image_tag "ico-person.png", class: "person" %>
+          </div>
+          <div class="controls">
+            <%= f.input :q, label: false %>
+            <%= f.submit value: "" %>
+          </div>
+        </div>
+        <div class="control-group">
+          <div class="control-label">
+            <%= image_tag "ico-best-guess.png", class: "best-guess" %>
+          </div>
+          <div class="controls">
+            <ul>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+              <li>
+                <div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>
+              </li>
+            </ul>
+          </div>
+        </div>
       <% end %>
-      
-      <div class="buttons">
-        <button class="cancel"><%= t("charts.share.return") %></button>
-      </div>
+    </div>
+    
+    <div class="buttons">
+      <button class="fire"><%= t("charts.persons.okay") %></button>
     </div>
   </div>
-</div>-->
+</div>
 
 <div class="overlay person">
   <div class="box">
