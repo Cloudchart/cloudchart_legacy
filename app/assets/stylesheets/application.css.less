@@ -1186,7 +1186,12 @@ body {
             }
             
             .controls {
+              position: relative;
               margin-left: 76px;
+              
+              .loading {
+                position: absolute;
+              }
               
               .input {
                 float: left;
@@ -1230,9 +1235,14 @@ body {
                 
                 li {
                   display: block;
-                  padding: 3px 6px 8px 6px;
-                  margin: 0;
+                  margin: 3px 0;
+                  margin: 3px 6px;
                   color: #01405a;
+                  cursor: pointer;
+                  
+                  &:first-child {
+                    margin-top: 0;
+                  }
                   
                   &.selected {
                     background: #f0f0f0;

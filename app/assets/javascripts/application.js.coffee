@@ -38,9 +38,9 @@ App =
       # height = if $j("footer").length > 0 then $j("footer").offset().top else $j("html").height() - $j("header").height()
       # $j(".loading .bar").css(top: Math.min(height/2, ($j("html").height() - $j("header").height())/2) - $j(".loading .bar").height()/2)
       # $j(".loading").css(height: height).show()
-      $j(".loading").show()
+      $j("body > .loading").show()
     else
-      $j(".loading").hide()
+      $j("body > .loading").hide()
   
   # Chart methods
   chart:
@@ -415,15 +415,155 @@ App =
         $this.setCaretSelection(sel[0], sel[1])
       else
         $this.caret(caret+offset)
+    
+    autocomplete:
+      current: null
+      exp: new RegExp('(?:^|\\b|\\s)\@([\\w.]*)$')
       
+      render: (data) ->
+        $j(".list").empty()
+        val = if App.chart.autocomplete.current then App.chart.autocomplete.current.val else null
+        
+        _.map(data, (x) ->
+          html = $j("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
+          html.data("person", x)
+          html.addClass("selected") if x.val == val
+          $j(".list").append(html)
+        )
+        
+        $j(".list li").bind "click", ->
+          App.chart.autocomplete.select_current($j(this))
+      
+      select_current: ($current) ->
+        $overlay = $j(".overlay.persons")
+        $current = $j(".list li:first") unless $current
+        $input = $overlay.find("[name='person[q]']")
+        
+        if $current.length != 1 || App.chart.autocomplete.loading
+          App.chart.autocomplete.current = null
+          $overlay.find(".person").attr("src", $overlay.find(".person").attr("data-icon"))
+        else
+          data = $current.data("person")
+          App.chart.autocomplete.current = data
+          $overlay.find(".person").attr("src", data.picture)
+          
+          # Re-render
+          if App.chart.autocomplete.cache[$input.val()]
+            App.chart.autocomplete.render(App.chart.autocomplete.cache[$input.val()])
+      
+      bindings: ->
+        $j(".edit_chart textarea").unbind "keyup"
+        $j(".edit_chart textarea").bind "keyup", (e) ->
+          $this = $j(this)
+          val = $this.val().substring(0, $this.caret())
+          next = $this.val().substr($this.caret(), 1)
+          matches = val.match(App.chart.autocomplete.exp)
+          
+          if matches && (e.keyCode == 16 || !e.keyCode) && next.strip() == ""
+            $overlay = $j(".overlay.persons")
+            $input = $overlay.find("[name='person[q]']")
+            
+            App.chart.autocomplete.current = null
+            $overlay.find("form").unbind "submit"
+            $overlay.find(".fire").unbind "click"
+            
+            $input.val("@")
+            $input.unbind "textchange"
+            $input.bind "textchange", ->
+              # Clear current
+              $j(".list").empty()
+              App.chart.autocomplete.select_current()
+            
+            $input.unbind "keyup"
+            $input.bind "keyup", (e) ->
+              return if e.keyCode == 13
+              autocomplete = App.chart.autocomplete
+              
+              # Close
+              if $input.val() == ""
+                # Clear current
+                $j(".list").empty()
+                autocomplete.select_current()
+                
+                $overlay.find(".fire").trigger "click"
+              
+              # Search
+              autocomplete.cache = {} unless autocomplete.cache
+              if autocomplete.cache[$input.val()]
+                autocomplete.render(autocomplete.cache[$input.val()])
+                return true
+              
+              return false if autocomplete.loading
+              
+              clearTimeout(autocomplete.timeout) if autocomplete.timeout
+              autocomplete.timeout = setTimeout(->
+                autocomplete.loading = true
+                $overlay.find(".loading").show()
+                
+                cache_key = $input.val()
+                $j.ajax(url: $overlay.find("form").attr("action"), data: { q: cache_key.replace("@", "") }, dataType: "json", type: "GET")
+                  .always ->
+                    autocomplete.loading = false
+                    $overlay.find(".loading").hide()
+                  
+                  .error (xhr, status, error) ->
+                    console.error error
+                  
+                  .done (result) ->
+                    values = _.map(result.persons, (x) ->
+                      name = "#{x.first_name} #{x.last_name}"
+                      picture = if x.picture_url then x.picture_url else "/images/ico-person.png"
+                      
+                      { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: picture }
+                    )
+                    autocomplete.cache[cache_key] = values
+                    autocomplete.render(values) if cache_key == $input.val()
+                    
+                    if $input.val().length > 3
+                      # Select current
+                      autocomplete.select_current()
+              , if e.keyCode then 500 else 0)
+              false
+            $input.trigger "keyup"
+            
+            $overlay.fadeIn ->
+              $input.focus()
+              
+              $overlay.find("form").bind "submit", ->
+                $overlay.find(".fire").trigger "click"
+                false
+              
+              $overlay.find(".fire").bind "click", ->
+                not_now = false
+                if !App.chart.autocomplete.current
+                  # Select current
+                  App.chart.autocomplete.select_current()
+                  not_now = true
+                else
+                  val = "#{$this.val()}#{App.chart.autocomplete.current.val}"
+                
+                if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
+                  # Clear current
+                  $j(".list").empty()
+                  App.chart.autocomplete.select_current()
+                  
+                  $overlay.hide()
+                  $this.focus()
+                  $this.val(val)
+                
+            
+            false
+        
     # TODO: Speedup - ?
-    # TODO: Autosave - ?
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
       clearInterval(App.chart.interval) if App.chart.interval
       App.chart.interval = setInterval( ->
         App.chart.update()
       , 10000)
+      
+      # Autocomplete
+      App.chart.autocomplete.bindings()
       
       # Buttons
       $j(".buttons .add-person").bind "click", ->
@@ -441,6 +581,7 @@ App =
           text = text.insert(caret, insert)
           $area.val(text)
           $area.caret(caret+insert.length)
+          $area.trigger "keyup"
         
         false
       
@@ -500,7 +641,6 @@ App =
         
         true
         
-      $j(".edit_chart textarea").unbind "keyup"
       $j(".edit_chart textarea").bind "keyup", (e) ->
         $this = $j(this)
         
@@ -541,46 +681,6 @@ App =
       # Autosize
       $j(".edit_chart textarea").autosize()
       $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
-      
-      # Autocomplete
-      $j(".edit_chart textarea").sew
-        values: (sew, callback) ->
-          sew.cache = {} unless sew.cache
-          if sew.cache[sew.options.val]
-            callback.call(sew, sew.cache[sew.options.val])
-            return true
-          
-          return false if sew.options.loading
-          
-          clearTimeout(sew.options.timeout) if sew.options.timeout
-          sew.options.timeout = setTimeout(->
-            $this = $j(".edit_chart textarea")
-            sew.options.loading = true
-            
-            cache_key = sew.options.val
-            $j.ajax(url: $j(".persons form").attr("action"), data: { q: sew.options.val }, dataType: "json", type: "GET")
-              .always ->
-                sew.options.loading = false
-              
-              .error (xhr, status, error) ->
-                console.error error
-              
-              .done (result) ->
-                values = _.map(result.persons, (x) ->
-                  name = "#{x.first_name} #{x.last_name}"
-                  { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: x.picture_url }
-                )
-                sew.cache[cache_key] = values
-                callback.call(sew, values) if cache_key == sew.options.val
-          , 250)
-          false
-          
-        
-        elementFactory: (element, e) ->
-          image = if e.picture then e.picture else "/images/ico-person.png"
-          element.append(
-            "<div><img src='#{image}'><h3>#{e.name}</h3><p>#{e.headline}</p></div>"
-          )
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->

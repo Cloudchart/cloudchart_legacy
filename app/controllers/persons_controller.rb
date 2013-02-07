@@ -3,7 +3,7 @@ class PersonsController < ApplicationController
     not_found unless can?(:update, @chart)
     
     @client = current_user.linkedin_client
-    @persons = @client.people_search(keywords: params[:q], path: ":(people:(id,first-name,last-name,picture-url,headline),num-results)")
+    @persons = @client.people_search(keywords: CGI.escape(params[:q]), path: ":(people:(id,first-name,last-name,picture-url,headline),num-results)")
     
     respond_to { |format|
       format.json {
