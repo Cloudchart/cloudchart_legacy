@@ -539,12 +539,16 @@ App =
                 $overlay.find(".fire").trigger "click"
               
               Mousetrap.bind "esc", ->
-                # Clear current
-                $input.val("")
-                $overlay.find(".list").empty()
-                App.chart.autocomplete.select_current()
-                
-                $overlay.find(".fire").trigger "click"
+                if $input.val() != "@"
+                  $input.val("@")
+                  $input.trigger "keyup"
+                else
+                  # Clear current
+                  $input.val("")
+                  $overlay.find(".list").empty()
+                  App.chart.autocomplete.select_current()
+                  
+                  $overlay.find(".fire").trigger "click"
               
               Mousetrap.bind "up", ->
                 $list = $j(".overlay.persons .list")
