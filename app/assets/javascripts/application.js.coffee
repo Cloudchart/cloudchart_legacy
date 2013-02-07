@@ -560,6 +560,10 @@ App =
                     caret = $this.caret()
                     val = $this.val().substr(0, caret) + App.chart.autocomplete.current.val + $this.val().substr(caret)
                     $this.val(val)
+                    
+                    # Save
+                    App.chart.status.text(I18n.t("charts.autosave.changed"))
+                    App.chart.update()
                   
                   # Clear current
                   $overlay.find(".list").empty()
