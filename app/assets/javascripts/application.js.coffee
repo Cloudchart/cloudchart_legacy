@@ -180,6 +180,7 @@ App =
       
       $j(".overlay .cancel").unbind "click"
       $j(".overlay .cancel").bind "click", ->
+        Mousetrap.unbind "esc"
         $j(this).closest(".overlay").fadeOut ->
           $j(this).hide()
       
@@ -815,6 +816,9 @@ App =
           App.loading(true)
           
           $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent(node.title)}/profile", type: "GET", complete: (data) ->
+            Mousetrap.bind "esc", ->
+              $j(".overlay.person .cancel").trigger "click"
+              
             $j(".overlay.person .content").html(data.responseText)
             $j(".overlay.person").show()
             $j(".overlay.person .box").css(marginTop: -$j(".overlay.person .box").height()/2)
