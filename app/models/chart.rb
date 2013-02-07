@@ -54,7 +54,9 @@ class Chart
     if self.text_changed?
       # Destroy all nodes
       self.nodes.destroy_all
-      
+    end
+    
+    if self.text_changed? && self.text.present?
       # Find all persons
       if self.user
         mentions = self.text.scan(/@([^\(]+)\(ln\:([^\)]+)\)/)
