@@ -593,8 +593,9 @@ App =
                   App.chart.autocomplete.select_current()
                   
                   $overlay.hide()
-                  $this.focus()
-                
+                  setTimeout ->
+                    $this.focus()
+                  , 0
             
             false
         
