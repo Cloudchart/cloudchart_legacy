@@ -585,9 +585,16 @@ App =
                   Mousetrap.unbind "up"
                   Mousetrap.unbind "down"
                   
+                  caret = $this.caret()
                   if App.chart.autocomplete.current
-                    caret = $this.caret()
                     val = $this.val().substr(0, caret) + App.chart.autocomplete.current.val + $this.val().substr(caret)
+                    $this.val(val)
+                    
+                    # Save
+                    App.chart.status.text(I18n.t("charts.autosave.changed"))
+                    App.chart.update()
+                  else
+                    val = $this.val().substr(0, caret-1) + $this.val().substr(caret)
                     $this.val(val)
                     
                     # Save
@@ -601,6 +608,7 @@ App =
                   $overlay.hide()
                   setTimeout ->
                     $this.focus()
+                    $this.caret(caret-1)
                   , 0
             )()
             
