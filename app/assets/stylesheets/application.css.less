@@ -1215,6 +1215,10 @@ body {
           left: 5%;
           width: 90%;
           margin-left: 0;
+          
+          .profile {
+            max-height: 300px;
+          }
         }
       }
     }
@@ -1232,6 +1236,7 @@ body {
           
           .control-group {
             .control-label {
+              float: left;
               width: 51px;
               padding-top: 0;
               
@@ -1347,6 +1352,28 @@ body {
         .buttons {
           &.for-profile {
             display: none;
+          }
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .box {
+          left: 5%;
+          width: 90%;
+          margin-left: 0;
+          
+          .content {
+            height: 350px;
+            
+            .control-group {
+              .controls {
+                .input {
+                  input {
+                    width: 120px;
+                  }
+                }
+              }
+            }
           }
         }
       }

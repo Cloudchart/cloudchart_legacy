@@ -474,7 +474,7 @@ App =
           next = $this.val().substr($this.caret(), 1)
           matches = val.match(App.chart.autocomplete.exp)
           
-          if matches && (e.keyCode == 16 || !e.keyCode) && next.strip() == ""
+          if matches && (e.keyCode == 16 || e.keyCode == 50 || !e.keyCode) && next.strip() == ""
             $overlay = $j(".overlay.persons")
             $input = $overlay.find("[name='person[q]']")
             
