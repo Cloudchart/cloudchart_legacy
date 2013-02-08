@@ -95,6 +95,7 @@ en:
     have_account: "Have account?"
     no_account: "Account does not exist"
     please_sign_in: "Please sign in to use this features"
+    anonymous: "Anonymous"
   
   pages:
     about: "About"

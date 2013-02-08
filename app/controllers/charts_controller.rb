@@ -113,7 +113,7 @@ class ChartsController < ApplicationController
       raise StandardError unless email =~ Devise.email_regexp
       
       ApplicationMailer.share(
-        current_user,
+        user_signed_in? ? current_user : nil,
         @chart,
         email,
         { link: params[:share][:"#{params[:share][:type]}"] }
