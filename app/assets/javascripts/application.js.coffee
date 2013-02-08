@@ -805,7 +805,7 @@ App =
           return false if ui.offset.left != sidebar
       
     check: ->
-      if $j(".edit_chart").length > 0
+      if $j(".edit_chart").length > 0 && !App.chart.skip
         App.chart.update(false)
     
     click: (id) ->
@@ -826,6 +826,8 @@ App =
         
         # Go to node
         else
+          # Set skip to prevent saving
+          App.chart.skip = true
           Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
     
     update: (current = true) ->
@@ -946,6 +948,7 @@ $j ->
     App.chart.check()
     App.loading(true)
   $j(document).live "page:change", ->
+    App.chart.skip = false
     App.loading($j("[data-not-loaded]").length != 0)
     App.init()
   
