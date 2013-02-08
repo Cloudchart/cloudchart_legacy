@@ -14,8 +14,6 @@ class PersonsController < ApplicationController
   end
   
   def profile
-    not_found unless can?(:update, @chart)
-    
     respond_to { |format|
       format.html {
         render partial: "/persons/profile", locals: { chart: @chart, person: @chart.load_person(params[:person_id]) }

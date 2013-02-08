@@ -18,7 +18,7 @@ class ChartsController < ApplicationController
       image: @chart.to_png(:preview)
     }
     
-    @chart.to_xdot! if Rails.env.development?
+    # @chart.to_xdot! if Rails.env.development?
     
     respond_to { |format|
       format.html { render }

@@ -7,7 +7,7 @@
   <%= link_to @node.title, "#", class: "show-breadcrumb" if params[:action] != "show" %>
 <% end %>
 
-<div class="canvas" data-init="chart">
+<div class="canvas" data-init="chart" data-action="<%= params[:action] %>">
 <%
 =begin
 %>

@@ -828,7 +828,10 @@ App =
         else
           # Set skip to prevent saving
           App.chart.skip = true
-          Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
+          if $j(".canvas").attr("data-action") == "edit"
+            Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}/edit")
+          else
+            Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
     
     update: (current = true) ->
       $form = $j(".edit_chart")

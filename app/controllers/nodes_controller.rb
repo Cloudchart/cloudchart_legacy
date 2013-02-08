@@ -7,6 +7,8 @@ class NodesController < ChartsController
   end
   
   def edit
+    not_found unless can?(:update, @chart)
+    
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)
     
@@ -16,9 +18,9 @@ class NodesController < ChartsController
   end
   
   def update
-    # Update only text
     not_found unless can?(:update, @chart)
     
+    # Update only text
     prepared_text = @chart.prepare_text_with_parent(@node, params[:chart][:text])
     current_text = @chart.prepare_text_with_parent(@node, params[:chart][:current_text])
     
