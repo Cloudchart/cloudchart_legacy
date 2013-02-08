@@ -77,8 +77,12 @@
             <%= image_tag "ico-best-guess.png", class: "best-guess" %>
           </div>
           <div class="controls">
+            <% if user_signed_in? %>
             <ul class="list">
             </ul>
+            <% else %>
+            <h3><%= t("common.please_sign_in") %></h3>
+            <% end %>
             <%= render partial: "/shared/loading" %>
           </div>
         </div>

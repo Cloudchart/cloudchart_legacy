@@ -1,6 +1,7 @@
 class PersonsController < ApplicationController
   def index
     not_found unless can?(:update, @chart)
+    render json: { persons: [] } and return unless user_signed_in?
     
     @client = current_user.linkedin_client
     @persons = @client.people_search(keywords: CGI.escape(params[:q]), path: ":(people:(id,first-name,last-name,picture-url,headline),num-results)")
