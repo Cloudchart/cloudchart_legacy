@@ -433,7 +433,21 @@ App =
         )
         
         $j(".overlay.persons .list li").bind "click", ->
-          App.chart.autocomplete.select_current($j(this))
+          $this = $j(this)
+          $overlay = $j(".overlay.persons")
+          
+          if $this.hasClass("selected")
+            data = $this.data("person")
+            $overlay.find(".loading").show()
+            
+            $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{data.val}")}/profile", type: "GET", complete: (data) ->
+              $overlay.find(".profile").html(data.responseText).show()
+              $overlay.find(".buttons").hide()
+              $overlay.find(".buttons.for-profile").show()
+              $overlay.find(".list").hide()
+              $overlay.find(".loading").hide()
+          else
+            App.chart.autocomplete.select_current($j(this))
       
       select_current: ($current) ->
         $overlay = $j(".overlay.persons")
@@ -467,10 +481,15 @@ App =
             App.chart.autocomplete.current = null
             $overlay.find("form").unbind "submit"
             $overlay.find(".fire").unbind "click"
+            $overlay.find(".return").unbind "click"
             
             $input.val("@")
             $input.unbind "textchange"
             $input.bind "textchange", ->
+              # Hide profile
+              if $overlay.find(".profile").is(":visible")
+                Mousetrap.trigger "esc"
+              
               # Clear current
               $overlay.find(".list").empty()
               App.chart.autocomplete.select_current()
@@ -542,7 +561,13 @@ App =
                 $overlay.find(".fire").trigger "click"
               
               Mousetrap.bind "esc", ->
-                if $input.val() != "@"
+                if $overlay.find(".profile").is(":visible")
+                  $overlay.find(".profile").empty().hide()
+                  $overlay.find(".buttons").hide()
+                  $overlay.find(".buttons.for-list").show()
+                  $overlay.find(".list").show()
+                
+                else if $input.val() != "@"
                   $input.val("@")
                   $input.trigger "keyup"
                 else
@@ -573,6 +598,10 @@ App =
                 $overlay.find(".fire").trigger "click"
                 false
               
+              $overlay.find(".return").bind "click", ->
+                Mousetrap.trigger "esc"
+                false
+              
               $overlay.find(".fire").bind "click", ->
                 not_now = false
                 if !App.chart.autocomplete.current
@@ -581,6 +610,10 @@ App =
                   not_now = true
                 
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
+                  # Hide profile
+                  if $overlay.find(".profile").is(":visible")
+                    Mousetrap.trigger "esc"
+                  
                   Mousetrap.unbind "enter"
                   Mousetrap.unbind "esc"
                   Mousetrap.unbind "up"
@@ -595,7 +628,7 @@ App =
                     App.chart.status.text(I18n.t("charts.autosave.changed"))
                     App.chart.update()
                   else
-                    val = $this.val().substr(0, caret-1) + $this.val().substr(caret)
+                    val = $this.val().substr(0, caret).replace(/\@$/, "") + $this.val().substr(caret)
                     $this.val(val)
                     
                     # Save

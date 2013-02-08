@@ -176,6 +176,8 @@ en:
       fire: "Delete"
     persons:
       okay: "Okay"
+      add: "Add him"
+      return: "Return"
     person:
       return: "Return"
       not_found: "Not found"

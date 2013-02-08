@@ -1166,6 +1166,60 @@ body {
       }
     }
     
+    &.person, &.persons {
+      .box {
+        top: 50%;
+        
+        .profile {
+          max-height: 600px;
+          overflow: auto;
+          
+          img {
+            margin: 0 15px 10px 0;
+            float: left;
+          }
+          
+          h2 {
+            margin: 0;
+            color: #044763;
+            font-size: 28px;
+            line-height: 34px;
+          }
+          
+          h3 {
+            margin: 5px 0 0 0;
+            color: #01405a;
+            font-size: 20px;
+            line-height: 30px;
+          }
+          
+          p {
+            display: block;
+            clear: both;
+            margin: 10px 0 12px 0;
+          }
+          
+          .linkedin {
+            background: url(ico-linkedin.png) no-repeat left center;
+            background-size: 32px 32px;
+            color: #016699;
+            font-size: 20px;
+            line-height: 32px;
+            padding: 6px 0 6px 38px;
+          }
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .box {
+          left: 5%;
+          width: 90%;
+          margin-left: 0;
+        }
+      }
+    }
+    
+
     &.persons {
       .box {
         top: 10%;
@@ -1227,7 +1281,13 @@ body {
                 margin-top: 23px;
               }
               
-              ul {
+              .profile {
+                display: none;
+                height: 320px;
+                overflow: auto;
+              }
+              
+              .list {
                 list-style: none;
                 margin: 0;
                 padding: 0;
@@ -1283,54 +1343,11 @@ body {
             }
           }
         }
-      }
-    }
-    
-    &.person {
-      .box {
-        top: 50%;
         
-        .content {
-          img {
-            margin: 0 15px 10px 0;
-            float: left;
+        .buttons {
+          &.for-profile {
+            display: none;
           }
-          
-          h2 {
-            margin: 0;
-            color: #044763;
-            font-size: 28px;
-            line-height: 34px;
-          }
-          
-          h3 {
-            margin: 5px 0 0 0;
-            color: #01405a;
-            font-size: 20px;
-            line-height: 30px;
-          }
-          
-          p {
-            clear: both;
-            margin: 10px 0 12px 0;
-          }
-          
-          .linkedin {
-            background: url(ico-linkedin.png) no-repeat left center;
-            background-size: 32px 32px;
-            color: #016699;
-            font-size: 20px;
-            line-height: 32px;
-            padding: 6px 0 6px 38px;
-          }
-        }
-      }
-      
-      @media (max-width: 480px) {
-        .box {
-          left: 5%;
-          width: 90%;
-          margin-left: 0;
         }
       }
     }
