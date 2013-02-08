@@ -73,8 +73,6 @@ private
       authorization = nil
     end
     
-    raise "Unregistered" if !authorization && !beta_user_signed_in?
-    
     # Not signed
     if resource.nil?
       user = nil
@@ -93,6 +91,8 @@ private
       if user.nil? && auth[:email].present?
         user = find_for_oauth_by_email(auth[:email])
         if user.new_record?
+          raise t("common.no_account") if !beta_user_signed_in?
+          
           user.name = auth[:name]
           user.save!
         end

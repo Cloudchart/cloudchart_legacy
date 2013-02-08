@@ -93,6 +93,7 @@ en:
     settings: "Settings"
     ago: "ago"
     have_account: "Have account?"
+    no_account: "Account does not exist"
   
   pages:
     about: "About"
