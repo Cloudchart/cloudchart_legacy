@@ -63,7 +63,7 @@ App =
         
         if $j(".edit_chart textarea").length > 0
           # Autosize
-          $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
+          $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
           
           # Editor lines
           sidebarTimeout = ->
@@ -741,7 +741,7 @@ App =
       
       # Autosize
       $j(".edit_chart textarea").autosize()
-      $j(".edit_chart textarea").css("minHeight", $j(".left").height()-34)
+      $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
       
       $j(".edit_chart").unbind "submit"
       $j(".edit_chart").bind "submit", ->
