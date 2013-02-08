@@ -26,6 +26,7 @@ class PersonsController < ApplicationController
   
     def preload
       @chart ||= Chart.find_by_slug_or_id(params[:chart_id]) if params[:chart_id].present?
+      not_found if !@chart && params[:chart_id].present?
       
       super
     end

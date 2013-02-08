@@ -63,6 +63,7 @@ class NodesController < ChartsController
   
     def preload
       @chart ||= Chart.find_by_slug_or_id(params[:chart_id]) if params[:chart_id].present?
+      not_found if !@chart && params[:chart_id].present?
       @node = @chart.nodes.find(params[:id]) if params[:id].present?
       
       super

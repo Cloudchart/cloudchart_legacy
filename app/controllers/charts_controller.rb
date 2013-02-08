@@ -31,6 +31,7 @@ class ChartsController < ApplicationController
   
   def token
     not_found unless @chart.token == params[:token]
+    
     if !user_signed_in? || @chart.user_id != current_user.id
       charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
       charts[@chart.id.to_s] = { id: @chart.id.to_s, token: @chart.token }
@@ -151,5 +152,6 @@ class ChartsController < ApplicationController
       super
       
       @chart ||= Chart.find_by_slug_or_id(params[:id]) if params[:id].present?
+      not_found if !@chart && params[:id].present?
     end
 end
