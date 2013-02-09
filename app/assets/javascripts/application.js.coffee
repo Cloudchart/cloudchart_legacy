@@ -27,6 +27,7 @@
 //= require jquery/zero
 //= require jquery/popover
 //= require jquery/touch-punch
+//= require jquery/scrollto
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -584,6 +585,8 @@ App =
                   App.chart.autocomplete.select_current($selected.prev())
                 else
                   App.chart.autocomplete.select_current($j(".overlay.persons .list li:last"))
+                
+                $list.scrollTo(".selected", 100)
               
               Mousetrap.bind "down", ->
                 $list = $j(".overlay.persons .list")
@@ -592,6 +595,8 @@ App =
                   App.chart.autocomplete.select_current($selected.next())
                 else
                   App.chart.autocomplete.select_current($j(".overlay.persons .list li:first"))
+                
+                $list.scrollTo(".selected", 100)
               
               $overlay.find("form").bind "submit", ->
                 $overlay.find(".fire").trigger "click"
