@@ -172,6 +172,7 @@ App =
                   $email.removeClass("progress")
                   $this.text($this.attr("data-text"))
                   $email.text($email.attr("data-text"))
+                  $input.attr("placeholder", $input.attr("data-placeholder"))
                   return false
             
         )
@@ -202,6 +203,7 @@ App =
               $copy.text($copy.attr("data-text"))
               $this.text($this.attr("data-sent"))
               $input.val("")
+              $input.attr("placeholder", $input.attr("data-placeholder"))
               setTimeout ->
                 $this.text($this.attr("data-text"))
               , 1000
@@ -222,6 +224,8 @@ App =
           else
             $this.addClass("disabled")
             $this.text($this.attr("data-enter"))
+            $input.attr("placeholder", I18n.t("charts.share.placeholder"))
+            $input.focus()
           
           $copy.attr("data-text", $copy.text())
           $copy.text($copy.attr("data-replace"))
@@ -235,7 +239,7 @@ App =
         
         return false unless $email.hasClass("progress")
         
-        if $this.val().strip() != ""
+        if $this.val().strip() != "" && /\S+@\S+\.\S+/.test($this.val())
           $email.removeClass("disabled")
           $email.addClass("pressme")
           $email.text($email.attr("data-send"))

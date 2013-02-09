@@ -144,7 +144,7 @@ en:
       private_descr: "(editable)"
       copy: "Copy"
       email: "Email"
-      placeholder: "email, please"
+      placeholder: "Email, please"
       enter: "Enter"
       send: "Send"
       error: "Error"
