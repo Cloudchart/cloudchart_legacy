@@ -286,7 +286,7 @@ class Chart
         people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
         if people.any?
           names = people.map { |x| breaking_word_wrap(find_person_title(x.title), 40) }
-          title = "#{title}\n#{names.join(', ')}"
+          title = "#{title}\n#{names.each_slice(3).map { |sliced| sliced.join(', ') }.join('\n')}"
         end
         
         # Add node to root
