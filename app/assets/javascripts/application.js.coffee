@@ -519,13 +519,13 @@ App =
               
               # Search
               autocomplete.cache = {} unless autocomplete.cache
+              clearTimeout(autocomplete.timeout) if autocomplete.timeout
               if autocomplete.cache[$input.val()]
+                $overlay.find(".loading").hide()
                 autocomplete.render(autocomplete.cache[$input.val()])
                 return true
               
-              return false if autocomplete.loading
-              
-              clearTimeout(autocomplete.timeout) if autocomplete.timeout
+              # return false if autocomplete.loading
               autocomplete.timeout = setTimeout(->
                 autocomplete.loading = true
                 $overlay.find(".loading").show()
@@ -534,9 +534,9 @@ App =
                 $j.ajax(url: $overlay.find("form").attr("action"), data: { q: cache_key.replace("@", "") }, dataType: "json", type: "GET")
                   .always ->
                     autocomplete.loading = false
-                    $overlay.find(".loading").hide()
                   
                   .error (xhr, status, error) ->
+                    $overlay.find(".loading").hide()
                     console.error error
                   
                   .done (result) ->
@@ -546,13 +546,16 @@ App =
                       
                       { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: picture }
                     )
+                    
                     autocomplete.cache[cache_key] = values
-                    autocomplete.render(values) if cache_key == $input.val()
+                    if cache_key == $input.val()
+                      autocomplete.render(values)
+                      $overlay.find(".loading").hide()
                     
                     if $input.val().length > 3
                       # Select current
                       autocomplete.select_current()
-              , if e.keyCode then 500 else 0)
+              , if e.keyCode then 1000 else 0)
               false
             $input.trigger "keyup"
             
