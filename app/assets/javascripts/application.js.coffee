@@ -636,26 +636,26 @@ App =
                     val = $this.val().substr(0, caret) + append + $this.val().substr(caret)
                     $this.val(val)
                     
-                    # Save
-                    App.chart.status.text(I18n.t("charts.autosave.changed"))
-                    App.chart.update()
-                    
                     setTimeout ->
                       $this.focus()
                       $this.caret(caret+append.length)
                       $this.trigger "keydown", newline: true
+                      
+                      # Save
+                      App.chart.status.text(I18n.t("charts.autosave.changed"))
+                      App.chart.update()
                     , 0
                   else
                     val = $this.val().substr(0, caret).replace(/\@$/, "") + $this.val().substr(caret)
                     $this.val(val)
                     
-                    # Save
-                    App.chart.status.text(I18n.t("charts.autosave.changed"))
-                    App.chart.update()
-                    
                     setTimeout ->
                       $this.focus()
                       $this.caret(caret-1)
+                      
+                      # Save
+                      App.chart.status.text(I18n.t("charts.autosave.changed"))
+                      App.chart.update()
                     , 0
                   
                   # Clear current

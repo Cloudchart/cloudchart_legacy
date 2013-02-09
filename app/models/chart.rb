@@ -253,6 +253,7 @@ class Chart
         g.graph[:bgcolor] = "#ffffff00"
         g.graph[:truecolor] = true
         g.graph[:fontname] = "Helvetica"
+        g.graph[:fontsize] = 12.0
         
         # Find nodes
         self.cached = self.nodes.ordered.cache
@@ -263,7 +264,8 @@ class Chart
             shape: "ellipse",
             style: "filled",
             fillcolor: "#ffffffff",
-            fontname: "Helvetica"
+            fontname: "Helvetica",
+            fontsize: 12.0
           )
           
           self.cached = self.class.find_persons(self.cached)
@@ -272,7 +274,8 @@ class Chart
             shape: "ellipse",
             style: "filled",
             fillcolor: "#ffffffff",
-            fontname: "Helvetica"
+            fontname: "Helvetica",
+            fontsize: 12.0
           )
         end
         
@@ -299,7 +302,8 @@ class Chart
           shape: "box",
           style: "filled",
           fillcolor: "#ffffffff",
-          fontname: "Helvetica"
+          fontname: "Helvetica",
+          fontsize: 12.0
         )
         edge = g.add_edges(root, node, dir: "none")
         
