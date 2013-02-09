@@ -16,7 +16,6 @@
 //= require jquery/autosize
 //= require jquery/textwidth
 //= require jquery/caretposition
-//= require jquery/sew
 # Other
 //= require turbolinks
 //= require turbolinks-analytics
@@ -621,12 +620,19 @@ App =
                   
                   caret = $this.caret()
                   if App.chart.autocomplete.current
-                    val = $this.val().substr(0, caret) + App.chart.autocomplete.current.val + $this.val().substr(caret)
+                    append = App.chart.autocomplete.current.val
+                    val = $this.val().substr(0, caret) + append + $this.val().substr(caret)
                     $this.val(val)
                     
                     # Save
                     App.chart.status.text(I18n.t("charts.autosave.changed"))
                     App.chart.update()
+                    
+                    setTimeout ->
+                      $this.focus()
+                      $this.caret(caret+append.length)
+                      $this.trigger "keydown", newline: true
+                    , 0
                   else
                     val = $this.val().substr(0, caret).replace(/\@$/, "") + $this.val().substr(caret)
                     $this.val(val)
@@ -634,16 +640,17 @@ App =
                     # Save
                     App.chart.status.text(I18n.t("charts.autosave.changed"))
                     App.chart.update()
+                    
+                    setTimeout ->
+                      $this.focus()
+                      $this.caret(caret-1)
+                    , 0
                   
                   # Clear current
                   $overlay.find(".list").empty()
                   App.chart.autocomplete.select_current()
                   
                   $overlay.hide()
-                  setTimeout ->
-                    $this.focus()
-                    $this.caret(caret-1)
-                  , 0
             )()
             
             false
@@ -697,13 +704,11 @@ App =
       
       # Key event
       $j(".edit_chart textarea").unbind "keydown"
-      $j(".edit_chart textarea").bind "keydown", (e) ->
+      $j(".edit_chart textarea").bind "keydown", (e, data) ->
         $this = $j(this)
         
         # Enter?
-        if e.keyCode == 13
-          return true if $j(".-sew-list-container").is(":visible")
-          
+        if e.keyCode == 13 || (data && data.newline)
           line = $this.caretLine() - 1
           lines = $this.val().split("\n")
           
