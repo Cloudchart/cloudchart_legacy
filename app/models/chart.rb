@@ -252,6 +252,7 @@ class Chart
         # Set background
         g.graph[:bgcolor] = "#ffffff00"
         g.graph[:truecolor] = true
+        g.graph[:fontname] = "Helvetica"
         
         # Find nodes
         self.cached = self.nodes.ordered.cache
@@ -261,7 +262,8 @@ class Chart
           root = g.add_nodes(parent.title,
             shape: "ellipse",
             style: "filled",
-            fillcolor: "#ffffffff"
+            fillcolor: "#ffffffff",
+            fontname: "Helvetica"
           )
           
           self.cached = self.class.find_persons(self.cached)
@@ -269,7 +271,8 @@ class Chart
           root = g.add_nodes(self.title,
             shape: "ellipse",
             style: "filled",
-            fillcolor: "#ffffffff"
+            fillcolor: "#ffffffff",
+            fontname: "Helvetica"
           )
         end
         
@@ -295,7 +298,8 @@ class Chart
           href: "javascript:App.chart.click('#{n.id}')",
           shape: "box",
           style: "filled",
-          fillcolor: "#ffffffff"
+          fillcolor: "#ffffffff",
+          fontname: "Helvetica"
         )
         edge = g.add_edges(root, node, dir: "none")
         
