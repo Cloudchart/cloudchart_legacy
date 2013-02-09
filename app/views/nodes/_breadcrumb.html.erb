@@ -3,7 +3,7 @@
 <ul class="breadcrumb">
   <% path = params[:action] == "edit" ? edit_chart_path(@chart.slug_or_id) : chart_path(@chart.slug_or_id) %>
   <li><%= link_to @chart.title, path %> <span class="divider">&rarr;</span></li>
-  <% @node.parents.each do |node| %>
+  <% @node.parents.reverse.each do |node| %>
     <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
     <li><%= link_to node.title, path %> <span class="divider">&rarr;</span></li>
   <% end %>
