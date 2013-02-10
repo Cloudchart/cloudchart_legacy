@@ -116,65 +116,65 @@ App =
         offset: "0 18px"
       
       # Context
-      $j("header .context").unbind "click"
-      $j("header .context").bind "click", ->
-        $j(this).toggleClass("active")
-        src = $j(this).find("img").attr("src")
-        if src.match(/arrow/)
-          if $j(this).hasClass("active")
-            $j(this).find("img").attr("src", $j(this).attr("data-selected"))
-          else
-            $j(this).find("img").attr("src", $j(this).attr("data-normal"))
-        
       $j("header .context").popover
         my: "center top",
         at: "center bottom",
         offset: "0 -1px"
-        
+      
+      $j("header .context").unbind "popover-show"
+      $j("header .context").bind "popover-show", ->
+        src = $j(this).find("img").attr("src")
+        if src.match(/arrow/)
+          $j(this).find("img").attr("src", $j(this).attr("data-selected"))
+      
+      $j("header .context").unbind "popover-hide-animation-complete"
+      $j("header .context").bind "popover-hide-animation-complete", ->
+        src = $j(this).find("img").attr("src")
+        if src.match(/arrow/)
+          $j(this).find("img").attr("src", $j(this).attr("data-normal"))
+      
       # Context buttons and overlays
       $j("header .btn-share, header .btn-rename, header .btn-history, header .btn-delete").unbind "click"
       $j("header .btn-share, header .btn-rename, header .btn-history, header .btn-delete").bind "click", ->
         cls = $j(this).attr("class").replace("btn-", "")
         
-        $j(".popover").hide()
-        if $j(".context:visible img").attr("src").match(/arrow/)
-          $j(".context:visible img").attr("src", $j(".context").attr("data-normal"))
-        
+        $j("header .context").data("popover").hide()
         $j(".overlay.#{cls}").fadeIn(->
-          if cls == "share"
-            # Share
-            $j(".overlay.share button.copy").unbind "click"
-            $j(".overlay.share button.copy").bind "click", (e) ->
-              if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
-                e.preventDefault()
-                window.open $j(this).parent().find(":first").find("input").val()
-              return false
-            
-            $j(".overlay.share button.copy").zclip
-              path: "/zero.swf"
-              copy: ->
-                $j(this).attr("data-clipboard-text")
-              afterCopy: ->
-                $this = $j(this)
-                $input = $this.prev().find("input")
-                $email = $this.next()
-                
-                if $email.hasClass("progress")
-                  if $input.val().strip() != ""
-                    $email.removeClass("pressme")
-                    $email.addClass("disabled")
-                    $email.text($email.attr("data-enter"))
-                    $input.val("")
-                    return false
-                  
-                  $email.removeClass("disabled")
+          return unless cls == "share"
+          
+          # Share
+          $j(".overlay.share button.copy").unbind "click"
+          $j(".overlay.share button.copy").bind "click", (e) ->
+            if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
+              e.preventDefault()
+              window.open $j(this).parent().find(":first").find("input").val()
+            return false
+          
+          $j(".overlay.share button.copy").zclip
+            path: "/zero.swf"
+            copy: ->
+              $j(this).attr("data-clipboard-text")
+            afterCopy: ->
+              $this = $j(this)
+              $input = $this.prev().find("input")
+              $email = $this.next()
+              
+              if $email.hasClass("progress")
+                if $input.val().strip() != ""
                   $email.removeClass("pressme")
-                  $email.removeClass("progress")
-                  $this.text($this.attr("data-text"))
-                  $email.text($email.attr("data-text"))
-                  $input.attr("placeholder", $input.attr("data-placeholder"))
+                  $email.addClass("disabled")
+                  $email.text($email.attr("data-enter"))
+                  $input.val("")
                   return false
-            
+                
+                $email.removeClass("disabled")
+                $email.removeClass("pressme")
+                $email.removeClass("progress")
+                $this.text($this.attr("data-text"))
+                $email.text($email.attr("data-text"))
+                $input.attr("placeholder", $input.attr("data-placeholder"))
+                return false
+          
         )
         
         false
