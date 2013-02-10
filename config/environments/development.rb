@@ -36,4 +36,7 @@ Cloudchart::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  # Short domain
+  config.short_domain = "cchrt.me"
 end

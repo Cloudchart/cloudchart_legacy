@@ -33,9 +33,11 @@
             <span><%= t("charts.share.public_descr") %></span>
           </label>
           <div class="controls">
-            <%= f.input :public, as: :hidden, input_html: { value: short_chart_url(chart.slug_or_id) } %>
-            <%= f.input :public_email, label: false, placeholder: short_chart_path(chart.slug_or_id), input_html: { data: { placeholder: short_chart_path(chart.slug_or_id) } } %>
-            <button class="btn btn-small copy" data-clipboard-text="<%= short_chart_url(chart.slug_or_id) %>" data-replace="×"><%= t("charts.share.copy") %></button>
+            <% url = short_chart_url(chart.slug_or_id, host: Cloudchart::Application.config.short_domain) %>
+            <% text = url.gsub(/https?:\/\//, "") %>
+            <%= f.input :public, as: :hidden, input_html: { value: url } %>
+            <%= f.input :public_email, label: false, placeholder: text, input_html: { data: { placeholder: text } } %>
+            <button class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
             <button class="btn btn-small email" data-enter="<%= t("charts.share.enter") %>" data-send="<%= t("charts.share.send") %>" data-type="public" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
           </div>
         </div>
@@ -45,9 +47,11 @@
             <span><%= t("charts.share.private_descr") %></span>
           </label>
           <div class="controls">
-            <%= f.input :private, as: :hidden, input_html: { value: short_token_chart_url(id: chart.slug_or_id, token: chart.token) } %>
-            <%= f.input :private_email, label: false, placeholder: short_token_chart_path(id: chart.slug_or_id, token: chart.token), input_html: { data: { placeholder: short_token_chart_path(id: chart.slug_or_id, token: chart.token) } } %>
-            <button class="btn btn-small copy" data-clipboard-text="<%= short_token_chart_url(id: chart.slug_or_id, token: chart.token) %>" data-replace="×"><%= t("charts.share.copy") %></button>
+            <% url = short_token_chart_url(id: chart.slug_or_id, token: chart.token, host: Cloudchart::Application.config.short_domain) %>
+            <% text = url.gsub(/https?:\/\//, "") %>
+            <%= f.input :private, as: :hidden, input_html: { value: url } %>
+            <%= f.input :private_email, label: false, placeholder: text, input_html: { data: { placeholder: text } } %>
+            <button class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
             <button class="btn btn-small email" data-enter="<%= t("charts.share.enter") %>" data-send="<%= t("charts.share.send") %>" data-type="private" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
           </div>
         </div>

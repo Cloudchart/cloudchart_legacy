@@ -66,4 +66,7 @@ Cloudchart::Application.configure do
 
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
+
+  # Short domain
+  config.short_domain = "cchrt.me"
 end
