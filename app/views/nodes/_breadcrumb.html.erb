@@ -15,7 +15,7 @@
   <% end %>
   
   <!-- Display siblings for desktop -->
-  <% siblings = Chart.find_nodes(@node.siblings) %>
+  <% siblings = @node.parent? ? Chart.find_nodes(@node.siblings) : [] %>
   <li class="active">
     <% if siblings.any? %>
       <%= link_to @node.title, "#siblings" %>

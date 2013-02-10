@@ -243,8 +243,7 @@ App =
           $form.find("[name='chart[title]']").val(title)
           $j("header .chart-title").text(title)
           
-          App.chart.update true, ->
-            Turbolinks.visit(document.location.href)
+          App.chart.update(false)
         
         false
         
@@ -889,7 +888,7 @@ App =
           else
             Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
     
-    update: (current = true, callback = null) ->
+    update: (current = true) ->
       $form = $j(".edit_chart")
       return if $form.attr("data-saving") || App.chart.status.text() != I18n.t("charts.autosave.changed")
       
@@ -911,11 +910,6 @@ App =
           $j("header figure .error").removeClass("hidden")
         
         .done (result) ->
-          # Reload
-          if !current
-            Turbolinks.visit(document.location.href)
-            return
-          
           if result.redirect_to
             # Replace state
             if window.history and window.history.pushState and window.history.replaceState and window.history.state != undefined
@@ -924,6 +918,11 @@ App =
           if result.action_to
             $form.attr("action", result.action_to)
             
+          # Reload
+          if !current
+            Turbolinks.visit(document.location.href)
+            return
+          
           if result.chart
             # Replace breadcrumb
             $j(".breadcrumb").html(result.breadcrumb) if result.breadcrumb
@@ -938,9 +937,6 @@ App =
             
             $j("header figure .icon").addClass("hidden")
             $j("header figure .default").removeClass("hidden")
-            
-            # Callback?
-            callback() if callback
           else
             App.chart.status.text(I18n.t("charts.autosave.error"))
             if current

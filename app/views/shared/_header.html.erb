@@ -27,6 +27,7 @@
                 
                 <div id="context" class="popover tiny">
                   <div class="list">
+                    <%= link_to t("charts.edit"), edit_chart_path(chart.slug_or_id) if params[:action] != "edit" %>
                     <%= link_to t("charts.share.title"), chart_path(chart.slug_or_id), class: "btn-share" if user_signed_in? %>
                     <%= link_to t("charts.rename.title"), chart_path(chart.slug_or_id), class: "btn-rename" if params[:action] == "edit" %>
                     <%= link_to t("charts.history.title"), chart_path(chart.slug_or_id), class: "btn-history" if params[:action] == "edit" %>
@@ -64,13 +65,8 @@
             <% end %>
             
             <% if chart %>
-              <% if params[:action] != "edit" && can?(:edit, chart) && !["versions", "nodes"].include?(params[:controller]) %>
-                <%= link_to t("charts.edit"), edit_chart_path(chart.slug_or_id), class: "box hidden-phone" %>
-              <% elsif params[:action] == "edit" && params[:controller] == "nodes" %>
-                <!--<%= link_to t("charts.back"), edit_chart_path(chart.slug_or_id), class: "box hidden-phone" %>-->
-              <% elsif !["versions", "nodes"].include?(params[:controller]) %>
-                <%= link_to t("charts.pdf"), chart_path(chart.slug_or_id, format: :pdf), target: "_blank", class: "box hidden-phone" %>
-                <!--<%= link_to t("charts.png"), chart_path(chart.slug_or_id, format: :png) %>-->
+              <% if !["versions"].include?(params[:controller]) %>
+                <%= link_to t("charts.pdf"), url_for(action: :show, format: :pdf), target: "_blank", class: "box hidden-phone" %>
               <% end %>
             <% end %>
           </div>
