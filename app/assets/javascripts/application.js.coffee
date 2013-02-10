@@ -144,19 +144,20 @@ App =
               $email = $this.next()
               
               if $email.hasClass("progress")
-                if $input.val().strip() != ""
-                  $email.removeClass("pressme")
-                  $email.addClass("disabled")
-                  $email.text($email.attr("data-enter"))
-                  $input.val("")
-                  return false
+                # if $input.val().strip() != ""
+                #   $email.removeClass("pressme")
+                #   $email.addClass("disabled")
+                #   $email.text($email.attr("data-send"))
+                #   $input.val("")
+                #   return false
                 
                 $email.removeClass("disabled")
                 $email.removeClass("pressme")
                 $email.removeClass("progress")
                 $this.text($this.attr("data-text"))
                 $email.text($email.attr("data-text"))
-                $input.attr("placeholder", $input.attr("data-placeholder"))
+                $input.val($input.attr("data-value"))
+                $input.attr("placeholder", "")
                 return false
           
         )
@@ -186,8 +187,8 @@ App =
               $this.removeClass("progress")
               $copy.text($copy.attr("data-text"))
               $this.text($this.attr("data-sent"))
-              $input.val("")
-              $input.attr("placeholder", $input.attr("data-placeholder"))
+              $input.val($input.attr("data-value"))
+              $input.attr("placeholder", "")
               setTimeout ->
                 $this.text($this.attr("data-text"))
               , 1000
@@ -202,14 +203,12 @@ App =
         if $this.hasClass("progress")
           $this.attr("data-text", $this.text()) unless $this.attr("data-text")
           
-          if $input.val().strip() != ""
-            $this.addClass("pressme")
-            $this.text($this.attr("data-send"))
-          else
-            $this.addClass("disabled")
-            $this.text($this.attr("data-enter"))
-            $input.attr("placeholder", I18n.t("charts.share.placeholder"))
-            $input.focus()
+          $this.text($this.attr("data-send"))
+          $this.addClass("disabled")
+          
+          $input.val("")
+          $input.attr("placeholder", I18n.t("charts.share.placeholder"))
+          $input.focus()
           
           $copy.attr("data-text", $copy.text())
           $copy.text($copy.attr("data-replace"))
@@ -230,7 +229,7 @@ App =
         else
           $email.addClass("disabled")
           $email.removeClass("pressme")
-          $email.text($email.attr("data-enter"))
+          $email.text($email.attr("data-send"))
         
       # Rename
       $j("header .btn-rename").bind "click", ->
