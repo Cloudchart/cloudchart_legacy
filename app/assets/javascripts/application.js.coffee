@@ -515,7 +515,7 @@ App =
                 $overlay.find(".list").empty()
                 autocomplete.select_current()
                 
-                $overlay.find(".fire").trigger "click"
+                $overlay.find(".for-list .fire").trigger "click"
               
               # Search
               autocomplete.cache = {} unless autocomplete.cache
@@ -565,7 +565,7 @@ App =
               $input.focus()
               
               Mousetrap.bind "enter", ->
-                $overlay.find(".fire").trigger "click"
+                $overlay.find(".for-list .fire").trigger "click"
               
               Mousetrap.bind "esc", ->
                 if $overlay.find(".profile").is(":visible")
@@ -583,7 +583,7 @@ App =
                   $overlay.find(".list").empty()
                   App.chart.autocomplete.select_current()
                   
-                  $overlay.find(".fire").trigger "click"
+                  $overlay.find(".for-list .fire").trigger "click"
               
               Mousetrap.bind "up", ->
                 $list = $j(".overlay.persons .list")
@@ -591,7 +591,7 @@ App =
                 if $selected.prev().length == 1
                   App.chart.autocomplete.select_current($selected.prev())
                 else
-                  App.chart.autocomplete.select_current($j(".overlay.persons .list li:last"))
+                  App.chart.autocomplete.select_current($overlay.find(".list li:last"))
                 
                 $list.scrollTo(".selected", 100)
               
@@ -601,12 +601,12 @@ App =
                 if $selected.next().length == 1
                   App.chart.autocomplete.select_current($selected.next())
                 else
-                  App.chart.autocomplete.select_current($j(".overlay.persons .list li:first"))
+                  App.chart.autocomplete.select_current($overlay.find(".list li:first"))
                 
                 $list.scrollTo(".selected", 100)
               
               $overlay.find("form").bind "submit", ->
-                $overlay.find(".fire").trigger "click"
+                $overlay.find(".for-list .fire").trigger "click"
                 false
               
               $overlay.find(".return").bind "click", ->
@@ -615,12 +615,12 @@ App =
               
               $overlay.find(".fire").bind "click", ->
                 not_now = false
-                if !App.chart.autocomplete.current
+                if !App.chart.autocomplete.current && $overlay.find(".list li").length > 0
                   # Select current
                   App.chart.autocomplete.select_current()
                   not_now = true
                 
-                if $input.val() == "" || (App.chart.autocomplete.current && !not_now)
+                if $input.val() == "" || (App.chart.autocomplete.current && !not_now) || $overlay.find(".list li").length == 0
                   # Hide profile
                   if $overlay.find(".profile").is(":visible")
                     Mousetrap.trigger "esc"
