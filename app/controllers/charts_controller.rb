@@ -58,7 +58,6 @@ class ChartsController < ApplicationController
     }
   end
   
-  # TODO: Check
   def clone
     not_found unless @chart.demo?
     @cloned_chart = @chart

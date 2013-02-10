@@ -147,8 +147,8 @@ class Chart
     self.picture.url(style)
   end
   
-  def to_pdf
-    to_graph.output(pdf: String)
+  def to_pdf(node = nil)
+    to_graph(node).output(pdf: String)
   end
   
   def to_xdot

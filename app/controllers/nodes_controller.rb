@@ -3,7 +3,11 @@ class NodesController < ChartsController
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)
     
-    super
+    respond_to { |format|
+      format.html { render }
+      format.xdot { render text: @chart.xdot }
+      format.pdf  { render text: @chart.to_pdf(@node) }
+    }
   end
   
   def edit
