@@ -7,7 +7,13 @@
 <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 <%= analytics_init if Rails.env.production? %>
 
+<link href="<%= Cloudchart::Application.config.action_controller.asset_host %>/favicon.ico?1" rel="shortcut icon">
+<link href="<%= image_path "logo-icon-300.png" %>" rel="apple-touch-icon">
+<link href="<%= image_path "logo-icon-72.png" %>" rel="apple-touch-icon" sizes="72x72">
+<link href="<%= image_path "logo-icon-114.png" %>" rel="apple-touch-icon" sizes="114x114">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="google-site-verification" content="nEc5gn7b0hMSgjnix7OXyWaDcW6DSmF4WehFSwbb2dQ" />
 
 <meta property="og:type" content="website"/>
 <meta property="og:url" content="<%= request.url %>" />
@@ -16,5 +22,3 @@
 <meta property="og:description" content="<%= @meta[:description] || t("app.description") %>" />
 <meta property="og:image" content="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || "/logo.png")}" %>" />
 <link rel="image_src" href="<%= "#{request.protocol}#{request.host_with_port}#{(@meta[:image] || "/logo.png")}" %>" />
-
-<meta name="google-site-verification" content="nEc5gn7b0hMSgjnix7OXyWaDcW6DSmF4WehFSwbb2dQ" />

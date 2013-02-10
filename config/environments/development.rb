@@ -29,7 +29,7 @@ Cloudchart::Application.configure do
   config.action_dispatch.best_standards_support = :builtin
 
   # Enable serving of images, stylesheets, and JavaScripts from an asset server
-  # config.action_controller.asset_host = "//cloudchart.dev"
+  config.action_controller.asset_host = "//cloudchart.dev"
 
   # Do not compress assets
   config.assets.compress = false
