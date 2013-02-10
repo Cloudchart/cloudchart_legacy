@@ -54,6 +54,7 @@ class NodesController < ChartsController
       format.json {
         render json: {
           chart: @chart,
+          breadcrumb: render_to_string(partial: "/nodes/breadcrumb", formats: [:html], locals: { insert: true }),
           action_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id),
           redirect_to: edit_chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)
         }

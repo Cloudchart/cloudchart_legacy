@@ -53,43 +53,33 @@ App =
         charts[chart.id] = { id: chart.id, token: chart.token }
         $j.cookie("charts", JSON.stringify(charts), { path: "/", expires: 365 })
     
+    demo: ($this) ->
+      App.chart.show($this)
+    
+    create: (href = "/charts") ->
+      App.loading(true)
+      $j.ajax url: href, dataType: "json", type: "POST", complete: (data) ->
+        result = eval "(#{data.responseText})"
+        App.chart.store(result.chart)
+        Turbolinks.visit(result.redirect_to)
+    
+    show: ($this) ->
+      App.chart.chart = JSON.parse($this.attr("data-chart"))
+      $j(".canvas").css("overflow", "none")
+      App.canvas.parse(App.chart.chart.xdot)
+      App.chart.resize()
+      $j(".canvas").css("overflow", "auto")
+    
     init: ->
-      App.chart.resize = (timeout = 500) ->
-        # Fill height
-        $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
-          "height",
-          Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
-        )
-        
-        if $j(".edit_chart textarea").length > 0
-          # Autosize
-          $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
-          
-          # Editor lines
-          sidebarTimeout = ->
-            App.chart.cache.breaks = {}
-            App.chart.lines()
-            
-            # Sidebar width
-            if $j("[name='chart[sidebar]']").length > 0
-              sidebar = Math.max(0, Math.min($j("html").width()-13, parseInt($j("[name='chart[sidebar]']").val())))
-              $j(".left, .editor").css(width: sidebar)
-              $j(".right, .btn-divider").css(left: sidebar)
-              App.chart.cache.breaks = {}
-              App.chart.lines()
-          
-          clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
-          if timeout > 0
-            App.chart.sidebarTimeout = setTimeout(sidebarTimeout, timeout)
-          else
-            sidebarTimeout()
-      
       App.chart.resize(0)
       $j(window).unbind "resize"
       $j(window).bind "resize", -> App.chart.resize()
       
       # Canvas
       App.canvas = new Canviz("canvas") if $j("#canvas").length > 0
+      
+      # Breadcrumb
+      App.chart.breadcrumb()
       
       # Create button
       $j(".create").unbind "click"
@@ -103,12 +93,6 @@ App =
         App.chart.create($j(this).attr("href"))
         false
         
-      # Breadcrumb
-      $j(".breadcrumb a[href^='#']").popover
-        my: "center top",
-        at: "center bottom",
-        offset: "0 18px"
-      
       # Error icon
       $j("header figure .error").popover
         my: "center top",
@@ -311,36 +295,36 @@ App =
         App.chart.check()
         $j(".chart").removeClass("editing")
         false
+    
+    resize: (timeout = 500) ->
+      # Fill height
+      $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
+        "height",
+        Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+      )
       
-      # Switch breadcrumb buttons
-      $j(".show-breadcrumb").unbind "click"
-      $j(".show-breadcrumb").bind "click", ->
-        $j(".hide-breadcrumb").show()
-        $j(".breadcrumb").addClass("showing")
-        false
-      
-      $j(".hide-breadcrumb").unbind "click"
-      $j(".hide-breadcrumb").bind "click", ->
-        $j(".hide-breadcrumb").hide()
-        $j(".breadcrumb").removeClass("showing")
-        false
-    
-    demo: ($this) ->
-      App.chart.show($this)
-    
-    create: (href = "/charts") ->
-      App.loading(true)
-      $j.ajax url: href, dataType: "json", type: "POST", complete: (data) ->
-        result = eval "(#{data.responseText})"
-        App.chart.store(result.chart)
-        Turbolinks.visit(result.redirect_to)
-    
-    show: ($this) ->
-      App.chart.chart = JSON.parse($this.attr("data-chart"))
-      $j(".canvas").css("overflow", "none")
-      App.canvas.parse(App.chart.chart.xdot)
-      App.chart.resize()
-      $j(".canvas").css("overflow", "auto")
+      if $j(".edit_chart textarea").length > 0
+        # Autosize
+        $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
+        
+        # Editor lines
+        sidebarTimeout = ->
+          App.chart.cache.breaks = {}
+          App.chart.lines()
+          
+          # Sidebar width
+          if $j("[name='chart[sidebar]']").length > 0
+            sidebar = Math.max(0, Math.min($j("html").width()-13, parseInt($j("[name='chart[sidebar]']").val())))
+            $j(".left, .editor").css(width: sidebar)
+            $j(".right, .btn-divider").css(left: sidebar)
+            App.chart.cache.breaks = {}
+            App.chart.lines()
+        
+        clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
+        if timeout > 0
+          App.chart.sidebarTimeout = setTimeout(sidebarTimeout, timeout)
+        else
+          sidebarTimeout()
     
     lines: ->
       $this = $j(".edit_chart textarea")
@@ -422,6 +406,26 @@ App =
         $this.setCaretSelection(sel[0], sel[1])
       else
         $this.caret(caret+offset)
+    
+    breadcrumb: ->
+      # Breadcrumb
+      $j(".breadcrumb a[href^='#']").popover
+        my: "center top",
+        at: "center bottom",
+        offset: "0 18px"
+      
+      # Switch breadcrumb buttons
+      $j(".show-breadcrumb").unbind "click"
+      $j(".show-breadcrumb").bind "click", ->
+        $j(".hide-breadcrumb").show()
+        $j(".breadcrumb").addClass("showing")
+        false
+      
+      $j(".hide-breadcrumb").unbind "click"
+      $j(".hide-breadcrumb").bind "click", ->
+        $j(".hide-breadcrumb").hide()
+        $j(".breadcrumb").removeClass("showing")
+        false
     
     autocomplete:
       current: null
@@ -668,7 +672,7 @@ App =
             )()
             
             false
-        
+    
     # TODO: Speedup - ?
     edit: ($this) ->
       App.chart.status = $j(".edit_chart h3")
@@ -921,6 +925,10 @@ App =
             $form.attr("action", result.action_to)
             
           if result.chart
+            # Replace breadcrumb
+            $j(".breadcrumb").html(result.breadcrumb) if result.breadcrumb
+            App.chart.breadcrumb()
+            
             # Show
             $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
             App.chart.show($j("[data-chart]"))

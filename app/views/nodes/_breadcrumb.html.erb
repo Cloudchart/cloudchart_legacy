@@ -1,10 +1,16 @@
-<%= link_to image_tag("btn-back.png"), "#", class: "hide-breadcrumb" if params[:action] != "show" %>
+<% insert ||= false %>
+<% if !insert %>
+  <%= link_to image_tag("btn-back.png"), "#", class: "hide-breadcrumb" if params[:action] != "show" %>
+<% end %>
 
+<% if !insert %>
 <ul class="breadcrumb">
-  <% path = params[:action] == "edit" ? edit_chart_path(@chart.slug_or_id) : chart_path(@chart.slug_or_id) %>
+<% end %>
+
+  <% path = params[:action].in?(["edit", "update"]) ? edit_chart_path(@chart.slug_or_id) : chart_path(@chart.slug_or_id) %>
   <li><%= link_to @chart.title, path %> <span class="divider">&rarr;</span></li>
   <% @node.parents.reverse.each do |node| %>
-    <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+    <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
     <li><%= link_to node.title, path %> <span class="divider">&rarr;</span></li>
   <% end %>
   
@@ -22,7 +28,7 @@
   <div id="siblings" class="popover">
     <div class="list">
     <% siblings.each do |node| %>
-      <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+      <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
       <%= link_to node.title, path %>
     <% end %>
     </div>
@@ -40,17 +46,20 @@
   
   <% if children.any? %>
     <% children.each do |node| %>
-      <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+      <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
       <li class="visible-phone"><%= link_to node.title, path %></li>
     <% end %>
     
     <div id="children" class="popover">
       <div class="list">
       <% children.each do |node| %>
-        <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+        <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
         <%= link_to node.title, path %>
       <% end %>
       </div>
     </div>
   <% end %>
+
+<% if !insert %>
 </ul>
+<% end %>
