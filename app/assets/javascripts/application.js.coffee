@@ -258,7 +258,9 @@ App =
           App.chart.status.text(I18n.t("charts.autosave.changed"))
           $form.find("[name='chart[title]']").val(title)
           $j("header .chart-title").text(title)
-          App.chart.update()
+          
+          App.chart.update true, ->
+            Turbolinks.visit(document.location.href)
         
         false
         
@@ -883,7 +885,7 @@ App =
           else
             Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
     
-    update: (current = true) ->
+    update: (current = true, callback = null) ->
       $form = $j(".edit_chart")
       return if $form.attr("data-saving") || App.chart.status.text() != I18n.t("charts.autosave.changed")
       
@@ -928,6 +930,9 @@ App =
             
             $j("header figure .icon").addClass("hidden")
             $j("header figure .default").removeClass("hidden")
+            
+            # Callback?
+            callback() if callback
           else
             App.chart.status.text(I18n.t("charts.autosave.error"))
             if current
@@ -968,7 +973,7 @@ App =
           false
     
     reload: ->
-      location.href = "/" if location.href.match(/beta/)
+      document.location.href = "/" if document.location.href.match(/beta/)
       
       $j.ajax url: "/users/profile", type: "GET", complete: (data) ->
         $j(".profile").html(data.responseText)
