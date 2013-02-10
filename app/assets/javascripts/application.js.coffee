@@ -104,7 +104,7 @@ App =
         false
         
       # Breadcrumb
-      $j(".breadcrumb .active a").popover
+      $j(".breadcrumb a[href^='#']").popover
         my: "center top",
         at: "center bottom",
         offset: "0 18px"

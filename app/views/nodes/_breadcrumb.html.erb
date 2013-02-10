@@ -7,23 +7,44 @@
     <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
     <li><%= link_to node.title, path %> <span class="divider">&rarr;</span></li>
   <% end %>
-
-  <% children = Chart.find_nodes(@node.children) %>
+  
+  <!-- Display siblings for desktop -->
+  <% siblings = Chart.find_nodes(@node.siblings) %>
   <li class="active">
-    <% if children.any? %>
-      <%= link_to @node.title, "#nodes" %>
+    <% if siblings.any? %>
+      <%= link_to @node.title, "#siblings" %>
     <% else %>
       <%= @node.title %>
     <% end %>
   </li>
-
+  
+  <% if siblings.any? %>
+  <div id="siblings" class="popover">
+    <div class="list">
+    <% siblings.each do |node| %>
+      <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
+      <%= link_to node.title, path %>
+    <% end %>
+    </div>
+  </div>
+  <% end %>
+  
+  <!-- Display latest entry with children everywhere -->
+  <% children = Chart.find_nodes(@node.children) %>
+  <% if children.any? %>
+    <li class="hidden-phone">
+      <span class="divider">&rarr;</span>
+      <%= link_to "...", "#children" %>
+    </li>
+  <% end %>
+  
   <% if children.any? %>
     <% children.each do |node| %>
       <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
       <li class="visible-phone"><%= link_to node.title, path %></li>
     <% end %>
-
-    <div id="nodes" class="popover">
+    
+    <div id="children" class="popover">
       <div class="list">
       <% children.each do |node| %>
         <% path = params[:action] == "edit" ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
