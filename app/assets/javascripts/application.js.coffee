@@ -916,6 +916,9 @@ App =
           
           if result.action_to
             $form.attr("action", result.action_to)
+          
+          if result.pdf_to
+            $j(".pdf").attr("href", result.pdf_to)
             
           # Reload
           if !current
