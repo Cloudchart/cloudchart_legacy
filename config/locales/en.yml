@@ -96,6 +96,19 @@ en:
     no_account: "Account does not exist"
     please_sign_in: "Please sign in to use this features"
     anonymous: "Anonymous"
+    ie:
+      title: "Interner Explorer is not supported"
+      descr: |
+        Dear %visitor%, we do not support Internet Explorer at this time. Please consider using Chrome, Safari, Firefox or almost any other modern WebKit-based browser (iOS devices included).
+        
+        If you must use Internet Explorer, we could notify you when Internet Explorer will be supported. Leave us your email and we’ll let you know. Note that this is not a mailing list, it’s a one-time only notification: 
+      notification:
+        title: "IE notification"
+        placeholder: "Email, please"
+        ready: "Enter"
+        error: "Error"
+        success: "Done"
+      fire: "I understand"
   
   pages:
     about: "About"

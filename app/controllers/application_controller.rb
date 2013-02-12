@@ -29,7 +29,11 @@ class ApplicationController < ActionController::Base
     end
     
     def preload
-      redirect_to beta_path if !beta_user_signed_in? && params[:action] != "beta" && !["invitations", "omniauth"].include?(params[:controller])
+      # Check beta
+      redirect_to beta_path and return if !beta_user_signed_in? && params[:action] != "beta" && !["invitations", "omniauth"].include?(params[:controller])
+      
+      # Check ie
+      # redirect_to ie_path unless params[:action].in? ["ie", "beta"]
       
       if user_signed_in? && charts_from_tokens.any?
         charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}

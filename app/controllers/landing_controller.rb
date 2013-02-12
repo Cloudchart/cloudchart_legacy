@@ -9,6 +9,10 @@ class LandingController < ApplicationController
     @charts = Chart.demo.all unless @charts.any?
   end
   
+  def ie
+    render layout: false
+  end
+  
   def beta
     if params[:password].present?
       if params[:password] == beta_token

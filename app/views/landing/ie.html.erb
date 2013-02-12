@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render partial: "/shared/meta" %>
+</head>
+<body class="<%= cls ||= @cls ||= '' %>">
+
+  <%= render partial: "/shared/header" %>
+  <section>
+    <%= render partial: "/charts/list", locals: { charts: [] } %>
+  </section>
+
+  <div class="overlay ie" style="display: block;">
+    <div class="box">
+      <div class="content">
+        <h1><%= t("common.ie.title") %></h1>
+        <%= simple_format t("common.ie.descr") %>
+        
+        <%= simple_form_for(Waiter.new, html: { class: "form-horizontal" }) do |f| %>
+          <div class="control-group">
+            <label class="control-label" for="waiter[email]">
+              <%= t("common.ie.notification.title") %>
+            </label>
+            <div class="controls">
+              <%= f.input :email, label: false, placeholder: t("common.ie.notification.placeholder") %>
+              <button class="btn btn-small email disabled" data-ready="<%= t("common.ie.notification.ready") %>" data-error="<%= t("common.ie.notification.error") %>" data-success="<%= t("common.ie.notification.success") %>"><%= t("common.ie.notification.ready") %></button>
+              <button class="btn btn-small clear">×</button>
+            </div>
+          </div>
+        <% end %>
+      </div>
+      <div class="buttons">
+        <button class="fire"><%= t("common.ie.fire") %></button>
+      </div>
+    </div>
+  </div>
+
+  <%= render partial: "/shared/loading" %>
+
+</body>
+</html>

@@ -982,6 +982,7 @@ App =
         $j(".clear").unbind "click"
         $j(".clear").bind "click", ->
           $j(this).prev().val("")
+          $j(this).prev().focus()
           false
     
     reload: ->
@@ -994,6 +995,59 @@ App =
   
   # Initialize
   init: ->
+    # IE Overlay
+    # TODO: Check OS
+    if $j(".overlay.ie").length > 0
+      $j(".overlay.ie input.email").unbind "textchange"
+      $j(".overlay.ie input.email").bind "textchange", ->
+        $this = $j(this)
+        $email = $this.parent().next()
+        
+        if $this.val().strip() != "" && /\S+@\S+\.\S+/.test($this.val())
+          $email.removeClass("disabled")
+          $email.addClass("pressme")
+        else
+          $email.addClass("disabled")
+          $email.removeClass("pressme")
+      
+      $j(".overlay.ie form").unbind "submit"
+      $j(".overlay.ie form").bind "submit", ->
+        $j(".overlay.ie button.email").trigger "click"
+        false
+      
+      $j(".overlay.ie .clear").unbind "click"
+      $j(".overlay.ie .clear").bind "click", ->
+        $j(this).prev().prev().find("input").val("")
+        $j(this).prev().prev().find("input").focus()
+        false
+      
+      $j(".overlay.ie button.email").unbind "click"
+      $j(".overlay.ie button.email").bind "click", ->
+        $this = $j(this)
+        $input = $this.prev().find("input")
+        
+        if $this.hasClass("pressme")
+          $form = $j(".overlay.ie form")
+          $j.ajax url: $form.attr("action"), data: $form.serialize(), dataType: "json", type: "POST", complete: (data) ->
+            if data.status == 200
+              $this.text($this.attr("data-success"))
+              $input.val("")
+              
+              setTimeout ->
+                $this.addClass("disabled")
+                $this.removeClass("pressme")
+                $this.text($this.attr("data-ready"))
+              , 1000
+            else
+              $this.text($this.attr("data-error"))
+          
+        false
+        
+      $j(".overlay.ie .fire").unbind "click"
+      $j(".overlay.ie .fire").bind "click", ->
+        document.location.href = "http://google.com/chrome"
+        false
+      
     # Search for init
     $j("[data-init]").each ->
       $this = $j(this)

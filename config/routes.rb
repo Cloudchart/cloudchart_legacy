@@ -21,6 +21,7 @@ Cloudchart::Application.routes.draw do
   get "/c/:id/t/:token", to: "charts#token", as: :short_token_chart
   
   resources :pages, only: [:show]
+  resources :waiters, only: [:create]
   
   # Users
   devise_for :users,
@@ -31,6 +32,7 @@ Cloudchart::Application.routes.draw do
   
   # Root
   match "/beta", to: "landing#beta"
+  match "/ie", to: "landing#ie"
   root to: "landing#index"
   
   # Admin
