@@ -170,6 +170,11 @@ class Chart
     xdot
   end
   
+  def persons_with_parent(node)
+    cached!
+    self.class.find_persons(node.children)
+  end
+  
   def to_text_with_parent(node)
     text = []
     self.class.find_persons(node.children).each { |n|
@@ -246,7 +251,12 @@ class Chart
   end
   
   private
-  
+    
+    def cached!(nodes = nil)
+      return self.cached if !self.cached.nil? && !nodes
+      self.cached = nodes || self.nodes.ordered.cache
+    end
+    
     def to_graph(parent = nil)
       GraphViz::new(:G, type: :digraph) { |g|
         # Set background
@@ -256,11 +266,12 @@ class Chart
         g.graph[:fontsize] = 12.0
         
         # Find nodes
-        self.cached = self.nodes.ordered.cache
+        cached!
         
         # Create root node with chart name
         if parent
-          root = g.add_nodes(parent.title,
+          root = g.add_nodes(parent.id.to_s,
+            label: parent.title,
             shape: "ellipse",
             style: "filled",
             fillcolor: "#ffffffff",
@@ -268,9 +279,10 @@ class Chart
             fontsize: 12.0
           )
           
-          self.cached = self.class.find_persons(self.cached)
+          cached!(self.class.find_nodes(self.cached))
         else
-          root = g.add_nodes(self.title,
+          root = g.add_nodes(self.id.to_s,
+            label: self.title,
             shape: "ellipse",
             style: "filled",
             fillcolor: "#ffffffff",

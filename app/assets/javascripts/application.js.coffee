@@ -296,13 +296,19 @@ App =
     
     resize: (timeout = 500) ->
       # Fill height
-      $j(".chart, .chart .left, .chart .canvas, #canvas div:eq(0)").css(
+      $j(".chart, .chart .left").css(
         "height",
-        Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+        Math.max(250 + $j(".chart .persons").outerHeight(), $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+      )
+      
+      $j(".chart .canvas, #canvas div:eq(0)").css(
+        "height",
+        Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight() - $j(".chart .persons").outerHeight())
       )
       
       if $j(".edit_chart textarea").length > 0
         # Autosize
+        $j(".edit_chart textarea").autosize()
         $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
         
         # Editor lines

@@ -22,6 +22,7 @@ gem 'mongoid-slugify'
 gem 'babosa'
 gem 'bson_ext'
 gem 'json'
+# gem 'russian'
 
 gem 'devise'
 gem 'devise_invitable'

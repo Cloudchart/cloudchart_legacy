@@ -2,6 +2,7 @@ class NodesController < ChartsController
   def show
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)
+    @persons = @chart.persons_with_parent(@node)
     
     respond_to { |format|
       format.html { render }
@@ -15,6 +16,7 @@ class NodesController < ChartsController
     
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)
+    @persons = @chart.persons_with_parent(@node)
     
     # Replace text
     @chart.previous_text = @chart.text
