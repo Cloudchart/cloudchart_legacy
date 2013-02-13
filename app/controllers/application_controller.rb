@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
       redirect_to beta_path and return if !beta_user_signed_in? && params[:action] != "beta" && !["invitations", "omniauth"].include?(params[:controller])
       
       # Check ie
-      redirect_to ie_path if !params[:action].in?(["ie", "beta"]) && browser.ie?
+      redirect_to ie_path if browser.ie? && !params[:action].in?(["ie", "beta"]) && !params[:controller].in?(["waiters"])
       
       if user_signed_in? && charts_from_tokens.any?
         charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
