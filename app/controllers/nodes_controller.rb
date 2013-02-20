@@ -43,7 +43,7 @@ class NodesController < ChartsController
       #   final_text.gsub!(prepared_text[current_text.length-1], prepared_text[current_text.length-1..-1].join("\r\n"))
       # end
       
-      final_text = params[:chart][:previous_text].gsub(current_text, prepared_text)
+      final_text = params[:chart][:previous_text].gsub(current_text, "#{prepared_text.rstrip}\r\n")
     else
       final_text = params[:chart][:previous_text].gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text.rstrip}\r\n")
     end

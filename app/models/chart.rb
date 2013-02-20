@@ -279,7 +279,7 @@ class Chart
             fontsize: 12.0
           )
           
-          cached!(self.class.find_nodes(self.cached))
+          cached!(self.cached.reject { |x| self.find_person(x.title) && x.parent_id == parent.id })
         else
           root = g.add_nodes(self.id.to_s,
             label: self.title,
