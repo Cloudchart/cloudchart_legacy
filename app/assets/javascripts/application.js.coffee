@@ -298,13 +298,16 @@ App =
       # Fill height
       $j(".chart, .chart .left").css(
         "height",
-        Math.max(250 + $j(".chart .persons").outerHeight(), $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
+        Math.max(250 + $j(".chart .header").outerHeight(), $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight())
       )
       
       $j(".chart .canvas, #canvas div:eq(0)").css(
         "height",
-        Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight() - $j(".chart .persons").outerHeight())
+        Math.max(250, $j("html").height() - $j("header").outerHeight() - $j(".breadcrumb").outerHeight() - $j(".chart .header").outerHeight())
       )
+      
+      # Move canvas
+      $j("#canvas").css(bottom: 65) if $j(".chart .header").length > 0
       
       if $j(".edit_chart textarea").length > 0
         # Autosize
@@ -942,6 +945,10 @@ App =
             # Replace breadcrumb
             $j(".breadcrumb").html(result.breadcrumb) if result.breadcrumb
             App.chart.breadcrumb()
+            
+            # Replace header
+            $j(".chart .header").html(result.header) if result.header
+            App.chart.resize()
             
             # Show
             $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))

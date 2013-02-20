@@ -1,8 +1,12 @@
-<div class="persons">
-  <h1><%= node.title %></h1>
+<% insert ||= false %>
+<% if !insert %>
+<div class="header">
+<% end %>
+
+  <h1><%= @node.title %></h1>
   <ul>
-    <% persons.each do |node| %>
-    <% person = chart.find_person(node.title) || next %>
+    <% @persons.each do |node| %>
+    <% person = @chart.find_person(node.title) || next %>
     <li>
       <div onclick="App.chart.click('<%= node.id %>')">
         <% if person["picture_url"].present? %>
@@ -11,12 +15,15 @@
           <%= image_tag "/images/ico-person.png" %>
         <% end %>
         
-        <h2><%= chart.find_person_title(node.title) %></h2>
+        <h2><%= @chart.find_person_title(node.title) %></h2>
         <% if person["headline"].present? %>
         <h3><%= person["headline"] %></h3>
         <% end %>
       </div>
     </li>
-    <% end %>
+    <% end if @persons %>
   </ul>
+
+<% if !insert %>
 </div>
+<% end %>

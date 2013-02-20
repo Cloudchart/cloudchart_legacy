@@ -1,7 +1,7 @@
 <%= render partial: "/nodes/breadcrumb" %>
 
-<div class="chart<%=" has-persons" if @persons && @persons.any? %>">
-  <%= render partial: "/nodes/persons", locals: { chart: @chart, node: @node, persons: @persons } if @persons && @persons.any? %>
+<div class="chart">
+  <%= render partial: "/nodes/header" %>
   <%= render partial: "/charts/canvas", locals: { chart: @chart } %>
   <ins data-init="chart-show" data-chart="<%= @chart.to_json %>"></ins>
 </div>

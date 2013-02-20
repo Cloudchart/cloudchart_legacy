@@ -55,6 +55,7 @@ class NodesController < ChartsController
     # Replace xdot
     @node = @chart.nodes.find_by(title: @node.title)
     @chart.xdot = @chart.to_xdot_with_parent(@node)
+    @persons = @chart.persons_with_parent(@node)
     
     respond_to { |format|
       format.html {
@@ -64,6 +65,7 @@ class NodesController < ChartsController
         render json: {
           chart: @chart,
           breadcrumb: render_to_string(partial: "/nodes/breadcrumb", formats: [:html], locals: { insert: true }),
+          header: render_to_string(partial: "/nodes/header", formats: [:html], locals: { insert: true }),
           pdf_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id, format: :pdf),
           action_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id),
           redirect_to: edit_chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)
