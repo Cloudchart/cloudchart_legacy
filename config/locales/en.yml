@@ -140,6 +140,16 @@ en:
     indent: "Indent"
     move: "Move"
     cancel: "Cancel"
+    help: |
+      <h1>Little Help</h1>
+      <p>The editor is to the <strong>left</strong>, the chart is to the <strong>right</strong>.</p>
+      <p>Start typing in the editor to add <strong>nodes</strong> or <strong>people</strong>.</p>
+      <p>Type <strong>@</strong> to add people from LinkedIn to your chart.</p>
+      <p>Use  <strong>↹ (TAB)</strong> to indent a node or a person.</p>
+      <p>Select several nodes or people and use  <strong>↹</strong> to indent them all.</p>
+      <p>Start a new line with <strong>+</strong> to explode a complex node.</p>
+      <p>You could use CloudChart on your  <strong>iOS</strong> device. Try it, it's nice.</p>
+      
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"

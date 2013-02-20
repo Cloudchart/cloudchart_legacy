@@ -863,6 +863,13 @@ App =
           , 500
           
           return false if ui.offset.left != sidebar
+          
+      # Help
+      $j(".editor .help .btn, .editor .help .close").unbind "click"
+      $j(".editor .help .btn, .editor .help .close").bind "click", ->
+        $j.cookie("help", true, { path: "/", expires: 365 })
+        $j(".editor .help").toggleClass("open")
+        false
       
     check: ->
       if $j(".edit_chart").length > 0 && !App.chart.skip
@@ -996,7 +1003,6 @@ App =
   # Initialize
   init: ->
     # IE Overlay
-    # TODO: Check OS
     if $j(".overlay.ie").length > 0
       $j(".overlay.ie input.email").unbind "textchange"
       $j(".overlay.ie input.email").bind "textchange", ->

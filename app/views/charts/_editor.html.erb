@@ -30,5 +30,16 @@
         </ul>
       </div>
     </div>
+    
+    <div class="help<%= " open" unless cookies[:help] %>">
+      <div class="buttons">
+        <button class="btn">?</button>
+      </div>
+      
+      <div class="inner">
+        <div class="close">×</div>
+        <%= raw t("charts.help") %>
+      </div>
+    </div>
   <% end %>
 </div>

@@ -2157,6 +2157,73 @@ body {
     input[type="submit"] {
       margin: 10px 0;
     }
+    
+    /* Help */
+    .help {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      
+      .buttons {
+        margin: 0;
+      }
+      
+      .inner {
+        display: none;
+      }
+      
+      &.open {
+        /*height: 148px;*/
+        max-width: 360px;
+        
+        .buttons {
+          display: none;
+        }
+        
+        .inner {
+          .rounded(4px);
+          .gradient(#b7c5cd, #d1dce2, #f5f8fa);
+          .box-sizing(border-box);
+          display: block;
+          position: relative;
+          border: 1px solid #b1c5cf;
+          padding: 5px 8px;
+          
+          .close {
+            .opacity(100);
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            color: #01405a;
+          }
+          
+          h1 {
+            margin: 0;
+            padding: 0;
+            color: #013f59;
+            text-transform: uppercase;
+            font-size: 18px;
+            line-height: 24px;
+          }
+          
+          p {
+            margin: 0;
+            padding: 0;
+            color: #013f59;
+            font-size: 12px;
+            line-height: 17px;
+            
+            strong {
+              font-weight: normal;
+              color: #000;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
