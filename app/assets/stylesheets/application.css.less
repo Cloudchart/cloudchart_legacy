@@ -430,30 +430,33 @@ body {
       }
       
       .icon-charts-grid {
+        position: relative;
+        top: 2px;
         width: 26px;
         height: 26px;
-        background: url(ico-grid.png);
-        background-size: 26px 26px;
+        background: url(ico-grid.png) no-repeat center center;
+        background-size: 25px 23px;
         line-height: 26px;
       }
       
       .icon-charts-list {
-        width: 29px;
+        position: relative;
+        top: 2px;
+        width: 26px;
         height: 26px;
-        background: url(ico-list.png);
-        background-size: 29px 26px;
-        background-position: 0 1px;
+        background: url(ico-list.png) no-repeat center center;
+        background-size: 22px 15px;
       }
       
       .btn-group {
-        top: -2px;
         margin-right: 10px;
+        top: -2px;
         
         .btn {
           .box-sizing(border-box);
-          .gradient(#297698, #015275, #4f99b9);
-          padding: 8px 8px 4px 8px;
-          border: 1px solid #003850;
+          .gradient(#016c99, #02638c, #0077a9);
+          padding: 0 4px 0 4px;
+          border: 2px solid #fff;
           
           &.active {
             .gradient(#297698, #1c769d, #025376);
@@ -2218,7 +2221,7 @@ body {
             
             strong {
               font-weight: normal;
-              color: #000;
+              /*color: #000;*/
             }
           }
         }
