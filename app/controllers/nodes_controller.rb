@@ -19,7 +19,7 @@ class NodesController < ChartsController
     @persons = @chart.persons_with_parent(@node)
     
     # Replace text
-    @chart.previous_text = @chart.text
+    @chart.previous_text = @chart.text.split("\r\n").reject { |x| x.strip.blank? }.join("\r\n")
     @chart.text = @chart.to_text_with_parent(@node)
   end
   
