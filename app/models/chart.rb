@@ -177,7 +177,7 @@ class Chart
   
   def to_text_with_parent(node)
     text = []
-    self.class.find_persons(node.children).each { |n|
+    node.children.each { |n|
       next if n == node
       text << "\t" * (n.depth - node.depth - 1) + n.title
     }
