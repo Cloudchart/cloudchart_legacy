@@ -8,9 +8,13 @@ String.prototype.repeat = function(count) {
   return result;
 };
 
-String.prototype.insert = function (index, string) {
+String.prototype.insert = function(index, string) {
   if (index > 0)
     return this.substring(0, index) + string + this.substring(index, this.length);
   else
     return string + this;
+};
+
+String.prototype.level = function() {
+  return this.match(/^[\t]*/g)[0].length;
 };

@@ -351,7 +351,7 @@ App =
       list = for line in lines
         num = _i + 1
         
-        level = line.match(/^[\t]*/g)[0].length
+        level = line.level()
         levels[level] = 0 unless levels[level]
         levels[level]++
         _.each(levels, (_, i) ->
@@ -388,9 +388,9 @@ App =
       else
         indent = [line]
       
-      prev_line_level = (lines[indent[0]-1] || "").match(/^[\t]*/g)[0].length
-      first_line_level = lines[indent[0]].match(/^[\t]*/g)[0].length
-      last_line_level = lines[indent[indent.length-1]].match(/^[\t]*/g)[0].length
+      prev_line_level = (lines[indent[0]-1] || "").level()
+      first_line_level = lines[indent[0]].level()
+      last_line_level = lines[indent[indent.length-1]].level()
       offset = 0
       first = true
       if (right && first_line_level < prev_line_level + 1) || (!right && last_line_level > 0)
@@ -786,21 +786,33 @@ App =
           line = $this.caretLine() - 1
           lines = $this.val().split("\n")
           caret = $this.caret()
+          
+          selected = (for current, idx in lines
+            break if idx > line && current.level() <= lines[line].level()
+            do (line) ->
+              idx if idx > line && current.level() > lines[line].level()
+          ).filter (x) -> x
+          selected.unshift line
+          
           if e.keyCode == 38
             # Up
             if lines[line-1] != undefined
-              swap = lines[line-1]
-              lines[line-1] = lines[line]
-              lines[line] = swap
-              caret = caret - swap.length - 1
+              caret = caret - lines[line-1].length - 1
+              for idx in selected
+                swap = lines[idx-1]
+                lines[idx-1] = lines[idx]
+                lines[idx] = swap
           
           else if e.keyCode == 40
             # Down
+            selected = selected.reverse()
+            line = selected[0]
             if lines[line+1] != undefined
-              swap = lines[line+1]
-              lines[line+1] = lines[line]
-              lines[line] = swap
-              caret = caret + swap.length + 1
+              caret = caret + lines[line+1].length + 1
+              for idx in selected
+                swap = lines[idx+1]
+                lines[idx+1] = lines[idx]
+                lines[idx] = swap
           
           $this.val(lines.join("\n"))
           $this.caret(caret)
