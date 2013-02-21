@@ -28,6 +28,7 @@
 //= require jquery/popover
 //= require jquery/touch-punch
 //= require jquery/scrollto
+//= require jquery/jqplugin
 
 $j = jQuery.noConflict()
 window.$j = $j
@@ -127,39 +128,47 @@ App =
           return unless cls == "share"
           
           # Share
+          click = ->
+            $this = $j(this)
+            $input = $this.prev().find("input")
+            $email = $this.next()
+            
+            if $email.hasClass("progress")
+              # if $input.val().strip() != ""
+              #   $email.removeClass("pressme")
+              #   $email.addClass("disabled")
+              #   $email.text($email.attr("data-send"))
+              #   $input.val("")
+              #   return false
+              
+              $email.removeClass("disabled")
+              $email.removeClass("pressme")
+              $email.removeClass("progress")
+              $this.text($this.attr("data-text"))
+              $email.text($email.attr("data-text"))
+              $input.val($input.attr("data-value"))
+              $input.attr("placeholder", "")
+              return false
+          
           $j(".overlay.share button.copy").unbind "click"
           $j(".overlay.share button.copy").bind "click", (e) ->
-            if navigator.userAgent.match(/iPad|iPhone|iPod/i) != null
-              e.preventDefault()
+            e.preventDefault()
+            return false if $j.browser.flash
+            
+            if $j(this).next().hasClass("progress")
+              click.apply(this)
+            else
               window.open $j(this).parent().find(":first").find("input").val()
-            return false
+            
+            false
           
+          return unless $j.browser.flash
           $j(".overlay.share button.copy").zclip
             path: "/zero.swf"
             copy: ->
               $j(this).attr("data-clipboard-text")
             afterCopy: ->
-              $this = $j(this)
-              $input = $this.prev().find("input")
-              $email = $this.next()
-              
-              if $email.hasClass("progress")
-                # if $input.val().strip() != ""
-                #   $email.removeClass("pressme")
-                #   $email.addClass("disabled")
-                #   $email.text($email.attr("data-send"))
-                #   $input.val("")
-                #   return false
-                
-                $email.removeClass("disabled")
-                $email.removeClass("pressme")
-                $email.removeClass("progress")
-                $this.text($this.attr("data-text"))
-                $email.text($email.attr("data-text"))
-                $input.val($input.attr("data-value"))
-                $input.attr("placeholder", "")
-                return false
-          
+              click.apply(this)
         )
         
         false
