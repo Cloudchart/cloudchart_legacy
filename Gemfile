@@ -10,6 +10,12 @@ group :development do
   gem 'quiet_assets'
 end
 
+group :test do
+  gem 'rspec-rails'
+  gem 'capybara'
+  gem 'capybara-webkit'
+end
+
 # Server
 gem 'unicorn'
 gem 'unicorn-worker-killer'

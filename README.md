@@ -12,7 +12,7 @@ CloudChart is a web app that built on Rails and MongoDB.
 
 ## Testing
 
-Just run ```rake```.
+Just run ```rspec -fd```.
 
 Please use [Rspec](https://github.com/rspec/rspec) and [Capybara](https://github.com/jnicklas/capybara) to cover UX features and cases.
 

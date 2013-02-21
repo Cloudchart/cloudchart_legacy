@@ -24,8 +24,8 @@ Cloudchart::Application.routes.draw do
   resources :waiters, only: [:create]
   
   # Users
-  devise_for :users,
-    controllers: { omniauth_callbacks: "omniauth", registrations: "registrations", sessions: "sessions", invitations: "invitations" } do
+  devise_for :users, controllers: { omniauth_callbacks: "omniauth", registrations: "registrations", sessions: "sessions", invitations: "invitations" }
+  devise_scope :user do
     get  "/users/profile" => "registrations#profile", as: :user_profile
     post "/users/invite" => "registrations#invite", as: :user_invite
   end
