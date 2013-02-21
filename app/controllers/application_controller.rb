@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   
     def charts_from_tokens
       return [] unless cookies["charts"].present?
-      charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
+      charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}
       charts.map { |_, v| Chart.where(id: v["id"], token: v["token"]).first }.compact
     end
     
@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
       redirect_to ie_path if browser.ie? && !params[:action].in?(["ie", "beta"]) && !params[:controller].in?(["waiters"])
       
       if user_signed_in? && charts_from_tokens.any?
-        charts = ActiveSupport::JSON.decode(cookies["charts"]) rescue {}
+        charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}
         charts_from_tokens.each do |chart|
           if !chart.user_id || chart.user_id == current_user.id
             charts.delete(chart.id.to_s)
