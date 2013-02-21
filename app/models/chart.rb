@@ -233,8 +233,10 @@ class Chart
     self.persons[match[1]] if match
   end
   
-  def find_person_title(title)
+  def normalize_title(title)
+    title.gsub!(/^\+\s*/, "")
     person = self.find_person(title)
+    
     if person
       "#{person["first_name"]} #{person["last_name"]}"
     else
@@ -298,13 +300,16 @@ class Chart
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
-        title = breaking_word_wrap(find_person_title(n.title), 40)
+        expanded = n.title[0] == "+"
+        title = breaking_word_wrap(normalize_title(n.title), 40)
         
         # Find nested people
-        people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
-        if people.any?
-          names = people.map { |x| breaking_word_wrap(find_person_title(x.title), 40) }
-          title = "#{title}\n#{names.each_slice(3).map { |sliced| sliced.join(', ') }.join('\n')}"
+        if !expanded
+          people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
+          if people.any?
+            names = people.map { |x| breaking_word_wrap(normalize_title(x.title), 40) }
+            title = "#{title}\n#{names.each_slice(3).map { |sliced| sliced.join(', ') }.join('\n')}"
+          end
         end
         
         # Add node to root
@@ -320,7 +325,12 @@ class Chart
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
-        children = self.class.find_nodes(self.cached.select { |x| x.parent_id == n.id })
+        if !expanded
+          children = self.class.find_nodes(self.cached.select { |x| x.parent_id == n.id })
+        else
+          children = self.cached.select { |x| x.parent_id == n.id }
+        end
+        
         if children.any?
           add_nodes(g, node, children)
         end

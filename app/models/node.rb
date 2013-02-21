@@ -40,4 +40,8 @@ class Node
     end
     parents
   end
+  
+  def normalized_title
+    self.chart.normalize_title(self.title)
+  end
 end

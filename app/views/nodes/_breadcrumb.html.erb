@@ -11,16 +11,16 @@
   <li><%= link_to truncate(@chart.title, length: 40), path %> <span class="divider">&rarr;</span></li>
   <% @node.parents.reverse.each do |node| %>
     <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
-    <li><%= link_to truncate(node.title, length: 40), path %> <span class="divider">&rarr;</span></li>
+    <li><%= link_to truncate(node.normalized_title, length: 40), path %> <span class="divider">&rarr;</span></li>
   <% end %>
   
   <!-- Display siblings for desktop -->
   <% siblings = @node.parent? ? Chart.find_nodes(@node.siblings) : Chart.find_nodes(@chart.nodes.roots) %>
   <li class="active">
     <% if siblings.any? %>
-      <%= link_to truncate(@node.title, length: 40), "#siblings" %>
+      <%= link_to truncate(@node.normalized_title, length: 40), "#siblings" %>
     <% else %>
-      <%= truncate(@node.title, length: 40) %>
+      <%= truncate(@node.normalized_title, length: 40) %>
     <% end %>
   </li>
   
@@ -29,7 +29,7 @@
     <div class="list">
     <% siblings.each do |node| %>
       <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
-      <%= link_to truncate(node.title, length: 40), path %>
+      <%= link_to truncate(node.normalized_title, length: 40), path %>
     <% end %>
     </div>
   </div>
@@ -47,14 +47,14 @@
   <% if children.any? %>
     <% children.each do |node| %>
       <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
-      <li class="visible-phone"><%= link_to truncate(node.title, length: 40), path %></li>
+      <li class="visible-phone"><%= link_to truncate(node.normalized_title, length: 40), path %></li>
     <% end %>
     
     <div id="children" class="popover">
       <div class="list">
       <% children.each do |node| %>
         <% path = params[:action].in?(["edit", "update"]) ? edit_chart_node_path(chart_id: @chart.slug_or_id, id: node.id) : chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
-        <%= link_to truncate(node.title, length: 40), path %>
+        <%= link_to truncate(node.normalized_title, length: 40), path %>
       <% end %>
       </div>
     </div>
