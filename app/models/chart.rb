@@ -157,6 +157,7 @@ class Chart
   end
   
   def to_xdot_with_parent(node)
+    self.cached = nil
     xdot = to_graph(node).output(xdot: String)
     # Magically fix broken characters
     begin
@@ -206,6 +207,7 @@ class Chart
   end
   
   def to_xdot!
+    self.cached = nil
     xdot = to_graph.output(xdot: String)
     # Magically fix broken characters
     begin
