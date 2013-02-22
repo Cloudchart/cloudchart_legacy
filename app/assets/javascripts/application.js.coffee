@@ -741,6 +741,13 @@ App =
       $j(".edit_chart textarea").bind "keydown", (e, data) ->
         $this = $j(this)
         
+        # Arrows
+        if $j(".move").hasClass("selected")
+          e.preventDefault() if e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13
+          if e.keyCode == 13
+            $j(".move").removeClass("selected")
+            return false
+        
         # Enter?
         if e.keyCode == 13 || (data && data.newline)
           line = $this.caretLine() - 1
@@ -767,10 +774,6 @@ App =
           prev = $this.val().substr($this.caret()-1, 1)
           if $this.caret() == 0 || prev == "\n" || prev == "\t"
             e.preventDefault()
-        
-        # Arrows
-        if $j(".move").hasClass("selected")
-          e.preventDefault() if e.keyCode == 38 || e.keyCode == 40
         
         true
         
