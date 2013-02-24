@@ -12,6 +12,7 @@ class ApplicationController < ActionController::Base
     ::AbstractController::ActionNotFound,
     Mongoid::Errors::DocumentNotFound, {
       with: lambda {
+        raise if params[:controller] =~ /^rails_admin/
         render "/errors/404", layout: "application", locals: { cls: "application" }
       }
     })
