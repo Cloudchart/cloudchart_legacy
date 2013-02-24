@@ -2,7 +2,7 @@
   chart ||= nil
 %>
 
-<%= link_to image_tag("btn-editor.png"), "#", class: "show-editor" %>
+<%= link_to image_tag("btn-editor.png"), "#", class: "show-editor" if can?(:edit, chart) %>
 <% if @node %>
   <%= link_to @node.title, "#", class: "show-breadcrumb" %>
 <% end %>
