@@ -28,8 +28,8 @@ class Person
   validates :last_name, presence: true
   
   # Indexes
-  ## Slug
-  index({ external_id: 1 })
+  ## Unique
+  index({ user_id: 1, type: 1, external_id: 1 }, { unique: true })
   
   def serializable_hash(options)
     super (options || {}).merge(except: [:_id], methods: [:id])
