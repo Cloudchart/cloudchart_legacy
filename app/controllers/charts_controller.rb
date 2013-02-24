@@ -1,5 +1,5 @@
 class ChartsController < ApplicationController
-  layout "chart", only: [:show, :token, :edit]
+  layout "chart", only: [:show, :token]
   
   def index
     if user_signed_in?
@@ -21,7 +21,7 @@ class ChartsController < ApplicationController
     # @chart.to_xdot! if Rails.env.development?
     
     respond_to { |format|
-      format.html { render }
+      format.html { render :edit }
       format.json { render json: @chart.as_json }
       format.xdot { render text: @chart.to_xdot }
       format.pdf  { render text: @chart.to_pdf }
@@ -38,7 +38,7 @@ class ChartsController < ApplicationController
       cookies["charts"] = { value: charts.to_json, expires: 1.year.from_now, path: "/" }
     end
     
-    render :show
+    render :edit
   end
   
   def create
@@ -50,10 +50,10 @@ class ChartsController < ApplicationController
     
     respond_to { |format|
       format.html {
-        redirect_to edit_chart_path(@chart.slug_or_id)
+        redirect_to chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: edit_chart_path(@chart.slug_or_id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: chart_path(@chart.slug_or_id) }
       }
     }
   end
@@ -73,16 +73,12 @@ class ChartsController < ApplicationController
     
     respond_to { |format|
       format.html {
-        redirect_to edit_chart_path(@chart.slug_or_id)
+        redirect_to chart_path(@chart.slug_or_id)
       }
       format.json {
-        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: edit_chart_path(@chart.slug_or_id) }
+        render json: { chart: @chart.as_json.merge(token: @chart.token), redirect_to: chart_path(@chart.slug_or_id) }
       }
     }
-  end
-  
-  def edit
-    not_found unless can?(:edit, @chart)
   end
   
   def update
@@ -92,13 +88,13 @@ class ChartsController < ApplicationController
     
     respond_to { |format|
       format.html {
-        redirect_to edit_chart_path(@chart.slug_or_id)
+        redirect_to chart_path(@chart.slug_or_id)
       }
       format.json {
         render json: {
           chart: @chart,
           action_to: chart_path(@chart.id),
-          redirect_to: edit_chart_path(@chart.slug_or_id)
+          redirect_to: chart_path(@chart.slug_or_id)
         }
       }
     }

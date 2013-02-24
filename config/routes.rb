@@ -1,17 +1,17 @@
 Cloudchart::Application.routes.draw do
   # App
-  resources :charts do
+  resources :charts, except: [:edit] do
     member do
       get  "token/:token", action: "token", via: [:get], as: :token
       post :clone
       post :share
     end
     
-    resources :versions, except: [:new, :create, :destroy] do
+    resources :versions, except: [:new, :create, :edit, :update, :destroy] do
       put  :restore
       post :clone
     end
-    resources :nodes, except: [:index, :new, :create, :destroy]
+    resources :nodes, except: [:index, :new, :create, :edit, :destroy]
     resources :persons, only: [:index] do
       get  :profile
     end

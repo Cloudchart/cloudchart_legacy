@@ -3,7 +3,7 @@
 <head>
   <%= render partial: "/shared/meta" %>
 </head>
-<body>
+<body data-controller="<%= params[:controller] %>" data-action="<%= params[:action] %>">
 
   <%= render partial: "/shared/header", locals: { chart: @chart } %>
   <section>

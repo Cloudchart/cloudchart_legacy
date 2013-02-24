@@ -303,6 +303,30 @@ App =
         $j(".chart").removeClass("editing")
         false
     
+    sidebar: (width) ->
+      if $j(".edit_chart textarea").length == 0
+        $j(".left, .editor").css(width: 0)
+        $j(".right, .btn-divider").css(left: 0)
+        return
+        
+      if width?
+        sidebar = Math.max(0, Math.min($j("html").width()-13, width))
+        if $j("[name='chart[sidebar]']").length > 0
+          App.chart.status.text(I18n.t("charts.autosave.changed"))
+          $j("[name='chart[sidebar]']").val(sidebar)
+      else if $j("[name='chart[sidebar]']").length > 0
+        sidebar = Math.max(0, Math.min($j("html").width()-13, parseInt($j("[name='chart[sidebar]']").val())))
+      else
+        sidebar = 0
+      
+      $j(".left, .editor").css(width: sidebar)
+      $j(".right, .btn-divider").css(left: sidebar)
+      
+      # Editor lines
+      App.chart.cache.breaks = {}
+      App.chart.lines()
+      App.chart.update()
+    
     resize: (timeout = 500) ->
       # Fill height
       $j(".chart, .chart .left").css(
@@ -318,29 +342,17 @@ App =
       # Move canvas
       $j("#canvas").css(bottom: 65) if $j(".chart .header").length > 0
       
+      # Autosize
       if $j(".edit_chart textarea").length > 0
-        # Autosize
         $j(".edit_chart textarea").autosize()
         $j(".edit_chart textarea").css("minHeight", $j(".left").height()-parseInt($j(".left .text").css("top")))
         
-        # Editor lines
-        sidebarTimeout = ->
-          App.chart.cache.breaks = {}
-          App.chart.lines()
-          
-          # Sidebar width
-          if $j("[name='chart[sidebar]']").length > 0
-            sidebar = Math.max(0, Math.min($j("html").width()-13, parseInt($j("[name='chart[sidebar]']").val())))
-            $j(".left, .editor").css(width: sidebar)
-            $j(".right, .btn-divider").css(left: sidebar)
-            App.chart.cache.breaks = {}
-            App.chart.lines()
-        
-        clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
-        if timeout > 0
-          App.chart.sidebarTimeout = setTimeout(sidebarTimeout, timeout)
-        else
-          sidebarTimeout()
+      # Sidebar width
+      clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
+      if timeout > 0
+        App.chart.sidebarTimeout = setTimeout(App.chart.sidebar, timeout)
+      else
+        App.chart.sidebar()
     
     lines: ->
       $this = $j(".edit_chart textarea")
@@ -858,25 +870,29 @@ App =
       $j(".btn-divider").bind "mousedown", (e) ->
         width = parseInt($j("[name='chart[sidebar]']").val())
         App.chart.sidebarWidth = width unless width == 0
+        App.chart.sidebarDragged = false
         
       $j(".btn-divider").unbind "mouseup"
       $j(".btn-divider").bind "mouseup", (e) ->
+        # Previous width
         if App.chart.sidebarWidth
           if parseInt($j("[name='chart[sidebar]']").val()) != 0
             width = 0
           else
             width = App.chart.sidebarWidth
           
-          sidebar = Math.max(0, Math.min($j("html").width()-13, width))
-          $j(".left, .editor").css(width: sidebar)
-          $j(".right, .btn-divider").css(left: sidebar)
-          $j("[name='chart[sidebar]']").val(sidebar)
+          App.chart.sidebar(width)
+        
+        # Default width
+        else if !App.chart.sidebarDragged && parseInt($j("[name='chart[sidebar]']").val()) == 0
+          App.chart.sidebar(400)
       
       $j(".btn-divider").draggable
         axis: "x"
         drag: (e, ui) ->
           # Clear sidebarWidth
           App.chart.sidebarWidth = null
+          App.chart.sidebarDragged = true
           
           sidebar = Math.max(0, Math.min($j("html").width()-13, ui.offset.left))
           $j(".left, .editor").css(width: sidebar)
@@ -885,8 +901,7 @@ App =
           
           clearTimeout(App.chart.sidebarTimeout) if App.chart.sidebarTimeout
           App.chart.sidebarTimeout = setTimeout ->
-            App.chart.cache.breaks = {}
-            App.chart.lines()
+            App.chart.sidebar(sidebar)
           , 500
           
           return false if ui.offset.left != sidebar

@@ -8,7 +8,7 @@
   <!--[if IE]> <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <%= analytics_init if Rails.env.production? %>
 </head>
-<body class="popup" data-no-turbolink>
+<body class="popup" data-controller="<%= params[:controller] %>" data-action="<%= params[:action] %>" data-no-turbolink>
 
   <%= yield %>
 

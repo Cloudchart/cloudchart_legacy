@@ -1,12 +1,16 @@
 <div class="chart">
+  <% if can?(:edit, @chart) %>
   <div class="left">
     <%= render partial: "/charts/editor" %>
   </div>
+  <% end %>
   
   <div class="right">
     <%= render partial: "/charts/canvas", locals: { chart: @chart } %>
     <ins data-init="chart-show" data-chart="<%= @chart.to_json %>"></ins>
   </div>
   
+  <% if can?(:edit, @chart) %>
   <div class="btn-divider hidden-phone"></div>
+  <% end %>
 </div>

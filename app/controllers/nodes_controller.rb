@@ -4,23 +4,15 @@ class NodesController < ChartsController
     @chart.xdot = @chart.to_xdot_with_parent(@node)
     @persons = @chart.persons_with_parent(@node)
     
-    respond_to { |format|
-      format.html { render }
-      format.xdot { render text: @chart.xdot }
-      format.pdf  { render text: @chart.to_pdf(@node) }
-    }
-  end
-  
-  def edit
-    not_found unless can?(:update, @chart)
-    
-    # Replace xdot
-    @chart.xdot = @chart.to_xdot_with_parent(@node)
-    @persons = @chart.persons_with_parent(@node)
-    
     # Replace text
     @chart.previous_text = @chart.text.split("\r\n").reject { |x| x.strip.blank? }.join("\r\n")
     @chart.text = @chart.to_text_with_parent(@node)
+    
+    respond_to { |format|
+      format.html { render :edit }
+      format.xdot { render text: @chart.xdot }
+      format.pdf  { render text: @chart.to_pdf(@node) }
+    }
   end
   
   def update
@@ -48,9 +40,8 @@ class NodesController < ChartsController
       final_text = params[:chart][:previous_text].gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text.rstrip}\r\n")
     end
     
-    @chart.title = params[:chart][:title]
-    @chart.text = final_text
-    @chart.save!
+    # Save
+    @chart.update_attributes params[:chart].merge(text: final_text)
     
     # Replace xdot
     @node = @chart.nodes.find_by(title: @node.title)
@@ -59,7 +50,7 @@ class NodesController < ChartsController
     
     respond_to { |format|
       format.html {
-        redirect_to edit_chart_path(@chart.slug_or_id)
+        redirect_to chart_path(@chart.slug_or_id)
       }
       format.json {
         render json: {
@@ -68,7 +59,7 @@ class NodesController < ChartsController
           header: render_to_string(partial: "/nodes/header", formats: [:html], locals: { insert: true }),
           pdf_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id, format: :pdf),
           action_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id),
-          redirect_to: edit_chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)
+          redirect_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)
         }
       }
     }

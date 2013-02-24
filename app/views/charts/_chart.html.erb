@@ -3,7 +3,7 @@
     link = ""
     cls = ""
   elsif can?(:edit, chart)
-    link = edit_chart_path(chart.slug_or_id)
+    link = chart_path(chart.slug_or_id)
     cls = ""
   elsif chart.demo?
     link = clone_chart_path(chart.slug_or_id)
