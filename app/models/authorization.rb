@@ -1,6 +1,5 @@
 class Authorization
   include Mongoid::Document
-  store_in collection: "authorizations"
   
   # Relations
   embedded_in :user

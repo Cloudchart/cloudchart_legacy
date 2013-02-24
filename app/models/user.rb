@@ -62,6 +62,7 @@ class User
   
   # Relations
   has_many :charts, dependent: :destroy
+  has_many :persons, dependent: :destroy
   
   # Other
   field :is_god, type: Boolean
