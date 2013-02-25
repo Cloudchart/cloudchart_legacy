@@ -22,7 +22,11 @@ RailsAdmin.config do |config|
   
   config.model "Chart" do
     show do
-      configure :persons do
+      configure :versions do
+        hide
+      end
+      
+      configure :nodes do
         hide
       end
     end
