@@ -8,6 +8,7 @@
 //= require jquery_ujs
 //= require jquery.ui.draggable
 //= require jquery.ui.position
+//= require jquery/migrate
 //= require jquery/prototypes
 //= require jquery/cookie
 //= require jquery/base64
@@ -30,6 +31,7 @@
 //= require jquery/scrollto
 //= require jquery/jqplugin
 
+jQuery.migrateMute = true
 $j = jQuery.noConflict()
 window.$j = $j
 
