@@ -109,6 +109,10 @@ class Chart
     self.slug || self.id
   end
   
+  def to_param
+    self.slug_or_id
+  end
+  
   def nodes_as_hash
     Hash[self.nodes.map { |x| [x.id, x] }]
   end
