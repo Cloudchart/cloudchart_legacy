@@ -182,6 +182,22 @@ App =
         $j(this).closest(".overlay").fadeOut ->
           $j(this).hide()
       
+      $j(".overlay.person .cancel").bind "click", ->
+        $text = $j(".edit_chart textarea")
+        $note = $j(".overlay.person .profile textarea")
+        note = $note.val()?.trim()
+        
+        # Note
+        if note && note != "" && $text.length > 0
+          title = $note.attr("data-title")
+          prev = $note.attr("data-prev")
+          
+          val = $text.val().replace(title, "#{title.split(",")[0]}, #{note.replace("\n", " ")}")
+          $text.val(val)
+          App.chart.status.text(I18n.t("charts.autosave.changed"))
+          App.chart.update()
+        
+      
       $j(".overlay.share button.email").unbind "click"
       $j(".overlay.share button.email").bind "click", ->
         $this = $j(this)
@@ -663,13 +679,19 @@ App =
                   not_now = true
                 
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now) || $overlay.find(".list li").length == 0
-                  # Hide profile
-                  if $overlay.find(".profile").is(":visible")
-                    Mousetrap.trigger "esc"
-                  
                   caret = $this.caret()
                   if App.chart.autocomplete.current
                     append = App.chart.autocomplete.current.val
+                    
+                    # Note
+                    note = $overlay.find(".profile textarea").val()?.trim()
+                    if note && note != ""
+                      append += ", #{note.replace("\n", " ")}"
+                    
+                    # Hide profile
+                    if $overlay.find(".profile").is(":visible")
+                      Mousetrap.trigger "esc"
+                    
                     val = $this.val().substr(0, caret) + append + $this.val().substr(caret)
                     $this.val(val)
                     
@@ -789,7 +811,7 @@ App =
       Mousetrap.bind ["alt+right", "ctrl+right"], ->
         $active = $j(".breadcrumb li.active")
         if $active.length == 1
-          $active.nextUntil(':visible').last().next().find("a").trigger "click"
+          $active.next().find("a").trigger "click"
         false
       
       # Buttons
@@ -968,6 +990,7 @@ App =
         else if !App.chart.sidebarDragged && parseInt($j("[name='chart[sidebar]']").val()) == 0
           App.chart.sidebar(400)
       
+      $j(".btn-divider").draggable("destroy") if $j(".btn-divider").hasClass("ui-draggable")
       $j(".btn-divider").draggable
         axis: "x"
         drag: (e, ui) ->

@@ -14,9 +14,17 @@ class PersonsController < ApplicationController
   end
   
   def profile
+    match = params[:person_id].scan(/@([^,]*),(.*)$/).first
+    @note = match.last.strip if match
+    
     respond_to { |format|
       format.html {
-        render partial: "/persons/profile", locals: { chart: @chart, person: @chart.load_person(params[:person_id]) }
+        render partial: "/persons/profile", locals: {
+          title: params[:person_id],
+          chart: @chart,
+          note: @note,
+          person: @chart.user.find_or_create_person(params[:person_id])
+        }
       }
     }
   end

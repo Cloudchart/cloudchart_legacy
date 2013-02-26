@@ -90,6 +90,13 @@ class User
     self.where(username: username).first
   end
   
+  def find_or_create_person(title)
+    match = title.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
+    person = self.persons.where(type: match[1], external_id: match[2]).first_or_create
+    person.fetch! if person.new_record?
+    person
+  end
+  
   def god?
     Rails.env.development? ? true : self.is_god
   end

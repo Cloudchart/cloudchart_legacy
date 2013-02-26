@@ -11,6 +11,8 @@
       <p><%= simple_format person.description %></p>
     <% end %>
     
+    <textarea placeholder="<%= t("charts.person.add_note_#{browser.mobile? ? "tap" : "click"}") %>" data-title="<%= title %>" data-prev="<%= note %>"<%= " disabled" unless can?(:edit, chart) %>><%= note %></textarea>
+    
     <% if person.profile_url %>
     <p class="links">
       <%= link_to t("common.linkedin"), person.profile_url, class: "linkedin", target: "_blank" %>
