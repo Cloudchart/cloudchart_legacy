@@ -2,6 +2,7 @@ class Node
   include Mongoid::Document
   include Mongoid::Tree
   include Mongoid::Tree::Traversal
+  store_in collection: "nodes"
   
   # Scopes
   scope :ordered, order_by(:id.asc)

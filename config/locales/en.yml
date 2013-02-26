@@ -199,6 +199,8 @@ en:
       add: "Add him"
       return: "Return"
     person:
+      add_note_tap: "Tap to add note"
+      add_note_click: "Click to add note"
       return: "Return"
       not_found: "Not found"
   

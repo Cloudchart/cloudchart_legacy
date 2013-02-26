@@ -1,19 +1,21 @@
 <% if person %>
-  <% if person["picture_url"].present? %>
-    <%= image_tag person["picture_url"] %>
+  <% if person.picture_url.present? %>
+    <%= image_tag person.picture_url %>
   <% end %>
   
   <div class="right">
-    <h2><%= "#{person["first_name"]} #{person["last_name"]}" %></h2>
-    <h3><%= person["headline"] %></h3>
+    <h2><%= person.name %></h2>
+    <h3><%= person.headline %></h3>
     
-    <% if person["summary"].present? %>
-      <p><%= simple_format person["summary"] %></p>
+    <% if person.description.present? %>
+      <p><%= simple_format person.description %></p>
     <% end %>
     
-    <% if person["site-standard-profile-request"] %>
+    <textarea placeholder="<%= t("charts.person.add_note_#{browser.mobile? ? "tap" : "click"}") %>" data-title="<%= title %>" data-prev="<%= note %>"<%= " disabled" unless can?(:edit, chart) %>><%= note %></textarea>
+    
+    <% if person.profile_url %>
     <p class="links">
-      <%= link_to t("common.linkedin"), person["site-standard-profile-request"]["url"], class: "linkedin", target: "_blank" %>
+      <%= link_to t("common.linkedin"), person.profile_url, class: "linkedin", target: "_blank" %>
     </p>
     <% end %>
   </div>

@@ -24,7 +24,6 @@ class Chart
   field :title,     type: String
   field :text,      type: String
   field :xdot,      type: String
-  field :persons,   type: Hash, default: {}
   field :sidebar,   type: Integer, default: 400
   
   # Validations
@@ -59,10 +58,10 @@ class Chart
     if self.text_changed? && self.text.present?
       # Find all persons
       if self.user
-        mentions = self.text.scan(/@([^\(]+)\(ln\:([^\)]+)\)/)
-        client = self.user.linkedin_client
-        mentions.delete_if { |x| self.persons[x[1]].is_a?(Hash) }.each { |x|
-          self.persons[x[1]] = client.profile(id: x[1], fields: "id,first-name,last-name,picture-url,headline".split(","))
+        mentions = self.text.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/)
+        mentions.each { |match|
+          person = self.user.persons.where(type: match[1], external_id: match[2]).first_or_initialize
+          person.fetch! if person.new_record?
         }
       end
       
@@ -101,7 +100,7 @@ class Chart
   
   def serializable_hash(options)
     super (options || {}).merge(
-      except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :persons, :versions],
+      except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :versions],
       methods: [:id, :nodes_as_hash]
     )
   end
@@ -223,27 +222,19 @@ class Chart
   end
   
   def load_person(title)
-    match = title.scan(/@([^\(]+)\(ln\:([^\)]+)\)/).first
-    if self.user && match
-      client = self.user.linkedin_client
-      client.profile(id: match[1], fields: "id,first-name,last-name,picture-url,headline,summary,site-standard-profile-request".split(","))
-    end
+    person = self.find_person(title)
+    person.fetch! if person
   end
   
   def find_person(title)
-    match = title.scan(/@([^\(]+)\(ln\:([^\)]+)\)/).first
-    self.persons[match[1]] if match
+    match = title.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
+    self.user.persons.where(type: match[1], external_id: match[2]).first if match
   end
   
   def normalize_title(title)
     title.gsub!(/^\+\s*/, "")
     person = self.find_person(title)
-    
-    if person
-      "#{person["first_name"]} #{person["last_name"]}"
-    else
-      title
-    end
+    person ? person.name : title
   end
   
   def self.find_persons(nodes)

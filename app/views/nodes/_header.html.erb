@@ -9,15 +9,15 @@
     <% person = @chart.find_person(node.title) || next %>
     <li>
       <div onclick="App.chart.click('<%= node.id %>')">
-        <% if person["picture_url"].present? %>
-          <%= image_tag person["picture_url"] %>
+        <% if person.picture_url.present? %>
+          <%= image_tag person.picture_url %>
         <% else %>
           <%= image_tag "/images/ico-person.png" %>
         <% end %>
         
-        <h2><%= node.normalized_title %></h2>
-        <% if person["headline"].present? %>
-        <h3><%= person["headline"] %></h3>
+        <h2><%= person.name %></h2>
+        <% if person.headline.present? %>
+        <h3><%= person.headline %></h3>
         <% end %>
       </div>
     </li>

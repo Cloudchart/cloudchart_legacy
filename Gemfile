@@ -8,6 +8,11 @@ group :development do
   gem 'capistrano_colors'
   gem 'rvm-capistrano'
   gem 'quiet_assets'
+  gem 'pry-rails'
+  gem 'awesome_print'
+  gem 'quiet_assets'
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
 
 group :test do
@@ -25,6 +30,7 @@ gem 'mongoid_token'
 gem 'mongoid-tree'
 gem 'mongoid-paperclip'
 gem 'mongoid-slugify'
+gem 'mongoid_rails_migrations'
 gem 'babosa'
 gem 'bson_ext'
 gem 'json'

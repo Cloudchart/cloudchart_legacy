@@ -24,6 +24,15 @@
     <% end %>
   </li>
   
+  <!-- Display latest entry with children everywhere -->
+  <% children = Chart.find_nodes(@node.children) %>
+  <% if children.any? %>
+    <li class="hidden-phone">
+      <span class="divider">&rarr;</span>
+      <%= link_to "...", "#children" %>
+    </li>
+  <% end %>
+  
   <% if siblings.any? %>
   <div id="siblings" class="popover">
     <div class="list">
@@ -33,15 +42,6 @@
     <% end %>
     </div>
   </div>
-  <% end %>
-  
-  <!-- Display latest entry with children everywhere -->
-  <% children = Chart.find_nodes(@node.children) %>
-  <% if children.any? %>
-    <li class="hidden-phone">
-      <span class="divider">&rarr;</span>
-      <%= link_to "...", "#children" %>
-    </li>
   <% end %>
   
   <% if children.any? %>
