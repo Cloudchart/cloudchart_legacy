@@ -8,6 +8,9 @@ RailsAdmin.config do |config|
   # RailsAdmin may need a way to know who the current user is]
   config.current_user_method { current_user } # auto-generated
   
+  # Label methods
+  config.label_methods << "slug"
+  
   # Models
   config.model "Authorization" do
     visible false
@@ -18,8 +21,14 @@ RailsAdmin.config do |config|
   end
   
   config.model "Chart" do
-    list do
+    show do
+      configure :versions do
+        hide
+      end
       
+      configure :nodes do
+        hide
+      end
     end
     
     edit do
