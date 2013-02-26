@@ -37,10 +37,11 @@ class NodesController < ChartsController
       
       final_text = params[:chart][:previous_text].gsub(current_text, "#{prepared_text.rstrip}\r\n")
     else
-      final_text = params[:chart][:previous_text].gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text.rstrip}\r\n")
+      final_text = "#{params[:chart][:previous_text].rstrip}\r\n".gsub("#{@node.title}\r\n", "#{@node.title}\r\n#{prepared_text.rstrip}\r\n")
     end
     
     # Save
+    Rails.logger.debug final_text
     @chart.update_attributes params[:chart].merge(text: final_text)
     
     # Replace xdot

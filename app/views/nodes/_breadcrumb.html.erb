@@ -26,7 +26,13 @@
   
   <!-- Display latest entry with children everywhere -->
   <% children = Chart.find_nodes(@node.children) %>
-  <% if children.any? %>
+  <% if children.count == 1 %>
+    <li class="hidden-phone">
+      <span class="divider">&rarr;</span>
+      <% path = chart_node_path(chart_id: @chart.slug_or_id, id: children.first.id) %>
+      <%= link_to truncate(children.first.normalized_title, length: 40), path %>
+    </li>
+  <% elsif children.count > 1 %>
     <li class="hidden-phone">
       <span class="divider">&rarr;</span>
       <%= link_to "...", "#children" %>
@@ -44,7 +50,7 @@
   </div>
   <% end %>
   
-  <% if children.any? %>
+  <% if children.count > 1 %>
     <% children.each do |node| %>
       <% path = chart_node_path(chart_id: @chart.slug_or_id, id: node.id) %>
       <li class="visible-phone"><%= link_to truncate(node.normalized_title, length: 40), path %></li>

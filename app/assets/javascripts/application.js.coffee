@@ -813,8 +813,11 @@ App =
         if $active.length == 1
           $popover = $active.next().find("a")
           if $popover.length == 1
-            $popover.trigger "click"
-            $j($popover.attr("href")).find(".list a:first").addClass("active")
+            if $popover.attr("href") == "#children"
+              $popover.trigger "click"
+              $j($popover.attr("href")).find(".list a:first").addClass("active")
+            else
+              Turbolinks.visit $popover.attr("href")
           
         false
       
