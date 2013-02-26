@@ -811,7 +811,11 @@ App =
       Mousetrap.bind ["alt+right", "ctrl+right"], ->
         $active = $j(".breadcrumb li.active")
         if $active.length == 1
-          $active.next().find("a").trigger "click"
+          $popover = $active.next().find("a")
+          if $popover.length == 1
+            $popover.trigger "click"
+            $j($popover.attr("href")).find(".list a:first").addClass("active")
+          
         false
       
       # Buttons
@@ -851,7 +855,7 @@ App =
         false
       
       # Key event
-      $j(".edit_chart textarea").focus()
+      # $j(".edit_chart textarea").focus()
       $j(".edit_chart textarea").unbind "keydown"
       $j(".edit_chart textarea").bind "keydown", (e, data) ->
         $this = $j(this)

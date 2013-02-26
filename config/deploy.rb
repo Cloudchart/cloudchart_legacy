@@ -50,6 +50,7 @@ end
 
 # Deployment
 after "deploy:update", "deploy:cleanup"
+after "deploy:update", "deploy:migrate"
 after "deploy:setup", "deploy:initial"
 namespace :deploy do
   # Initial
