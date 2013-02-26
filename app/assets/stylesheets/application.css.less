@@ -869,7 +869,7 @@ body {
         font-size: 20px;
         text-decoration: none;
         
-        &:active {
+        &.active, &:active {
           background: #fff;
         }
         
@@ -880,6 +880,10 @@ body {
         &:last-child {
           .border-radius(0 0 8px 8px);
           border: 0;
+        }
+        
+        &:only-child {
+          .rounded(8px);
         }
       }
     }

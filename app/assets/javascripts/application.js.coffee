@@ -30,6 +30,7 @@
 //= require jquery/touch-punch
 //= require jquery/scrollto
 //= require jquery/jqplugin
+//= require jquery/has-scrollbar
 
 jQuery.migrateMute = true
 $j = jQuery.noConflict()
@@ -600,6 +601,11 @@ App =
               $overlay.show()
               $input.focus()
               
+              Mousetrap.unbind "enter"
+              Mousetrap.unbind "esc"
+              Mousetrap.unbind "up"
+              Mousetrap.unbind "down"
+              
               Mousetrap.bind "enter", ->
                 $overlay.find(".for-list .fire").trigger "click"
               
@@ -661,11 +667,6 @@ App =
                   if $overlay.find(".profile").is(":visible")
                     Mousetrap.trigger "esc"
                   
-                  Mousetrap.unbind "enter"
-                  Mousetrap.unbind "esc"
-                  Mousetrap.unbind "up"
-                  Mousetrap.unbind "down"
-                  
                   caret = $this.caret()
                   if App.chart.autocomplete.current
                     append = App.chart.autocomplete.current.val
@@ -697,6 +698,7 @@ App =
                   # Clear current
                   $overlay.find(".list").empty()
                   App.chart.autocomplete.select_current()
+                  App.chart.edit()
                   
                   $overlay.hide()
             )()
@@ -713,6 +715,82 @@ App =
       
       # Autocomplete
       App.chart.autocomplete.bindings()
+      
+      # Shortcuts
+      Mousetrap.unbind "enter"
+      Mousetrap.unbind "esc"
+      Mousetrap.unbind "up"
+      Mousetrap.unbind "down"
+      Mousetrap.unbind "left"
+      Mousetrap.unbind "right"
+      
+      Mousetrap.unbind ["alt+enter", "ctrl+enter"]
+      Mousetrap.unbind ["alt+up", "ctrl+up"]
+      Mousetrap.unbind ["alt+down", "ctrl+down"]
+      Mousetrap.unbind ["alt+left", "ctrl+left"]
+      Mousetrap.unbind ["alt+right", "ctrl+right"]
+      
+      Mousetrap.bind "enter", ->
+        return true if $j(".edit_chart textarea").is(":focus") || $j(".canvas").hasScrollBar()
+        Mousetrap.trigger "alt+enter"
+      
+      Mousetrap.bind "up", ->
+        return true if $j(".edit_chart textarea").is(":focus") || $j(".canvas").hasScrollBar()
+        Mousetrap.trigger "alt+up"
+      
+      Mousetrap.bind "down", ->
+        return true if $j(".edit_chart textarea").is(":focus") || $j(".canvas").hasScrollBar()
+        Mousetrap.trigger "alt+down"
+      
+      Mousetrap.bind "left", ->
+        return true if $j(".edit_chart textarea").is(":focus") || $j(".canvas").hasScrollBar()
+        Mousetrap.trigger "alt+left"
+      
+      Mousetrap.bind "right", ->
+        return true if $j(".edit_chart textarea").is(":focus") || $j(".canvas").hasScrollBar()
+        Mousetrap.trigger "alt+right"
+      
+      Mousetrap.bind ["alt+enter", "ctrl+enter"], ->
+        $popover = $j("#children:visible")
+        $active = $popover.find(".list a.active")
+        return false if $active.length == 0
+        
+        Turbolinks.visit $active.attr("href")
+        false
+      
+      Mousetrap.bind ["alt+up", "ctrl+up"], ->
+        $popover = $j("#children:visible")
+        return false if $popover.length == 0
+        
+        $active = $popover.find(".list a.active").prev()
+        $active = $popover.find(".list a:last") if $active.length == 0
+        
+        $popover.find(".list a").removeClass("active")
+        $active.addClass("active")
+        false
+      
+      Mousetrap.bind ["alt+down", "ctrl+down"], ->
+        $popover = $j("#children:visible")
+        return false if $popover.length == 0
+        
+        $active = $popover.find(".list a.active").next()
+        $active = $popover.find(".list a:first") if $active.length == 0
+        
+        $popover.find(".list a").removeClass("active")
+        $active.addClass("active")
+        false
+      
+      Mousetrap.bind ["alt+left", "ctrl+left"], ->
+        $active = $j(".breadcrumb li.active")
+        if $active.length == 1
+          Turbolinks.visit $active.prev().find("a").attr("href")
+        false
+        
+      Mousetrap.bind ["alt+right", "ctrl+right"], ->
+        $active = $j(".breadcrumb li.active")
+        if $active.length == 1
+          $active.nextUntil(':visible').last().next().find("a").trigger "click"
+        false
       
       # Buttons
       $j(".buttons .add-person").bind "click", ->
@@ -751,6 +829,7 @@ App =
         false
       
       # Key event
+      $j(".edit_chart textarea").focus()
       $j(".edit_chart textarea").unbind "keydown"
       $j(".edit_chart textarea").bind "keydown", (e, data) ->
         $this = $j(this)
@@ -763,7 +842,7 @@ App =
             return false
         
         # Enter?
-        if e.keyCode == 13 || (data && data.newline)
+        if (e.keyCode == 13 && (!e.altKey || e.ctrlKey)) || (data && data.newline)
           line = $this.caretLine() - 1
           lines = $this.val().split("\n")
           
