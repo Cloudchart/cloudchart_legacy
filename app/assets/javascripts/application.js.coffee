@@ -822,6 +822,7 @@ App =
         false
       
       # Buttons
+      $j(".buttons .add-person").unbind "click"
       $j(".buttons .add-person").bind "click", ->
         $area = $j(".edit_chart textarea")
         text = $area.val()
@@ -841,16 +842,19 @@ App =
         
         false
       
+      $j(".buttons .left-indent").unbind "click"
       $j(".buttons .left-indent").bind "click", ->
         App.chart.indent(false)
         App.chart.lines()
         false
       
+      $j(".buttons .right-indent").unbind "click"
       $j(".buttons .right-indent").bind "click", ->
         App.chart.indent(true)
         App.chart.lines()
         false
       
+      $j(".buttons .move").unbind "click"
       $j(".buttons .move").bind "click", ->
         $j(this).toggleClass("selected")
         $area = $j(".edit_chart textarea")

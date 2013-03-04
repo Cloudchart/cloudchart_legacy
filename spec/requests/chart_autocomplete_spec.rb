@@ -23,7 +23,8 @@ feature "Chart Autocomplete" do
     find_field("chart_text").value.should eql("@")
     find(".overlay.persons").should be_visible
     # Close using backspace
-    fill_in("person_q", with: "")
+    find("#person_q").set("")
+    page.driver.browser.execute_script "$j('#person_q').trigger('keyup')"
     find(".overlay.persons").should_not be_visible
   end
 end
