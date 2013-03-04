@@ -42,6 +42,10 @@ class Node
     parents
   end
   
+  def expanded?
+    self.title.match(/^\+/)
+  end
+  
   def normalized_title
     self.chart.normalize_title(self.title)
   end

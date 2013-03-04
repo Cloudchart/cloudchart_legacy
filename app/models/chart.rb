@@ -175,6 +175,7 @@ class Chart
   end
   
   def persons_with_parent(node)
+    return [] if node.expanded?
     cached!
     self.class.find_persons(node.children)
   end
@@ -235,7 +236,7 @@ class Chart
   end
   
   def normalize_title(title)
-    title.gsub!(/^\+\s*/, "")
+    title = title.gsub(/^\+\s*/, "")
     person = self.find_person(title)
     person ? person.name : title
   end
@@ -269,7 +270,7 @@ class Chart
         # Create root node with chart name
         if parent
           root = g.add_nodes(parent.id.to_s,
-            label: parent.title,
+            label: normalize_title(parent.title),
             shape: "ellipse",
             style: "filled",
             fillcolor: "#ffffffff",
@@ -277,7 +278,9 @@ class Chart
             fontsize: 12.0
           )
           
-          cached!(self.cached.reject { |x| self.find_person(x.title) && x.parent_id == parent.id })
+          if !parent.expanded?
+            cached!(self.cached.reject { |x| self.find_person(x.title) && x.parent_id == parent.id })
+          end
         else
           root = g.add_nodes(self.id.to_s,
             label: self.title,
@@ -296,11 +299,10 @@ class Chart
     
     def add_nodes(g, root, nodes)
       nodes.each do |n|
-        expanded = n.title[0] == "+"
         title = breaking_word_wrap(normalize_title(n.title), 40)
         
         # Find nested people
-        if !expanded
+        if !n.expanded?
           people = self.class.find_persons(self.cached.select { |x| x.parent_id == n.id })
           if people.any?
             names = people.map { |x| breaking_word_wrap(normalize_title(x.title), 40) }
@@ -321,7 +323,7 @@ class Chart
         edge = g.add_edges(root, node, dir: "none")
         
         # Search for children
-        if !expanded
+        if !n.expanded?
           children = self.class.find_nodes(self.cached.select { |x| x.parent_id == n.id })
         else
           children = self.cached.select { |x| x.parent_id == n.id }
