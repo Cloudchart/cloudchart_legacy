@@ -586,7 +586,7 @@ App =
               # Search
               autocomplete.cache = {} unless autocomplete.cache
               clearTimeout(autocomplete.timeout) if autocomplete.timeout
-              if autocomplete.cache[$input.val()]
+              if autocomplete.cache[$input.val()] && autocomplete.cache[$input.val()][0]
                 $overlay.find(".loading").hide()
                 autocomplete.render(autocomplete.cache[$input.val()])
                 return true
