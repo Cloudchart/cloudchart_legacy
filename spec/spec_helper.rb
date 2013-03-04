@@ -13,6 +13,8 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.order = "random"
   
+  Capybara.javascript_driver = :webkit
+  
   config.before(:each) do
     Rails.logger.debug "\n\n-- Started example: #{example.metadata[:full_description]}\n"
     
