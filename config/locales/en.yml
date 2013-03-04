@@ -94,7 +94,7 @@ en:
     ago: "ago"
     have_account: "Have account?"
     no_account: "Account does not exist"
-    please_sign_in: "Please sign in to use this features"
+    please_sign_in: "Please sign in to use search features"
     anonymous: "Anonymous"
     ie:
       title: "Interner Explorer is not supported"

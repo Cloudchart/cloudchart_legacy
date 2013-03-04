@@ -23,7 +23,7 @@ class PersonsController < ApplicationController
           title: params[:person_id],
           chart: @chart,
           note: @note,
-          person: @chart.user.find_or_create_person(params[:person_id])
+          person: @chart.find_person(params[:person_id])
         }
       }
     }

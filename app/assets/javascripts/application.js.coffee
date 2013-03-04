@@ -541,7 +541,7 @@ App =
             $overlay.find(".return").unbind "click"
             $overlay.find(".holder").unbind "click"
             $overlay.find(".holder").removeClass("selected").hide()
-            $overlay.find(".list").parent().removeClass("has-holder")
+            $overlay.find(".holder").parent().removeClass("has-holder")
             
             $input.val("@")
             $input.unbind "textchange"
@@ -570,10 +570,10 @@ App =
               $overlay.find(".holder h3").html("@#{val}")
               if val != ""
                 $overlay.find(".holder").show()
-                $overlay.find(".list").parent().addClass("has-holder")
+                $overlay.find(".holder").parent().addClass("has-holder")
               else
                 $overlay.find(".holder").hide()
-                $overlay.find(".list").parent().removeClass("has-holder")
+                $overlay.find(".holder").parent().removeClass("has-holder")
               
               # Close
               if $input.val() == ""

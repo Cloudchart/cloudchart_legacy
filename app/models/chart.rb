@@ -232,7 +232,14 @@ class Chart
   end
   
   def find_person(title)
-    self.user.find_or_create_person(title)
+    if self.user
+      person = self.user.find_or_create_person(title)
+    else
+      match = title.scan(/@([^\,]+)(\,.*)?/).first
+      person = Person.new(first_name: match[0]) if match
+    end
+    
+    person
   end
   
   def normalize_title(title)
