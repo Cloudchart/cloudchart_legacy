@@ -539,6 +539,9 @@ App =
             $overlay.find("form").unbind "submit"
             $overlay.find(".fire").unbind "click"
             $overlay.find(".return").unbind "click"
+            $overlay.find(".holder").unbind "click"
+            $overlay.find(".holder").removeClass("selected").hide()
+            $overlay.find(".list").parent().removeClass("has-holder")
             
             $input.val("@")
             $input.unbind "textchange"
@@ -561,6 +564,16 @@ App =
             $input.bind "keyup", (e) ->
               return false if e.keyCode == 13
               autocomplete = App.chart.autocomplete
+              val = $input.val().replace(/^@/, "").trim()
+              
+              # Placeholder
+              $overlay.find(".holder h3").html("@#{val}")
+              if val != ""
+                $overlay.find(".holder").show()
+                $overlay.find(".list").parent().addClass("has-holder")
+              else
+                $overlay.find(".holder").hide()
+                $overlay.find(".list").parent().removeClass("has-holder")
               
               # Close
               if $input.val() == ""
@@ -663,6 +676,12 @@ App =
                 
                 $list.scrollTo(".selected", 100)
               
+              $overlay.find(".holder").bind "click", ->
+                $j(this).addClass("selected")
+                App.chart.autocomplete.current = 
+                  val: $input.val().replace(/^@/, "")
+                $overlay.find(".for-list .fire").trigger "click"
+              
               $overlay.find("form").bind "submit", ->
                 $overlay.find(".for-list .fire").trigger "click"
                 false
@@ -672,12 +691,20 @@ App =
                 false
               
               $overlay.find(".fire").bind "click", ->
+                # Trigger first row select if any
                 not_now = false
                 if !App.chart.autocomplete.current && $overlay.find(".list li").length > 0
                   # Select current
                   App.chart.autocomplete.select_current()
                   not_now = true
                 
+                # Trigger placeholder if visible
+                $holder = $overlay.find(".holder")
+                if $holder.is(":visible") && !$holder.hasClass("selected") && $overlay.find(".list li").length == 0
+                  $overlay.find(".holder").trigger "click"
+                  return false
+                
+                # Process or skip
                 if $input.val() == "" || (App.chart.autocomplete.current && !not_now) || $overlay.find(".list li").length == 0
                   caret = $this.caret()
                   if App.chart.autocomplete.current

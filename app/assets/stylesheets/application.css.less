@@ -1282,6 +1282,42 @@ body {
               position: relative;
               margin-left: 76px;
               
+              &.has-holder {
+                .holder {
+                  .box-sizing(border-box);
+                  height: 40px;
+                  margin: 0 6px 3px 6px;
+                  cursor: pointer;
+                  
+                  /* &.selected {
+                    background: #f0f0f0;
+                  } */
+                  
+                  h3 {
+                    margin: 0;
+                    padding: 0 6px;
+                    line-height: 40px;
+                    font-size: 20px;
+                    font-style: italic;
+                  }
+                }
+                
+                .list {
+                  height: 280px;
+                }
+                
+                .profile {
+                  position: relative;
+                  top: -40px;
+                  background: #fff;
+                }
+                
+                .loading {
+                  top: 40px;
+                  height: 280px;
+                }
+              }
+                
               .loading {
                 position: absolute;
               }
