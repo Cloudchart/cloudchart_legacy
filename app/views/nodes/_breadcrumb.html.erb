@@ -16,6 +16,7 @@
   
   <!-- Display siblings for desktop -->
   <% siblings = @node.parent? ? Chart.find_nodes(@node.siblings) : Chart.find_nodes(@chart.nodes.roots) %>
+  <% siblings.delete(@node) %>
   <li class="active">
     <% if siblings.any? %>
       <%= link_to truncate(@node.normalized_title, length: 40), "#siblings" %>
