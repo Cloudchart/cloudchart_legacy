@@ -1179,11 +1179,7 @@ App =
     
     reload: ->
       document.location.href = "/" if document.location.href.match(/beta/)
-      
-      $j.ajax url: "/users/profile", type: "GET", complete: (data) ->
-        $j(".profile").html(data.responseText)
-        App.user.init()
-        Turbolinks.visit(location.pathname) if $j('section form').length == 0
+      Turbolinks.visit(document.location.href)
   
   # Initialize
   init: ->
