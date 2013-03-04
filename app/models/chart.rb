@@ -231,8 +231,7 @@ class Chart
   end
   
   def find_person(title)
-    match = title.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
-    self.user.persons.where(type: match[1], external_id: match[2]).first if match
+    self.user.find_or_create_person(title)
   end
   
   def normalize_title(title)

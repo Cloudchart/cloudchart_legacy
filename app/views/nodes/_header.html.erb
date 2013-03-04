@@ -16,9 +16,7 @@
         <% end %>
         
         <h2><%= person.name %></h2>
-        <% if person.headline.present? %>
-        <h3><%= person.headline %></h3>
-        <% end %>
+        <h3><%= person.headline.present? ? person.headline : simple_format("&nbsp;") %></h3>
       </div>
     </li>
     <% end if @persons %>
