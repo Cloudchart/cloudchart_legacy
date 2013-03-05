@@ -494,10 +494,11 @@ App =
           $overlay = $j(".overlay.persons")
           
           if $this.hasClass("selected")
-            data = $this.data("person")
+            person = $this.data("person")
             $overlay.find(".loading").show()
             
-            $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{data.val}")}/profile", type: "GET", complete: (data) ->
+            $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.val}")}/profile", type: "GET", complete: (data) ->
+              $overlay.find("[name='person[q]']").val("@#{person.name}")
               $overlay.find(".profile").html(data.responseText).show()
               $overlay.find(".buttons").hide()
               $overlay.find(".buttons.for-profile").show()
@@ -548,7 +549,10 @@ App =
             $input.bind "textchange", ->
               # Hide profile
               if $overlay.find(".profile").is(":visible")
-                Mousetrap.trigger "esc"
+                $overlay.find(".profile").empty().hide()
+                $overlay.find(".buttons").hide()
+                $overlay.find(".buttons.for-list").show()
+                $overlay.find(".list").show()
               
               # Clear current
               $overlay.find(".list").empty()
@@ -556,6 +560,12 @@ App =
             
             $input.unbind "keydown"
             $input.bind "keydown", (e) ->
+              # Comma
+              if e.keyCode == 188 && $overlay.find(".profile").is(":visible")
+                $overlay.find(".profile textarea").focus()
+                return false
+              
+              return Mousetrap.trigger("enter") && false if e.keyCode == 13
               return Mousetrap.trigger("up") && false if e.keyCode == 38
               return Mousetrap.trigger("down") && false if e.keyCode == 40
               return Mousetrap.trigger("esc") && false if e.keyCode == 27
@@ -563,6 +573,8 @@ App =
             $input.unbind "keyup"
             $input.bind "keyup", (e) ->
               return false if e.keyCode == 13
+              return true if $j(".overlay.persons .list").is(":hidden")
+              
               autocomplete = App.chart.autocomplete
               val = $input.val().replace(/^@/, "").trim()
               
@@ -581,7 +593,7 @@ App =
                 $overlay.find(".list").empty()
                 autocomplete.select_current()
                 
-                $overlay.find(".for-list .fire").trigger "click"
+                $overlay.find(".for-profile .fire").trigger "click"
               
               # Search
               autocomplete.cache = {} unless autocomplete.cache
@@ -636,7 +648,10 @@ App =
               Mousetrap.unbind "down"
               
               Mousetrap.bind "enter", ->
-                $overlay.find(".for-list .fire").trigger "click"
+                if $overlay.find(".for-list").is(":visible")
+                  $overlay.find(".for-list .fire").trigger "click"
+                else
+                  $overlay.find(".for-profile .fire").trigger "click"
               
               Mousetrap.bind "esc", ->
                 if $overlay.find(".profile").is(":visible")
@@ -644,6 +659,8 @@ App =
                   $overlay.find(".buttons").hide()
                   $overlay.find(".buttons.for-list").show()
                   $overlay.find(".list").show()
+                  $input.val("@")
+                  $input.trigger "keyup"
                 
                 else if $input.val() != "@"
                   $input.val("@")
@@ -654,9 +671,11 @@ App =
                   $overlay.find(".list").empty()
                   App.chart.autocomplete.select_current()
                   
-                  $overlay.find(".for-list .fire").trigger "click"
+                  $overlay.find(".for-profile .fire").trigger "click"
               
               Mousetrap.bind "up", ->
+                return true if $j(".overlay.persons .list").is(":hidden")
+                
                 $list = $j(".overlay.persons .list")
                 $selected = $list.find(".selected")
                 if $selected.prev().length == 1
@@ -667,6 +686,8 @@ App =
                 $list.scrollTo(".selected", 100)
               
               Mousetrap.bind "down", ->
+                return true if $j(".overlay.persons .list").is(":hidden")
+                
                 $list = $j(".overlay.persons .list")
                 $selected = $list.find(".selected")
                 if $selected.next().length == 1
@@ -680,32 +701,41 @@ App =
                 $j(this).addClass("selected")
                 App.chart.autocomplete.current = 
                   val: $input.val().replace(/^@/, "")
-                $overlay.find(".for-list .fire").trigger "click"
+                $overlay.find(".for-profile .fire").trigger "click"
               
               $overlay.find("form").bind "submit", ->
-                $overlay.find(".for-list .fire").trigger "click"
+                $overlay.find(".for-profile .fire").trigger "click"
                 false
               
               $overlay.find(".return").bind "click", ->
                 Mousetrap.trigger "esc"
+                App.chart.autocomplete.current = null
+                $overlay.find(".list").empty()
+                $overlay.find(".for-profile .fire").trigger "click"
                 false
               
-              $overlay.find(".fire").bind "click", ->
+              $overlay.find(".for-list .fire").bind "click", ->
                 # Trigger first row select if any
-                not_now = false
                 if !App.chart.autocomplete.current && $overlay.find(".list li").length > 0
                   # Select current
                   App.chart.autocomplete.select_current()
-                  not_now = true
+                  return false
+                  
+                # Trigger selected row
+                $selected = $overlay.find(".list li.selected")
+                if $selected.length > 0
+                  $selected.trigger "click"
+                  return false
                 
                 # Trigger placeholder if visible
                 $holder = $overlay.find(".holder")
                 if $holder.is(":visible") && !$holder.hasClass("selected") && $overlay.find(".list li").length == 0
                   $overlay.find(".holder").trigger "click"
                   return false
-                
+              
+              $overlay.find(".for-profile .fire").bind "click", ->
                 # Process or skip
-                if $input.val() == "" || (App.chart.autocomplete.current && !not_now) || $overlay.find(".list li").length == 0
+                if $input.val() == "" || App.chart.autocomplete.current || $overlay.find(".list li").length == 0
                   caret = $this.caret()
                   if App.chart.autocomplete.current
                     append = App.chart.autocomplete.current.val

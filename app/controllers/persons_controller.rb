@@ -17,13 +17,16 @@ class PersonsController < ApplicationController
     match = params[:person_id].scan(/@([^,]*),(.*)$/).first
     @note = match.last.strip if match
     
+    @person = @chart.find_person(params[:person_id])
+    @person.fetch! if @person
+    
     respond_to { |format|
       format.html {
         render partial: "/persons/profile", locals: {
           title: params[:person_id],
           chart: @chart,
           note: @note,
-          person: @chart.find_person(params[:person_id])
+          person: @person
         }
       }
     }
