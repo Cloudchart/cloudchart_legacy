@@ -4,6 +4,7 @@ require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
 require 'capybara/rspec'
+require 'database_cleaner'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -14,8 +15,10 @@ RSpec.configure do |config|
   config.order = "random"
   
   Capybara.javascript_driver = :webkit
+  DatabaseCleaner.strategy = :truncation
   
   config.before(:each) do
+    DatabaseCleaner.clean
     Rails.logger.debug "\n\n-- Started example: #{example.metadata[:full_description]}\n"
     
     case Capybara.current_driver

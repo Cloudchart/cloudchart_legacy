@@ -573,7 +573,7 @@ App =
             $input.unbind "keyup"
             $input.bind "keyup", (e) ->
               return false if e.keyCode == 13
-              return true if $j(".overlay.persons .list").is(":hidden")
+              return true if $j(".overlay.persons .profile").is(":visible")
               
               autocomplete = App.chart.autocomplete
               val = $input.val().replace(/^@/, "").trim()

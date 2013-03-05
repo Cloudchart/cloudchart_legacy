@@ -5,10 +5,9 @@ feature "Chart Autocomplete" do
     sign_in_beta_user
   end
   
-  scenario "Should display autocomplete", js: true do
+  scenario "Should be able to display and hide autocomplete", js: true do
     create_chart
     # save_and_open_page
-    page.should have_content "My chart"
     find(".overlay.persons").should_not be_visible
     
     # Trigger using symbol
@@ -26,5 +25,18 @@ feature "Chart Autocomplete" do
     find("#person_q").set("")
     page.driver.browser.execute_script "$j('#person_q').trigger('keyup')"
     find(".overlay.persons").should_not be_visible
+  end
+  
+  scenario "Should be able to select placeholder", js: true do
+    create_chart
+    
+    find(".add-person").click
+    find("#person_q").set("@Vasya")
+    page.driver.browser.execute_script "$j('#person_q').trigger('keyup')"
+    
+    find(".holder h3").should have_content "@Vasya"
+    find(".holder").click
+    
+    find_field("chart_text").value.should eql("@Vasya\n")
   end
 end
