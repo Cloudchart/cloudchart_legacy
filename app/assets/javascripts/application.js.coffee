@@ -924,6 +924,14 @@ App =
       $j(".edit_chart textarea").bind "keydown", (e, data) ->
         $this = $j(this)
         
+        # Check for person
+        line = $this.caretLine() - 1
+        lines = $this.val().split("\n")
+        current_line = lines[line]
+        previous_line = lines[line-1]
+        current_char = $this.val().substr($this.caret(), 1)
+        previous_char = $this.val().substr($this.caret()-1, 1)
+        
         # Arrows
         if $j(".move").hasClass("selected")
           e.preventDefault() if e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13
@@ -933,10 +941,7 @@ App =
         
         # Enter?
         if (e.keyCode == 13 && (!e.altKey || e.ctrlKey)) || (data && data.newline)
-          line = $this.caretLine() - 1
-          lines = $this.val().split("\n")
-          
-          if lines[line].trim() == "" || (lines[line-1] != undefined && lines[line-1].trim() == "")
+          if current_line.trim() == "" || (previous_line != undefined && previous_line.trim() == "")
             e.preventDefault()
           else
             # Indent
@@ -954,9 +959,13 @@ App =
           
         # Space?
         else if e.keyCode == 32
-          prev = $this.val().substr($this.caret()-1, 1)
-          if $this.caret() == 0 || prev == "\n" || prev == "\t"
+          if $this.caret() == 0 || previous_char == "\n" || previous_char == "\t"
             e.preventDefault()
+        
+        # Open person
+        if current_line.trim().match(/^@/) && current_char.match(/\s/) && (e.keyCode == 8 || e.keyCode == 46)
+          App.chart.person(current_line.trim())
+          e.preventDefault()
         
         true
         
@@ -1094,22 +1103,25 @@ App =
       if node
         # Show person
         if node.title.match(/^@/)
-          App.loading(true)
-          
-          $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent(node.title)}/profile", type: "GET", complete: (data) ->
-            Mousetrap.bind "esc", ->
-              $j(".overlay.person .cancel").trigger "click"
-              
-            $j(".overlay.person .content").html(data.responseText)
-            $j(".overlay.person").show()
-            $j(".overlay.person .box").css(marginTop: -$j(".overlay.person .box").height()/2)
-            App.loading(false)
-        
+          App.chart.person(node.title)
         # Go to node
         else
           # Set skip to prevent saving
           App.chart.skip = true
           Turbolinks.visit("/charts/#{App.chart.chart.slug}/nodes/#{id}")
+    
+    person: (title) ->
+      App.loading(true)
+      
+      $j.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent(title)}/profile", type: "GET", complete: (data) ->
+        Mousetrap.bind "esc", ->
+          $j(".overlay.person .cancel").trigger "click"
+          
+        $j(".overlay.person .content").html(data.responseText)
+        $j(".overlay.person").show()
+        $j(".overlay.person .box").css(marginTop: -$j(".overlay.person .box").height()/2)
+        App.loading(false)
+      
     
     update: (current = true) ->
       $form = $j(".edit_chart")
