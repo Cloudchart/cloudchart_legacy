@@ -477,13 +477,14 @@ App =
     autocomplete:
       current: null
       exp: new RegExp('(?:^|\\b|\\s)\@([\\w.]*)$')
+      cache: {}
       
       render: (data) ->
         $j(".overlay.persons .list").empty()
         val = if App.chart.autocomplete.current then App.chart.autocomplete.current.val else null
         
         _.map(data, (x) ->
-          html = $j("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
+          html = $j("<li><div><img src='#{x.picture_url}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
           html.data("person", x)
           html.addClass("selected") if x.val == val
           $j(".overlay.persons .list").append(html)
@@ -518,7 +519,7 @@ App =
         else
           data = $current.data("person")
           App.chart.autocomplete.current = data
-          $overlay.find(".person").attr("src", data.picture)
+          $overlay.find(".person").attr("src", data.picture_url)
           
           # Re-render
           if App.chart.autocomplete.cache[$input.val()]
@@ -623,9 +624,9 @@ App =
               .done (result) ->
                 values = _.map(result.persons, (x) ->
                   name = "#{x.first_name} #{x.last_name}"
-                  picture = if x.picture_url then x.picture_url else "/images/ico-person.png"
+                  picture_url = if x.picture_url then x.picture_url else "/images/ico-person.png"
                   
-                  { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture: picture }
+                  { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture_url: picture_url }
                 )
                 
                 autocomplete.cache[cache_key] = values
@@ -644,6 +645,12 @@ App =
           $overlay.show()
           $input.focus()
           $input.trigger "keyup"
+          
+          # Select current if person is opened
+          if $overlay.find(".profile").is(":visible")
+            $current = $overlay.find("[data-person]")
+            $current.data("person", JSON.parse($current.attr("data-person")))
+            App.chart.autocomplete.select_current($overlay, $current)
           
           Mousetrap.unbind "enter"
           Mousetrap.unbind "esc"

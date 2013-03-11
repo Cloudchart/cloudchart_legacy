@@ -1,4 +1,6 @@
 <% if person %>
+  <%= content_tag :div, data: { person: person } {} %>
+  
   <% if person.picture_url.present? %>
     <%= image_tag person.picture_url %>
   <% end %>
