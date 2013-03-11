@@ -49,10 +49,13 @@ App =
       # height = if $j("footer").length > 0 then $j("footer").offset().top else $j("html").height() - $j("header").height()
       # $j(".loading .bar").css(top: Math.min(height/2, ($j("html").height() - $j("header").height())/2) - $j(".loading .bar").height()/2)
       # $j(".loading").css(height: height).show()
+      
+      return false if $j("body > .loading").is(":visible")
       $j("body > .loading").show()
     else
       $j("body > .loading").hide()
-  
+    
+    true
   # Initialize
   init: ->
     # IE Overlay

@@ -15,7 +15,7 @@ scope  =
     root.chart.show($this)
   
   create: (href = "/charts") ->
-    App.loading(true)
+    return unless App.loading(true)
     $j.ajax url: href, dataType: "json", type: "POST", complete: (data) ->
       result = eval "(#{data.responseText})"
       root.chart.store(result.chart)
@@ -232,7 +232,7 @@ scope  =
     $j(".overlay.delete .fire").unbind "click"
     $j(".overlay.delete .fire").bind "click", ->
       $j(".overlay.delete .cancel").trigger "click"
-      App.loading(true)
+      return unless App.loading(true)
       
       $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "DELETE", complete: (data) ->
         result = eval "(#{data.responseText})"
@@ -240,7 +240,7 @@ scope  =
     
     # History
     $j("header .btn-history").bind "click", ->
-      App.loading(true)
+      return unless App.loading(true)
       
       $j.ajax url: $j(".overlay.history").attr("data-action"), type: "GET", complete: (data) ->
         $j(".overlay.history .content").html(data.responseText)
@@ -249,7 +249,7 @@ scope  =
         $j(".overlay.history .restore").unbind "click"
         $j(".overlay.history .restore").bind "click", ->
           $j(".overlay.history .cancel").trigger "click"
-          App.loading(true)
+          return unless App.loading(true)
           
           $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "PUT", complete: (data) ->
             result = eval "(#{data.responseText})"
@@ -258,7 +258,7 @@ scope  =
         $j(".overlay.history .clone").unbind "click"
         $j(".overlay.history .clone").bind "click", ->
           $j(".overlay.history .cancel").trigger "click"
-          App.loading(true)
+          return unless App.loading(true)
           
           $j.ajax url: $j(this).attr("data-action"), dataType: "json", type: "POST", complete: (data) ->
             result = eval "(#{data.responseText})"
@@ -758,7 +758,7 @@ scope  =
         Turbolinks.visit("/charts/#{root.chart.chart.slug}/nodes/#{id}")
   
   person: (title, focus = false) ->
-    App.loading(true)
+    return unless App.loading(true)
     
     $j.ajax url: "/charts/#{root.chart.chart.slug}/persons/#{encodeURIComponent(title)}/edit", type: "GET", complete: (data) ->
       # Editable, show autocomplete
