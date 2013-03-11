@@ -577,12 +577,16 @@ scope  =
       previous_char = $this.val().substr($this.caret()-1, 1)
       is_last_char = current_char.match(/\s/) || current_char.trim() == ""
       
-      # Arrows
+      # Arrows in move mode
       if $j(".move").hasClass("selected")
         e.preventDefault() if e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 13
         if e.keyCode == 13
           $j(".move").removeClass("selected")
           return false
+      
+      # Arrows in normal mode
+      if e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 37 || e.keyCode == 39
+        return true
       
       # Enter?
       if (e.keyCode == 13 && (!e.altKey || e.ctrlKey)) || (data && data.newline)
@@ -596,19 +600,17 @@ scope  =
           $this.val(text)
           $this.caret(caret + "\n#{indent}".length)
           e.preventDefault()
+        
+        return true
       
       # Tab?
       else if e.keyCode == 9
         e.preventDefault()
         root.chart.indent(!e.shiftKey)
+        return true
         
-      # Space?
-      else if e.keyCode == 32
-        if is_last_char
-          e.preventDefault()
-      
       # Open person
-      if current_line.trim().match(/^@(.+)/) && is_last_char && (e.keyCode == 8 || e.keyCode == 46)
+      if current_line.trim().match(/^@(.+)/) && is_last_char && (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey)
         root.chart.person(current_line.trim(), true)
         e.preventDefault()
       
@@ -759,11 +761,13 @@ scope  =
     App.loading(true)
     
     $j.ajax url: "/charts/#{root.chart.chart.slug}/persons/#{encodeURIComponent(title)}/edit", type: "GET", complete: (data) ->
-      # Editable
+      # Editable, show autocomplete
       if $j(".edit_chart textarea").length > 0
         $overlay = $j(data.responseText)
         $overlay.appendTo("body")
         root.autocomplete.show($overlay)
+      
+      # Showable
       else
         Mousetrap.bind "esc", ->
           $j(".overlay.person .cancel").trigger "click"

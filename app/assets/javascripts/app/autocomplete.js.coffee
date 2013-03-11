@@ -6,6 +6,17 @@ scope  =
   exp: new RegExp('(?:^|\\b|\\s)\@([\\w.]*)$')
   cache: {}
   
+  bindings: ->
+    $(".edit_chart textarea").unbind "keyup"
+    $(".edit_chart textarea").bind "keyup", (e) ->
+      $this = $(this)
+      val = $this.val().substring(0, $this.caret())
+      next = $this.val().substr($this.caret(), 1)
+      matches = val.match(root.autocomplete.exp)
+      
+      if matches && (e.keyCode == 16 || e.keyCode == 50 || !e.keyCode) && next.strip() == ""
+        root.autocomplete.show()
+  
   render: (data) ->
     $(".overlay.persons .list").empty()
     val = if root.autocomplete.current then root.autocomplete.current.val else null
@@ -51,17 +62,6 @@ scope  =
       # Re-render
       if root.autocomplete.cache[$input.val()]
         root.autocomplete.render(root.autocomplete.cache[$input.val()])
-  
-  bindings: ->
-    $(".edit_chart textarea").unbind "keyup"
-    $(".edit_chart textarea").bind "keyup", (e) ->
-      $this = $(this)
-      val = $this.val().substring(0, $this.caret())
-      next = $this.val().substr($this.caret(), 1)
-      matches = val.match(root.autocomplete.exp)
-      
-      if matches && (e.keyCode == 16 || e.keyCode == 50 || !e.keyCode) && next.strip() == ""
-        root.autocomplete.show()
   
   show: ($overlay = $(".overlay.persons"))->
     $this = $(".edit_chart textarea")
