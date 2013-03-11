@@ -638,12 +638,12 @@ App =
                   autocomplete.select_current($overlay)
           , if e.keyCode then 1000 else 0)
           false
-        $input.trigger "keyup"
         
         # Fade in
         (->
           $overlay.show()
           $input.focus()
+          $input.trigger "keyup"
           
           Mousetrap.unbind "enter"
           Mousetrap.unbind "esc"

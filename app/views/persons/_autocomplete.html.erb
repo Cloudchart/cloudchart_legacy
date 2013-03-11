@@ -1,6 +1,7 @@
 <%
   person ||= Person.new
   title ||= ""
+  profile = !person.new_record?
 %>
 <div class="overlay persons">
   <div class="box">
@@ -24,9 +25,9 @@
           <div class="controls">
             <div class="holder"><h3></h3></div>
             <% if user_signed_in? %>
-            <ul class="list">
+            <ul class="list"<%= raw ' style="display: none"' if profile %>>
             </ul>
-            <div class="profile">
+            <div class="profile"<%= raw ' style="display: block"' if profile %>>
               <% if !person.new_record? %>
                 <%=
                   render partial: "/persons/profile", locals: {
@@ -47,10 +48,10 @@
       <% end %>
     </div>
 
-    <div class="buttons for-list">
+    <div class="buttons for-list"<%= raw ' style="display: none"' if profile %>>
       <button class="fire"><%= t("charts.persons.okay") %></button>
     </div>
-    <div class="buttons for-profile">
+    <div class="buttons for-profile"<%= raw ' style="display: block"' if profile %>>
       <button class="half fire"><%= t("charts.persons.add") %></button>
       <button class="half return"><%= t("charts.persons.return") %></button>
     </div>

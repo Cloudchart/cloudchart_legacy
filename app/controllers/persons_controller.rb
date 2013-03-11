@@ -3,12 +3,11 @@ class PersonsController < ApplicationController
     not_found unless can?(:update, @chart)
     render json: { persons: [] } and return unless user_signed_in?
     
-    @client = current_user.linkedin_client
-    @persons = @client.people_search(keywords: CGI.escape(params[:q]), path: ":(people:(id,first-name,last-name,picture-url,headline),num-results)")
+    @persons = current_user.linkedin_client.normalized_people_search(params[:q])
     
     respond_to { |format|
       format.json {
-        render json: { persons: (@persons.people.all || []).reject { |x| x.id == "private" } }
+        render json: { persons: @persons }
       }
     }
   end

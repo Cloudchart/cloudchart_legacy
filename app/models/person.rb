@@ -43,29 +43,9 @@ class Person
   def fetch!
     case self.type
     when "ln"
-      mapping = {
-        first_name: :first_name,
-        last_name: :last_name,
-        :"picture-urls::(original)" => :picture_urls,
-        picture_url: :picture_url,
-        headline: :headline,
-        summary: :description,
-        :"site-standard-profile-request" => :profile_url
-      }
-      
-      fetched = self.user.linkedin_client.profile(id: self.external_id, fields: mapping.keys)
-      attrs = Hash[mapping.map { |k, v| [v, fetched[k]] }]
-      
-      # Process picture
-      if fetched[:picture_urls] && fetched[:picture_urls][:all]
-        attrs[:picture_url] = fetched[:picture_urls][:all].first if fetched[:picture_urls][:all].is_a?(Array)
-      end
-      attrs.delete(:picture_urls)
-      
-      # Process profile url
-      attrs[:profile_url] = attrs[:profile_url].url if attrs[:profile_url]
-      
-      self.update_attributes attrs
+      attrs = self.user.linkedin_client.normalized_profile(self.external_id)
+      attrs.delete(:id)
+      self.update_attributes(attrs)
     end
     
     self
