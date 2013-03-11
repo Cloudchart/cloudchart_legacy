@@ -12,7 +12,7 @@ Cloudchart::Application.routes.draw do
       post :clone
     end
     resources :nodes, except: [:index, :new, :create, :edit, :destroy]
-    resources :persons, only: [:index] do
+    resources :persons, only: [:index, :edit] do
       get  :profile
     end
   end

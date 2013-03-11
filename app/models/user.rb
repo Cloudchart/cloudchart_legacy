@@ -97,7 +97,7 @@ class User
       person.fetch! if person.new_record?
     else
       match = title.scan(/@([^\,]+)(\,.*)?/).first
-      person = Person.new(first_name: match[0]) if match
+      person = Person.new(first_name: match.first) if match
     end
     
     person

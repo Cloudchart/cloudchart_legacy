@@ -12,6 +12,7 @@ class Person
   belongs_to :user
   
   # Fields
+  attr_accessor :q
   field :type, type: String
   field :external_id, type: String
   field :first_name, type: String, default: ""
@@ -36,7 +37,7 @@ class Person
   end
   
   def name
-    "#{self.first_name} #{self.last_name}"
+    "#{self.first_name} #{self.last_name}".strip
   end
   
   def fetch!

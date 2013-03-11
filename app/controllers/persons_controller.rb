@@ -13,17 +13,27 @@ class PersonsController < ApplicationController
     }
   end
   
+  def edit
+    @partial ||= can?(:edit, @chart) ?  "/persons/autocomplete" :  "/persons/profile"
+    @title = params[:id]
+    
+    profile
+  end
+  
   def profile
-    match = params[:person_id].scan(/@([^,]*),(.*)$/).first
+    @partial ||= "/persons/profile"
+    @title ||= params[:person_id]
+    
+    match = @title.scan(/@([^,]*),(.*)$/).first
     @note = match.last.strip if match
     
-    @person = @chart.find_person(params[:person_id])
+    @person = @chart.find_person(@title)
     @person.fetch! if @person
     
     respond_to { |format|
       format.html {
-        render partial: "/persons/profile", locals: {
-          title: params[:person_id],
+        render partial: @partial, locals: {
+          title: @title,
           chart: @chart,
           note: @note,
           person: @person
