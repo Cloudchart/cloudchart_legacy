@@ -575,7 +575,8 @@ scope  =
       previous_line = lines[line-1]
       current_char = $this.val().substr($this.caret(), 1)
       previous_char = $this.val().substr($this.caret()-1, 1)
-      is_last_char = current_char.match(/\s/) || current_char.trim() == ""
+      line_size = current_line.trim().length
+      is_last_char = $this.val().substr($this.caret()-line_size, line_size) == current_line.trimLeft()
       
       # Arrows in move mode
       if $j(".move").hasClass("selected")
@@ -609,7 +610,7 @@ scope  =
         root.chart.indent(!e.shiftKey)
         return true
         
-      # Open person
+      # Show person
       if current_line.trim().match(/^@(.+)/) && is_last_char && (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey)
         root.chart.person(current_line.trim(), true)
         e.preventDefault()
