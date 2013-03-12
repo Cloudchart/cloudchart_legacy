@@ -4,6 +4,7 @@ class PersonsController < ApplicationController
     render json: { persons: [] } and return unless user_signed_in?
     
     @persons = current_user.linkedin_client.normalized_people_search(params[:q])
+    @persons.map! { |x| Person.new({ type: "ln" }.merge(x)) }
     
     respond_to { |format|
       format.json {

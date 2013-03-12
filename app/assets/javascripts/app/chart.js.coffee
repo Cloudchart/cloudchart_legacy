@@ -763,10 +763,15 @@ scope  =
     
     $j.ajax url: "/charts/#{root.chart.chart.slug}/persons/#{encodeURIComponent(title)}/edit", type: "GET", complete: (data) ->
       # Editable, show autocomplete
-      if $j(".edit_chart textarea").length > 0
+      $edit = $j(".edit_chart textarea")
+      if $edit.length > 0
+        # Move caret to proper place
+        start = $edit.val().indexOf(title)
+        $edit.caret(start + title.length)
+        
         $overlay = $j(data.responseText)
         $overlay.appendTo("body")
-        root.autocomplete.show($overlay)
+        root.autocomplete.show($overlay, title)
       
       # Showable
       else

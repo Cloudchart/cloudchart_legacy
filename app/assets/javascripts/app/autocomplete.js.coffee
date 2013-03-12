@@ -5,6 +5,8 @@ scope  =
   current: null
   exp: new RegExp('(?:^|\\b|\\s)\@([\\w.]*)$')
   cache: {}
+  note: ""
+  editable: null
   
   bindings: ->
     $(".edit_chart textarea").unbind "keyup"
@@ -17,32 +19,33 @@ scope  =
       if matches && (e.keyCode == 16 || e.keyCode == 50 || !e.keyCode) && next.strip() == ""
         root.autocomplete.show()
   
-  render: (data) ->
-    $(".overlay.persons .list").empty()
-    val = if root.autocomplete.current then root.autocomplete.current.val else null
+  render: ($overlay, data) ->
+    $list = $overlay.find(".list")
+    $list.empty()
+    identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
     
     _.map(data, (x) ->
-      html = $("<li><div><img src='#{x.picture_url}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
+      html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
       html.data("person", x)
-      html.addClass("selected") if x.val == val
-      $(".overlay.persons .list").append(html)
+      html.addClass("selected") if x.identifier == identifier
+      $list.append(html)
     )
     
     $(".overlay.persons .list li").bind "click", ->
       $this = $(this)
-      $overlay = $(".overlay.persons")
       
       if $this.hasClass("selected")
         person = $this.data("person")
         $overlay.find(".loading").show()
         
-        $.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.val}")}/profile", type: "GET", complete: (data) ->
+        $.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.identifier}")}/profile", type: "GET", complete: (data) ->
           $overlay.find("[name='person[q]']").val("@#{person.name}")
           $overlay.find(".profile").html(data.responseText).show()
           $overlay.find(".buttons").hide()
           $overlay.find(".buttons.for-profile").show()
           $overlay.find(".list").hide()
           $overlay.find(".loading").hide()
+          $overlay.find(".profile textarea").val(root.autocomplete.note) if root.autocomplete.note != ""
       else
         root.autocomplete.select_current($overlay, $(this))
   
@@ -57,15 +60,17 @@ scope  =
     else
       data = $current.data("person")
       root.autocomplete.current = data
-      $overlay.find(".person").attr("src", data.picture_url)
+      $overlay.find(".person").attr("src", data.picture)
       
       # Re-render
       if root.autocomplete.cache[$input.val()]
-        root.autocomplete.render(root.autocomplete.cache[$input.val()])
+        root.autocomplete.render($overlay, root.autocomplete.cache[$input.val()])
   
-  show: ($overlay = $(".overlay.persons"))->
+  show: ($overlay = $(".overlay.persons"), editable = null)->
     $this = $(".edit_chart textarea")
     $input = $overlay.find("[name='person[q]']")
+    root.autocomplete.note = $overlay.find(".profile textarea").val()?.trim()
+    root.autocomplete.editable = editable?.trim()
     
     root.autocomplete.current = null
     $overlay.find("form").unbind "submit"
@@ -131,7 +136,7 @@ scope  =
       clearTimeout(autocomplete.timeout) if autocomplete.timeout
       if autocomplete.cache[$input.val()] && autocomplete.cache[$input.val()][0]
         $overlay.find(".loading").hide()
-        autocomplete.render(autocomplete.cache[$input.val()])
+        autocomplete.render($overlay, autocomplete.cache[$input.val()])
         return true
       
       # return false if autocomplete.loading
@@ -149,16 +154,9 @@ scope  =
             console.error error
           
           .done (result) ->
-            values = _.map(result.persons, (x) ->
-              name = "#{x.first_name} #{x.last_name}"
-              picture_url = if x.picture_url then x.picture_url else "/images/ico-person.png"
-              
-              { val: "#{name}(ln:#{x.id})", name: name, headline: x.headline, picture_url: picture_url }
-            )
-            
-            autocomplete.cache[cache_key] = values
+            autocomplete.cache[cache_key] = result.persons
             if cache_key == $input.val()
-              autocomplete.render(values)
+              autocomplete.render($overlay, result.persons)
               $overlay.find(".loading").hide()
             
             if $input.val().length > 3
@@ -192,6 +190,11 @@ scope  =
       
       Mousetrap.bind "esc", ->
         if $overlay.find(".profile").is(":visible")
+          # Clear current
+          $input.val("")
+          $overlay.find(".list").empty()
+          root.autocomplete.select_current($overlay)
+          
           $overlay.find(".profile").empty().hide()
           $overlay.find(".buttons").hide()
           $overlay.find(".buttons.for-list").show()
@@ -237,7 +240,7 @@ scope  =
       $overlay.find(".holder").bind "click", ->
         $(this).addClass("selected")
         root.autocomplete.current = 
-          val: $input.val().replace(/^@/, "")
+          identifier: $input.val().replace(/^@/, "")
         $overlay.find(".for-profile .fire").trigger "click"
       
       $overlay.find("form").bind "submit", ->
@@ -271,11 +274,14 @@ scope  =
           return false
       
       $overlay.find(".for-profile .fire").bind "click", ->
+        editable = root.autocomplete.editable
+        
         # Process or skip
         if $input.val() == "" || root.autocomplete.current || $overlay.find(".list li").length == 0
           caret = $this.caret()
+          
           if root.autocomplete.current
-            append = root.autocomplete.current.val
+            append = root.autocomplete.current.identifier
             
             # Note
             note = $overlay.find(".profile textarea").val()?.trim()
@@ -286,13 +292,22 @@ scope  =
             if $overlay.find(".profile").is(":visible")
               Mousetrap.trigger "esc"
             
-            val = $this.val().substr(0, caret) + append + $this.val().substr(caret)
+            # Replace
+            if editable
+              val = $this.val().substr(0, caret - editable.length + 1) + append + $this.val().substr(caret)
+              move_to = caret - editable.length + 1 + append.length
+            
+            # Append
+            else
+              val = $this.val().substr(0, caret) + append + $this.val().substr(caret)
+              move_to = caret + append.length
+            
             $this.val(val)
             
             setTimeout ->
               $this.focus()
-              $this.caret(caret+append.length)
-              $this.trigger "keydown", newline: true
+              $this.caret(move_to)
+              $this.trigger "keydown", newline: true unless editable
               
               # Save
               App.chart.status.text(I18n.t("charts.autosave.changed"))
@@ -304,7 +319,14 @@ scope  =
             
             setTimeout ->
               $this.focus()
-              $this.caret(caret-1)
+              
+              # Move to the right place
+              if editable
+                $this.caret(caret)
+              
+              # We removed at symbol
+              else
+                $this.caret(caret-1)
               
               # Save
               App.chart.status.text(I18n.t("charts.autosave.changed"))

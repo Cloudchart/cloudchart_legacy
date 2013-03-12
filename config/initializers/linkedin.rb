@@ -29,6 +29,7 @@ module LinkedIn
       
       def normalize_profile(fetched)
         attrs = Hash[MAPPING.map { |k, v| [v, fetched[k]] }]
+        attrs[:external_id] = attrs[:id]
         
         # Process profile url
         attrs[:profile_url] = attrs[:profile_url].url if attrs[:profile_url]
