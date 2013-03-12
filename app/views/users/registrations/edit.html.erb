@@ -20,7 +20,7 @@
     <label class="control-label" for="user[email]"><%= t("users.edit.email") %></label>
     <div class="controls">
       <%= f.email_field :email %>
-      <button class="btn btn-small clear">×</button>
+      <button type="button" class="btn btn-small clear">×</button>
     </div>
   </div>
   
@@ -28,7 +28,7 @@
     <label class="control-label" for="user[password]"><%= t("users.edit.password") %></label>
     <div class="controls">
       <%= f.password_field :password, autocomplete: :off %>
-      <button class="btn btn-small clear">×</button>
+      <button type="button" class="btn btn-small clear">×</button>
     </div>
   </div>
   
@@ -36,7 +36,7 @@
     <label class="control-label" for="user[password_confirmation]"><%= t("users.edit.password_confirmation") %></label>
     <div class="controls">
       <%= f.password_field :password_confirmation, autocomplete: :off %>
-      <button class="btn btn-small clear">×</button>
+      <button type="button" class="btn btn-small clear">×</button>
     </div>
   </div>
   
@@ -44,7 +44,7 @@
     <label class="control-label" for="user[current_password]"><%= t("users.edit.current_password") %></label>
     <div class="controls">
       <%= f.password_field :current_password, autocomplete: :off %>
-      <button class="btn btn-small clear">×</button>
+      <button type="button" class="btn btn-small clear">×</button>
     </div>
   </div>
   
@@ -70,7 +70,7 @@
   <div class="control-group">
     <div class="controls">
       <%= f.text_field :email, placeholder: t("users.invite.placeholder") %>
-      <button class="btn btn-small clear">×</button>
+      <button type="button" class="btn btn-small clear">×</button>
     </div>
   </div>
   

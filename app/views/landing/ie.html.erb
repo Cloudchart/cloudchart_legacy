@@ -23,8 +23,8 @@
             </label>
             <div class="controls">
               <%= f.input :email, label: false, placeholder: t("common.ie.notification.placeholder") %>
-              <button class="btn btn-small email disabled" data-ready="<%= t("common.ie.notification.ready") %>" data-error="<%= t("common.ie.notification.error") %>" data-success="<%= t("common.ie.notification.success") %>"><%= t("common.ie.notification.ready") %></button>
-              <button class="btn btn-small clear">×</button>
+              <button type="button" class="btn btn-small email disabled" data-ready="<%= t("common.ie.notification.ready") %>" data-error="<%= t("common.ie.notification.error") %>" data-success="<%= t("common.ie.notification.success") %>"><%= t("common.ie.notification.ready") %></button>
+              <button type="button" class="btn btn-small clear">×</button>
             </div>
           </div>
         <% end %>

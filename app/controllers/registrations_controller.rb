@@ -27,6 +27,9 @@ class RegistrationsController < Devise::RegistrationsController
           { link: accept_invitation_url(result, invitation_token: result.invitation_token) }
         ).deliver if result
       end
+      
+      # Reset for gods
+      current_user.set(:invitation_limit, Devise.invitation_limit) if current_user.god?
     end
     
     redirect_to edit_user_registration_path

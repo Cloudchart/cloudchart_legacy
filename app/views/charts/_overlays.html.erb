@@ -37,8 +37,8 @@
             <% text = url.gsub(/https?:\/\//, "") %>
             <%= f.input :public, as: :hidden, input_html: { value: url } %>
             <%= f.input :public_email, label: false, input_html: { value: text, data: { value: text } } %>
-            <button class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
-            <button class="btn btn-small email" data-send="<%= t("charts.share.send") %>" data-type="public" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
+            <button type="button" class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
+            <button type="button" class="btn btn-small email" data-send="<%= t("charts.share.send") %>" data-type="public" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
           </div>
         </div>
         <div class="control-group">
@@ -51,8 +51,8 @@
             <% text = url.gsub(/https?:\/\//, "") %>
             <%= f.input :private, as: :hidden, input_html: { value: url } %>
             <%= f.input :private_email, label: false, input_html: { value: text, data: { value: text } } %>
-            <button class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
-            <button class="btn btn-small email" data-send="<%= t("charts.share.send") %>" data-type="private" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
+            <button type="button" class="btn btn-small copy" data-clipboard-text="<%= url %>" data-replace="×"><%= t("charts.share.copy") %></button>
+            <button type="button" class="btn btn-small email" data-send="<%= t("charts.share.send") %>" data-type="private" data-error="<%= t("charts.share.error") %>" data-sent="<%= t("charts.share.sent") %>"><%= t("charts.share.email") %></button>
           </div>
         </div>
       <% end %>
