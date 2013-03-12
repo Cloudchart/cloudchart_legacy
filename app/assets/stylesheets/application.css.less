@@ -1418,6 +1418,19 @@ body {
                     }
                   }
                   
+                  &.holder {
+                    &.selected {
+                      padding: 0;
+                      margin: 6px 8px 9px 8px;
+                      background: #eaf8fd;
+                      border: 2px solid #fff;
+                    }
+                    
+                    h3, h4 {
+                      font-style: italic;
+                    }
+                  }
+                  
                   img {
                     float: left;
                     width: 50px;
@@ -1436,6 +1449,10 @@ body {
                     font-size: 14px;
                     line-height: 16px;
                     margin: 0;
+                    max-width: 260px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
                     color: #01405a;
                   }
                   

@@ -21,7 +21,7 @@ scope  =
   
   render: ($overlay, data) ->
     $list = $overlay.find(".list")
-    $list.empty()
+    root.autocomplete.holder($overlay)
     identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
     
     _.map(data, (x) ->
@@ -38,6 +38,7 @@ scope  =
     
     $list.find("li div").bind "click", ->
       $this = $(this).parent()
+      # return true if $this.hasClass("holder")
       
       if $this.hasClass("selected")
         $overlay.find(".for-profile .fire").trigger "click"
@@ -60,6 +61,29 @@ scope  =
       
       false
   
+  holder: ($overlay) ->
+    $input = $overlay.find("[name='person[q]']")
+    $list = $overlay.find(".list")
+    val = $input.val().replace(/^@/, "").trim()
+    
+    if val != ""
+      $list.html('<li class="holder"><div><img src="/images/ico-person.png"><h3></h3><h4>Title goes here</h4><p>Your Company</p></div></li>')
+      $overlay.find(".holder h3").html("#{val}")
+      $overlay.find(".holder").data("person",
+        identifier: val,
+        picture: "/images/ico-person.png"
+      )
+      $overlay.find(".holder").show()
+      $overlay.find(".holder").parent().addClass("has-holder")
+    else
+      $list.empty()
+      $overlay.find(".holder").parent().removeClass("has-holder")
+    
+    # Select holder
+    identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
+    if identifier == val
+      $overlay.find(".holder").addClass("selected")
+    
   select_current: ($overlay, $current) ->
     $overlay = $(".overlay.persons") unless $overlay
     $current = $overlay.find(".list li:first") unless $current
@@ -70,6 +94,8 @@ scope  =
       $overlay.find(".person").attr("src", $overlay.find(".person").attr("data-icon"))
     else
       data = $current.data("person")
+      return unless data
+      
       root.autocomplete.current = data
       $overlay.find(".person").attr("src", data.picture)
       
@@ -87,8 +113,6 @@ scope  =
     $overlay.find("form").unbind "submit"
     $overlay.find(".fire").unbind "click"
     $overlay.find(".return").unbind "click"
-    $overlay.find(".holder").unbind "click"
-    $overlay.find(".holder").removeClass("selected").hide()
     $overlay.find(".holder").parent().removeClass("has-holder")
     
     $input.val("@#{$input.attr('data-value')}")
@@ -121,18 +145,10 @@ scope  =
     $input.bind "keyup", (e) ->
       return false if e.keyCode == 13
       return true if $overlay.find(".profile").is(":visible")
-      
       autocomplete = root.autocomplete
-      val = $input.val().replace(/^@/, "").trim()
       
       # Placeholder
-      $overlay.find(".holder h3").html("@#{val}")
-      if val != ""
-        $overlay.find(".holder").show()
-        $overlay.find(".holder").parent().addClass("has-holder")
-      else
-        $overlay.find(".holder").hide()
-        $overlay.find(".holder").parent().removeClass("has-holder")
+      autocomplete.holder($overlay)
       
       # Close
       if $input.val() == ""
@@ -248,17 +264,9 @@ scope  =
         
         $list.scrollTo(".selected", 100)
       
-      $overlay.find(".holder").bind "click", ->
-        $(this).addClass("selected")
-        root.autocomplete.current = 
-          identifier: $input.val().replace(/^@/, "")
-        $overlay.find(".for-profile .fire").trigger "click"
-      
       $overlay.find("form").bind "submit", ->
         Mousetrap.trigger "enter"
         
-        false
-      
       $overlay.find(".return").bind "click", ->
         Mousetrap.trigger "esc"
         root.autocomplete.current = null
@@ -280,11 +288,11 @@ scope  =
           $selected.find("div").trigger "click"
           return false
         
-        # Trigger placeholder if visible
-        $holder = $overlay.find(".holder")
-        if $holder.is(":visible") && !$holder.hasClass("selected") && $overlay.find(".list li").length == 0
-          $overlay.find(".holder").trigger "click"
-          return false
+        # # Trigger placeholder if visible
+        # $holder = $overlay.find(".holder")
+        # if $holder.is(":visible") && !$holder.hasClass("selected") && $overlay.find(".list li").length == 1
+        #   $overlay.find(".holder").trigger "click"
+        #   return false
       
       $overlay.find(".for-profile .fire").bind "click", ->
         editable = root.autocomplete.editable

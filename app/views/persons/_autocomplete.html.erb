@@ -23,10 +23,8 @@
             <%= image_tag "ico-best-guess.png", class: "best-guess" %>
           </div>
           <div class="controls">
-            <div class="holder"><h3></h3></div>
             <% if user_signed_in? %>
-            <ul class="list"<%= raw ' style="display: none"' if profile %>>
-            </ul>
+            <ul class="list"<%= raw ' style="display: none"' if profile %>></ul>
             <div class="profile"<%= raw ' style="display: block"' if profile %>>
               <% if !person.new_record? %>
                 <%=
