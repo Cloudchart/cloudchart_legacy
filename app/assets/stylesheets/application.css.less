@@ -1370,42 +1370,84 @@ body {
                 
                 li {
                   display: block;
+                  position: relative;
                   margin: 3px 0;
-                  margin: 3px 6px;
+                  padding: 6px 8px;
+                  border: 2px solid #fff;
                   color: #01405a;
                   cursor: pointer;
+                  
+                  div {
+                    min-height: 50px;
+                  }
+                  
+                  button {
+                    display: none;
+                  }
                   
                   &:first-child {
                     margin-top: 0;
                   }
                   
                   &.selected {
-                    background: #f0f0f0;
+                    .rounded(10px);
+                    .gradient(#efefef, #edf6fb, #fbfdff);
+                    border: 2px solid #abd5e3;
+                    
+                    div {
+                      margin-right: 60px;
+                    }
+                    
+                    button {
+                      .box-sizing(border-box);
+                      display: block;
+                      position: absolute;
+                      top: 6px;
+                      right: 6px;
+                      padding: 2px 0 0 0;
+                      width: 52px;
+                      height: 52px;
+                      background: url(bg-show-profile.png) no-repeat;
+                      background-size: 52px 52px;
+                      color: #000;
+                      border: 0;
+                      font-size: 13px;
+                      text-align: center;
+                      line-height: 13px;
+                      color: #74b5cd;
+                    }
                   }
                   
                   img {
                     float: left;
-                    width: 40px;
-                    height: 40px;
-                    padding-right: 6px;
+                    width: 50px;
+                    height: 50px;
+                    padding-right: 10px;
                   }
                   
                   h3 {
-                    font-size: 18px;
-                    line-height: 24px;
+                    font-size: 21px;
+                    line-height: 22px;
                     margin: 0;
                     color: #044763;
                   }
                   
+                  h4 {
+                    font-size: 14px;
+                    line-height: 16px;
+                    margin: 0;
+                    color: #01405a;
+                  }
+                  
                   p {
                     font-size: 12px;
-                    line-height: 16px;
+                    line-height: 14px;
                     margin: 0;
                     max-width: 260px;
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
-                    color: #01405a;
+                    color: #80d0ed;
                   }
                 }
               }

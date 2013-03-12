@@ -25,29 +25,40 @@ scope  =
     identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
     
     _.map(data, (x) ->
-      html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><p>#{x.headline}</p></div></li>")
+      if x.headline.match(/\sat\s/)
+        head = x.headline.split(/\sat\s/)
+        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{head[0]}</h4><p>#{head[1]}</p></div><button>Profile Details</button></li>")
+      else
+        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.headline}</h4></div><button>Profile Details</button></li>")
+      
       html.data("person", x)
       html.addClass("selected") if x.identifier == identifier
       $list.append(html)
     )
     
-    $(".overlay.persons .list li").bind "click", ->
-      $this = $(this)
+    $list.find("li div").bind "click", ->
+      $this = $(this).parent()
       
       if $this.hasClass("selected")
-        person = $this.data("person")
-        $overlay.find(".loading").show()
-        
-        $.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.identifier}")}/profile", type: "GET", complete: (data) ->
-          $overlay.find("[name='person[q]']").val("@#{person.name}")
-          $overlay.find(".profile").html(data.responseText).show()
-          $overlay.find(".buttons").hide()
-          $overlay.find(".buttons.for-profile").show()
-          $overlay.find(".list").hide()
-          $overlay.find(".loading").hide()
-          $overlay.find(".profile textarea").val(root.autocomplete.note) if root.autocomplete.note != ""
+        $overlay.find(".for-profile .fire").trigger "click"
       else
-        root.autocomplete.select_current($overlay, $(this))
+        root.autocomplete.select_current($overlay, $this)
+    
+    $list.find("li button").bind "click", ->
+      $this = $(this).parent()
+      person = $this.data("person")
+      $overlay.find(".loading").show()
+      
+      $.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.identifier}")}/profile", type: "GET", complete: (data) ->
+        $overlay.find("[name='person[q]']").val("@#{person.name}")
+        $overlay.find(".profile").html(data.responseText).show()
+        $overlay.find(".buttons").hide()
+        $overlay.find(".buttons.for-profile").show()
+        $overlay.find(".list").hide()
+        $overlay.find(".loading").hide()
+        $overlay.find(".profile textarea").val(root.autocomplete.note) if root.autocomplete.note != ""
+      
+      false
   
   select_current: ($overlay, $current) ->
     $overlay = $(".overlay.persons") unless $overlay
@@ -244,7 +255,8 @@ scope  =
         $overlay.find(".for-profile .fire").trigger "click"
       
       $overlay.find("form").bind "submit", ->
-        $overlay.find(".for-profile .fire").trigger "click"
+        Mousetrap.trigger "enter"
+        
         false
       
       $overlay.find(".return").bind "click", ->
@@ -264,7 +276,8 @@ scope  =
         # Trigger selected row
         $selected = $overlay.find(".list li.selected")
         if $selected.length > 0
-          $selected.trigger "click"
+          # Select
+          $selected.find("div").trigger "click"
           return false
         
         # Trigger placeholder if visible
