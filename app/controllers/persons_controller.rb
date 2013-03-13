@@ -28,7 +28,7 @@ class PersonsController < ApplicationController
     @note = match.last.strip if match
     
     @person = @chart.find_person(@title)
-    @person.fetch! if @person
+    @person.fetch! if @person.new_record?
     
     respond_to { |format|
       format.html {

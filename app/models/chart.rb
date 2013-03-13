@@ -228,7 +228,7 @@ class Chart
   
   def load_person(title)
     person = self.find_person(title)
-    person.fetch! if person
+    person.fetch! if person.new_record?
   end
   
   def find_person(title)
