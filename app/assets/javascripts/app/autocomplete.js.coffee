@@ -35,6 +35,10 @@ scope  =
       $list.append(html)
     )
     
+    setTimeout(->
+      $list.scrollTo(".selected", 100)
+    , 100)
+    
     $list.find("li div").bind "click", ->
       $this = $(this).parent()
       # return true if $this.hasClass("holder")
@@ -85,6 +89,7 @@ scope  =
     
   select_current: ($overlay, $current) ->
     $overlay = $(".overlay.persons") unless $overlay
+    $list = $overlay.find(".list")
     $current = $overlay.find(".list li:first") unless $current
     $input = $overlay.find("[name='person[q]']")
     
@@ -98,9 +103,17 @@ scope  =
       root.autocomplete.current = data
       $overlay.find(".person").attr("src", data.picture)
       
-      # Re-render
-      if root.autocomplete.cache[$input.val()]
-        root.autocomplete.render($overlay, root.autocomplete.cache[$input.val()])
+      # Change selection
+      $list.find(".selected").removeClass("selected")
+      $current.addClass("selected")
+      
+      setTimeout(->
+        $list.scrollTo(".selected", 100)
+      , 100)
+      
+      # # Re-render
+      # if root.autocomplete.cache[$input.val()]
+      #   root.autocomplete.render($overlay, root.autocomplete.cache[$input.val()])
   
   show: ($overlay = $(".overlay.persons"), editable = null)->
     $this = $(".edit_chart textarea")
@@ -147,7 +160,7 @@ scope  =
     
     $input.unbind "keyup"
     $input.bind "keyup", (e) ->
-      return false if e.keyCode == 13
+      return false if e.keyCode == 13 || e.keyCode == 38 || e.keyCode == 40 || e.keyCode == 27
       return true if $overlay.find(".profile").is(":visible")
       autocomplete = root.autocomplete
       
@@ -258,8 +271,6 @@ scope  =
           root.autocomplete.select_current($overlay, $selected.prev())
         else
           root.autocomplete.select_current($overlay, $overlay.find(".list li:last"))
-        
-        $list.scrollTo(".selected", 100)
       
       Mousetrap.bind "down", ->
         $list = $overlay.find(".list")
@@ -270,8 +281,6 @@ scope  =
           root.autocomplete.select_current($overlay, $selected.next())
         else
           root.autocomplete.select_current($overlay, $overlay.find(".list li:first"))
-        
-        $list.scrollTo(".selected", 100)
       
       $overlay.find("form").bind "submit", ->
         Mousetrap.trigger "enter"
