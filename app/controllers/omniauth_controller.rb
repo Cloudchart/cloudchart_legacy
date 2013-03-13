@@ -117,6 +117,10 @@ private
     
     # Update user
     if auth[:picture].present?
+      # Get picture by API
+      attrs = user.linkedin_client.normalized_profile(user.linkedin.uid) rescue nil
+      auth[:picture] = attrs[:picture_url] if attrs && attrs[:picture_url]
+      
       user.picture = URI.parse(auth[:picture])
       user.save
     end

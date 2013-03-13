@@ -106,6 +106,7 @@ scope  =
   show: ($overlay = $(".overlay.persons"), editable = null)->
     $this = $(".edit_chart textarea")
     $input = $overlay.find("[name='person[q]']")
+    $note = $overlay.find(".profile textarea")
     root.autocomplete.note = $overlay.find(".profile textarea").val()?.trim()
     root.autocomplete.editable = editable?.trim()
     
@@ -114,6 +115,10 @@ scope  =
     $overlay.find(".fire").unbind "click"
     $overlay.find(".return").unbind "click"
     $overlay.find(".holder").parent().removeClass("has-holder")
+    
+    $note.unbind "keydown"
+    $note.bind "keydown", (e) ->
+      return Mousetrap.trigger("esc") && false if e.keyCode == 27
     
     $input.val("@#{$input.attr('data-value')}")
     $input.unbind "textchange"
@@ -195,7 +200,12 @@ scope  =
     # Fade in
     (->
       $overlay.show()
-      $input.focus()
+      # Focus note when editing
+      if root.autocomplete.editable
+        $note.focus()
+      # Focus search when adding
+      else
+        $input.focus()
       $input.trigger "keyup"
       
       # Select current if person is opened
