@@ -33,7 +33,7 @@ class Person
   index({ user_id: 1, type: 1, external_id: 1 }, { unique: true })
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :picture_url], methods: [:id, :name, :picture, :identifier])
+    super (options || {}).merge(except: [:_id, :picture_url], methods: [:id, :identifier, :name, :picture, :position, :company])
   end
   
   def identifier
@@ -46,6 +46,14 @@ class Person
   
   def picture
     @picture ||= (self.picture_url || "/images/ico-person.png")
+  end
+  
+  def position
+    self.headline.split(/\sat\s/).first if self.headline && self.headline.match(/\sat\s/)
+  end
+  
+  def company
+    self.headline.split(/\sat\s/).last if self.headline && self.headline.match(/\sat\s/)
   end
   
   def fetch!

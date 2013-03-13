@@ -15,8 +15,13 @@
           <%= image_tag "/images/ico-person.png" %>
         <% end %>
         
-        <h2><%= person.name %></h2>
-        <h3><%= person.headline.present? ? person.headline : simple_format("&nbsp;") %></h3>
+        <h3><%= person.name %></h3>
+        <% if person.position %>
+          <h4><%= person.position %></h4>
+          <p><%= person.company %></p>
+        <% else %>
+          <h4>&nbsp;<%= person.headline.present? ? person.headline : "" %></h4>
+        <% end %>
       </div>
     </li>
     <% end if @persons %>

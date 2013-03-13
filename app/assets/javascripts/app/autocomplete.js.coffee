@@ -25,9 +25,8 @@ scope  =
     identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
     
     _.map(data, (x) ->
-      if x.headline.match(/\sat\s/)
-        head = x.headline.split(/\sat\s/)
-        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{head[0]}</h4><p>#{head[1]}</p></div><button>Profile Details</button></li>")
+      if x.position
+        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.position}</h4><p>#{x.company}</p></div><button>Profile Details</button></li>")
       else
         html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.headline}</h4></div><button>Profile Details</button></li>")
       
