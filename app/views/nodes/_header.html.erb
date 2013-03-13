@@ -18,9 +18,9 @@
         <h3><%= person.name %></h3>
         <% if person.position %>
           <h4><%= person.position %></h4>
-          <p><%= person.company %></p>
+          <p class="company"><%= person.company %></p>
         <% else %>
-          <h4>&nbsp;<%= person.headline.present? ? person.headline : "" %></h4>
+          <h4><%= person.headline.present? ? person.headline : "" %>&nbsp;</h4>
         <% end %>
       </div>
     </li>

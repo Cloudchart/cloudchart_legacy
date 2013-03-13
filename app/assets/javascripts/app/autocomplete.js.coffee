@@ -26,7 +26,7 @@ scope  =
     
     _.map(data, (x) ->
       if x.position
-        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.position}</h4><p>#{x.company}</p></div><button>Profile Details</button></li>")
+        html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.position}</h4><p class='company'>#{x.company}</p></div><button>Profile Details</button></li>")
       else
         html = $("<li><div><img src='#{x.picture}'><h3>#{x.name}</h3><h4>#{x.headline}</h4></div><button>Profile Details</button></li>")
       
@@ -66,7 +66,7 @@ scope  =
     val = $input.val().replace(/^@/, "").trim()
     
     if val != ""
-      $list.html('<li class="holder"><div><img src="/images/ico-person.png"><h3></h3><h4>Title goes here</h4><p>Your Company</p></div></li>')
+      $list.html('<li class="holder"><div><img src="/images/ico-person.png"><h3></h3><h4>Title goes here</h4><p class="company">Your Company</p></div></li>')
       $overlay.find(".holder h3").html("#{val}")
       $overlay.find(".holder").data("person",
         identifier: val,

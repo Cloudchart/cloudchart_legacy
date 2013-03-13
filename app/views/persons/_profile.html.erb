@@ -6,11 +6,16 @@
   <% end %>
   
   <div class="right">
-    <h2><%= person.name %></h2>
-    <h3><%= person.headline %></h3>
+    <h3><%= person.name %></h3>
+    <% if person.position %>
+      <h4><%= person.position %></h4>
+      <p class="company"><%= person.company %></p>
+    <% else %>
+      <h4><%= person.headline.present? ? person.headline : "" %>&nbsp;</h4>
+    <% end %>
     
     <% if person.description.present? %>
-      <p><%= simple_format person.description %></p>
+      <p class="descr"><%= simple_format person.description %></p>
     <% end %>
     
     <textarea placeholder="<%= t("charts.person.add_note_#{browser.mobile? ? "tap" : "click"}") %>" data-title="<%= title %>" data-prev="<%= note %>"<%= " disabled" unless can?(:edit, chart) %>><%= note %></textarea>
