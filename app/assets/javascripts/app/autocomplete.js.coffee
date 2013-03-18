@@ -292,6 +292,7 @@ scope  =
       
       $overlay.find("form").bind "submit", ->
         Mousetrap.trigger "enter"
+        false
         
       $overlay.find(".return").bind "click", ->
         Mousetrap.trigger "esc"
