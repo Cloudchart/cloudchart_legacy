@@ -77,10 +77,10 @@ scope  =
         picture: "/images/ico-person.png"
       )
       $overlay.find(".holder").show()
-      $overlay.find(".holder").parent().addClass("has-holder")
+      $overlay.find(".holder").closest(".controls").addClass("has-holder")
     else
       $list.empty()
-      $overlay.find(".holder").parent().removeClass("has-holder")
+      $overlay.find(".holder").closest(".controls").removeClass("has-holder")
     
     # Select holder
     identifier = if root.autocomplete.current then root.autocomplete.current.identifier else null
@@ -93,7 +93,7 @@ scope  =
     $current = $overlay.find(".list li:first") unless $current
     $input = $overlay.find("[name='person[q]']")
     
-    if $current.length != 1 || root.autocomplete.loading
+    if $current.length != 1
       root.autocomplete.current = null
       $overlay.find(".person").attr("src", $overlay.find(".person").attr("data-icon"))
     else
@@ -126,13 +126,14 @@ scope  =
     $overlay.find("form").unbind "submit"
     $overlay.find(".fire").unbind "click"
     $overlay.find(".return").unbind "click"
-    $overlay.find(".holder").parent().removeClass("has-holder")
+    $overlay.find(".holder").closest(".controls").removeClass("has-holder")
     
     $note.unbind "keydown"
     $note.bind "keydown", (e) ->
       return Mousetrap.trigger("esc") && false if e.keyCode == 27
     
-    $input.val("@#{$input.attr('data-value')}")
+    $input.val("@#{$input.attr("data-value")}")
+    $input.attr("data-value", "")
     $input.unbind "textchange"
     $input.bind "textchange", ->
       # Hide profile
@@ -165,7 +166,7 @@ scope  =
       autocomplete = root.autocomplete
       
       # Placeholder
-      autocomplete.holder($overlay)
+      autocomplete.render($overlay, [])
       
       # Close
       if $input.val() == ""
@@ -213,12 +214,17 @@ scope  =
     (->
       $overlay.show()
       # Focus note when editing
-      if root.autocomplete.editable
+      if $overlay.find(".profile").is(":visible") && root.autocomplete.editable
         $note.focus()
       # Focus search when adding
       else
         $input.focus()
-      $input.trigger "keyup"
+      
+      # Don't trigger keyup when editing placeholder
+      if !$overlay.find(".profile").is(":visible") && root.autocomplete.editable
+        root.autocomplete.render($overlay, [])
+      else
+        $input.trigger "keyup"
       
       # Select current if person is opened
       if $overlay.find(".profile").is(":visible")
@@ -238,6 +244,8 @@ scope  =
           $overlay.find(".for-profile .fire").trigger "click"
       
       Mousetrap.bind "esc", ->
+        $input.focus()
+        
         if $overlay.find(".profile").is(":visible")
           # Clear current
           $input.val("")

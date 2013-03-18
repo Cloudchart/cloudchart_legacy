@@ -611,7 +611,8 @@ scope  =
         return true
         
       # Show person
-      if current_line.trim().match(/^@(.+)/) && is_last_char && (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey)
+      is_person = is_last_char && (!e.altKey && !e.ctrlKey && !e.shiftKey && !e.metaKey)
+      if current_line.trim().match(/^@(.+)/) && is_person && !$j(".overlay.persons").is(":visible")
         root.chart.person(current_line.trim(), true)
         e.preventDefault()
       
