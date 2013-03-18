@@ -35,9 +35,9 @@ scope  =
       $list.append(html)
     )
     
-    setTimeout(->
-      $list.scrollTo(".selected", 100)
-    , 100)
+    # setTimeout(->
+    #   $list.scrollTo(".selected", 100)
+    # , 100)
     
     $list.find("li div").bind "click", ->
       $this = $(this).parent()
@@ -46,7 +46,7 @@ scope  =
       if $this.hasClass("selected")
         $overlay.find(".for-profile .fire").trigger "click"
       else
-        root.autocomplete.select_current($overlay, $this)
+        root.autocomplete.select($overlay, $this)
     
     $list.find("li button").bind "click", ->
       $this = $(this).parent()
@@ -87,7 +87,7 @@ scope  =
     if identifier == val
       $overlay.find(".holder").addClass("selected")
     
-  select_current: ($overlay, $current) ->
+  select: ($overlay, $current) ->
     $overlay = $(".overlay.persons") unless $overlay
     $list = $overlay.find(".list")
     $current = $overlay.find(".list li:first") unless $current
@@ -108,7 +108,14 @@ scope  =
       $current.addClass("selected")
       
       setTimeout(->
-        $list.scrollTo(".selected", 100)
+        offset = $current.position().top
+        # Scroll to top
+        if offset < 0 || $current.is(":last-child")
+          $list.scrollTo(".selected", 100)
+          
+        # Scroll to bottom
+        else if offset + $current.height() > $list.height()
+          $list.scrollTo($list.scrollTop() + $current.outerHeight() + parseInt($current.css("margin-bottom")), 100)
       , 100)
       
       # # Re-render
@@ -145,7 +152,7 @@ scope  =
       
       # Clear current
       $overlay.find(".list").empty()
-      root.autocomplete.select_current($overlay)
+      root.autocomplete.select($overlay)
     
     $input.unbind "keydown"
     $input.bind "keydown", (e) ->
@@ -172,7 +179,7 @@ scope  =
       if $input.val() == ""
         # Clear current
         $overlay.find(".list").empty()
-        autocomplete.select_current($overlay)
+        autocomplete.select($overlay)
         
         $overlay.find(".for-profile .fire").trigger "click"
       
@@ -206,7 +213,7 @@ scope  =
             
             if $input.val().length > 3
               # Select current
-              autocomplete.select_current($overlay)
+              autocomplete.select($overlay)
       , if e.keyCode then 1000 else 0)
       false
     
@@ -230,7 +237,7 @@ scope  =
       if $overlay.find(".profile").is(":visible")
         $current = $overlay.find("[data-person]")
         $current.data("person", JSON.parse($current.attr("data-person")))
-        root.autocomplete.select_current($overlay, $current)
+        root.autocomplete.select($overlay, $current)
       
       Mousetrap.unbind "enter"
       Mousetrap.unbind "esc"
@@ -250,7 +257,7 @@ scope  =
           # Clear current
           $input.val("")
           $overlay.find(".list").empty()
-          root.autocomplete.select_current($overlay)
+          root.autocomplete.select($overlay)
           
           $overlay.find(".profile").empty().hide()
           $overlay.find(".buttons").hide()
@@ -266,7 +273,7 @@ scope  =
           # Clear current
           $input.val("")
           $overlay.find(".list").empty()
-          root.autocomplete.select_current($overlay)
+          root.autocomplete.select($overlay)
           
           $overlay.find(".for-profile .fire").trigger "click"
       
@@ -276,9 +283,9 @@ scope  =
         
         $selected = $list.find(".selected")
         if $selected.prev().length == 1
-          root.autocomplete.select_current($overlay, $selected.prev())
+          root.autocomplete.select($overlay, $selected.prev())
         else
-          root.autocomplete.select_current($overlay, $overlay.find(".list li:last"))
+          root.autocomplete.select($overlay, $overlay.find(".list li:last"))
       
       Mousetrap.bind "down", ->
         $list = $overlay.find(".list")
@@ -286,9 +293,9 @@ scope  =
         
         $selected = $list.find(".selected")
         if $selected.next().length == 1
-          root.autocomplete.select_current($overlay, $selected.next())
+          root.autocomplete.select($overlay, $selected.next())
         else
-          root.autocomplete.select_current($overlay, $overlay.find(".list li:first"))
+          root.autocomplete.select($overlay, $overlay.find(".list li:first"))
       
       $overlay.find("form").bind "submit", ->
         Mousetrap.trigger "enter"
@@ -305,7 +312,7 @@ scope  =
         # Trigger first row select if any
         if !root.autocomplete.current && $overlay.find(".list li").length > 0
           # Select current
-          root.autocomplete.select_current($overlay)
+          root.autocomplete.select($overlay)
           return false
           
         # Trigger selected row
@@ -383,7 +390,7 @@ scope  =
           
           # Clear current
           $overlay.find(".list").empty()
-          root.autocomplete.select_current($overlay)
+          root.autocomplete.select($overlay)
           App.chart.edit()
           
           $overlay.hide()
