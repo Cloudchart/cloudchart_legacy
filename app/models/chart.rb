@@ -235,7 +235,7 @@ class Chart
     if self.user
       person = self.user.find_or_create_person(title)
     else
-      match = title.scan(/@([^\,]+)(\,.*)?/).first
+      match = title.strip.scan(/^@([^\,]+)(\,.*)?/).first
       person = Person.new(first_name: match[0]) if match
     end
     

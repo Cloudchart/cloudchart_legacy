@@ -91,12 +91,12 @@ class User
   end
   
   def find_or_create_person(title)
-    match = title.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
+    match = title.strip.scan(/^@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
     if match
       person = self.persons.where(type: match[1], external_id: match[2]).first_or_create
       person.fetch! if person.new_record?
     else
-      match = title.scan(/@([^\,]+)(\,.*)?/).first
+      match = title.strip.scan(/^@([^\,]+)(\,.*)?/).first
       person = Person.new(first_name: match.first) if match
     end
     
