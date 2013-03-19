@@ -369,19 +369,21 @@ scope  =
               App.chart.update()
             , 0
           else
-            val = $this.val().substr(0, caret).replace(/\@$/, "") + $this.val().substr(caret)
+            # Clear
+            if editable
+              val = $this.val().substr(0, caret - editable.length) + $this.val().substr(caret)
+              move_to = caret - editable.length
+              
+            # Remove @
+            else
+              val = $this.val().substr(0, caret).replace(/\@$/, "") + $this.val().substr(caret)
+              move_to = caret - 1
+            
             $this.val(val)
             
             setTimeout ->
               $this.focus()
-              
-              # Move to the right place
-              if editable
-                $this.caret(caret)
-              
-              # We removed at symbol
-              else
-                $this.caret(caret-1)
+              $this.caret(move_to)
               
               # Save
               App.chart.status.text(I18n.t("charts.autosave.changed"))
