@@ -2,7 +2,7 @@ module LinkedIn
   module Api
     module QueryMethods
       
-      MAPPING = {
+      FIELDS_FIELDS_MAPPING = {
         id: :id,
         first_name: :first_name,
         last_name: :last_name,
@@ -14,13 +14,13 @@ module LinkedIn
       }
       
       def normalized_profile(id)
-        fetched = profile(id: id, fields: MAPPING.keys)
+        fetched = profile(id: id, fields: FIELDS_MAPPING.keys)
         
         normalize_profile(fetched)
       end
       
       def normalized_people_search(query)
-        fetched = people_search(keywords: CGI.escape(query), path: ":(people:(#{MAPPING.keys.join(",")}),num-results)")
+        fetched = people_search(keywords: CGI.escape(query), path: ":(people:(#{FIELDS_MAPPING.keys.join(",")}),num-results)")
         
         (fetched.people.all || []).reject { |attrs| attrs.id == "private" }.map { |attrs|
           normalize_profile(attrs)
@@ -28,7 +28,7 @@ module LinkedIn
       end
       
       def normalize_profile(fetched)
-        attrs = Hash[MAPPING.map { |k, v| [v, fetched[k]] }]
+        attrs = Hash[FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
         attrs[:external_id] = attrs[:id]
         
         # Process profile url

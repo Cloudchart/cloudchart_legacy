@@ -21,24 +21,32 @@ RailsAdmin.config do |config|
   end
   
   config.model "Chart" do
-    show do
-      configure :versions do
-        hide
-      end
-      
-      configure :nodes do
-        hide
+    configure :versions do
+      hide
+    end
+    
+    configure :nodes do
+      hide
+    end
+  end
+  
+  config.model "Invitation" do
+    object_label_method do
+      :title
+    end
+    
+    configure :template do
+      # associated_collection_cache_all false
+      associated_collection_scope do
+        ->(scope) {
+          # TODO
+          scope#.distinct(:body_hash)
+        }
       end
     end
     
-    edit do
-      configure :versions do
-        hide
-      end
-      
-      configure :nodes do
-        hide
-      end
+    configure :body_hash do
+      hide
     end
   end
 end
