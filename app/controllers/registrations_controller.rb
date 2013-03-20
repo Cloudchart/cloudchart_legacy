@@ -24,7 +24,7 @@ class RegistrationsController < Devise::RegistrationsController
         ApplicationMailer.invite(
           current_user,
           email,
-          { link: accept_invitation_url(result, invitation_token: result.invitation_token) }
+          { link: accept_user_invitation_url(invitation_token: result.invitation_token) }
         ).deliver if result
       end
       

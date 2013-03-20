@@ -61,6 +61,7 @@ class User
   accepts_nested_attributes_for :authorizations
   
   # Relations
+  belongs_to :invitation
   has_many :charts, dependent: :destroy
   has_many :persons, dependent: :destroy
   

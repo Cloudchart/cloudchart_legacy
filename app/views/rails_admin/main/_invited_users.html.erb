@@ -1,0 +1,8 @@
+<% object.users.each do |user| %>
+  <p>
+    <%= link_to user.email, rails_admin.show_path(model_name: "user", id: user.id) %>
+    <%= "(#{user.name})" if user.name.present? %>
+    —
+    <%= user.invitation_accepted? ? "Accepted" : "Not accepted" %>
+  </p>
+<% end %>

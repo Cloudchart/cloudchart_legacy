@@ -1,5 +1,5 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "staff@cloudorgchart.com"
+  default from: "CloudChart Team <staff@cloudorgchart.com>"
   
   def share(current_user, chart, email, params)
     name = current_user ? current_user.name : t("common.anonymous")
@@ -21,6 +21,19 @@ class ApplicationMailer < ActionMailer::Base
     ) do |format|
       format.text do
         I18n.t("users.invite.mail.body", link: params[:link])
+      end
+    end
+  end
+  
+  def custom_invite(email, params)
+    mail(
+      to: email,
+      from: params[:from],
+      subject: params[:subject],
+    ) do |format|
+      format.text do
+        [:name, :link].map { |x| params[:body].gsub!("[#{x}]", params[x]) }
+        params[:body]
       end
     end
   end

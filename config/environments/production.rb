@@ -69,4 +69,9 @@ Cloudchart::Application.configure do
 
   # Short domain
   config.short_domain = "cchrt.me"
+
+  # Routes
+  config.after_initialize do
+    Rails.application.routes.default_url_options = { host: "cloudorgchart.com" }
+  end
 end
