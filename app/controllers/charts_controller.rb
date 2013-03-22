@@ -12,6 +12,10 @@ class ChartsController < ApplicationController
   def show
     not_found unless @chart
     
+    # Check access
+    # Public
+    current_user.accesses.where(chart_id: @chart.id).first_or_initialize.public! if user_signed_in?
+    
     @meta = {
       title: @chart.title,
       description: @chart.user_id ? I18n.t("charts.author", author: @chart.user.name) : nil,
@@ -31,6 +35,10 @@ class ChartsController < ApplicationController
   
   def token
     not_found unless @chart.token == params[:token]
+    
+    # Check access
+    # Token
+    current_user.accesses.where(chart_id: @chart.id).first_or_initialize.token! if user_signed_in?
     
     if !user_signed_in? || @chart.user_id != current_user.id
       charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}

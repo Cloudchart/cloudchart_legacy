@@ -62,6 +62,7 @@ class User
   
   # Relations
   belongs_to :invitation
+  has_many :accesses, dependent: :destroy
   has_many :charts, dependent: :destroy
   has_many :persons, dependent: :destroy
   

@@ -16,6 +16,7 @@ class Chart
   scope :demo, ordered.where(is_demo: true)
   
   # Relations
+  has_many :accesses, dependent: :destroy
   belongs_to :user
   has_many :nodes, dependent: :destroy
   
@@ -49,6 +50,19 @@ class Chart
   accepts_nested_attributes_for :versions
   
   # Callbacks
+  ## Access
+  before_save {
+    # Check access
+    # Owner
+    if self.new_record? && self.user
+      self.user.accesses.where(chart_id: self.id).first_or_initialize.owner!
+    end
+    
+    # Touch accesses
+    self.accesses.each(&:touch)
+  }
+  
+  ## Render
   before_save {
     if self.text_changed?
       # Destroy all nodes
