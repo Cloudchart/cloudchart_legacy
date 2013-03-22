@@ -14,7 +14,7 @@ class ChartsController < ApplicationController
     
     # Check access
     # Public
-    current_user.accesses.where(chart_id: @chart.id).first_or_initialize.public! if user_signed_in?
+    current_user.access!(@chart, :public!) if user_signed_in?
     
     @meta = {
       title: @chart.title,
@@ -38,7 +38,7 @@ class ChartsController < ApplicationController
     
     # Check access
     # Token
-    current_user.accesses.where(chart_id: @chart.id).first_or_initialize.token! if user_signed_in?
+    current_user.access!(@chart, :token!) if user_signed_in?
     
     if !user_signed_in? || @chart.user_id != current_user.id
       charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}

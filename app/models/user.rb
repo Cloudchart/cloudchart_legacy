@@ -92,6 +92,10 @@ class User
     self.where(username: username).first
   end
   
+  def access!(chart, level = :public!)
+    self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
+  end
+  
   def find_or_create_person(title)
     match = title.strip.scan(/^@([^\(]+)\(([^\:]+)\:([^\)]+)\)/).first
     if match

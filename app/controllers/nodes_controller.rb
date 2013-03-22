@@ -2,7 +2,7 @@ class NodesController < ChartsController
   def show
     # Check access
     # Public
-    current_user.accesses.where(chart_id: @chart.id).first_or_initialize.public! if user_signed_in?
+    current_user.access!(@chart, :public!) if user_signed_in?
     
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)

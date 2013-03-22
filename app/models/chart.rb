@@ -55,7 +55,7 @@ class Chart
     # Check access
     # Owner
     if self.new_record? && self.user
-      self.user.accesses.where(chart_id: self.id).first_or_initialize.owner!
+      self.user.access!(self, :owner!)
     end
     
     # Touch accesses
