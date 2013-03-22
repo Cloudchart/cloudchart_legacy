@@ -1,5 +1,9 @@
 class NodesController < ChartsController
   def show
+    # Check access
+    # Public
+    current_user.access!(@chart, :public!) if user_signed_in?
+    
     # Replace xdot
     @chart.xdot = @chart.to_xdot_with_parent(@node)
     @persons = @chart.persons_with_parent(@node)
