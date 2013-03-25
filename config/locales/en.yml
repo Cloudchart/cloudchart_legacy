@@ -194,6 +194,10 @@ en:
       title: "Delete"
       confirm: "Delete this chart?"
       fire: "Delete"
+    unsubscribe:
+      title: "Unsubscribe"
+      confirm: "Unsubscribe from this chart?"
+      fire: "Unsubscribe"
     persons:
       okay: "Okay"
       add: "Add him"

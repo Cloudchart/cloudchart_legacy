@@ -20,7 +20,7 @@
   <div class="inner create" href="<%= charts_path %>" data-href="<%= charts_path %>">
   </div>
   <% else %>
-  <div class="inner">
+  <div class="inner<%= " locked" unless can?(:edit, chart) %>">
     <h1><%= link_to chart.title, link, class: cls %></h1>
     <div class="img">
       <%= link_to image_tag(chart.to_png(:preview), alt: chart.title, title: chart.title), link, class: cls %>

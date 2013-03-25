@@ -148,6 +148,10 @@ class Chart
     owner ? owner.id : nil
   end
   
+  def access_for_user(user)
+    self.accesses.where(user_id: user.id).first
+  end
+  
   def restore_from_version!(version)
     version = self.versions.where(version: version).first
     return unless version

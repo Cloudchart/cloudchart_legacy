@@ -137,8 +137,17 @@ class ChartsController < ApplicationController
   end
   
   def destroy
-    not_found unless can?(:destroy, @chart)
-    @chart.destroy
+    if user_signed_in?
+      access = @chart.access_for_user(current_user)
+      if access && access.owner?
+        @chart.destroy
+      elsif access
+        access.destroy
+      end
+    else
+      not_found unless can?(:destroy, @chart)
+      @chart.destroy
+    end
     
     respond_to { |format|
       format.json {
