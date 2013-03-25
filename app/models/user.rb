@@ -63,7 +63,6 @@ class User
   # Relations
   belongs_to :invitation
   has_many :accesses, dependent: :destroy
-  has_many :charts, dependent: :destroy
   has_many :persons, dependent: :destroy
   
   # Other
@@ -94,6 +93,10 @@ class User
   
   def access!(chart, level = :public!)
     self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
+  end
+  
+  def charts
+    self.accesses.ordered.map(&:chart)
   end
   
   def find_or_create_person(title)

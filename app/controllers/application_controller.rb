@@ -38,14 +38,17 @@ class ApplicationController < ActionController::Base
       # Check ie
       redirect_to ie_path if browser.ie? && !params[:action].in?(["ie", "beta"]) && !params[:controller].in?(["waiters"])
       
+      # Convert charts access from cookie to database storage
       if user_signed_in? && charts_from_tokens.any?
         charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}
         charts_from_tokens.each do |chart|
-          if !chart.user_id || chart.user_id == current_user.id
+          if !chart.owner || chart.owner.id == current_user.id
             charts.delete(chart.id.to_s)
           end
-          if !chart.user_id
-            chart.set(:user_id, current_user.id)
+          
+          # Give access
+          if !chart.owner
+            current_user.access!(chart, :owner!)
           end
         end
         

@@ -6,7 +6,7 @@ scope  =
     breaks: {}
   
   store: (chart) ->
-    if !chart.user_id
+    if !chart.owner_id
       charts = if $j.cookie("charts") then JSON.parse($j.cookie("charts")) else {}
       charts[chart.id] = { id: chart.id, token: chart.token }
       $j.cookie("charts", JSON.stringify(charts), { path: "/", expires: 365 })

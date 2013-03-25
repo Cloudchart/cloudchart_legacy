@@ -15,8 +15,8 @@ class Ability
       can :manage, :all
     else
       can :read, :all
-      can :manage, Chart, user_id: user.id
-      can :token, Chart, user_id: user.id
+      can :manage, Chart, id: user.accesses.editables.map(&:chart_id)
+      can :token, Chart, id: user.accesses.owners.map(&:chart_id)
     end
   end
 end

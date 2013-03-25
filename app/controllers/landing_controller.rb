@@ -1,7 +1,7 @@
 class LandingController < ApplicationController
   def index
     if user_signed_in?
-      @charts = current_user.charts.ordered
+      @charts = current_user.charts
     else
       @charts = charts_from_tokens
     end

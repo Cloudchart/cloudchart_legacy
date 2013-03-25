@@ -3,7 +3,7 @@ class ChartsController < ApplicationController
   
   def index
     if user_signed_in?
-      @charts = current_user.charts.ordered
+      @charts = current_user.charts
     else
       @charts = charts_from_tokens
     end
@@ -18,7 +18,7 @@ class ChartsController < ApplicationController
     
     @meta = {
       title: @chart.title,
-      description: @chart.user_id ? I18n.t("charts.author", author: @chart.user.name) : nil,
+      description: @chart.owner ? I18n.t("charts.author", author: @chart.owner.name) : nil,
       image: @chart.to_png(:preview)
     }
     
@@ -40,7 +40,7 @@ class ChartsController < ApplicationController
     # Token
     current_user.access!(@chart, :token!) if user_signed_in?
     
-    if !user_signed_in? || @chart.user_id != current_user.id
+    if !user_signed_in?
       charts = ActiveSupport::JSON.decode(cookies["charts"]) || {} rescue {}
       charts[@chart.id.to_s] = { id: @chart.id.to_s, token: @chart.token }
       cookies["charts"] = { value: charts.to_json, expires: 1.year.from_now, path: "/" }
@@ -51,7 +51,7 @@ class ChartsController < ApplicationController
   
   def create
     if user_signed_in?
-      @chart = current_user.charts.create(title: I18n.t("charts.title"))
+      @chart = Chart.create_with_user(current_user, title: I18n.t("charts.title"))
     else
       @chart = Chart.create(title: I18n.t("charts.title"))
     end
@@ -71,7 +71,7 @@ class ChartsController < ApplicationController
     @cloned_chart = @chart
     
     if user_signed_in?
-      @chart = current_user.charts.create(title: @cloned_chart.title)
+      @chart = Chart.create_with_user(current_user, title: @cloned_chart.title)
     else
       @chart = Chart.create(title: @cloned_chart.title)
     end

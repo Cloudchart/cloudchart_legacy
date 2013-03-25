@@ -17,7 +17,6 @@ class Chart
   
   # Relations
   has_many :accesses, dependent: :destroy
-  belongs_to :user
   has_many :nodes, dependent: :destroy
   
   # Fields
@@ -36,8 +35,6 @@ class Chart
   # Indexes
   ## Slug
   index({ slug: 1, _id: 1 })
-  ## Ordered
-  index({ user_id: 1, updated_at: 1 })
   ## Demo
   index({ is_demo: 1, updated_at: 1 })
   
@@ -51,14 +48,7 @@ class Chart
   
   # Callbacks
   ## Access
-  before_save {
-    # Check access
-    # Owner
-    if self.new_record? && self.user
-      self.user.access!(self, :owner!)
-    end
-    
-    # Touch accesses
+  after_save {
     self.accesses.each(&:touch)
   }
   
@@ -71,10 +61,10 @@ class Chart
     
     if self.text_changed? && self.text.present?
       # Find all persons
-      if self.user
+      if self.owner
         mentions = self.text.scan(/@([^\(]+)\(([^\:]+)\:([^\)]+)\)/)
         mentions.each { |match|
-          person = self.user.persons.where(type: match[1], external_id: match[2]).first_or_initialize
+          person = self.owner.persons.where(type: match[1], external_id: match[2]).first_or_initialize
           person.fetch! if person.new_record?
         }
       end
@@ -112,10 +102,25 @@ class Chart
   # Accessors
   attr_accessor :cached, :previous_text
   
+  def self.create_with_user(user, params)
+    # Owner
+    chart = Chart.create(params)
+    user.access!(chart, :owner!)
+    chart
+  end
+  
+  def self.find_persons(nodes)
+    nodes.select { |x| x.title =~ /^@/ }
+  end
+  
+  def self.find_nodes(nodes)
+    nodes.select { |x| x.title =~ /^[^@]/ }
+  end
+  
   def serializable_hash(options)
     super (options || {}).merge(
       except: [:_id, :token, :is_demo, :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at, :versions],
-      methods: [:id, :nodes_as_hash]
+      methods: [:id, :owner_id, :nodes_as_hash]
     )
   end
   
@@ -135,6 +140,14 @@ class Chart
     self.is_demo
   end
   
+  def owner
+    @owner ||= self.accesses.owners.first.try(:user)
+  end
+  
+  def owner_id
+    owner ? owner.id : nil
+  end
+  
   def restore_from_version!(version)
     version = self.versions.where(version: version).first
     return unless version
@@ -150,7 +163,7 @@ class Chart
     version = self.versions.where(version: version).first
     return unless version
     
-    chart = self.user.charts.create(title: self.title)
+    chart = Chart.create_with_user(self.owner, title: self.title)
     [:text].each do |field|
       chart.send("#{field}=", version.send(field))
     end
@@ -246,8 +259,8 @@ class Chart
   end
   
   def find_person(title)
-    if self.user
-      person = self.user.find_or_create_person(title)
+    if self.owner
+      person = self.owner.find_or_create_person(title)
     else
       match = title.strip.scan(/^@([^\,]+)(\,.*)?/).first
       person = Person.new(first_name: match[0]) if match
@@ -260,14 +273,6 @@ class Chart
     title = title.gsub(/^\+\s*/, "")
     person = self.find_person(title)
     person ? person.name : title
-  end
-  
-  def self.find_persons(nodes)
-    nodes.select { |x| x.title =~ /^@/ }
-  end
-  
-  def self.find_nodes(nodes)
-    nodes.select { |x| x.title =~ /^[^@]/ }
   end
   
   private

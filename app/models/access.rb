@@ -7,6 +7,11 @@ class Access
   scope :ordered, order_by(:updated_at.desc)
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   
+  scope :publics, where(level: "public")
+  scope :tokens, where(level: "token")
+  scope :owners, where(level: "owner")
+  scope :editables, all.in(level: ["token", "owner"])
+  
   # Relations
   belongs_to :user
   belongs_to :chart
@@ -17,6 +22,8 @@ class Access
   # Indexes
   ## Unique
   index({ user_id: 1, chart_id: 1 }, { unique: true })
+  ## Level
+  index({ user_id: 1, level: 1 })
   
   def level_enum
     ["public", "token", "owner"]
