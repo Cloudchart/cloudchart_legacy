@@ -139,7 +139,7 @@ class ChartsController < ApplicationController
   def destroy
     if user_signed_in?
       access = @chart.access_for_user(current_user)
-      if access && access.owner?
+      if !@chart.owner || (access && access.owner?)
         @chart.destroy
       elsif access
         access.destroy

@@ -30,7 +30,11 @@
                     <%= link_to t("charts.share.title"), chart_path(chart.slug_or_id), class: "btn-share" if user_signed_in? %>
                     <%= link_to t("charts.rename.title"), chart_path(chart.slug_or_id), class: "btn-rename" %>
                     <%= link_to t("charts.history.title"), chart_path(chart.slug_or_id), class: "btn-history" %>
-                    <%= link_to t("charts.delete.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+                    <% if !chart.owner || (chart.owner && chart.owner.id == current_user.id) %>
+                      <%= link_to t("charts.delete.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+                    <% else %>
+                      <%= link_to t("charts.unsubscribe.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
+                    <% end %>
                   <% else %>
                     <%= link_to t("charts.unsubscribe.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
                   <% end %>
