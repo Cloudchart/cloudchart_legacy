@@ -92,6 +92,7 @@ class ChartsController < ApplicationController
   def update
     not_found unless can?(:update, @chart)
     @chart.update_attributes params[:chart]
+    @chart.set(:updated_by_id, current_user ? current_user.id : nil)
     # @chart.to_png
     
     respond_to { |format|
@@ -101,6 +102,7 @@ class ChartsController < ApplicationController
       format.json {
         render json: {
           chart: @chart,
+          updated: render_to_string(partial: "/charts/updated", formats: [:html], locals: { chart: @chart }),
           action_to: chart_path(@chart.id),
           redirect_to: chart_path(@chart.slug_or_id)
         }

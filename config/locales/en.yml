@@ -146,7 +146,8 @@ en:
       <p>Select several nodes or people and use  <strong>↹</strong> to indent them all.</p>
       <p>Start a new line with <strong>+</strong> to explode a complex node.</p>
       <p>You could use CloudChart on your  <strong>iOS</strong> device. Try it, it's nice.</p>
-      
+    updated: "Edited by %{name} %{updated} ago"
+    anonymous: "anonymous"
     autosave:
       lost: "All unsaved changes will be lost"
       loaded: "Loaded"

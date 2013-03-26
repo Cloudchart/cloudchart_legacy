@@ -2,7 +2,7 @@ module LinkedIn
   module Api
     module QueryMethods
       
-      FIELDS_FIELDS_MAPPING = {
+      FIELDS_MAPPING = {
         id: :id,
         first_name: :first_name,
         last_name: :last_name,

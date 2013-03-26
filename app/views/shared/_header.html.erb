@@ -30,7 +30,7 @@
                     <%= link_to t("charts.share.title"), chart_path(chart.slug_or_id), class: "btn-share" if user_signed_in? %>
                     <%= link_to t("charts.rename.title"), chart_path(chart.slug_or_id), class: "btn-rename" %>
                     <%= link_to t("charts.history.title"), chart_path(chart.slug_or_id), class: "btn-history" %>
-                    <% if !chart.owner || (chart.owner && chart.owner.id == current_user.id) %>
+                    <% if !chart.owner || (user_signed_in? && chart.owner && chart.owner.id == current_user.id) %>
                       <%= link_to t("charts.delete.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
                     <% else %>
                       <%= link_to t("charts.unsubscribe.title"), chart_path(chart.slug_or_id), class: "btn-delete" %>
@@ -42,6 +42,10 @@
               </div>
             </div>
           </div>
+          
+          <p class="updated">
+            <%= render partial: "/charts/updated", locals: { chart: chart } %>
+          </p>
         <% else %>
           <figure>
             <%= link_to image_tag("logo.png", title: t("app.name"), alt: t("app.name")), root_path %>

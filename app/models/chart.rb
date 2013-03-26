@@ -18,6 +18,7 @@ class Chart
   # Relations
   has_many :accesses, dependent: :destroy
   has_many :nodes, dependent: :destroy
+  belongs_to :updated_by, class_name: "User"
   
   # Fields
   field :is_demo,   type: Boolean, default: false

@@ -45,8 +45,8 @@ class NodesController < ChartsController
     end
     
     # Save
-    Rails.logger.debug final_text
     @chart.update_attributes params[:chart].merge(text: final_text)
+    @chart.set(:updated_by_id, current_user ? current_user.id : nil)
     
     # Replace xdot
     @node = @chart.nodes.find_by(title: @node.title)
@@ -62,6 +62,7 @@ class NodesController < ChartsController
           chart: @chart,
           breadcrumb: render_to_string(partial: "/nodes/breadcrumb", formats: [:html], locals: { insert: true }),
           header: render_to_string(partial: "/nodes/header", formats: [:html], locals: { insert: true }),
+          updated: render_to_string(partial: "/charts/updated", formats: [:html], locals: { chart: @chart }),
           pdf_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id, format: :pdf),
           action_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id),
           redirect_to: chart_node_path(chart_id: @chart.slug_or_id, id: @node.id)

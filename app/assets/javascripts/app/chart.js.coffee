@@ -840,6 +840,9 @@ scope  =
           $j(".chart .header").html(result.header) if result.header
           root.chart.resize()
           
+          # Replace updated
+          $j("header .updated").html(result.updated) if result.updated
+          
           # Show
           $j("[data-chart]").attr("data-chart", JSON.stringify(result.chart))
           root.chart.show($j("[data-chart]"))
