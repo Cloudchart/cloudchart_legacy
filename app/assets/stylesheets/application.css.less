@@ -384,11 +384,28 @@ body {
       
       .context {
         vertical-align: bottom;
+        position: relative;
         
         img {
           margin: -6px 0 0 6px;
           width: 19px;
           height: 19px;
+        }
+      }
+      
+      &.locked {
+        .context {
+          &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: -5px;
+            right: 4px;
+            width: 13px;
+            height: 10px;
+            background: url(btn-big-arrow-lock.png) no-repeat center center;
+            background-size: 13px 10px;
+          }
         }
       }
       
