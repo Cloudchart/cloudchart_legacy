@@ -1,25 +1,28 @@
 # CloudChart 2.0ß database schema
 
----
-
 **Todo**
 
 - Proper Link model for quick representation?
-- Person-Node relationship as separate model with attributes?
 - Timeline support for chart?
 - Additional attributes?
+
+**Workarounds**
+
+- Root nodes: Chart.find(...).nodes.where(right_links_ids: [])
 
 ---
 
 ## User
 
 - **Embeds many** authorizations
+- **Has many** accesses
 - name [String]
 - email [String]
 - …
 
 ## Authorization
 
+- **Embedded in** user
 - provider [Enum: Linkedin, Facebook, …]
 - uid [String]
 - token [String]
@@ -35,6 +38,8 @@
 
 ## Organization
 
+- **Has many** accesses
+- **Has many** persons
 - **Has many** charts
 - title [String]
 - token [String]
@@ -43,7 +48,7 @@
 ## Person
 
 - **Belongs to** organization
-- **Has and belongs to many** nodes
+- **Has many** identities
 - provider [Enum: Linkedin, Facebook, …]
 - external_id [String]
 - first_name [String]
@@ -64,8 +69,11 @@
 ## Node
 
 - **Belongs to** chart
-- **Has and belongs to many** persons
+- **Has many** identities
+- **Has and belongs to many** left_links (class: Link)
+- **Has and belongs to many** right_links (class: Link)
 - title [String]
+- position [Int, Int]
 - …
 
 ## Link
@@ -77,3 +85,10 @@
 - attributes [?]
 - …
 
+## Identity
+
+- **Belongs to** node
+- **Belongs to** person
+- position [String]
+- department [String]
+- …
