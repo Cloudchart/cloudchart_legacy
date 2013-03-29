@@ -89,6 +89,7 @@
 
 - **Belongs to** node
 - **Belongs to** person
+- type [Enum: employee, freelancer, vacancy]
 - position [String]
 - department [String]
 - …
