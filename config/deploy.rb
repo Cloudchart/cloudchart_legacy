@@ -1,33 +1,33 @@
 require "capistrano_colors"
 require "rvm/capistrano"
-load "deploy/assets"
 default_run_options[:pty] = true
 
 # Application
 set   :application, "cloudchart"
 set   :project, "cloudchart"
-set   :domain, "cloudorgchart.com"
-set   :deploy_to, "/home/#{project}/www/#{project}/"
-role  :web, domain
-role  :app, domain
-role  :db, domain, primary: true
 
-# Source
+## Stages
+set :stages, %w(production staging)
+set :default_stage, "staging"
+require "capistrano/ext/multistage"
+
+## Assets
+set   :assets_role, :app
+load "deploy/assets"
+
+## Source
 set   :scm, "git"
 set   :repository, "git@github.com:krasnoukhov/#{project}.git"
-set   :branch, "staging"
 set   :repository_cache, "git"
 set   :deploy_via, :remote_cache
 set   :user, "cloudchart"
 
-# Options
+## Options
 set   :use_sudo, false
-set   :rails_env, :production
-set   :rvm_ruby_string, "ruby-1.9.3-p327@cloudchart"
+set   :rvm_ruby_string, "ruby-1.9.3-p392@cloudchart"
 set   :rvm_type, :user
-set   :keep_releases, 2
+set   :keep_releases, 3
 set   :shared_children, shared_children + %w(tmp/sockets)
-set   :assets_role, :app
 
 # Bundler
 after "deploy:finalize_update", "bundler:install"
@@ -66,7 +66,7 @@ namespace :deploy do
 
   # Restart
   task :start, roles: :web do 
-    run "cd #{current_path} && bundle exec unicorn_rails -c #{current_path}/config/unicorn.rb -E #{rails_env} -D"
+    run "cd #{current_path} && bundle exec unicorn_rails -c #{current_path}/config/unicorn/#{rails_env}.rb -E #{rails_env} -D"
   end
   task :stop, roles: :web do 
     run "kill -s QUIT `cat #{current_path}/tmp/pids/unicorn.pid`; true"
