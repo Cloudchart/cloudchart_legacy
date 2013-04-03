@@ -1,0 +1,63 @@
+production:
+  sessions:
+    default:
+      database: cloudchart
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        safe: true
+  options:
+    allow_dynamic_fields: true
+    identity_map_enabled: true
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
+
+staging:
+  sessions:
+    default:
+      database: cloudchart_dev
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        safe: true
+  options:
+    allow_dynamic_fields: true
+    identity_map_enabled: true
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
+
+development:
+  sessions:
+    default:
+      database: cloudchart
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        safe: true
+  options:
+    allow_dynamic_fields: true
+    identity_map_enabled: true
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
+
+test:
+  sessions:
+    default:
+      database: cloudchart_test
+      hosts:
+        - localhost:27017
+      options:
+        consistency: :strong
+        safe: true
+  options:
+    allow_dynamic_fields: true
+    identity_map_enabled: true
+    preload_models: true
+    raise_not_found_error: true
+    use_utc: true
