@@ -42,7 +42,11 @@ class Link
     true
   }
   
-  def dir_type
+  def type_enum
+    %w(direct indirect)
+  end
+  
+  def dir
     case self.type
     when "direct"
       "forward"

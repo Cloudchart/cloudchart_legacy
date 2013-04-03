@@ -7,11 +7,11 @@ class Node
   
   # Scopes
   scope :charts, where(type: "chart")
-  scope :roots, where(right_link_ids: [])
   
   # Relations
   belongs_to :organization
   has_many :identities
+  
   has_and_belongs_to_many :parents, class_name: "Node", inverse_of: nil
   has_and_belongs_to_many :left_links, class_name: "Link", inverse_of: nil
   has_and_belongs_to_many :right_links, class_name: "Link", inverse_of: nil
@@ -25,7 +25,7 @@ class Node
   
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["560x260>", :png] }
+    styles: { preview: ["600x400>", :png] }
   
   # Callbacks
   before_save {
@@ -34,6 +34,7 @@ class Node
     self.right_link_ids = [] if self.right_link_ids.nil?
   }
   
+  # Tree methods
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
     link = self.organization.links.where(link_params.merge({ left_node: self, right_node: node })).create
@@ -41,98 +42,91 @@ class Node
     node
   end
   
-  def nested_nodes
+  def descendant_nodes
     Node.in(parent_ids: self.id)
   end
   
-  def nested_links
-    Link.in(left_node_id: self.nested_nodes.map(&:id))
+  def descendant_nodes_and_self
+    [self] + descendant_nodes
+  end
+  
+  def descendant_links
+    Link.in(left_node_id: self.descendant_nodes.map(&:id))
+  end
+
+  def descendant_links_and_self
+    Link.in(left_node_id: self.descendant_nodes_and_self.map(&:id))
   end
   
   def level
     self.parent_ids.count
   end
   
+  # Output methods
   def to_png!
+    io = Tempfile.new(['chart', '.png'])
+    
     begin
-      io = Tempfile.new(['chart', '.png'])
       io.binmode
       timeout(10) { io.write to_graph.output(png: String) }
       io.close
       
       self.picture = File.open(io.path)
       self.save!
-      
-      io.unlink
-    # rescue Exception
+    # rescue
     #   self.picture = nil
     #   self.picture_updated_at = Time.new
+    ensure
+      io.unlink
     end
+  end
+  
+  def to_graph_node(graph)
+    # Title
+    title = self.title
+    
+    # Identities
+    identities = self.identities
+    if identities.any?
+      title += "\n\n"
+      title += identities.map(&:title).join("\n")
+    end
+    
+    # Graph node
+    graph.add_nodes(self.id.to_s, {
+      label: title,
+      href: "javascript:App.chart.click('#{self.id.to_s}')",
+      shape: "box",
+      style: "filled",
+      fillcolor: "#ffffffff",
+      fontname: "Helvetica",
+      fontsize: 12.0
+    })
   end
   
   private
     
     def to_graph
-      GraphViz::new(:G, type: :digraph) { |g|
+      GraphViz::new(:G, type: :digraph) do |graph|
         # Set background
-        g.graph[:bgcolor] = "#ffffff00"
-        g.graph[:truecolor] = true
-        g.graph[:fontname] = "Helvetica"
-        g.graph[:fontsize] = 12.0
+        graph.graph[:bgcolor] = "#ffffff00"
+        graph.graph[:truecolor] = true
+        graph.graph[:fontname] = "Helvetica"
+        graph.graph[:fontsize] = 12.0
         
-        root = g.add_nodes(self.id.to_s,
-          label: self.title,
-          shape: "ellipse",
-          style: "filled",
-          fillcolor: "#ffffffff",
-          fontname: "Helvetica",
-          fontsize: 12.0
-        )
+        # Add nodes
+        graph_nodes = Hash[self.descendant_nodes_and_self.map do |node|
+          [node.id, node.to_graph_node(graph)]
+        end]
         
-        # Recursive add nodes
-        add_nodes(g, root, self.nested_nodes.select { |x| x.parent_ids == self.parent_ids + [self.id] })
-      }
-    end
-    
-    def add_nodes(g, root, nodes)
-      nodes.each do |n|
-        add_node(g, root, n)
-      end
-    end
-    
-    def add_links(g, root, links)
-      links.each do |l|
-        add_node(g, root, l.right_node.reload, l)
-      end
-    end
-    
-    def add_node(g, root, n, l = nil)
-      # Title
-      title = n.title
-      
-      # Identities
-      identities = n.identities
-      if identities.any?
-        title += "\n\n"
-        title += identities.map(&:title).join("\n")
-      end
-      
-      # Add node to root
-      node = g.add_nodes(n.id.to_s,
-        label: title,
-        href: "javascript:App.chart.click('#{n.id}')",
-        shape: "box",
-        style: "filled",
-        fillcolor: "#ffffffff",
-        fontname: "Helvetica",
-        fontsize: 12.0
-      )
-      edge = g.add_edges(root, node, dir: l ? l.dir_type : "none")
-      
-      # Render children nodes
-      children = n.left_links
-      if children.any?
-        add_links(g, node, children)
+        # Add links
+        self.descendant_links_and_self.each do |link|
+          left_node = graph_nodes[link.left_node.id]
+          right_node = graph_nodes[link.right_node.id]
+          next if !left_node || !right_node
+          
+          graph.add_edges(left_node, right_node, dir: link.dir)
+        end
       end
     end
 end

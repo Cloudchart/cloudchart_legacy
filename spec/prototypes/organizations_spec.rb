@@ -102,7 +102,7 @@ describe Organization do
     node3 = node1.create_nested_node(title: "Designers")
     
     # Update titles
-    chart.nested_nodes.each { |x| x.set(:title, x.level.to_s) }
+    chart.descendant_nodes.each { |x| x.set(:title, x.level.to_s) }
     
     chart.to_png!
     `open #{chart.picture.path}`
