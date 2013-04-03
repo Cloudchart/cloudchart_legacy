@@ -2,6 +2,8 @@
 
 **Todo**
 
+- Proper nodes editing
+- Controller actions for tree purposes
 - Timeline support for chart?
 - Additional attributes?
 - Ability to select/group nodes?
