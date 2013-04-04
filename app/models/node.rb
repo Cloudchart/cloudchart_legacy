@@ -38,8 +38,16 @@ class Node
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
     link = self.organization.links.where(link_params.merge({ left_node: self, right_node: node })).create
-    
     node
+  end
+  
+  def remove_parent
+    self.organization.links.where(right_node: self).destroy_all
+  end
+  
+  def ensure_parent(node, link_params = {})
+    self.remove_parent
+    self.organization.links.where(link_params.merge({ left_node: node, right_node: self })).create
   end
   
   def descendant_nodes
@@ -53,7 +61,7 @@ class Node
   def descendant_links
     Link.in(left_node_id: self.descendant_nodes.map(&:id))
   end
-
+  
   def descendant_links_and_self
     Link.in(left_node_id: self.descendant_nodes_and_self.map(&:id))
   end

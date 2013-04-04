@@ -107,4 +107,28 @@ describe Organization do
     chart.to_png!
     `open #{chart.picture.path}`
   end
+  
+  it "should correctly rearrange parents" do
+    organization = create :organization
+    chart = organization.nodes.create_chart_node(title: "Test")
+    
+    node1 = chart.create_nested_node(title: "Directors")
+    node2 = node1.create_nested_node(title: "Developers")
+    node3 = node1.create_nested_node(title: "Designers")
+    node4 = node2.create_nested_node(title: "Junior Developers")
+    node5 = node3.create_nested_node(title: "Junior Designers")
+    
+    chart.to_png!
+    `open #{chart.picture.path}`
+    
+    # Rearrange
+    node3.ensure_parent(node2)
+    node4.remove_parent
+    
+    # Update titles
+    chart.descendant_nodes.each { |x| x.set(:title, "#{x.title} (#{x.level})") }
+    
+    chart.to_png!
+    `open #{chart.picture.path}`
+  end
 end
