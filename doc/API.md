@@ -3,8 +3,11 @@
 **Todo**
 
 - Proper nodes editing
-- Controller actions for tree purposes
-- Data mapping layer
+	- More helper methods for tree purpose
+- Controller actions
+	- Return information for subtree: nodes, links, identities
+	- Save dumped data representing subtree
+- Data mapping layer?
 
 ---
 
