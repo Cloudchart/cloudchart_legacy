@@ -305,7 +305,17 @@ scope  =
         Mousetrap.trigger "esc"
         root.autocomplete.current = null
         $overlay.find(".list").empty()
-        $overlay.find(".for-profile .fire").trigger "click"
+        
+        # Clear current
+        $overlay.find(".list").empty()
+        root.autocomplete.select($overlay)
+        App.chart.edit()
+        $this.focus()
+        
+        # Hide overlay
+        $overlay.hide()
+        $overlay.remove() if $overlay.is(":last-child")
+        
         false
       
       $overlay.find(".for-list .fire").bind "click", ->
@@ -395,6 +405,7 @@ scope  =
           root.autocomplete.select($overlay)
           App.chart.edit()
           
+          # Hide overlay
           $overlay.hide()
           $overlay.remove() if $overlay.is(":last-child")
     )()
