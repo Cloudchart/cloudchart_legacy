@@ -34,7 +34,7 @@ class Node
     self.right_link_ids = [] if self.right_link_ids.nil?
   }
   
-  # Tree methods
+  # Modify tree methods
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
     link = self.organization.links.where(link_params.merge({ left_node: self, right_node: node })).create
@@ -48,6 +48,15 @@ class Node
   def ensure_parent(node, link_params = {})
     self.remove_parent
     self.organization.links.where(link_params.merge({ left_node: node, right_node: self })).create
+  end
+  
+  # Select tree methods
+  def children_nodes
+    self.children_links.map(&:right_node)
+  end
+  
+  def children_links
+    self.left_links
   end
   
   def descendant_nodes

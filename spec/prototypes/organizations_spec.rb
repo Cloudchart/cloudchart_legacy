@@ -131,4 +131,23 @@ describe Organization do
     chart.to_png!
     `open #{chart.picture.path}`
   end
+  
+  it "should correctly display children" do
+    organization = create :organization
+    chart = organization.nodes.create_chart_node(title: "Test")
+    
+    node1 = chart.create_nested_node(title: "Directors")
+    node2 = node1.create_nested_node(title: "Developers")
+    node3 = node1.create_nested_node(title: "Designers")
+    node4 = node2.create_nested_node(title: "Junior Developers")
+    node5 = node2.create_nested_node(title: "Senior Developers")
+    node6 = node3.create_nested_node(title: "Junior Designers")
+    node7 = node4.create_nested_node(title: "Very Nested Developers")
+    
+    # Update children titles
+    node2.children_nodes.each { |x| x.set(:title, "#{x.title} (children)") }
+    
+    chart.to_png!
+    `open #{chart.picture.path}`
+  end
 end
