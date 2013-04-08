@@ -31,6 +31,7 @@ class Person
   ## Unique
   index({ user_id: 1, type: 1, external_id: 1 }, { unique: true })
   
+  # Fields
   def serializable_hash(options)
     super (options || {}).merge(
       except: [:_id, :picture_url],
@@ -38,6 +39,7 @@ class Person
     )
   end
   
+  # Representation
   def identifier
     "#{self.name}(ln:#{self.external_id})"
   end
@@ -58,6 +60,7 @@ class Person
     self.headline.split(/\sat\s/).last if self.headline && self.headline.match(/\sat\s/)
   end
   
+  # External
   def fetch!
     case self.type
     when "ln"

@@ -38,11 +38,11 @@ describe Organization do
     person2 = create :person, first_name: "Anton", last_name: "Outkine"
     person3 = create :person, first_name: "Eugene", last_name: "Kovalev"
     
-    node2.identities.create!(person: person2)
-    node2.identities.create!(person: person3)
-    node3.identities.create!(person: person1)
-    node3.identities.create!(person: person2)
-    node4.identities.create!(person: person1)
+    node2.identities.build.employee!(person2)
+    node2.identities.build.employee!(person3)
+    node3.identities.build.employee!(person1)
+    node3.identities.build.employee!(person2)
+    node4.identities.build.employee!(person1)
     
     chart.to_png!
     `open #{chart.picture.path}`
@@ -59,10 +59,10 @@ describe Organization do
     person1 = create :person, first_name: "Daria", last_name: "Nifontova"
     person2 = create :person, first_name: "Anton", last_name: "Outkine"
     
-    node2.identities.create!(type: "vacancy", position: "Someone 1")
-    node2.identities.create!(type: "vacancy", position: "Someone 2")
-    node3.identities.create!(person: person1)
-    node3.identities.create!(person: person2)
+    node2.identities.build.vacancy!(position: "Someone 1")
+    node2.identities.build.vacancy!(position: "Someone 2")
+    node3.identities.build.employee!(person1)
+    node3.identities.build.employee!(person2)
     
     chart.to_png!
     `open #{chart.picture.path}`

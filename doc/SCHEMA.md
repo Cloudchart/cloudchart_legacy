@@ -3,14 +3,10 @@
 **Todo**
 
 - Timeline support for chart?
-- Additional attributes?
-- Ability to select/group nodes?
 
 **Workarounds**
 
 ```rspec spec/prototypes/organizations_spec.rb```
-
----
 
 ## User
 
@@ -62,8 +58,8 @@
 - **Belongs to** organization
 - **Has many** identities
 - **Has and belongs to many** parents (class: Node)
-- **Has and belongs to many** left_links (class: Link)
-- **Has and belongs to many** right_links (class: Link)
+- **Has and belongs to many** parent_links (class: Link)
+- **Has and belongs to many** child_links (class: Link)
 - type [Enum: chart, node (nil), structure?, projects?, project?]
 - title [String]
 - position [Int, Int]
@@ -73,17 +69,16 @@
 
 ## Link
 
-- **Belongs to** left_node (class: Node)
-- **Belongs to** right_node (class: Node)
+- **Belongs to** parent_node (class: Node)
+- **Belongs to** child_node (class: Node)
 - type: [Enum: direct, indirect]
-- attributes [?]
 - …
 
 ## Identity
 
 - **Belongs to** node
-- **Belongs to** person
 - type [Enum: employee, freelancer, vacancy]
+- entity_id [ObjectId: person_id, ...]
+- title [String]
 - position [String]
-- department [String]
 - …

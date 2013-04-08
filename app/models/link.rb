@@ -1,5 +1,3 @@
-# TODO: Change denormalized data on update
-# TODO: Create indexes
 class Link
   include Mongoid::Document
   store_in collection: "links"
@@ -11,6 +9,8 @@ class Link
   
   # Fields
   field :type, type: String, default: "direct"
+  
+  # TODO: Indexes
   
   # Callbacks
   before_save {
@@ -54,11 +54,10 @@ class Link
     true
   }
   
+  # Fields
   def serializable_hash(options)
     super (options || {}).merge(
-      except: [
-        :_id, :organization_id
-      ],
+      except: [:_id, :organization_id],
       methods: [:id]
     )
   end
@@ -67,6 +66,7 @@ class Link
     %w(direct indirect)
   end
   
+  # Representation
   def dir
     case self.type
     when "direct"

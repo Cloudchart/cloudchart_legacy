@@ -1,4 +1,3 @@
-# TODO: Create indexes
 class Node
   include Mongoid::Document
   include Mongoid::Timestamps
@@ -23,6 +22,8 @@ class Node
   # Validations
   validates :title, presence: true
   
+  # TODO: Indexes
+  
   # Picture
   has_mongoid_attached_file :picture,
     styles: { preview: ["600x400>", :png] }
@@ -34,6 +35,7 @@ class Node
     self.child_link_ids = [] if self.child_link_ids.nil?
   }
   
+  # Fields
   def serializable_hash(options)
     super (options || {}).merge(
       except: [
@@ -117,7 +119,7 @@ class Node
     self.parent_ids.count
   end
   
-  # Output methods
+  # Representation
   def to_png!
     io = Tempfile.new(['chart', '.png'])
     

@@ -5,11 +5,12 @@
 - Proper nodes editing
 	- [x] More helper methods for tree purpose
 	- [x] Rename left, right to parent, child
-	- [ ] Store type + entity_id in Identity instead of person_id
+	- [x] Store type + entity_id in Identity instead of person_id
 - Controller actions
 	- [x] Return information for subtree: nodes, links, identities, persons
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
+- Ability to select/group nodes?
 - Data mapping layer?
 
 ---
