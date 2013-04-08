@@ -11,6 +11,7 @@
 	- [x] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
+	- [ ] Atomic update actions on nodes
 - Ability to select/group nodes?
 - Data mapping layer?
 
