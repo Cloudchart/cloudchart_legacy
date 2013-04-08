@@ -34,6 +34,17 @@ class Node
     self.right_link_ids = [] if self.right_link_ids.nil?
   }
   
+  def serializable_hash(options)
+    super (options || {}).merge(
+      except: [
+        :_id, :token,
+        :organization_id, :left_link_ids, :right_link_ids,
+        :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at
+      ],
+      methods: [:id, :level]
+    )
+  end
+  
   # Modify tree methods
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
@@ -73,6 +84,22 @@ class Node
   
   def descendant_links_and_self
     Link.in(left_node_id: self.descendant_nodes_and_self.map(&:id))
+  end
+  
+  def descendant_identities
+    Identity.in(node_id: self.descendant_nodes.map(&:id))
+  end
+  
+  def descendant_identities_and_self
+    Identity.in(node_id: self.descendant_nodes_and_self.map(&:id))
+  end
+  
+  def descendant_persons
+    Person.in(id: self.descendant_identities.map(&:person_id).compact.uniq)
+  end
+  
+  def descendant_persons_and_self
+    Person.in(id: self.descendant_identities_and_self.map(&:person_id).compact.uniq)
   end
   
   def level

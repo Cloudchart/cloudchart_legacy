@@ -12,7 +12,6 @@ class Person
   belongs_to :user
   
   # Fields
-  attr_accessor :q
   field :type, type: String
   field :external_id, type: String
   field :first_name, type: String, default: ""
@@ -33,7 +32,10 @@ class Person
   index({ user_id: 1, type: 1, external_id: 1 }, { unique: true })
   
   def serializable_hash(options)
-    super (options || {}).merge(except: [:_id, :picture_url], methods: [:id, :identifier, :name, :picture, :position, :company])
+    super (options || {}).merge(
+      except: [:_id, :picture_url],
+      methods: [:id, :identifier, :name, :picture, :position, :company]
+    )
   end
   
   def identifier

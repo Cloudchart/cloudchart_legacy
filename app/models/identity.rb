@@ -10,6 +10,15 @@ class Identity
   field :type, type: String, default: "employee"
   field :position, type: String
   
+  def serializable_hash(options)
+    super (options || {}).merge(
+      except: [
+        :_id
+      ],
+      methods: [:id]
+    )
+  end
+  
   def type_enum
     %w(employee freelancer vacancy)
   end

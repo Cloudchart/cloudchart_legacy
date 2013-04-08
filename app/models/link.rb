@@ -54,6 +54,15 @@ class Link
     true
   }
   
+  def serializable_hash(options)
+    super (options || {}).merge(
+      except: [
+        :_id, :organization_id
+      ],
+      methods: [:id]
+    )
+  end
+  
   def type_enum
     %w(direct indirect)
   end
