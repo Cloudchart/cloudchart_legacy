@@ -8,7 +8,7 @@
 	- [x] Store type + entity_id in Identity instead of person_id
 	- [x] Imaginary nodes
 - Controller actions
-	- [ ] Return information for subtree: nodes, links, identities
+	- [x] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
 - Ability to select/group nodes?

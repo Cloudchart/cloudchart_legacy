@@ -18,7 +18,7 @@ class Identity
   def serializable_hash(options)
     super (options || {}).merge(
       except: [:_id],
-      methods: [:id]
+      methods: [:id, :entity]
     )
   end
   
@@ -43,12 +43,19 @@ class Identity
   end
   
   # Representation
+  def entity
+    case self.type
+    when "employee", "freelancer"
+      Person.find(self.entity_id) if self.entity_id
+    end
+  end
+  
   def title
     case self.type
     when "vacancy"
       self.position
     when "employee"
-      Person.find(self.entity_id).name
+      self.entity.name
     when "freelancer"
       self.type
     end

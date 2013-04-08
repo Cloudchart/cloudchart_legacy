@@ -17,8 +17,7 @@ class NodesController < ApplicationController
           ancestor_ids: @node.ancestor_ids,
           nodes: @node.descendant_and_ancestor_nodes,
           links: @node.descendant_links_and_self,
-          identities: @node.descendant_identities_and_self,
-          persons: @node.descendant_persons_and_self
+          identities: @node.descendant_identities_and_self
         }
       }
     end
