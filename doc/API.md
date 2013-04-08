@@ -3,13 +3,13 @@
 **Todo**
 
 - Proper nodes editing
-	- More helper methods for tree purpose
-	- Rename left, right to parent, child
-	- Store type + entity_id in Identity instead of person_id
+	- [ ] More helper methods for tree purpose
+	- [ ] Rename left, right to parent, child
+	- [ ] Store type + entity_id in Identity instead of person_id
 - Controller actions
-	- Return information for subtree: nodes, links, identities
-	- Return ancestor_ids + append them to nodes
-	- Save dumped data representing subtree
+	- [x] Return information for subtree: nodes, links, identities
+	- [ ] Return ancestor_ids + append them to nodes
+	- [ ] Save dumped data representing subtree
 - Data mapping layer?
 
 ---
