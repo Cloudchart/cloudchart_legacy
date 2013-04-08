@@ -14,7 +14,8 @@ class NodesController < ApplicationController
       format.json {
         render json: { 
           root_id: @node.id,
-          nodes: @node.descendant_nodes_and_self,
+          ancestor_ids: @node.ancestor_ids,
+          nodes: @node.descendant_and_ancestor_nodes,
           links: @node.descendant_links_and_self,
           identities: @node.descendant_identities_and_self,
           persons: @node.descendant_persons_and_self

@@ -3,12 +3,12 @@
 **Todo**
 
 - Proper nodes editing
-	- [ ] More helper methods for tree purpose
-	- [ ] Rename left, right to parent, child
+	- [x] More helper methods for tree purpose
+	- [x] Rename left, right to parent, child
 	- [ ] Store type + entity_id in Identity instead of person_id
 - Controller actions
-	- [x] Return information for subtree: nodes, links, identities
-	- [ ] Return ancestor_ids + append them to nodes
+	- [x] Return information for subtree: nodes, links, identities, persons
+	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
 - Data mapping layer?
 
@@ -27,19 +27,19 @@ Organization.find(…).nodes.create_chart_node(title: "Node title")
 Create nested node:
 
 ```ruby
-Node.find(...).create_nested_node({ title: "Node title" }, { type: "direct" })
+Node.find(…).create_nested_node({ title: "Node title" }, { type: "direct" })
 ```
 
 Remove parent from node:
 
 ```ruby
-Node.find(...).remove_parent
+Node.find(…).remove_parent
 ```
 
 Remove old parent and ensure new:
 
 ```ruby
-Node.find(...).ensure_parent(Node.find(...), { type: "direct" })
+Node.find(…).ensure_parent(Node.find(...), { type: "direct" })
 ```
 
 
@@ -65,16 +65,15 @@ curl -X GET http://cloudchart.dev/nodes.json
 
 **Sample Response**
 
-```
+```json
 [
     {
 		created_at: "2013-04-02T11:16:04Z",
-		organization_id: "515abd6a4660f3d5fc000001",
-		parent_ids: [ ],
 		title: "Chart Name",
 		type: "chart",
 		updated_at: "2013-04-02T11:16:04Z",
-		id: "515abdf44660f3d5fc000002"
+		id: "515abdf44660f3d5fc000002",
+		level: 0
 	}
 ]
 ```
@@ -86,7 +85,8 @@ curl -X GET http://cloudchart.dev/nodes.json
 Returns a subtree information for specific node. Includes:
 
 - root_id: current node id
-- nodes: root and descendant nodes
+- ancestor_ids: array of ancestor ids
+- nodes: ancestor, root, descendant nodes (unique)
 - links: root and descendant links
 - identities: list of all descendant identities
 - persons: list of all persons linked to identities
@@ -99,33 +99,32 @@ curl -X GET http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
 
 **Sample Response**
 
-```
+```json
 {
 	root_id: "515abdf44660f3d5fc000002",
+	ancestor_ids: [ ],
 	nodes: [
 		{
 			created_at: "2013-04-02T11:16:04Z",
-			parent_ids: [ ],
 			title: "Chart Name",
 			type: "chart",
 			updated_at: "2013-04-02T11:16:04Z",
-			id: "515abdf44660f3d5fc000002"
+			id: "515abdf44660f3d5fc000002",
+			level: 0
 		},
 		{
 			created_at: "2013-04-08T10:01:07Z",
-			parent_ids: [
-				"515abdf44660f3d5fc000002"
-			],
 			title: "Chart Node",
 			type: null,
 			updated_at: "2013-04-08T10:01:07Z",
-			id: "516295634660f3bad5000001"
+			id: "516295634660f3bad5000001",
+			level: 1
 		}
 	],
 	links: [
 		{
-			left_node_id: "515abdf44660f3d5fc000002",
-			right_node_id: "516295634660f3bad5000001",
+			child_node_id: "515abdf44660f3d5fc000002",
+			parent_node_id: "516295634660f3bad5000001",
 			type: "direct",
 			id: "516295634660f3bad5000002"
 		}

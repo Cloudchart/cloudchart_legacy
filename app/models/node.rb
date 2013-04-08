@@ -13,8 +13,8 @@ class Node
   has_many :identities
   
   has_and_belongs_to_many :parents, class_name: "Node", inverse_of: nil
-  has_and_belongs_to_many :left_links, class_name: "Link", inverse_of: nil
-  has_and_belongs_to_many :right_links, class_name: "Link", inverse_of: nil
+  has_and_belongs_to_many :parent_links, class_name: "Link", inverse_of: nil
+  has_and_belongs_to_many :child_links, class_name: "Link", inverse_of: nil
   
   # Fields
   field :title, type: String
@@ -30,15 +30,14 @@ class Node
   # Callbacks
   before_save {
     self.parent_ids = [] if self.parent_ids.nil?
-    self.left_link_ids = [] if self.left_link_ids.nil?
-    self.right_link_ids = [] if self.right_link_ids.nil?
+    self.parent_link_ids = [] if self.parent_link_ids.nil?
+    self.child_link_ids = [] if self.child_link_ids.nil?
   }
   
   def serializable_hash(options)
     super (options || {}).merge(
       except: [
-        :_id, :token,
-        :organization_id, :left_link_ids, :right_link_ids,
+        :_id, :organization_id, :parent_ids, :parent_link_ids, :child_link_ids,
         :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at
       ],
       methods: [:id, :level]
@@ -48,26 +47,34 @@ class Node
   # Modify tree methods
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
-    link = self.organization.links.where(link_params.merge({ left_node: self, right_node: node })).create
+    link = self.organization.links.where(link_params.merge({ parent_node: self, child_node: node })).create
     node
   end
   
   def remove_parent
-    self.organization.links.where(right_node: self).destroy_all
+    self.organization.links.where(child_node: self).destroy_all
   end
   
   def ensure_parent(node, link_params = {})
     self.remove_parent
-    self.organization.links.where(link_params.merge({ left_node: node, right_node: self })).create
+    self.organization.links.where(link_params.merge({ parent_node: node, child_node: self })).create
   end
   
   # Select tree methods
+  def ancestor_ids
+    self.parent_ids
+  end
+  
+  def ancestor_nodes
+    Node.in(id: self.parent_ids)
+  end
+  
   def children_nodes
-    self.children_links.map(&:right_node)
+    self.children_links.map(&:child_node)
   end
   
   def children_links
-    self.left_links
+    self.parent_links
   end
   
   def descendant_nodes
@@ -75,15 +82,19 @@ class Node
   end
   
   def descendant_nodes_and_self
-    [self] + descendant_nodes
+    [self] + self.descendant_nodes
+  end
+  
+  def descendant_and_ancestor_nodes
+    (self.ancestor_nodes + [self] + self.descendant_nodes).uniq
   end
   
   def descendant_links
-    Link.in(left_node_id: self.descendant_nodes.map(&:id))
+    Link.in(parent_node_id: self.descendant_nodes.map(&:id))
   end
   
   def descendant_links_and_self
-    Link.in(left_node_id: self.descendant_nodes_and_self.map(&:id))
+    Link.in(parent_node_id: self.descendant_nodes_and_self.map(&:id))
   end
   
   def descendant_identities
@@ -165,11 +176,11 @@ class Node
         
         # Add links
         self.descendant_links_and_self.each do |link|
-          left_node = graph_nodes[link.left_node.id]
-          right_node = graph_nodes[link.right_node.id]
-          next if !left_node || !right_node
+          parent_node = graph_nodes[link.parent_node.id]
+          child_node = graph_nodes[link.child_node.id]
+          next if !parent_node || !child_node
           
-          graph.add_edges(left_node, right_node, dir: link.dir)
+          graph.add_edges(parent_node, child_node, dir: link.dir)
         end
       end
     end
