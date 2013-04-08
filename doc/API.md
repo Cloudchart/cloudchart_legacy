@@ -6,14 +6,13 @@
 	- [x] More helper methods for tree purpose
 	- [x] Rename left, right to parent, child
 	- [x] Store type + entity_id in Identity instead of person_id
+	- [x] Imaginary nodes
 - Controller actions
-	- [x] Return information for subtree: nodes, links, identities, persons
+	- [ ] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
 - Ability to select/group nodes?
 - Data mapping layer?
-
----
 
 ## Internal API
 

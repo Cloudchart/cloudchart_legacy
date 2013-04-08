@@ -46,6 +46,18 @@ class Node
     )
   end
   
+  def type_enum
+    %w(chart imaginary)
+  end
+  
+  def chart?
+    self.type == "chart"
+  end
+  
+  def imaginary?
+    self.type == "imaginary"
+  end
+  
   # Modify tree methods
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
@@ -154,7 +166,7 @@ class Node
       label: title,
       href: "javascript:App.chart.click('#{self.id.to_s}')",
       shape: "box",
-      style: "filled",
+      style: self.imaginary? ? "invisible" : "filled",
       fillcolor: "#ffffffff",
       fontname: "Helvetica",
       fontsize: 12.0

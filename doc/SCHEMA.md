@@ -60,7 +60,7 @@
 - **Has and belongs to many** parents (class: Node)
 - **Has and belongs to many** parent_links (class: Link)
 - **Has and belongs to many** child_links (class: Link)
-- type [Enum: chart, node (nil), structure?, projects?, project?]
+- type [Enum: chart, node (nil), imaginary, structure?, projects?, project?]
 - title [String]
 - position [Int, Int]
 - started_at [Date]
