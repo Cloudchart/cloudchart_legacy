@@ -7,11 +7,16 @@
 	- [x] Rename left, right to parent, child
 	- [x] Store type + entity_id in Identity instead of person_id
 	- [x] Imaginary nodes
-- Controller actions
+- Nodes controller
 	- [x] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
+		- [ ] Nodes, links
+		- [ ] Generate ObjectId for new elements — /^_[0-9]+$/
+		- [ ] Ability to update relations
+		- [ ] Tree validation (cyclic relations, multiple child_ids)
 	- [ ] Atomic update actions on nodes
+- Persons controller
 - Ability to select/group nodes?
 - Data mapping layer?
 
@@ -19,30 +24,25 @@
 
 ### Charts/nodes
 
-Create chart:
-
+Create chart:  
 ```ruby
 Organization.find(…).nodes.create_chart_node(title: "Node title")
 ```
 
-Create nested node:
-
+Create nested node:  
 ```ruby
 Node.find(…).create_nested_node({ title: "Node title" }, { type: "direct" })
 ```
 
-Remove parent from node:
-
+Remove parent from node:  
 ```ruby
 Node.find(…).remove_parent
 ```
 
-Remove old parent and ensure new:
-
+Remove old parent and ensure new:  
 ```ruby
 Node.find(…).ensure_parent(Node.find(...), { type: "direct" })
 ```
-
 
 ## JSON API
 
@@ -89,8 +89,7 @@ Returns a subtree information for specific node. Includes:
 - ancestor_ids: array of ancestor ids
 - nodes: ancestor, root, descendant nodes (unique)
 - links: root and descendant links
-- identities: list of all descendant identities
-- persons: list of all persons linked to identities
+- identities: list of all descendant identities with embedded entities
 
 **Sample Queries**
 
@@ -132,31 +131,57 @@ curl -X GET http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
 	],
 	identities: [
 		{
-			node_id: "515abdf44660f3d5fc000002",
-			person_id: "5162964a4660f3bad5000003",
+			entity_id: "5162d8f84660f37731000005",
+			node_id: "5162bc9e4660f37731000003",
 			position: null,
 			type: "employee",
-			id: "5162965d4660f3bad5000004"
-		}
-	],
-	persons: [
+			id: "5162d9154660f37731000006",
+			entity: {
+				description: null,
+				external_id: "1",
+				first_name: "Daria",
+				headline: null,
+				last_name: "Nifontova",
+				note: null,
+				profile_url: null,
+				type: null,
+				user_id: null,
+				id: "5162d8f84660f37731000005",
+				identifier: "Daria Nifontova(ln:1)",
+				name: "Daria Nifontova",
+				picture: "/images/ico-person.png",
+				position: null,
+				company: null
+			}
+		},
 		{
-			description: null,
-			external_id: "1",
-			first_name: "Daria",
-			headline: null,
-			last_name: "Nifontova",
-			note: null,
-			profile_url: null,
-			type: null,
-			user_id: null,
-			id: "5162964a4660f3bad5000003",
-			identifier: "Daria Nifontova(ln:1)",
-			name: "Daria Nifontova",
-			picture: "/images/ico-person.png",
-			position: null,
-			company: null
+			entity_id: null,
+			node_id: "5162bc9e4660f37731000003",
+			position: "Test",
+			type: "vacancy",
+			id: "5162da904660f37731000007",
+			entity: null
 		}
 	]
 }
 ```
+
+#### Update
+
+**Description**
+
+Allows to update subtree structure. Requires full data dump, including:
+
+- nodes
+- links
+- identities
+
+**Sample Queries**
+
+```
+curl -X PUT http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
+```
+
+**Sample Response**
+
+Returns 200 or 422 with no content.

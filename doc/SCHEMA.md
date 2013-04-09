@@ -2,6 +2,7 @@
 
 **Todo**
 
+- Rename link to relation
 - Timeline support for chart?
 
 **Workarounds**

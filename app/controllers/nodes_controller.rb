@@ -8,8 +8,6 @@ class NodesController < ApplicationController
   end
   
   def show
-    @node = Node.find(params[:id])
-    
     respond_to do |format|
       format.json {
         render json: { 
@@ -22,4 +20,26 @@ class NodesController < ApplicationController
       }
     end
   end
+  
+  def update
+    # Update nodes
+    nodes = resource_params[:nodes]
+    raise nodes.inspect
+    
+    respond_to do |format|
+      format.json {
+        render json: {}
+      }
+    end
+  end
+  
+  private
+  
+    def preload
+      @node = Node.find(params[:id]) if params[:id]
+    end
+    
+    def resource_params
+      params[:node]
+    end
 end

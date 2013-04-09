@@ -13,7 +13,8 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods
-  config.order = "random"
+  config.include JsonSpec::Helpers
+  # config.order = "random"
   
   Capybara.javascript_driver = :webkit
   DatabaseCleaner.strategy = :truncation

@@ -15,6 +15,7 @@ end
 
 group :test do
   gem "rspec-rails"
+  gem "json_spec"
   gem "factory_girl_rails"
   gem "ffaker"
   gem "capybara"

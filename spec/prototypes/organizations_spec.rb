@@ -2,8 +2,7 @@ require "spec_helper"
 
 describe Organization do
   it "should be able to render root nodes sctructure" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = chart.create_nested_node(title: "Developers")
@@ -14,8 +13,7 @@ describe Organization do
   end
   
   it "should be able to render linked nodes sctructure" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -26,8 +24,7 @@ describe Organization do
   end
   
   it "should be able to render nodes with identities" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -49,8 +46,7 @@ describe Organization do
   end
   
   it "should be able to render nodes with different identities" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -69,8 +65,7 @@ describe Organization do
   end
   
   it "should be able to render nodes with different link types" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -82,8 +77,7 @@ describe Organization do
   end
   
   it "should be able to render subtree" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -94,8 +88,7 @@ describe Organization do
   end
   
   it "should correctly display levels" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -109,8 +102,7 @@ describe Organization do
   end
   
   it "should correctly rearrange parents" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -133,8 +125,7 @@ describe Organization do
   end
   
   it "should correctly display children" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")
@@ -152,8 +143,7 @@ describe Organization do
   end
   
   it "should correctly display imaginary nodes" do
-    organization = create :organization
-    chart = organization.nodes.create_chart_node(title: "Test")
+    chart = create_chart
     
     node1 = chart.create_nested_node(title: "Directors")
     node2 = node1.create_nested_node(title: "Developers")

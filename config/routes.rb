@@ -1,3 +1,3 @@
 Cloudchart::Application.routes.draw do
-  resources :nodes
+  resources :nodes, only: [:index, :show, :update]
 end
