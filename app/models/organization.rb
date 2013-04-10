@@ -12,6 +12,7 @@ class Organization
   has_many :links
   
   # Fields
+  attr_accessible :title
   field :title, type: String
   
   # Validations

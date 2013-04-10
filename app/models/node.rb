@@ -5,6 +5,9 @@ class Node
   store_in collection: "nodes"
   
   # Scopes
+  scope :ordered, order_by(:id.asc)
+  default_scope ordered
+  scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   scope :charts, where(type: "chart")
   
   # Relations
@@ -16,8 +19,10 @@ class Node
   has_and_belongs_to_many :child_links, class_name: "Link", inverse_of: nil
   
   # Fields
-  field :title, type: String
+  attr_accessible :organization_id, :type, :title
+  attr_accessible :title, as: :modify
   field :type, type: String
+  field :title, type: String
   
   # Validations
   validates :title, presence: true
@@ -33,6 +38,12 @@ class Node
     self.parent_ids = [] if self.parent_ids.nil?
     self.parent_link_ids = [] if self.parent_link_ids.nil?
     self.child_link_ids = [] if self.child_link_ids.nil?
+  }
+  
+  before_destroy {
+    self.child_links.delete_all
+    self.descendant_links_and_self.delete_all
+    self.descendant_nodes.delete_all
   }
   
   # Fields
@@ -59,6 +70,11 @@ class Node
   end
   
   # Modify tree methods
+  def ensure_attributes(params)
+    self.update_attributes(sanitize_for_mass_assignment(params, :modify))
+    self
+  end
+  
   def create_nested_node(params, link_params = {})
     node = self.organization.nodes.where(params).create
     link = self.organization.links.where(link_params.merge({ parent_node: self, child_node: node })).create

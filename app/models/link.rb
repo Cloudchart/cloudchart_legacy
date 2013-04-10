@@ -2,12 +2,18 @@ class Link
   include Mongoid::Document
   store_in collection: "links"
   
+  # Scopes
+  scope :ordered, order_by(:id.asc)
+  default_scope ordered
+  scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
+  
   # Relations
   belongs_to :organization, validate: true
   belongs_to :parent_node, class_name: "Node", inverse_of: nil, validate: true
   belongs_to :child_node, class_name: "Node", inverse_of: nil, validate: true
   
   # Fields
+  attr_accessible :parent_node_id, :child_node_id, :type
   field :type, type: String, default: "direct"
   
   # TODO: Indexes
@@ -74,5 +80,11 @@ class Link
     when "indirect"
       "back"
     end
+  end
+  
+  # Modify tree methods
+  def ensure_attributes(params)
+    self.update_attributes(params)
+    self
   end
 end

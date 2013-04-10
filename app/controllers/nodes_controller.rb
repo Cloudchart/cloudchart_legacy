@@ -22,9 +22,42 @@ class NodesController < ApplicationController
   end
   
   def update
+    # Ids mapping
+    mapping = {}
+    
     # Update nodes
-    nodes = resource_params[:nodes]
-    raise nodes.inspect
+    nodes = resource_params[:nodes] || []
+    node_ids = []
+    nodes.each do |attrs|
+      if attrs[:id] =~ /^_[0-9]+$/
+        node = @node.organization.nodes.create!(attrs)
+        mapping[attrs[:id]] = node.id
+      else
+        node = Node.find(attrs[:id])
+        node.ensure_attributes(attrs)
+      end
+      
+      node_ids << node.id
+    end
+    
+    # Remove nodes
+    previous_node_ids = @node.descendant_and_ancestor_nodes.map(&:id)
+    Node.in(id: (previous_node_ids - node_ids)).destroy_all
+    
+    # Update links
+    links = resource_params[:links] || []
+    links.each do |attrs|
+      if attrs[:id] =~ /^_[0-9]+$/
+        # Normalize attributes
+        [:parent_node_id, :child_node_id].each do |attr|
+          if attrs[attr] =~ /^_[0-9]+$/
+            attrs[attr] = mapping[attrs[attr]]
+          end
+        end
+        
+        link = @node.organization.links.create(attrs)
+      end
+    end
     
     respond_to do |format|
       format.json {

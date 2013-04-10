@@ -11,10 +11,10 @@
 	- [x] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
-		- [ ] Nodes, links
+		- [x] Ability to update nodes
+		- [ ] Ability to update links
 		- [ ] Generate ObjectId for new elements — /^_[0-9]+$/
-		- [ ] Ability to update relations
-		- [ ] Tree validation (cyclic relations, multiple child_ids)
+		- [ ] Tree validation (cyclic links, multiple child_ids)
 	- [ ] Atomic update actions on nodes
 - Persons controller
 - Ability to select/group nodes?
