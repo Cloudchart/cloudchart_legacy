@@ -17,6 +17,9 @@
 		- [ ] Tree validation (cyclic links, multiple child_ids)
 	- [ ] Atomic update actions on nodes
 - Persons controller
+	- [ ] Sign in with Linkedin/Facebook
+	- [ ] Search people using Linkedin/Facebook
+	- [ ] Add people to database and search using Elasticsearch
 - Ability to select/group nodes?
 - Data mapping layer?
 
