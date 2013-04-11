@@ -36,3 +36,13 @@ gem "bson_ext"
 gem "json"
 gem "crashlog"
 gem "postmark-rails"
+
+# Users
+gem "devise"
+gem "devise_invitable"
+gem "cancan"
+gem "omniauth"
+gem "omniauth-linkedin"
+gem "omniauth-facebook"
+gem "linkedin"
+gem "koala"
