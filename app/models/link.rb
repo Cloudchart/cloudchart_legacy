@@ -13,52 +13,14 @@ class Link
   belongs_to :child_node, class_name: "Node", inverse_of: nil, validate: true
   
   # Fields
-  attr_accessible :parent_node_id, :child_node_id, :type
+  attr_accessible :organization_id, :parent_node_id, :child_node_id, :type
   field :type, type: String, default: "direct"
   
   # TODO: Indexes
   
   # Callbacks
-  before_save {
-    # Add link to nodes
-    if !self.parent_node.parent_link_ids.include?(self.id)
-      self.parent_node.add_to_set(:parent_link_ids, self.id)
-    end
-    
-    if !self.child_node.child_link_ids.include?(self.id)
-      self.child_node.add_to_set(:child_link_ids, self.id)
-    end
-    
-    # Save parents to right node
-    self.parent_node.reload
-    self.child_node.set(:parent_ids, self.parent_node.parent_ids + [self.parent_node.id])
-    self.child_node.reload
-    
-    # Add id to parent_ids
-    self.parent_node.reload
-    self.child_node.descendant_nodes_and_self.each do |node|
-      (self.parent_node.parent_ids + [self.parent_node.id]).each do |id|
-        node.add_to_set(:parent_ids, id)
-      end
-    end
-    self.child_node.reload
-    
-    true
-  }
-  
-  before_destroy {
-    # Remove id from parent_ids
-    self.child_node.descendant_nodes_and_self.each { |node| node.pull(:parent_ids, self.parent_node.id) }
-    
-    # Remove link from nodes
-    self.parent_node.pull(:parent_link_ids, self.id)
-    self.child_node.pull(:child_link_ids, self.id)
-    
-    self.parent_node.reload
-    self.child_node.reload
-    
-    true
-  }
+  before_save { self.attach_link }
+  before_destroy { self.detach_link }
   
   # Fields
   def serializable_hash(options)
@@ -84,7 +46,47 @@ class Link
   
   # Modify tree methods
   def ensure_attributes(params)
+    self.detach_link
     self.update_attributes(params)
     self
+  end
+  
+  def attach_link
+    # Add link to nodes
+    if !self.parent_node.parent_link_ids.include?(self.id)
+      self.parent_node.add_to_set(:parent_link_ids, self.id)
+    end
+    
+    if !self.child_node.child_link_ids.include?(self.id)
+      self.child_node.add_to_set(:child_link_ids, self.id)
+    end
+    
+    # Save parents to right node
+    self.parent_node.reload
+    self.child_node.set(:parent_ids, self.parent_node.parent_ids + [self.parent_node.id])
+    self.child_node.reload
+    
+    # Add id to parent_ids
+    self.parent_node.reload
+    self.child_node.descendant_nodes_and_self.each do |node|
+      (self.parent_node.parent_ids + [self.parent_node.id]).each do |id|
+        node.add_to_set(:parent_ids, id)
+      end
+    end
+    self.child_node.reload
+  end
+  
+  def detach_link
+    # Remove id from parent_ids
+    self.child_node.descendant_nodes_and_self.each { |node| node.pull(:parent_ids, self.parent_node.id) }
+    
+    # Remove link from nodes
+    self.parent_node.pull(:parent_link_ids, self.id)
+    self.child_node.pull(:child_link_ids, self.id)
+    
+    self.parent_node.reload
+    self.child_node.reload
+    
+    true
   end
 end

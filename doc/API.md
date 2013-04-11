@@ -12,8 +12,8 @@
 	- [x] Return ancestor_ids + append them to nodes
 	- [ ] Save dumped data representing subtree
 		- [x] Ability to update nodes
-		- [ ] Ability to update links
-		- [ ] Generate ObjectId for new elements — /^_[0-9]+$/
+		- [x] Ability to update links
+		- [x] Generate ObjectId for new elements — /^_[0-9]+$/
 		- [ ] Tree validation (cyclic links, multiple child_ids)
 	- [ ] Atomic update actions on nodes
 - Persons controller

@@ -26,6 +26,28 @@ describe NodesController do
       body = parse_json(response.body)
       body.to_json.should be_json_eql(expected.to_json)
     end
+    
+    it "should return show for nested node" do
+      chart = create_chart
+      node1 = chart.create_nested_node(title: "Directors")
+      node2 = node1.create_nested_node(title: "Developers")
+      node3 = node1.create_nested_node(title: "Designers")
+      node4 = node2.create_nested_node(title: "Junior Developers")
+      node5 = node2.create_nested_node(title: "Middle Developers")
+      node6 = node2.create_nested_node(title: "Senior Developers")
+      
+      expected = {
+        root_id: node2.id,
+        ancestor_ids: node2.ancestor_ids,
+        nodes: node2.descendant_and_ancestor_nodes,
+        links: node2.descendant_links_and_self,
+        identities: node2.descendant_identities_and_self
+      }
+      
+      get :show, { format: :json, id: node2.id }
+      body = parse_json(response.body)
+      body.to_json.should be_json_eql(expected.to_json)
+    end
   end
   
   describe "update" do
@@ -34,6 +56,14 @@ describe NodesController do
       node1 = chart.create_nested_node(title: "Directors")
       node2 = node1.create_nested_node(title: "Developers")
       node3 = node1.create_nested_node(title: "Designers")
+      node4 = node2.create_nested_node(title: "Junior Developers")
+      node5 = node2.create_nested_node(title: "Middle Developers")
+      node6 = node2.create_nested_node(title: "Senior Developers")
+      node7 = node4.create_nested_node(title: "Ivan")
+      node8 = node4.create_nested_node(title: "Nikolay")
+      
+      chart.to_png!
+      `open #{chart.picture.path}`
       
       expected = {
         root_id: chart.id,
@@ -50,14 +80,30 @@ describe NodesController do
       node["title"] = "Dummy node text"
       
       # Delete node
-      node = expected[:nodes].delete_at(2)
+      node = expected[:nodes].delete_at(3)
       expected[:links].delete_if { |link| link["child_node_id"] == node["id"] }
       
       # Add node
       node = Node.new(title: "Awesome node").as_json
-      node["level"] = 1
       node["id"] = "_1"
+      node["level"] = 1
       expected[:nodes] << node
+      
+      # Modify link
+      link = expected[:links].at(4)
+      node = expected[:nodes].at(5)
+      link["parent_node_id"] = chart.id
+      link["type"] = "indirect"
+      node["level"] = 1
+      
+      # Delete link and add new one
+      deleted = expected[:links].delete_at(3)
+      node = expected[:nodes].at(4)
+      link = Link.new(parent_node_id: expected[:nodes].first["id"]).as_json
+      link["id"] = "_1"
+      link["child_node_id"] = deleted["child_node_id"]
+      node["level"] = 1
+      expected[:links] << link
       
       # Add link
       link = Link.new(parent_node_id: expected[:nodes].first["id"]).as_json
@@ -80,6 +126,8 @@ describe NodesController do
       body = parse_json(response.body)
       body.to_json.should be_json_eql(expected.to_json).excluding("child_node_id")
       
+      # Update titles and render
+      chart.descendant_nodes.each { |x| x.set(:title, "#{x.title} (#{x.level})") }
       chart.to_png!
       `open #{chart.picture.path}`
     end

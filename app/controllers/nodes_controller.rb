@@ -46,6 +46,7 @@ class NodesController < ApplicationController
     
     # Update links
     links = resource_params[:links] || []
+    link_ids = []
     links.each do |attrs|
       if attrs[:id] =~ /^_[0-9]+$/
         # Normalize attributes
@@ -56,8 +57,17 @@ class NodesController < ApplicationController
         end
         
         link = @node.organization.links.create(attrs)
+      else
+        link = Link.find(attrs[:id])
+        link.ensure_attributes(attrs)
       end
+      
+      link_ids << link.id
     end
+    
+    # Remove links
+    previous_link_ids = @node.descendant_links_and_self.map(&:id)
+    Link.in(id: (previous_link_ids - link_ids)).destroy_all
     
     respond_to do |format|
       format.json {
