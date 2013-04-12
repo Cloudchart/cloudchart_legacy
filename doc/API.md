@@ -17,7 +17,7 @@
 		- [ ] Tree validation (cyclic links, multiple child_ids)
 	- [ ] Atomic update actions on nodes
 - Persons controller
-	- [ ] Sign in with Linkedin/Facebook
+	- [x] Sign in with Linkedin/Facebook
 	- [ ] Search people using Linkedin/Facebook
 	- [ ] Add people to database and search using Elasticsearch
 - Ability to select/group nodes?
@@ -25,7 +25,7 @@
 
 ## Internal API
 
-### Charts/nodes
+### Nodes
 
 Create chart:  
 ```ruby
@@ -188,3 +188,41 @@ curl -X PUT http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
 **Sample Response**
 
 Returns 200 or 422 with no content.
+
+### Persons
+
+**Description**
+
+Provides search and access to persons.
+
+#### Index
+
+**Description**
+
+Returns a list of added person or search results.
+
+**Parameters**
+
+- ```q``` — search query
+
+**Sample Queries**
+
+```
+curl -X GET http://cloudchart.dev/persons.json
+curl -X GET http://cloudchart.dev/persons.json?q=Anton
+```
+
+**Sample Response**
+
+```json
+[
+    {
+		created_at: "2013-04-02T11:16:04Z",
+		title: "Chart Name",
+		type: "chart",
+		updated_at: "2013-04-02T11:16:04Z",
+		id: "515abdf44660f3d5fc000002",
+		level: 0
+	}
+]
+```

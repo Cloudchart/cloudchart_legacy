@@ -7,8 +7,10 @@ class Person
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   scope :linkedin, where(type: "ln")
+  scope :facebook, where(type: "fb")
   
   # Relations
+  belongs_to :organization
   belongs_to :user
   
   # Fields
@@ -41,7 +43,7 @@ class Person
   
   # Representation
   def identifier
-    "#{self.name}(ln:#{self.external_id})"
+    "#{self.name}(#{self.type}:#{self.external_id})"
   end
   
   def name

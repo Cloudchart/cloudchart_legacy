@@ -10,7 +10,7 @@ class User
   # Relations
   # belongs_to :invitation
   # has_many :accesses, dependent: :destroy
-  has_many :persons, dependent: :destroy
+  has_many :persons
 
   ## Omniauthable
   embeds_many :authorizations do

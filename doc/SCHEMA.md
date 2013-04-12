@@ -12,6 +12,7 @@
 
 - **Embeds many** authorizations
 - **Has many** accesses
+- **Has many** persons
 - name [String]
 - email [String]
 - …
@@ -45,6 +46,7 @@
 ## Person
 
 - **Belongs to** organization
+- **Belongs to** user
 - **Has many** identities
 - provider [Enum: Linkedin, Facebook, …]
 - external_id [String]

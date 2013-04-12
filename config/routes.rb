@@ -1,6 +1,7 @@
 Cloudchart::Application.routes.draw do
   # App
   resources :nodes, only: [:index, :show, :update]
+  resources :persons, only: [:index]
   
   # Users
   devise_for :users, controllers: {

@@ -4,12 +4,13 @@ class Organization
   store_in collection: "organizations"
   
   # Relations
-  has_many :nodes do
+  has_many :nodes, dependent: :destroy do
     def create_chart_node(params)
       charts.where(params).create
     end
   end
-  has_many :links
+  has_many :links, dependent: :destroy
+  has_many :persons, dependent: :destroy
   
   # Fields
   attr_accessible :title

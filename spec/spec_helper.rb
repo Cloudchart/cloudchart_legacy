@@ -14,6 +14,7 @@ RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods
   config.include JsonSpec::Helpers
+  config.include Devise::TestHelpers
   # config.order = "random"
   
   Capybara.javascript_driver = :webkit
