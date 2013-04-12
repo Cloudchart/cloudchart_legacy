@@ -17,46 +17,38 @@ if !defined? LINKEDIN_KEY
     config.secret = LINKEDIN_SECRET
   end
   
-  module ExtendedClient
-    refine LinkedIn::Client do
-      def normalized_profile(id)
-        fetched = profile(id: id, fields: LINKEDIN_FIELDS_MAPPING.keys)
-        normalize_profile(fetched)
-      end
-      
-      def normalized_people_search(query)
-        fetched = people_search(keywords: CGI.escape(query), path: ":(people:(#{LINKEDIN_FIELDS_MAPPING.keys.join(",")}),num-results)")
-        
-        (fetched.people.all || []).reject { |attrs| attrs.id == "private" }.map { |attrs|
-          normalize_profile(attrs)
-        }
-      end
-      
-      def normalize_profile(fetched)
-        attrs = Hash[LINKEDIN_FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
-        attrs[:external_id] = attrs[:id]
-        
-        # Process profile url
-        attrs[:profile_url] = attrs[:profile_url].url if attrs[:profile_url]
-        
-        # Process picture
-        if fetched[:picture_urls] && fetched[:picture_urls][:all]
-          attrs[:picture_url] = fetched[:picture_urls][:all].first if fetched[:picture_urls][:all].is_a?(Array)
+  module LinkedIn
+    module Api
+      module QueryMethods
+        def normalized_profile(id)
+          fetched = profile(id: id, fields: LINKEDIN_FIELDS_MAPPING.keys)
+          normalize_profile(fetched)
         end
-        attrs.delete(:picture_urls)
         
-        attrs
-      end
-      
-      def people_search(options = {})
-        simple_query("/people-search#{options.delete(:path)}", options)
+        def normalized_people_search(query)
+          fetched = people_search(keywords: CGI.escape(query), path: ":(people:(#{LINKEDIN_FIELDS_MAPPING.keys.join(",")}),num-results)")
+          
+          (fetched.people.all || []).reject { |attrs| attrs.id == "private" }.map { |attrs|
+            normalize_profile(attrs)
+          }
+        end
+        
+        def normalize_profile(fetched)
+          attrs = Hash[LINKEDIN_FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
+          attrs[:external_id] = attrs[:id]
+          
+          # Process profile url
+          attrs[:profile_url] = attrs[:profile_url].url if attrs[:profile_url]
+          
+          # Process picture
+          if fetched[:picture_urls] && fetched[:picture_urls][:all]
+            attrs[:picture_url] = fetched[:picture_urls][:all].first if fetched[:picture_urls][:all].is_a?(Array)
+          end
+          attrs.delete(:picture_urls)
+          
+          attrs
+        end
       end
     end
   end
-  
-  # module LinkedIn
-  #   class Client
-  #     using ExtendedClient
-  #   end
-  # end
 end

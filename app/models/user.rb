@@ -80,18 +80,34 @@ class User
   def god?
     Rails.env.development? ? true : self.is_god
   end
-
+  
   # Clients
   def linkedin
-    @linkedin ||= self.authorizations.find_by(provider: "Linkedin")
+    @linkedin ||= self.authorizations.where(provider: "Linkedin").first
   end
-
+  
+  def linkedin?
+    !!self.linkedin
+  end
+  
   def linkedin_client
     @linkedin_client ||= LinkedIn::Client.new
     @linkedin_client.authorize_from_access(self.linkedin.token, self.linkedin.secret)
     @linkedin_client
   end
-
+  
+  def facebook
+    @facebook ||= self.authorizations.where(provider: "Facebook").first
+  end
+  
+  def facebook?
+    !!self.facebook
+  end
+  
+  def facebook_client
+    @facebook_client ||= Koala::Facebook::API.new(self.facebook.token)
+  end
+  
   # Access
   # def access!(chart, level = :public!)
   #   self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
