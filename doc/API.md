@@ -18,8 +18,8 @@
 	- [ ] Atomic update actions on nodes
 - Persons controller
 	- [x] Sign in with Linkedin/Facebook
-	- [ ] Search people using Linkedin/Facebook
-	- [ ] Add people to database and search using Elasticsearch
+	- [x] Search people using Linkedin/Facebook
+	- [x] Add people to database and search using Elasticsearch
 - Ability to select/group nodes?
 - Data mapping layer?
 
