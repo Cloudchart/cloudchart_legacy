@@ -201,7 +201,7 @@ en:
       fire: "Unsubscribe"
     persons:
       okay: "Okay"
-      add: "Add him"
+      add: "Add"
       return: "Return"
     person:
       add_note_tap: "Tap to add note"

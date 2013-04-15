@@ -37,7 +37,11 @@ class Person
   end
   
   def identifier
-    "#{self.name}(ln:#{self.external_id})"
+    if self.external_id
+      "#{self.name}(ln:#{self.external_id})"
+    else
+      self.name
+    end
   end
   
   def name

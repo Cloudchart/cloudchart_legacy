@@ -7,6 +7,7 @@ scope  =
   cache: {}
   note: ""
   editable: null
+  focusNote: false
   
   bindings: ->
     $(".edit_chart textarea").unbind "keyup"
@@ -54,13 +55,18 @@ scope  =
       $overlay.find(".loading").show()
       
       $.ajax url: "/charts/#{App.chart.chart.slug}/persons/#{encodeURIComponent("@#{person.identifier}")}/profile", type: "GET", complete: (data) ->
-        $overlay.find("[name='person[q]']").val("@#{person.name}")
+        $overlay.find("[name='person[q]']").val("@#{person.name}") if person.name
         $overlay.find(".profile").html(data.responseText).show()
         $overlay.find(".buttons").hide()
         $overlay.find(".buttons.for-profile").show()
         $overlay.find(".list").hide()
         $overlay.find(".loading").hide()
         $overlay.find(".profile textarea").val(root.autocomplete.note) if root.autocomplete.note != ""
+        
+        # Note
+        if root.autocomplete.focusNote
+          root.autocomplete.focusNote = false
+          $overlay.find(".profile textarea").focus()
       
       false
   
@@ -70,7 +76,7 @@ scope  =
     val = $input.val().replace(/^@/, "").trim()
     
     if val != ""
-      $list.html('<li class="holder"><div><img src="/images/ico-person.png"><h3></h3><h4>Title goes here</h4><p class="company">Your Company</p></div></li>')
+      $list.html('<li class="holder"><div><img src="/images/ico-person.png"><h3></h3><h4>Title goes here</h4><p class="company">Your Company</p></div><button>Note</button></li>')
       $overlay.find(".holder h3").html("#{val}")
       $overlay.find(".holder").data("person",
         identifier: val,
@@ -101,7 +107,8 @@ scope  =
       return unless data
       
       root.autocomplete.current = data
-      $overlay.find(".person").attr("src", data.picture)
+      $overlay.find(".person").attr("src", data.picture) if data.picture
+      $input.val("@#{data.name}") if data.name
       
       # Change selection
       $list.find(".selected").removeClass("selected")
@@ -157,9 +164,17 @@ scope  =
     $input.unbind "keydown"
     $input.bind "keydown", (e) ->
       # Comma
-      if e.keyCode == 188 && $overlay.find(".profile").is(":visible")
-        $overlay.find(".profile textarea").focus()
-        return false
+      if e.keyCode == 188
+        # Already in profile
+        if $overlay.find(".profile").is(":visible")
+          $overlay.find(".profile textarea").focus()
+          return false
+        
+        # Load profile
+        else
+          root.autocomplete.focusNote = true
+          $overlay.find(".list li.selected button").click()
+          return false
       
       return Mousetrap.trigger("enter") && false if e.keyCode == 13
       return Mousetrap.trigger("up") && false if e.keyCode == 38
@@ -182,6 +197,9 @@ scope  =
         autocomplete.select($overlay)
         
         $overlay.find(".for-profile .fire").trigger "click"
+      else if $input.val().length > 1
+        # Select current
+        autocomplete.select($overlay)
       
       # Search
       autocomplete.cache = {} unless autocomplete.cache
@@ -193,6 +211,8 @@ scope  =
       
       # return false if autocomplete.loading
       autocomplete.timeout = setTimeout(->
+        return if $overlay.find(".profile").is(":visible")
+        
         autocomplete.loading = true
         $overlay.find(".loading").show()
         
@@ -211,7 +231,7 @@ scope  =
               autocomplete.render($overlay, result.persons)
               $overlay.find(".loading").hide()
             
-            if $input.val().length > 3
+            if $input.val().length > 1
               # Select current
               autocomplete.select($overlay)
       , if e.keyCode then 1000 else 0)
@@ -251,31 +271,31 @@ scope  =
           $overlay.find(".for-profile .fire").trigger "click"
       
       Mousetrap.bind "esc", ->
-        $input.focus()
+        # # Hide profile
+        # if $overlay.find(".profile").is(":visible")
+        #   $overlay.find(".profile").empty().hide()
+        #   $overlay.find(".buttons").hide()
+        #   $overlay.find(".buttons.for-list").show()
+        #   $overlay.find(".list").show()
         
-        if $overlay.find(".profile").is(":visible")
-          # Clear current
-          $input.val("")
-          $overlay.find(".list").empty()
-          root.autocomplete.select($overlay)
-          
-          $overlay.find(".profile").empty().hide()
-          $overlay.find(".buttons").hide()
-          $overlay.find(".buttons.for-list").show()
-          $overlay.find(".list").show()
-          $input.val("@")
-          $input.trigger "keyup"
+        $input.val("")
+        $overlay.find(".list").empty()
+        $overlay.find(".for-profile .fire").trigger "click"
         
-        else if $input.val() != "@"
-          $input.val("@")
-          $input.trigger "keyup"
-        else
-          # Clear current
-          $input.val("")
-          $overlay.find(".list").empty()
-          root.autocomplete.select($overlay)
-          
-          $overlay.find(".for-profile .fire").trigger "click"
+        # # Trigger click to remove @
+        # if $input.val() == "@"
+        #   $input.val("")
+        #   $overlay.find(".list").empty()
+        #   $overlay.find(".for-profile .fire").trigger "click"
+        # else
+        #   # Clear current
+        #   $input.val("")
+        #   $overlay.find(".list").empty()
+        #   $this.focus()
+        #   
+        #   # Hide overlay
+        #   $overlay.hide()
+        #   $overlay.remove() if $overlay.is(":last-child")
       
       Mousetrap.bind "up", ->
         $list = $overlay.find(".list")
@@ -355,7 +375,10 @@ scope  =
             
             # Hide profile
             if $overlay.find(".profile").is(":visible")
-              Mousetrap.trigger "esc"
+              $overlay.find(".profile").empty().hide()
+              $overlay.find(".buttons").hide()
+              $overlay.find(".buttons.for-list").show()
+              $overlay.find(".list").show()
             
             # Replace
             if editable
