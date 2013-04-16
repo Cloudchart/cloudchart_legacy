@@ -211,60 +211,62 @@ curl -X GET http://cloudchart.dev/persons/search.json?q=Anton
 **Sample Response**
 
 ```json
-[
-    {
-		description: null,
-		external_id: "1",
-		first_name: "Daria",
-		headline: null,
-		last_name: "Nifontova",
-		note: null,
-		organization_id: null,
-		profile_url: null,
-		type: null,
-		user_id: null,
-		id: "5162d8f84660f37731000005",
-		identifier: "Daria Nifontova(:1)",
-		name: "Daria Nifontova",
-		picture: "/images/ico-person.png",
-		position: null,
-		company: null
-	},
-	{
-		description: "I work as a copywriter and intern as a UI/UX designer.",
-		external_id: "f4DADgy_LV",
-		first_name: "Daria",
-		headline: "Copywriter at DigDog",
-		last_name: "Nifontova",
-		note: null,
-		organization_id: null,
-		profile_url: "http://www.linkedin.com/profile/view?id=123922870&authType=OUT_OF_NETWORK&authToken=sCsQ&trk=api*a221124*s229092*",
-		type: "ln",
-		user_id: null,
-		id: "516879c8591db4a1fc00003c",
-		identifier: "Daria Nifontova(ln:f4DADgy_LV)",
-		name: "Daria Nifontova",
-		picture: "http://m3.licdn.com/mpr/mprx/0_xgY8aXzn4RFiXGboZOymwLRn0sWTXTwoZDhDH5XZNOHGi8JkVS0uEfHbUEy",
-		position: "Copywriter",
-		company: "DigDog"
-	},
-	{
-		description: null,
-		external_id: "1631228798",
-		first_name: "Daria",
-		headline: null,
-		last_name: "Nifontova",
-		note: null,
-		organization_id: null,
-		profile_url: "http://www.facebook.com/daria.nifontova",
-		type: "fb",
-		user_id: null,
-		id: "516879fb591db4a1fc000060",
-		identifier: "Daria Nifontova(fb:1631228798)",
-		name: "Daria Nifontova",
-		picture: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/573204_1631228798_775146040_q.jpg",
-		position: null,
-		company: null
-	}
-]
+{
+	persons: [
+	    {
+			description: null,
+			external_id: "1",
+			first_name: "Daria",
+			headline: null,
+			last_name: "Nifontova",
+			note: null,
+			organization_id: null,
+			profile_url: null,
+			type: null,
+			user_id: null,
+			id: "5162d8f84660f37731000005",
+			identifier: "Daria Nifontova(:1)",
+			name: "Daria Nifontova",
+			picture: "/images/ico-person.png",
+			position: null,
+			company: null
+		},
+		{
+			description: "I work as a copywriter and intern as a UI/UX designer.",
+			external_id: "f4DADgy_LV",
+			first_name: "Daria",
+			headline: "Copywriter at DigDog",
+			last_name: "Nifontova",
+			note: null,
+			organization_id: null,
+			profile_url: "http://www.linkedin.com/profile/view?id=123922870&authType=OUT_OF_NETWORK&authToken=sCsQ&trk=api*a221124*s229092*",
+			type: "ln",
+			user_id: null,
+			id: "516879c8591db4a1fc00003c",
+			identifier: "Daria Nifontova(ln:f4DADgy_LV)",
+			name: "Daria Nifontova",
+			picture: "http://m3.licdn.com/mpr/mprx/0_xgY8aXzn4RFiXGboZOymwLRn0sWTXTwoZDhDH5XZNOHGi8JkVS0uEfHbUEy",
+			position: "Copywriter",
+			company: "DigDog"
+		},
+		{
+			description: null,
+			external_id: "1631228798",
+			first_name: "Daria",
+			headline: null,
+			last_name: "Nifontova",
+			note: null,
+			organization_id: null,
+			profile_url: "http://www.facebook.com/daria.nifontova",
+			type: "fb",
+			user_id: null,
+			id: "516879fb591db4a1fc000060",
+			identifier: "Daria Nifontova(fb:1631228798)",
+			name: "Daria Nifontova",
+			picture: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/573204_1631228798_775146040_q.jpg",
+			position: null,
+			company: null
+		}
+	]
+}
 ```

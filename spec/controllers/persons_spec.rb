@@ -9,7 +9,7 @@ describe PersonsController do
       
       get :search, { format: :json, q: "Someone" }
       body = parse_json(response.body)
-      body.first.to_json.should be_json_eql(person.to_json)
+      body.to_json.should be_json_eql({ persons: [person] }.to_json)
       
       person.destroy
     end

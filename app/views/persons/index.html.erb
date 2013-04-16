@@ -1,0 +1,11 @@
+<div class="persons" data-behavior="persons-view">
+  <%=
+    simple_form_for :search, url: search_persons_path, method: :get, html: {
+      data: { behavior: "form" }
+    } do |f|
+  %>
+    <%= f.input :q, label: false, input_html: { name: "q" } %>
+  <% end %>
+  
+  <div class="list" data-behavior="list"></div>
+</div>

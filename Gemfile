@@ -37,6 +37,7 @@ gem "json"
 gem "crashlog"
 gem "postmark-rails"
 gem "tire"
+gem "simple_form"
 
 # Users
 gem "devise"
@@ -47,3 +48,14 @@ gem "omniauth-linkedin"
 gem "omniauth-facebook"
 gem "linkedin", github: "krasnoukhov/linkedin"
 gem "koala"
+
+# Client
+group :assets do
+  gem "less-rails"
+  gem "coffee-rails"
+  gem "uglifier"
+  gem "execjs"
+  gem "therubyracer"
+  gem "jquery-rails"
+  gem "handlebars_assets"
+end

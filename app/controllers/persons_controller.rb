@@ -41,7 +41,7 @@ class PersonsController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render json: @persons
+        render json: { persons: @persons }
       }
     end
   end
