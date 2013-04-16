@@ -1,7 +1,11 @@
 Cloudchart::Application.routes.draw do
   # App
   resources :nodes, only: [:index, :show, :update]
-  resources :persons, only: [:index]
+  resources :persons, only: [:index] do
+    collection do
+      get :search
+    end
+  end
   
   # Users
   devise_for :users, controllers: {

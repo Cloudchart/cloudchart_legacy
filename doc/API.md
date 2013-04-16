@@ -191,11 +191,7 @@ Returns 200 or 422 with no content.
 
 ### Persons
 
-**Description**
-
-Provides search and access to persons.
-
-#### Index
+#### Search
 
 **Description**
 
@@ -208,8 +204,8 @@ Returns a list of local persons or search results for query.
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/persons.json
-curl -X GET http://cloudchart.dev/persons.json?q=Anton
+curl -X GET http://cloudchart.dev/persons/search.json
+curl -X GET http://cloudchart.dev/persons/search.json?q=Anton
 ```
 
 **Sample Response**
