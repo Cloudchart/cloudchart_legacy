@@ -150,6 +150,30 @@ scope  =
     $input.attr("data-value", "")
     $input.unbind "textchange"
     $input.bind "textchange", ->
+      lastChar = $(this).val().substr(-1)
+      
+      # Comma
+      if lastChar == ","
+        # Remove last character
+        current_val = $input.val()
+        $input.val(current_val.substr(0, current_val.length-1))
+        
+        # Replace lastValue
+        setTimeout ->
+          $input.data("lastValue", $input.val())
+        , 100
+        
+        # Already in profile
+        if $overlay.find(".profile").is(":visible")
+          $overlay.find(".profile textarea").focus()
+          return true
+        
+        # Load profile
+        else
+          root.autocomplete.focusNote = true
+          $overlay.find(".list li.selected button").click()
+          return true
+      
       # Hide profile
       if $overlay.find(".profile").is(":visible")
         $overlay.find(".profile").empty().hide()
@@ -163,19 +187,6 @@ scope  =
     
     $input.unbind "keydown"
     $input.bind "keydown", (e) ->
-      # Comma
-      if e.keyCode == 188
-        # Already in profile
-        if $overlay.find(".profile").is(":visible")
-          $overlay.find(".profile textarea").focus()
-          return false
-        
-        # Load profile
-        else
-          root.autocomplete.focusNote = true
-          $overlay.find(".list li.selected button").click()
-          return false
-      
       return Mousetrap.trigger("enter") && false if e.keyCode == 13
       return Mousetrap.trigger("up") && false if e.keyCode == 38
       return Mousetrap.trigger("down") && false if e.keyCode == 40
