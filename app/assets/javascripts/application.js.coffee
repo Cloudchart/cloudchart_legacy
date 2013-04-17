@@ -1,3 +1,4 @@
+//= require core_ext
 //= require jquery
 //= require jquery_ujs
 //= require handlebars

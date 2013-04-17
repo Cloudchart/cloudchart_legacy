@@ -8,43 +8,76 @@ scope       = @cc
 
 class PersonsView
   constructor: (attributes = {}) ->
-    self = this
-    
     # Elements
     @container = attributes.container
     @form = @container.find("[data-behavior=form]")
-    @input = @form.find("input[name=q]")
+    @input = @form.find("input[name='search[q]']")
     @list = @container.find("[data-behavior=list]")
     
     # Properties
     @is_loading = false
     @value = ""
     @results = {}
+    @persisted = []
     
     # Bind events
     @form.on("submit", false)
-    @input.on("textchange", ->
-      self.value = $(this).val()
-      self.search()
+    @input.on("textchange", =>
+      @value = @input.val()
+      @search()
     )
+    
+    # List events
+    self = this
+    @list.on("click", "[data-behavior=create-person]", ->
+      self.create(identifier: $(this).attr("data-identifier"))
+      false
+    )
+    
+    # Load persons
+    @persons()
   
-  search: ->
+  create: (params) ->
     self = this
     
+    $.ajax(url: "/persons", data: params, dataType: "json", type: "POST")
+      # .always ->
+      #   
+      .error (xhr, status, error) ->
+        console.error error
+      
+      .done (result) ->
+        self.persisted = result.persons
+        self.render()
+      
+  persons: ->
+    self = this
+    $.ajax(url: "/persons", dataType: "json", type: "GET")
+      # .always ->
+      #   
+      .error (xhr, status, error) ->
+        console.error error
+      
+      .done (result) ->
+        self.persisted = result.persons
+        self.render()
+  
+  search: ->
     # Check for results
     clearTimeout(@timeout) if @timeout
-    self.loading()
+    @loading()
     
-    search_key = @value
-    if @results[search_key] && @results[search_key][0]
-      @render(search_key)
+    # Render
+    @render()
     
     # Run search
-    @timeout = setTimeout(->
-      self.loading()
-      search_key = self.value
+    @timeout = setTimeout(=>
+      self = this
       
-      $.ajax(url: self.form.attr("action"), data: self.form.serialize(), dataType: "json", type: self.form.attr("method"))
+      @loading()
+      search_key = @value
+      
+      $.ajax(url: @form.attr("action"), data: @form.serialize(), dataType: "json", type: @form.attr("method"))
         .always ->
           self.loading(false)
         
@@ -59,15 +92,32 @@ class PersonsView
   
   loading: (flag = true) ->
     @is_loading = flag
-    if @is_loading then @list.html("Loading...") else @list.empty()
+    # if @is_loading then @list.html("Loading...") else @list.empty()
   
   render: (search_key = null) ->
-    results = @results[search_key || @value]
-    return if !results || !results[0]
+    search_key ?= @value
+    search_exp = new RegExp(RegExp.escape(search_key), "ig")
+    
+    # Search through persisted persons
+    persons = $.grep(@persisted, (v) ->
+      return true if search_key == ""
+      v.name.match(search_exp)
+    )
+    
+    # Merge with search results
+    results = @results[search_key]
+    persons = persons.concat(results) if results && results[0]
+    
+    # Remove duplicates
+    identifiers = $.map(@persisted, (v) -> v.identifier )
+    persons = $.grep(persons, (v) ->
+      return false if !v.persisted && $.inArray(v.identifier, identifiers) > -1
+      true
+    )
     
     @list.html(
       HandlebarsTemplates["persons/list"](
-        persons: results
+        persons: persons
       )
     )
     

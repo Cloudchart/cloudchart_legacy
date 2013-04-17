@@ -1,7 +1,7 @@
 Cloudchart::Application.routes.draw do
   # App
   resources :nodes, only: [:index, :show, :update]
-  resources :persons, only: [:index] do
+  resources :persons, only: [:index, :create] do
     collection do
       get :search
     end

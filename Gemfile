@@ -51,7 +51,7 @@ gem "koala"
 
 # Client
 group :assets do
-  gem "less-rails"
+  gem "sass-rails"
   gem "coffee-rails"
   gem "uglifier"
   gem "execjs"

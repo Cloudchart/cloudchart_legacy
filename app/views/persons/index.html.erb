@@ -4,7 +4,8 @@
       data: { behavior: "form" }
     } do |f|
   %>
-    <%= f.input :q, label: false, input_html: { name: "q" } %>
+    <%= f.input :local, as: :hidden, input_html: { value: false } %>
+    <%= f.input :q, label: false %>
   <% end %>
   
   <div class="list" data-behavior="list"></div>

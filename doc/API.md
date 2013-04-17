@@ -191,20 +191,59 @@ Returns 200 or 422 with no content.
 
 ### Persons
 
-#### Search
+#### Index
 
 **Description**
 
-Returns a list of local persons or search results for query.
-
-**Parameters**
-
-- ```q``` — search query
+Returns a list of stored persons for user.
 
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/persons/search.json
+curl -X GET http://cloudchart.dev/persons.json
+```
+
+**Sample Response**
+
+```json
+{
+	persons: [
+	    {
+			description: null,
+			external_id: "1",
+			first_name: "Daria",
+			headline: null,
+			last_name: "Nifontova",
+			note: null,
+			organization_id: null,
+			profile_url: null,
+			type: null,
+			user_id: null,
+			id: "5162d8f84660f37731000005",
+			identifier: "Daria Nifontova(:1)",
+			name: "Daria Nifontova",
+			picture: "/images/ico-person.png",
+			position: null,
+			company: null
+		}
+	]
+}
+```
+		
+#### Search
+
+**Description**
+
+Returns a person search results.
+
+**Parameters**
+
+- ```search[q]``` — [String] Search query
+- ```search[local]``` — [Boolean] Include local search results
+
+**Sample Queries**
+
+```
 curl -X GET http://cloudchart.dev/persons/search.json?q=Anton
 ```
 

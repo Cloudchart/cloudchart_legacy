@@ -48,13 +48,17 @@ class Person
   def serializable_hash(options = {})
     super (options || {}).merge(
       except: [:_id, :picture_url],
-      methods: [:id, :identifier, :name, :picture, :position, :company]
+      methods: [:id, :identifier, :name, :picture, :position, :company, :persisted]
     )
   end
   
   # Representation
+  def persisted
+    self.persisted?
+  end
+  
   def identifier
-    "#{self.name}(#{self.type}:#{self.external_id})"
+    "#{self.type}:#{self.external_id}"
   end
   
   def name

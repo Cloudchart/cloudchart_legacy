@@ -1,7 +1,11 @@
 <ul>
   {{#each persons}}
     {{#with this}}
+      {{#if persisted}}
       <li>{{name}}</li>
+      {{else}}
+      <li><a href="#" data-behavior="create-person" data-identifier="{{identifier}}">{{name}}</a></li>
+      {{/if}}
     {{/with}}
   {{/each}}
 </ul>
