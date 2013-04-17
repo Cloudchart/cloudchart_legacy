@@ -27,7 +27,7 @@ class PersonsController < ApplicationController
       when "fb"
       end
       
-      current_user.persons.create(params) if params
+      current_user.persons.create(params.merge(type: type)) if params
     end
     
     respond_to do |format|
