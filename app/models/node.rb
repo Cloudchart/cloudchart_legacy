@@ -4,6 +4,9 @@ class Node
   include Mongoid::Paperclip
   store_in collection: "nodes"
   
+  # Constants
+  NEW_ID_REGEX = /^_[0-9]+$/
+  
   # Scopes
   scope :ordered, order_by(:id.asc)
   default_scope ordered
@@ -70,6 +73,73 @@ class Node
   end
   
   # Modify tree methods
+  def update_from_params(params)
+    # Ids mapping
+    mapping = {}
+    
+    # Update nodes
+    nodes = params[:nodes] || []
+    node_ids = []
+    nodes.each do |attributes|
+      if attributes[:id] =~ NEW_ID_REGEX
+        node = self.organization.nodes.create!(attributes)
+        mapping[attributes[:id]] = node.id
+      else
+        node = Node.find(attributes[:id])
+        if node.organization_id == self.organization_id
+          node.ensure_attributes(attributes)
+        else
+          node = nil
+          self.errors.add(:base, :node_invalid)
+        end
+      end
+      
+      node_ids << node.id if node
+    end
+    
+    # Remove nodes
+    previous_node_ids = self.descendant_and_ancestor_nodes.map(&:id)
+    Node.in(id: (previous_node_ids - node_ids)).destroy_all
+    
+    # Invalid
+    return false if self.errors.messages.any?
+    
+    # Update links
+    links = params[:links] || []
+    link_ids = []
+    links.each do |attributes|
+      if attributes[:id] =~ NEW_ID_REGEX
+        # Normalize attributes
+        [:parent_node_id, :child_node_id].each do |attribute|
+          if attributes[attribute] =~ NEW_ID_REGEX
+            attributes[attribute] = mapping[attributes[attribute]]
+          end
+        end
+        
+        link = self.organization.links.create(attributes)
+      else
+        link = Link.find(attributes[:id])
+        if link.organization_id == self.organization_id
+          link.ensure_attributes(attributes)
+        else
+          link = nil
+          self.errors.add(:base, :link_invalid)
+        end
+      end
+      
+      link_ids << link.id if link
+    end
+    
+    # Remove links
+    previous_link_ids = self.descendant_links_and_self.map(&:id)
+    Link.in(id: (previous_link_ids - link_ids)).destroy_all
+    
+    # Invalid
+    return false if self.errors.messages.any?
+    
+    true
+  end
+  
   def ensure_attributes(params)
     self.update_attributes(sanitize_for_mass_assignment(params, :modify))
     self

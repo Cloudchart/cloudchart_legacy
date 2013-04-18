@@ -14,8 +14,9 @@
 		- [x] Ability to update nodes
 		- [x] Ability to update links
 		- [x] Generate ObjectId for new elements — /^_[0-9]+$/
-		- [ ] Tree validation (cyclic links, multiple child_ids)
+		- [ ] Tree validation (rights, cyclic links, multiple child_ids)
 	- [ ] Atomic update actions on nodes
+	- [ ] Implement cancan abilities
 - Persons controller
 	- [x] Sign in with Linkedin/Facebook
 	- [x] Search people using Linkedin/Facebook
