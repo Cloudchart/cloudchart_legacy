@@ -48,7 +48,7 @@ class PersonsController < ApplicationController
     @query = params[:search][:q].to_s.strip.gsub(/[^([:alnum:]|\.\s)]/, "")
     
     if @query.present?
-      if params[:search][:local]
+      if params[:search][:local] != "false"
         begin
           persons = Person.search({ load: true, page: params[:page], per_page: 20 }) { |search|
             search.query { |query|

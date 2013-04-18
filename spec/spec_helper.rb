@@ -10,6 +10,10 @@ require 'database_cleaner'
 # in spec/support/ and its subdirectories.
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+# Re-build search index
+# Cloudchart::Application.load_tasks
+# Rake::Task["tire:import:all"].execute
+
 RSpec.configure do |config|
   config.include Capybara::DSL
   config.include FactoryGirl::Syntax::Methods
