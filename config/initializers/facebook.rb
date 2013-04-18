@@ -12,8 +12,13 @@ if !defined? FACEBOOK_KEY
   module Koala
     module Facebook
       module GraphAPIMethods
+        def normalized_profile(id)
+          fetched = get_object(id)
+          normalize_profile(fetched)
+        end
+        
         def normalized_people_search(query)
-          fetched = search(query, type: :user, fields: "first_name,last_name,bio,link,picture,work")
+          fetched = search(query, type: :user, fields: (FACEBOOK_FIELDS_MAPPING.keys + ["work"]).join(","))
           (fetched || []).map { |attrs|
             normalize_profile(attrs)
           }

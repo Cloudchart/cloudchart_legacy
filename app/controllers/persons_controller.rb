@@ -25,6 +25,7 @@ class PersonsController < ApplicationController
       when "ln"
         current_user.linkedin_client.normalized_profile(external_id)
       when "fb"
+        current_user.facebook_client.normalized_profile(external_id)
       end
       
       current_user.persons.create(params.merge(type: type)) if params
