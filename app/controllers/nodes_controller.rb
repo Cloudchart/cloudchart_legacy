@@ -21,7 +21,11 @@ class NodesController < ApplicationController
     
     respond_to do |format|
       format.json {
-        render json: {}, status: @node.valid? ? :ok : :unprocessable_entity
+        if @node.valid?
+          render json: {}
+        else
+          render json: { errors: @node.errors.full_messages }, status: :unprocessable_entity
+        end
       }
     end
   end

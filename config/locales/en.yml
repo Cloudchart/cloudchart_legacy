@@ -2,6 +2,7 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  # Devise
   devise:
     confirmations:
       confirmed: "Your account was successfully confirmed. You are now signed in."
@@ -58,3 +59,13 @@ en:
       not_saved:
         one: "1 error prohibited this %{resource} from being saved:"
         other: "%{count} errors prohibited this %{resource} from being saved:"
+  
+  # Mongoid
+  mongoid:
+    errors:
+      models:
+        node:
+          attributes:
+            base:
+              node_invalid: "Node is invalid"
+              link_invalid: "Link is invalid"

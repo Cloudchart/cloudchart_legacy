@@ -14,7 +14,10 @@
 		- [x] Ability to update nodes
 		- [x] Ability to update links
 		- [x] Generate ObjectId for new elements — /^_[0-9]+$/
-		- [ ] Tree validation (rights, cyclic links, multiple child_ids)
+		- [ ] Tree validation
+			- [x] Rights
+			- [x] Multiple child_ids
+			- [ ] Cyclic links
 	- [ ] Atomic update actions on nodes
 	- [ ] Implement cancan abilities
 - Persons controller
@@ -188,7 +191,17 @@ curl -X PUT http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
 
 **Sample Response**
 
-Returns 200 or 422 with no content.
+HTTP status: {200, 422}
+
+```json
+{
+	errors: [
+		"Node is invalid",
+		"Link is invalid"
+	]
+}
+```
+
 
 ### Persons
 

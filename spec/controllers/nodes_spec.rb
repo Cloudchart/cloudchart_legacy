@@ -161,13 +161,38 @@ describe NodesController do
       } }
       
       body = parse_json(response.body)
-      body.to_json.should be_json_eql({}.to_json)
+      body.to_json.should be_json_eql({ errors: ["Node is invalid"] }.to_json)
       response.status.should be_eql(422)
+    end
+    
+    it "should not create multiple links" do
+      chart = create_chart
+      node1 = chart.create_nested_node(title: "Directors")
+      node2 = chart.create_nested_node(title: "Designers")
       
-      # Check
-      get :show, { format: :json, id: chart.id }
+      expected = {
+        root_id: chart.id,
+        ancestor_ids: chart.ancestor_ids.as_json,
+        nodes: chart.descendant_and_ancestor_nodes.as_json,
+        links: chart.descendant_links_and_self.as_json,
+        identities: chart.descendant_identities_and_self.as_json
+      }
+      
+      # Add link
+      link = Link.new(parent_node_id: expected[:nodes][1]["id"], child_node_id: expected[:nodes][2]["id"]).as_json
+      link["id"] = "_1"
+      expected[:links] << link
+      
+      # Update
+      put :update, { format: :json, id: chart.id, node: {
+        nodes: expected[:nodes],
+        links: expected[:links],
+        identities: expected[:identities]
+      } }
+      
       body = parse_json(response.body)
-      body.to_json.should_not be_json_eql(expected.to_json).excluding("child_node_id")
+      body.to_json.should be_json_eql({ errors: ["Link is invalid"] }.to_json)
+      response.status.should be_eql(422)
     end
   end
 end

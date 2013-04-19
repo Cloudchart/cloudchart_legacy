@@ -85,15 +85,20 @@ class Node
   def check_params
     return true unless self.params
     
-    # Check all nodes
+    # Check all nodes rights
     node_ids = self.params[:nodes].map { |attributes| attributes[:id] }.reject { |id| id =~ NEW_ID_REGEX }
     wrong_nodes = Node.in(id: node_ids).select { |node| node.organization_id != self.organization_id }
     self.errors.add(:base, :node_invalid) and return if wrong_nodes.any?
     
-    # Check all links
+    # Check all links rights
     link_ids = self.params[:links].map { |attributes| attributes[:id] }.reject { |id| id =~ NEW_ID_REGEX }
     wrong_links = Link.in(id: link_ids).select { |link| link.organization_id != self.organization_id }
     self.errors.add(:base, :link_invalid) and return if wrong_links.any?
+    
+    # Check links uniqueness
+    child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
+    puts child_link_counts.inspect
+    self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x > 1 }.any?
   end
   
   def save_params
