@@ -97,7 +97,6 @@ class Node
     
     # Check links uniqueness
     child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
-    puts child_link_counts.inspect
     self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x > 1 }.any?
   end
   
