@@ -10,14 +10,13 @@
 - Nodes controller
 	- [x] Return information for subtree: nodes, links, identities
 	- [x] Return ancestor_ids + append them to nodes
-	- [ ] Save dumped data representing subtree
+	- [x] Save dumped data representing subtree
 		- [x] Ability to update nodes
 		- [x] Ability to update links
 		- [x] Generate ObjectId for new elements — /^_[0-9]+$/
-		- [ ] Tree validation
+		- [x] Tree validation
 			- [x] Rights
 			- [x] Multiple child_ids
-			- [ ] Cyclic links
 	- [ ] Atomic update actions on nodes
 	- [ ] Implement cancan abilities
 - Persons controller
