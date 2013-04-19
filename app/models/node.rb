@@ -22,6 +22,7 @@ class Node
   has_and_belongs_to_many :child_links, class_name: "Link", inverse_of: nil
   
   # Fields
+  attr_accessor :params
   attr_accessible :organization_id, :type, :title
   attr_accessible :title, as: :modify
   field :type, type: String
@@ -49,6 +50,10 @@ class Node
     self.descendant_nodes.delete_all
   }
   
+  # Callbacks for params
+  before_validation :check_params
+  before_save :save_params
+  
   # Fields
   def serializable_hash(options)
     super (options || {}).merge(
@@ -73,7 +78,27 @@ class Node
   end
   
   # Modify tree methods
-  def update_from_params(params)
+  def prepare_params(params)
+    self.params = params
+  end
+  
+  def check_params
+    return true unless self.params
+    
+    # Check all nodes
+    node_ids = self.params[:nodes].map { |attributes| attributes[:id] }.reject { |id| id =~ NEW_ID_REGEX }
+    wrong_nodes = Node.in(id: node_ids).select { |node| node.organization_id != self.organization_id }
+    self.errors.add(:base, :node_invalid) and return if wrong_nodes.any?
+    
+    # Check all links
+    link_ids = self.params[:links].map { |attributes| attributes[:id] }.reject { |id| id =~ NEW_ID_REGEX }
+    wrong_links = Link.in(id: link_ids).select { |link| link.organization_id != self.organization_id }
+    self.errors.add(:base, :link_invalid) and return if wrong_links.any?
+  end
+  
+  def save_params
+    return true unless self.params
+    
     # Ids mapping
     mapping = {}
     
@@ -86,12 +111,7 @@ class Node
         mapping[attributes[:id]] = node.id
       else
         node = Node.find(attributes[:id])
-        if node.organization_id == self.organization_id
-          node.ensure_attributes(attributes)
-        else
-          node = nil
-          self.errors.add(:base, :node_invalid)
-        end
+        node.ensure_attributes(attributes)
       end
       
       node_ids << node.id if node
@@ -100,9 +120,6 @@ class Node
     # Remove nodes
     previous_node_ids = self.descendant_and_ancestor_nodes.map(&:id)
     Node.in(id: (previous_node_ids - node_ids)).destroy_all
-    
-    # Invalid
-    return false if self.errors.messages.any?
     
     # Update links
     links = params[:links] || []
@@ -119,12 +136,7 @@ class Node
         link = self.organization.links.create(attributes)
       else
         link = Link.find(attributes[:id])
-        if link.organization_id == self.organization_id
-          link.ensure_attributes(attributes)
-        else
-          link = nil
-          self.errors.add(:base, :link_invalid)
-        end
+        link.ensure_attributes(attributes)
       end
       
       link_ids << link.id if link
@@ -134,10 +146,8 @@ class Node
     previous_link_ids = self.descendant_links_and_self.map(&:id)
     Link.in(id: (previous_link_ids - link_ids)).destroy_all
     
-    # Invalid
-    return false if self.errors.messages.any?
-    
-    true
+    # Clear params
+    self.params = nil
   end
   
   def ensure_attributes(params)
@@ -161,6 +171,16 @@ class Node
   end
   
   # Select tree methods
+  def serialized_params
+    { 
+      root_id: self.id,
+      ancestor_ids: self.ancestor_ids,
+      nodes: self.descendant_and_ancestor_nodes,
+      links: self.descendant_links_and_self,
+      identities: self.descendant_identities_and_self
+    }
+  end
+  
   def ancestor_ids
     self.parent_ids
   end

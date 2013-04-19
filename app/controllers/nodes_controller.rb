@@ -10,23 +10,18 @@ class NodesController < ApplicationController
   def show
     respond_to do |format|
       format.json {
-        render json: { 
-          root_id: @node.id,
-          ancestor_ids: @node.ancestor_ids,
-          nodes: @node.descendant_and_ancestor_nodes,
-          links: @node.descendant_links_and_self,
-          identities: @node.descendant_identities_and_self
-        }
+        render json: @node.serialized_params
       }
     end
   end
   
   def update
-    valid = @node.update_from_params(resource_params)
+    @node.prepare_params(resource_params)
+    @node.save
     
     respond_to do |format|
       format.json {
-        render json: {}, status: valid ? :ok : :unprocessable_entity
+        render json: {}, status: @node.valid? ? :ok : :unprocessable_entity
       }
     end
   end
