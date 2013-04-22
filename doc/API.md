@@ -17,6 +17,9 @@
 		- [x] Tree validation
 			- [x] Rights
 			- [x] Multiple child_ids
+	- [ ] Imaginary links support (as a boolean flag)
+		- [ ] Destroy imaginary links when adding real ones
+		- [ ] Check all nodes has only one link
 	- [ ] Atomic update actions on nodes
 	- [ ] Implement cancan abilities
 - Persons controller
