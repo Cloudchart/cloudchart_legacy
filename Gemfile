@@ -52,6 +52,8 @@ gem "koala"
 # Client
 group :assets do
   gem "sass-rails"
+  gem "compass-rails"
+  gem "less-rails"
   gem "coffee-rails"
   gem "uglifier"
   gem "execjs"
@@ -59,3 +61,5 @@ group :assets do
   gem "jquery-rails"
   gem "handlebars_assets"
 end
+
+gem "twitter-bootstrap-rails"

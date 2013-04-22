@@ -27,6 +27,7 @@ if !defined? FACEBOOK_KEY
         def normalize_profile(fetched)
           attrs = Hash[FACEBOOK_FIELDS_MAPPING.map { |k, v| [v, fetched[k.to_s]] }]
           attrs[:external_id] = attrs[:id]
+          attrs.delete(:id)
           
           # Process picture
           if fetched["picture"] && fetched["picture"]["data"]

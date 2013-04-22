@@ -1,12 +1,23 @@
 <div class="persons" data-behavior="persons-view">
   <%=
     simple_form_for :search, url: search_persons_path, method: :get, html: {
-      data: { behavior: "form" }
+      data: { behavior: "form" },
+      class: "form-search"
     } do |f|
   %>
     <%= f.input :local, as: :hidden, input_html: { value: false } %>
-    <%= f.input :q, label: false %>
+    <%= f.input :q, as: :search, label: false, required: false, placeholder: t("persons.search"), input_html: { class: "input-xlarge search-query" } %>
   <% end %>
   
-  <div class="list" data-behavior="list"></div>
+  <div class="list" data-behavior="list">
+    <div class="loader" data-behavior="loader"><%= t("app.loading") %></div>
+  </div>
+  
+  <div class="filters">
+    <div class="btn-group">
+      <% t("persons.filters").each do |k, v| %>
+        <button class="btn" data-behavior="filter" data-filter="<%= k %>"><%= v %></button>
+      <% end %>
+    </div>
+  </div>
 </div>

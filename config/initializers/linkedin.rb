@@ -36,6 +36,7 @@ if !defined? LINKEDIN_KEY
         def normalize_profile(fetched)
           attrs = Hash[LINKEDIN_FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
           attrs[:external_id] = attrs[:id]
+          attrs.delete(:id)
           
           # Process profile url
           attrs[:profile_url] = attrs[:profile_url].url if attrs[:profile_url]

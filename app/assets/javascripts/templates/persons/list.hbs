@@ -1,11 +1,19 @@
-<ul>
+<ul class="unstyled">
   {{#each persons}}
     {{#with this}}
-      {{#if persisted}}
-      <li data-identifier="{{identifier}}">{{name}}</li>
-      {{else}}
-      <li><a href="#" data-behavior="create-person" data-identifier="{{identifier}}">{{name}}</a></li>
-      {{/if}}
+      <li class="{{type}}">
+        <div class="left pull-left">
+          <div class="img"{{#if picture}} style="background-image: url({{picture}})"{{/if}}></div>
+          
+          <h1>{{name}}</h1>
+          {{#if headline}}
+            <p>{{headline}}</p>
+          {{/if}}
+        </div>
+        <div class="right pull-left">
+          <button class="btn btn-mini{{#if persisted}} active{{/if}}" data-behavior="persistence" data-identifier="{{identifier}}"></button>
+        </div>
+      </li>
     {{/with}}
   {{/each}}
 </ul>

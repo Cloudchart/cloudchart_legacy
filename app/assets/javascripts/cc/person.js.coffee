@@ -13,6 +13,7 @@ class PersonsView
     @form = @container.find("[data-behavior=form]")
     @input = @form.find("input[name='search[q]']")
     @list = @container.find("[data-behavior=list]")
+    @loader = @container.find("[data-behavior=loader]")
     
     # Properties
     @is_loading = false
@@ -29,26 +30,44 @@ class PersonsView
     
     # List events
     self = this
-    @list.on("click", "[data-behavior=create-person]", ->
-      self.create(identifier: $(this).attr("data-identifier"))
+    @list.on("click", "[data-behavior=persistence]", ->
+      $this = $(this)
+      $this.toggleClass("active")
+      
+      if $this.hasClass("active")
+        $this.addClass("disabled")
+        
+        self.create({ identifier: $this.attr("data-identifier") }, ->
+          $this.removeClass("disabled")
+        )
+      
+      false
+    )
+    
+    # Filters events
+    @container.on("click", "[data-behavior=filter]", ->
+      $this = $(this)
+      $this.toggleClass("active")
+      
       false
     )
     
     # Load persons
     @persons()
   
-  create: (params) ->
+  create: (params, callback) ->
     self = this
     
     $.ajax(url: "/persons", data: params, dataType: "json", type: "POST")
-      # .always ->
-      #   
+      .always ->
+        callback()
+        
       .error (xhr, status, error) ->
         console.error error
       
       .done (result) ->
         self.persisted = result.persons
-        self.render()
+        # self.render()
       
   persons: ->
     self = this
@@ -65,7 +84,6 @@ class PersonsView
   search: ->
     # Check for results
     clearTimeout(@timeout) if @timeout
-    @loading()
     
     # Render
     @render()
@@ -76,6 +94,7 @@ class PersonsView
       
       @loading()
       search_key = @value
+      return if search_key == ""
       
       $.ajax(url: @form.attr("action"), data: @form.serialize(), dataType: "json", type: @form.attr("method"))
         .always ->
@@ -92,7 +111,12 @@ class PersonsView
   
   loading: (flag = true) ->
     @is_loading = flag
-    # if @is_loading then @list.html("Loading...") else @list.empty()
+    if @is_loading
+      @loader.show()
+      @list.addClass("loading")
+    else
+      @loader.hide()
+      @list.removeClass("loading")
   
   render: (search_key = null) ->
     search_key ?= @value
@@ -115,7 +139,8 @@ class PersonsView
       true
     )
     
-    @list.html(
+    @list.find("ul").remove()
+    @list.append(
       HandlebarsTemplates["persons/list"](
         persons: persons
       )

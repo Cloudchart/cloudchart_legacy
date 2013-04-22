@@ -69,3 +69,15 @@ en:
             base:
               node_invalid: "Node is invalid"
               link_invalid: "Link is invalid"
+  
+  # App
+  app:
+    loading: "Loading..."
+  
+  # Persons
+  persons:
+    search: "Search for people names, positions or companies"
+    filters:
+      used: "Used"
+      unused: "Unused"
+      all: "All charts"

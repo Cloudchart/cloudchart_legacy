@@ -66,7 +66,7 @@ class Person
   end
   
   def picture
-    @picture ||= (self.picture_url || "/images/ico-person.png")
+    @picture ||= self.picture_url
   end
   
   def position
@@ -82,7 +82,9 @@ class Person
     case self.type
     when "ln"
       attrs = self.user.linkedin_client.normalized_profile(self.external_id)
-      attrs.delete(:id)
+      self.update_attributes(attrs)
+    when "fb"
+      attrs = self.user.facebook_client.normalized_profile(self.external_id)
       self.update_attributes(attrs)
     end
     

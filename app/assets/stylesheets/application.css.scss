@@ -1,0 +1,111 @@
+/*
+ *= require_self
+ *= require_tree .
+*/
+
+@import "compass/utilities/general/clearfix";
+@import "compass/utilities/text/ellipsis";
+@import "compass/css3/opacity";
+
+/* Persons */
+.persons {
+  margin: 20px;
+  
+  .form-search {
+    margin: 0 0 10px 0;
+  }
+  
+  .list {
+    width: 310px;
+    height: 310px;
+    overflow: auto;
+    position: relative;
+    
+    &.loading {
+      overflow: hidden;
+    }
+    
+    .loader {
+      position: absolute;
+      display: none;
+      top: 0;
+      padding-top: 45%;
+      right: 0;
+      left: 0;
+      bottom: 0;
+      z-index: 1;
+      background: rgba(255, 255, 255, 0.8);
+      text-align: center;
+    }
+    
+    ul {
+      li {
+        @include clearfix;
+        margin: 0 0 5px 0;
+        
+        &:last-child {
+          margin-bottom: 0;
+        }
+        
+        &.ln {
+          .left {
+            h1 {
+              color: #71c5ef;
+            }
+          }
+        }
+        
+        &.fb {
+          .left {
+            h1 {
+              color: #4962a4;
+            }
+          }
+        }
+        
+        .left {
+          width: 275px;
+          
+          .img {
+            float: left;
+            width: 40px;
+            height: 40px;
+            margin: 0 5px 0 0;
+            background: url(ico-person.png) no-repeat center center;
+            background-size: 40px 40px;
+          }
+          
+          h1 {
+            @include ellipsis;
+            
+            margin: 5px 0 0 0;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 14px;
+          }
+          
+          p {
+            @include ellipsis;
+            
+            font-size: 14px;
+            margin: 0;
+          }
+        }
+        
+        .right {
+          .btn {
+            margin: 9px 0 0 0;
+          }
+        }
+      }
+    }
+  }
+  
+  .filters {
+    margin: 10px 0 0 0;
+    
+    .btn {
+      width: 101px;
+    }
+  }
+}
