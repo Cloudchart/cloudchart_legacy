@@ -14,31 +14,6 @@ class PersonsController < ApplicationController
     end
   end
   
-  def create
-    # not_found unless can?(:update, @chart)
-    render json: { persons: [] } and return unless user_signed_in?
-    
-    # Create person by identifier
-    if params[:identifier]
-      type, external_id = params[:identifier].split(":")
-      params = case type
-      when "Linkedin"
-        current_user.linkedin_client.normalized_profile(external_id)
-      when "Facebook"
-        current_user.facebook_client.normalized_profile(external_id)
-      end
-      
-      current_user.persons.create(params.merge(type: type)) if params
-    end
-    
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: { persons: current_user.persons }
-      }
-    end
-  end
-  
   def search
     # not_found unless can?(:update, @chart)
     render json: { persons: [] } and return unless user_signed_in?
@@ -81,6 +56,39 @@ class PersonsController < ApplicationController
     respond_to do |format|
       format.json {
         render json: { persons: @persons }
+      }
+    end
+  end
+  
+  def create
+    # not_found unless can?(:update, @chart)
+    render json: { persons: [] } and return unless user_signed_in?
+    
+    # Create person by identifier
+    if params[:identifier]
+      current_user.persons.find_or_create_with_identifier(params[:identifier])
+    end
+    
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: { persons: current_user.persons }
+      }
+    end
+  end
+  
+  def show
+    # not_found unless can?(:update, @chart)
+    render json: { person: nil } and return unless user_signed_in?
+    
+    # Create person by identifier
+    person = current_user.persons.find_or_create_with_identifier(params[:id])
+    person.fetch!
+    
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: { person: person }
       }
     end
   end

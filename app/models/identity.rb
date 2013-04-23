@@ -1,5 +1,6 @@
 class Identity
   include Mongoid::Document
+  include Mongoid::Timestamps
   store_in collection: "identities"
   
   # Relations

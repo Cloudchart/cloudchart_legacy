@@ -1,5 +1,6 @@
 class Organization
   include Mongoid::Document
+  include Mongoid::Timestamps
   include Mongoid::Token
   store_in collection: "organizations"
   
