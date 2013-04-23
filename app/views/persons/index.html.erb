@@ -6,7 +6,7 @@
     } do |f|
   %>
     <%= f.input :local, as: :hidden, input_html: { value: false } %>
-    <%= f.input :q, as: :search, label: false, required: false, placeholder: t("persons.search"), input_html: { class: "input-xlarge search-query" } %>
+    <%= f.input :q, as: :search, label: false, required: false, placeholder: t("persons.search"), input_html: { class: "search-query" } %>
   <% end %>
   
   <div class="list" data-behavior="list">

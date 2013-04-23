@@ -22,9 +22,9 @@ class PersonsController < ApplicationController
     if params[:identifier]
       type, external_id = params[:identifier].split(":")
       params = case type
-      when "ln"
+      when "Linkedin"
         current_user.linkedin_client.normalized_profile(external_id)
-      when "fb"
+      when "Facebook"
         current_user.facebook_client.normalized_profile(external_id)
       end
       
@@ -67,13 +67,13 @@ class PersonsController < ApplicationController
       
       if current_user.linkedin?
         persons = current_user.linkedin_client.normalized_people_search(@query)
-        persons.map! { |x| Person.new({ type: "ln" }.merge(x)) }
+        persons.map! { |x| Person.linkedin.build(x) }
         @persons.concat(persons)
       end
       
       if current_user.facebook?
         persons = current_user.facebook_client.normalized_people_search(@query)
-        persons.map! { |x| Person.new({ type: "fb" }.merge(x)) }
+        persons.map! { |x| Person.facebook.build(x) }
         @persons.concat(persons)
       end
     end

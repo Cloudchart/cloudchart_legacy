@@ -14,6 +14,12 @@
   
   .form-search {
     margin: 0 0 10px 0;
+    
+    .search-query {
+      @include box-sizing(border-box);
+      width: 300px;
+      padding: 5px 10px;
+    }
   }
   
   .list {

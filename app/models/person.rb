@@ -6,8 +6,8 @@ class Person
   scope :ordered, order_by(:id.asc)
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
-  scope :linkedin, where(type: "ln")
-  scope :facebook, where(type: "fb")
+  scope :linkedin, where(type: "Linkedin")
+  scope :facebook, where(type: "Facebook")
   
   # Relations
   belongs_to :organization
@@ -80,10 +80,10 @@ class Person
   # External
   def fetch!
     case self.type
-    when "ln"
+    when "Linkedin"
       attrs = self.user.linkedin_client.normalized_profile(self.external_id)
       self.update_attributes(attrs)
-    when "fb"
+    when "Facebook"
       attrs = self.user.facebook_client.normalized_profile(self.external_id)
       self.update_attributes(attrs)
     end
