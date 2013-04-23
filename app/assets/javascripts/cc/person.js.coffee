@@ -92,10 +92,10 @@ class PersonsView
     @timeout = setTimeout(=>
       self = this
       
-      @loading()
       search_key = @value
       return if search_key == ""
       
+      @loading()
       $.ajax(url: @form.attr("action"), data: @form.serialize(), dataType: "json", type: @form.attr("method"))
         .always ->
           self.loading(false)
