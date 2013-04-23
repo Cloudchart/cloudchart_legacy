@@ -1,7 +1,7 @@
 <ul class="unstyled">
   {{#each persons}}
     {{#with this}}
-      <li class="{{type}}">
+      <li class="draggable-person {{type}}" data-behavior="draggable" data-picture="{{picture}}">
         <div class="left pull-left">
           <div class="img"{{#if picture}} style="background-image: url({{picture}})"{{/if}}></div>
           

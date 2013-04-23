@@ -146,6 +146,12 @@ class PersonsView
       )
     )
     
+    # Bind drag
+    @list.find("[data-behavior=draggable]").draggable(
+      helper: "clone"
+      appendTo: "body"
+    )
+    
 $.extend scope,
   # Person: Person,
   PersonsView: PersonsView

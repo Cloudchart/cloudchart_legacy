@@ -62,4 +62,5 @@ group :assets do
   gem "handlebars_assets"
 end
 
+gem "jquery-ui-rails"
 gem "twitter-bootstrap-rails"
