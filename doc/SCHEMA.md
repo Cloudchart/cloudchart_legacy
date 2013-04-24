@@ -8,6 +8,26 @@
 
 ```rspec spec/prototypes/organizations_spec.rb```
 
+**Persons**
+
+- ФИО (латиница, на родном языке) (**fb?**)
+- Национальность (**fb?**)
+- Визы (**fb?**)
+- Гражданство (**fb?**)
+- День рождения
+- Пол
+- Места (рождения, текущее)
+- Образования (какое, даты и т.п.)
+- Работа: компании, должности, зарплаты, проекты
+- Скиллы (**fb?**)
+- Биография
+- Контактная информация (**fb?**)
+- Соцсети (**fb?**)
+- Готов переехать (**fb?**)
+- Семейный статус
+- Семья
+- Картинка
+
 ## User
 
 - **Embeds many** authorizations
@@ -48,12 +68,21 @@
 - **Belongs to** organization
 - **Belongs to** user
 - **Has many** identities
-- provider [Enum: Linkedin, Facebook, …]
+- type [Enum: Linkedin, Facebook, …]
 - external_id [String]
+- profile_url [String]
+- picture_url [String]
 - first_name [String]
 - last_name [String]
-- picture [File]
-- …
+- birthday [Date]
+- gender [Enum: male, female]
+- hometown [String]
+- location [String]
+- education [Array[Hash[...]]]
+- work [Array[Hash[...]]]
+- description [String]
+- status [String]
+- family [Array[Hash[name,id,relationship]]]
 
 ## Node
 

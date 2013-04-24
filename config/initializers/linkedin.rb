@@ -1,6 +1,8 @@
 if !defined? LINKEDIN_KEY
   LINKEDIN_KEY = "3e3175t1pm1f"
   LINKEDIN_SECRET = "dLrM8zLoyGDfgX7d"
+  LINKEDIN_SCOPE = "r_basicprofile r_fullprofile r_emailaddress r_network"
+  
   LINKEDIN_FIELDS_MAPPING = {
     id: :id,
     first_name: :first_name,

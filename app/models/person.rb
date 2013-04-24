@@ -15,17 +15,31 @@ class Person
   belongs_to :user
   
   # Fields
-  field :type, type: String
+  ## General
+  field :type,        type: String
   field :external_id, type: String
-  field :first_name, type: String, default: ""
-  field :last_name, type: String, default: ""
-  field :picture_url, type: String
-  field :headline, type: String
-  field :description, type: String
   field :profile_url, type: String
-  field :note, type: String
+  field :picture_url, type: String
+  
+  ## Personal
+  field :first_name,  type: String, default: ""
+  field :last_name,   type: String, default: ""
+  field :birthday,    type: Date
+  field :gender,      type: String
+  field :hometown,    type: String
+  field :location,    type: String
+  
+  ## Education, work, bio
+  field :education,   type: Array
+  field :work,        type: Array
+  field :description, type: String
+  
+  ## Relationships
+  field :status,      type: String
+  field :family,      type: Array
   
   # Validations
+  validates :type, presence: true
   validates :external_id, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
@@ -71,11 +85,13 @@ class Person
   end
   
   def position
-    self.headline.split(/\sat\s/).first if self.headline && self.headline.match(/\sat\s/)
+    # self.headline.split(/\sat\s/).first if self.headline && self.headline.match(/\sat\s/)
+    ""
   end
   
   def company
-    self.headline.split(/\sat\s/).last if self.headline && self.headline.match(/\sat\s/)
+    # self.headline.split(/\sat\s/).last if self.headline && self.headline.match(/\sat\s/)
+    ""
   end
   
   # External
