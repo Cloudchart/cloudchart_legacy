@@ -42,6 +42,9 @@ class Person
   field :status,      type: String
   field :family,      type: Array
   
+  ## Flags
+  field :is_starred,  type: Boolean, default: false
+  
   # Validations
   validates :type, presence: true
   validates :external_id, presence: true
@@ -69,12 +72,15 @@ class Person
   def serializable_hash(options = {})
     super (options || {}).merge(
       except: [:_id, :picture_url],
-      methods: [:id, :identifier, :name, :picture, :employer, :position, :headline, :persisted]
+      methods: [
+        :id, :identifier, :name, :picture, :employer, :position, :headline,
+        :is_persisted, :is_starred
+      ]
     )
   end
   
   # Representation
-  def persisted
+  def is_persisted
     self.persisted?
   end
   

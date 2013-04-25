@@ -52,4 +52,28 @@ describe PersonsController do
       person.destroy
     end
   end
+  
+  describe "show" do
+    it "should return person" do
+      person = create :person
+      sign_in person.user
+      
+      get :show, { format: :json, id: person.identifier }
+      body = parse_json(response.body)
+      body.to_json.should be_json_eql({ person: person }.to_json)
+    end
+  end
+  
+  describe "update" do
+    it "should be able to mark person starred" do
+      person = create :person
+      sign_in person.user
+      
+      put :update, { format: :json, id: person.identifier, person: { is_starred: true } }
+      body = parse_json(response.body)
+      body.to_json.should be_json_eql({ person: person.reload }.to_json)
+      
+      person.is_starred.should be_true
+    end
+  end
 end

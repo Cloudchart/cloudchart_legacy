@@ -30,16 +30,15 @@ class PersonsView
     
     # List events
     self = this
-    @list.on("click", "[data-behavior=persistence]", ->
+    @list.on("click", "[data-behavior=star]", ->
       $this = $(this)
       $this.toggleClass("active")
+      $this.addClass("disabled")
       
-      if $this.hasClass("active")
-        $this.addClass("disabled")
-        
-        self.create({ identifier: $this.attr("data-identifier") }, ->
-          $this.removeClass("disabled")
-        )
+      resource_params = { is_starred: $this.hasClass("active") }
+      self.update({ id: $this.attr("data-identifier"), person: resource_params }, ->
+        $this.removeClass("disabled")
+      )
       
       false
     )
@@ -53,23 +52,10 @@ class PersonsView
     )
     
     # Load persons
-    @persons()
+    @index()
   
-  create: (params, callback) ->
-    self = this
-    
-    $.ajax(url: "/persons", data: params, dataType: "json", type: "POST")
-      .always ->
-        callback()
-        
-      .error (xhr, status, error) ->
-        console.error error
-      
-      .done (result) ->
-        self.persisted = result.persons
-        # self.render()
-      
-  persons: ->
+  # CRUD
+  index: ->
     self = this
     $.ajax(url: "/persons", dataType: "json", type: "GET")
       # .always ->
@@ -109,6 +95,35 @@ class PersonsView
             self.render(search_key)
     , 1000)
   
+  create: (params, callback) ->
+    self = this
+    
+    $.ajax(url: "/persons", data: params, dataType: "json", type: "POST")
+      .always ->
+        callback()
+        
+      .error (xhr, status, error) ->
+        console.error error
+      
+      .done (result) ->
+        self.persisted = result.persons
+        # self.render()
+  
+  update: (params, callback) ->
+    self = this
+    
+    $.ajax(url: "/persons/#{params.id}", data: params, dataType: "json", type: "PUT")
+      .always ->
+        callback()
+        
+      .error (xhr, status, error) ->
+        console.error error
+      
+      .done (result) ->
+        # self.persisted = result.persons
+        # self.render()
+  
+  # View
   loading: (flag = true) ->
     @is_loading = flag
     if @is_loading
@@ -135,7 +150,7 @@ class PersonsView
     # Remove duplicates
     identifiers = $.map(@persisted, (v) -> v.identifier )
     persons = $.grep(persons, (v) ->
-      return false if !v.persisted && $.inArray(v.identifier, identifiers) > -1
+      return false if !v.is_persisted && $.inArray(v.identifier, identifiers) > -1
       true
     )
     

@@ -64,7 +64,7 @@ class PersonsController < ApplicationController
     # not_found unless can?(:update, @chart)
     render json: { persons: [] } and return unless user_signed_in?
     
-    # Create person by identifier
+    # Find or create person by identifier
     if params[:identifier]
       current_user.persons.find_or_create_with_identifier(params[:identifier])
     end
@@ -81,9 +81,9 @@ class PersonsController < ApplicationController
     # not_found unless can?(:update, @chart)
     render json: { person: nil } and return unless user_signed_in?
     
-    # Create person by identifier
+    # Find or create person by identifier
     person = current_user.persons.find_or_create_with_identifier(params[:id])
-    person.fetch!
+    # person.fetch!
     
     respond_to do |format|
       format.html
@@ -92,4 +92,26 @@ class PersonsController < ApplicationController
       }
     end
   end
+  
+  def update
+    # not_found unless can?(:update, @chart)
+    render json: { person: nil } and return unless user_signed_in?
+    
+    # Find or create person by identifier
+    person = current_user.persons.find_or_create_with_identifier(params[:id])
+    person.update_attributes resource_params
+    
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: { person: person }
+      }
+    end
+  end
+  
+  private
+  
+    def resource_params
+      params[:person]
+    end
 end

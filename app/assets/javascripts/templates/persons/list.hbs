@@ -11,7 +11,9 @@
           {{/if}}
         </div>
         <div class="right pull-left">
-          <button class="btn btn-mini{{#if persisted}} active{{/if}}" data-behavior="persistence" data-identifier="{{identifier}}"></button>
+          <button class="btn btn-mini{{#if is_starred}} active{{/if}}" data-behavior="star" data-identifier="{{identifier}}">
+            <i class="icon icon-star"></i>
+          </button>
         </div>
       </li>
     {{/with}}
