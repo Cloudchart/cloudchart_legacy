@@ -127,11 +127,17 @@ class PersonsView
   loading: (flag = true) ->
     @is_loading = flag
     if @is_loading
-      @loader.show()
+      @loader.css(opacity: 1)
+      @loader.find(".bar").css(width: "10%")
       @list.addClass("loading")
     else
-      @loader.hide()
-      @list.removeClass("loading")
+      @loader.find(".bar").css(width: "100%")
+      
+      setTimeout(=>
+        @loader.css(opacity: 0)
+        @loader.find(".bar").css(width: "0%")
+        @list.removeClass("loading")
+      , 500)
   
   render: (search_key = null) ->
     search_key ?= @value
