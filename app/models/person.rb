@@ -57,17 +57,19 @@ class Person
   include Tire::Model::Callbacks
   mapping do
     indexes :id,           index:     :not_analyzed
-    indexes :name,         analyzer:  'standard'
+    indexes :name,         analyzer:  "standard", boost: 100
+    indexes :employer,     analyzer:  "standard", boost: 50
+    indexes :position,     analyzer:  "standard", boost: 50
   end
   def to_indexed_json
-    { id: self.id, name: self.name }.to_json
+    { id: self.id, name: self.name, employer: self.employer, position: self.position }.to_json
   end
   
   # Fields
   def serializable_hash(options = {})
     super (options || {}).merge(
       except: [:_id, :picture_url],
-      methods: [:id, :identifier, :name, :picture, :headline, :position, :employer, :persisted]
+      methods: [:id, :identifier, :name, :picture, :employer, :position, :headline, :persisted]
     )
   end
   
