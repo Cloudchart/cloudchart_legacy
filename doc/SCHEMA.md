@@ -10,22 +10,22 @@
 
 **Persons**
 
-- ФИО (латиница, на родном языке) (**fb?**)
-- Национальность (**fb?**)
-- Визы (**fb?**)
-- Гражданство (**fb?**)
+- ФИО (латиница, на родном языке) (**fb?, ln?**)
+- Национальность (**fb?, ln?**)
+- Визы (**fb?, ln?**)
+- Гражданство (**fb?, ln?**)
 - День рождения
-- Пол
-- Места (рождения, текущее)
+- Пол (**ln?**)
+- Места (рождения, текущее) (**ln?**)
 - Образования (какое, даты и т.п.)
 - Работа: компании, должности, зарплаты, проекты
 - Скиллы (**fb?**)
 - Биография
 - Контактная информация (**fb?**)
-- Соцсети (**fb?**)
-- Готов переехать (**fb?**)
-- Семейный статус
-- Семья
+- Соцсети (**fb?, ln?**)
+- Готов переехать (**fb?, ln?**)
+- Семейный статус (**ln?**)
+- Семья (**ln?**)
 - Картинка
 
 ## User
@@ -78,9 +78,11 @@
 - gender [Enum: male, female]
 - hometown [String]
 - location [String]
-- education [Array[Hash[...]]]
-- work [Array[Hash[...]]]
+- education [Array[Hash[name,type?,degree?,concentration?,start_year?,end_year?]]]
+- work [Array[Hash[employer(id?,name),position,description?,start_date?,end_date?]]]
+- skills [Array[String]]
 - description [String]
+- phones [Array[Hash[type, number]]]
 - status [String]
 - family [Array[Hash[name,id,relationship]]]
 

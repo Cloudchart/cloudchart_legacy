@@ -68,21 +68,45 @@ if !defined? FACEBOOK_KEY
           end
           
           # Birthday
-          attrs[:birthday] = Date.strptime(attrs[:birthday], "%m/%d/%Y") if attrs[:birthday]
+          attrs[:birthday] = Date.strptime(attrs[:birthday], "%m/%d/%Y") rescue nil if attrs[:birthday]
           
           # Locations
           [:hometown, :location].each do |k|
             attrs[k] = attrs[k]["name"] if attrs[k]
           end
           
-          # TODO: Education, work
-          attrs.delete(:education)
-          attrs.delete(:work)
+          # Education
+          if attrs[:education]
+            educations = attrs[:education]
+            attrs[:education] = educations.map { |x|
+              education = {}
+              education[:type] = x["type"] if x["type"]
+              education[:name] = x["school"]["name"] if x["school"]
+              education[:degree] = x["degree"]["name"] if x["degree"]
+              education[:concentration] = x["concentration"].map { |c| c["name"] }.join(", ") if x["concentration"]
+              education[:end_year] = x["year"]["name"].to_i if x["year"]
+              education.stringify_keys
+            }
+          end
+          
+          # Work
+          if attrs[:work]
+            works = attrs[:work]
+            attrs[:work] = works.map { |x|
+              work = {}
+              work[:employer] = { id: x["employer"]["id"], name: x["employer"]["name"] }.stringify_keys if x["employer"]
+              work[:position] = x["position"]["name"] if x["position"]
+              work[:description] = x["description"] if x["description"]
+              work[:start_date] = x["start_date"] if x["start_date"]
+              work[:end_date] = x["end_date"] if x["end_date"]
+              work.stringify_keys
+            }
+          end
           
           # Family
           attrs[:family] = attrs[:family]["data"] if attrs[:family]
           
-          attrs
+          attrs.stringify_keys
         end
       end
     end

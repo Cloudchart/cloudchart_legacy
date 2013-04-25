@@ -29,10 +29,14 @@ class Person
   field :hometown,    type: String
   field :location,    type: String
   
-  ## Education, work, bio
+  ## Education, work, skills, bio
   field :education,   type: Array
   field :work,        type: Array
+  field :skills,      type: Array
   field :description, type: String
+  
+  ## Contacts, networks
+  field :phones,      type: Array
   
   ## Relationships
   field :status,      type: String
@@ -63,7 +67,7 @@ class Person
   def serializable_hash(options = {})
     super (options || {}).merge(
       except: [:_id, :picture_url],
-      methods: [:id, :identifier, :name, :picture, :position, :company, :persisted]
+      methods: [:id, :identifier, :name, :picture, :headline, :position, :employer, :persisted]
     )
   end
   
@@ -84,14 +88,20 @@ class Person
     @picture ||= self.picture_url
   end
   
-  def position
-    # self.headline.split(/\sat\s/).first if self.headline && self.headline.match(/\sat\s/)
-    ""
+  def recent_work
+    @recent_work ||= self.work.try(:first)
   end
   
-  def company
-    # self.headline.split(/\sat\s/).last if self.headline && self.headline.match(/\sat\s/)
-    ""
+  def position
+    self.recent_work["position"] if self.recent_work
+  end
+  
+  def employer
+    self.recent_work["employer"]["name"] if self.recent_work
+  end
+  
+  def headline
+    "#{self.position} at #{self.employer}" if self.recent_work
   end
   
   # External
