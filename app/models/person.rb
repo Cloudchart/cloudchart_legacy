@@ -7,11 +7,15 @@ class Person
   scope :ordered, order_by(:id.asc)
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
+  scope :used, -> { all.ne(used_organization_ids: []) }
+  scope :unused, -> { all.where(used_organization_ids: []) }
+  
   scope :linkedin, where(type: "Linkedin")
   scope :facebook, where(type: "Facebook")
   
   # Relations
-  belongs_to :organization
+  has_and_belongs_to_many :added_organizations, class_name: "Organization", inverse_of: "added_persons"
+  has_and_belongs_to_many :used_organizations, class_name: "Organization", inverse_of: "used_persons"
   belongs_to :user
   
   # Fields
@@ -68,6 +72,12 @@ class Person
     { id: self.id, name: self.name, employer: self.employer, position: self.position }.to_json
   end
   
+  # Callbacks
+  before_save {
+    self.added_organization_ids = [] if self.added_organization_ids.nil?
+    self.used_organization_ids = [] if self.used_organization_ids.nil?
+  }
+  
   # Fields
   def serializable_hash(options = {})
     super (options || {}).merge(
@@ -110,6 +120,17 @@ class Person
   
   def headline
     "#{self.position} at #{self.employer}" if self.recent_work
+  end
+  
+  # Organization
+  def add_to_organization(organization)
+    ids = self.added_organization_ids + self.used_organization_ids
+    self.added_organizations.push(organization) unless ids.include?(organization.id)
+  end
+  
+  def use_in_organization(organization)
+    self.added_organizations.delete(organization)
+    self.used_organizations.push(organization)
   end
   
   # External

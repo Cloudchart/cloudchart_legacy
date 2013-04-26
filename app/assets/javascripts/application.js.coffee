@@ -22,7 +22,15 @@ $ ->
     $("[data-behavior=droppable]").droppable(
       hoverClass: "active"
       drop: (event, ui) ->
-        picture = ui.draggable.attr("data-picture")
+        $this = ui.draggable
+        identifier = $this.attr("data-identifier")
+        picture = $this.attr("data-picture")
+        
         node = $('<div class="img"></div>').appendTo(this)
         node.css(backgroundImage: "url(#{picture})") if picture
+        
+        # Mark person as used
+        container.data("personsView").update(id: identifier, used: true, ->
+          alert("Used!")
+        )
     )

@@ -16,6 +16,7 @@ class PersonsView
     @loader = @container.find("[data-behavior=loader]")
     
     # Properties
+    @path = @container.attr("data-path")
     @is_loading = false
     @value = ""
     @results = {}
@@ -36,7 +37,9 @@ class PersonsView
       $this.addClass("disabled")
       
       resource_params = { is_starred: $this.hasClass("active") }
-      self.update({ id: $this.attr("data-identifier"), person: resource_params }, ->
+      identifier = $this.closest("[data-identifier]").attr("data-identifier")
+      
+      self.update({ id: identifier, person: resource_params }, ->
         $this.removeClass("disabled")
       )
       
@@ -48,6 +51,10 @@ class PersonsView
       $this = $(this)
       $this.toggleClass("active")
       
+      self.input.val("")
+      self.input.trigger("textchange")
+      
+      self.index()
       false
     )
     
@@ -57,7 +64,11 @@ class PersonsView
   # CRUD
   index: ->
     self = this
-    $.ajax(url: "/persons", dataType: "json", type: "GET")
+    params = {
+      filters: $.map(@container.find("[data-behavior=filter].active"), (filter) -> $(filter).attr("data-filter"))
+    }
+    
+    $.ajax(url: @path, data: params, dataType: "json", type: "GET")
       # .always ->
       #   
       .error (xhr, status, error) ->
@@ -95,24 +106,10 @@ class PersonsView
             self.render(search_key)
     , 1000)
   
-  create: (params, callback) ->
-    self = this
-    
-    $.ajax(url: "/persons", data: params, dataType: "json", type: "POST")
-      .always ->
-        callback()
-        
-      .error (xhr, status, error) ->
-        console.error error
-      
-      .done (result) ->
-        self.persisted = result.persons
-        # self.render()
-  
   update: (params, callback) ->
     self = this
     
-    $.ajax(url: "/persons/#{params.id}", data: params, dataType: "json", type: "PUT")
+    $.ajax(url: "#{@path}/#{params.id}", data: params, dataType: "json", type: "PUT")
       .always ->
         callback()
         
@@ -120,6 +117,7 @@ class PersonsView
         console.error error
       
       .done (result) ->
+        self.index()
         # self.persisted = result.persons
         # self.render()
   

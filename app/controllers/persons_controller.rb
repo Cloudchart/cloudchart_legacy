@@ -1,15 +1,24 @@
 class PersonsController < ApplicationController
   def index
     if user_signed_in?
-      @persons = current_user.persons
-    else
-      @persons = []
+      if params[:filters]
+        if params[:filters].include?("all")
+          @persons = current_user.persons
+        else
+          @persons = @organization.persons
+        end
+        
+        @persons = @persons.used if params[:filters].include?("used") && !params[:filters].include?("unused")
+        @persons = @persons.unused if params[:filters].include?("unused") && !params[:filters].include?("used")
+      else
+        @persons = @organization.persons
+      end
     end
     
     respond_to do |format|
       format.html
       format.json {
-        render json: { persons: @persons }
+        render json: { persons: @persons || [] }
       }
     end
   end
@@ -60,30 +69,13 @@ class PersonsController < ApplicationController
     end
   end
   
-  def create
-    # not_found unless can?(:update, @chart)
-    render json: { persons: [] } and return unless user_signed_in?
-    
-    # Find or create person by identifier
-    if params[:identifier]
-      current_user.persons.find_or_create_with_identifier(params[:identifier])
-    end
-    
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: { persons: current_user.persons }
-      }
-    end
-  end
-  
   def show
     # not_found unless can?(:update, @chart)
     render json: { person: nil } and return unless user_signed_in?
     
     # Find or create person by identifier
     person = current_user.persons.find_or_create_with_identifier(params[:id])
-    # person.fetch!
+    person.add_to_organization(@organization)
     
     respond_to do |format|
       format.html
@@ -99,7 +91,13 @@ class PersonsController < ApplicationController
     
     # Find or create person by identifier
     person = current_user.persons.find_or_create_with_identifier(params[:id])
-    person.update_attributes resource_params
+    person.add_to_organization(@organization)
+    person.update_attributes(resource_params)
+    
+    # Mark as used
+    if params[:used]
+      person.use_in_organization(@organization)
+    end
     
     respond_to do |format|
       format.html
@@ -111,6 +109,12 @@ class PersonsController < ApplicationController
   
   private
   
+    def preload
+      super
+      
+      @organization = Organization.find(params[:organization_id])
+    end
+    
     def resource_params
       params[:person]
     end

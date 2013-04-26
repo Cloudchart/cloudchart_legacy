@@ -1,7 +1,7 @@
 <ul class="unstyled">
   {{#each persons}}
     {{#with this}}
-      <li class="draggable-person {{type}}" data-behavior="draggable" data-picture="{{picture}}">
+      <li class="draggable-person {{type}}" data-behavior="draggable" data-identifier="{{identifier}}" data-picture="{{picture}}">
         <div class="left pull-left">
           <div class="img"{{#if picture}} style="background-image: url({{picture}})"{{/if}}></div>
           
@@ -11,7 +11,7 @@
           {{/if}}
         </div>
         <div class="right pull-left">
-          <button class="btn btn-mini{{#if is_starred}} active{{/if}}" data-behavior="star" data-identifier="{{identifier}}">
+          <button class="btn btn-mini{{#if is_starred}} active{{/if}}" data-behavior="star">
             <i class="icon icon-star"></i>
           </button>
         </div>

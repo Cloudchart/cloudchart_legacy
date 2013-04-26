@@ -1,9 +1,11 @@
 Cloudchart::Application.routes.draw do
   # App
-  resources :nodes, only: [:index, :show, :update]
-  resources :persons do
-    collection do
-      get :search
+  resources :organizations do
+    resources :nodes, only: [:index, :show, :update]
+    resources :persons do
+      collection do
+        get :search
+      end
     end
   end
   
