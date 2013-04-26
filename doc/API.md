@@ -55,6 +55,10 @@ Node.find(…).ensure_parent(Node.find(...), { type: "direct" })
 
 ## JSON API
 
+### Organizations
+
+Includes nested **nodes** and **persons**.
+
 ### Nodes
 
 **Description**
@@ -70,7 +74,7 @@ Returns a list of chart-type nodes for user.
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/nodes.json
+curl -X GET http://cloudchart.dev/organizations/{id}/nodes.json
 ```
 
 **Sample Response**
@@ -103,7 +107,7 @@ Returns a subtree information for specific node. Includes:
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
+curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000002.json
 ```
 
 **Sample Response**
@@ -188,7 +192,7 @@ Allows to update subtree structure. Requires full data dump, including:
 **Sample Queries**
 
 ```
-curl -X PUT http://cloudchart.dev/nodes/515abdf44660f3d5fc000002.json
+curl -X PUT http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000002.json
 ```
 
 **Sample Response**
@@ -216,7 +220,7 @@ Returns a list of stored persons for user.
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/persons.json
+curl -X GET http://cloudchart.dev/organizations/{id}/persons.json
 ```
 
 **Sample Response**
@@ -260,7 +264,7 @@ Returns a person search results.
 **Sample Queries**
 
 ```
-curl -X GET http://cloudchart.dev/persons/search.json?q=Anton
+curl -X GET http://cloudchart.dev/organizations/{id}/persons/search.json?q=Anton
 ```
 
 **Sample Response**

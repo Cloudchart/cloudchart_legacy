@@ -1,8 +1,6 @@
 FactoryGirl.define do
   factory :person do
-    organization
     user
-    
     type { ["Linkedin", "Facebook"].sample }
     external_id { Faker.numerify("######") }
     first_name { Faker::Name.name.split(" ").first }

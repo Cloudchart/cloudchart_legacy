@@ -56,18 +56,20 @@
 ## Organization
 
 - **Has many** accesses
-- **Has many** persons
 - **Has many** nodes
 - **Has many** links
+- **Has and belongs to many** added_persons (class: Person)
+- **Has and belongs to many** used_persons (class: Person)
 - title [String]
 - token [String]
 - …
 
 ## Person
 
-- **Belongs to** organization
+- **Has and belongs to many** added_organizations (class: Organization)
+- **Has and belongs to many** used_organizations (class: Organization)
 - **Belongs to** user
-- **Has many** identities
+- ? **Has many** identities
 - type [Enum: Linkedin, Facebook, …]
 - external_id [String]
 - profile_url [String]
@@ -111,7 +113,7 @@
 
 - **Belongs to** node
 - type [Enum: employee, freelancer, vacancy]
-- entity_id [ObjectId: person_id, ...]
+- entity_id [ObjectId: Person#id, ...]
 - title [String]
 - position [String]
 - …

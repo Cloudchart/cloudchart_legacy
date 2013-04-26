@@ -19,6 +19,8 @@ class Person
   belongs_to :user
   
   # Fields
+  attr_accessor :organization
+  
   ## General
   field :type,        type: String
   field :external_id, type: String
@@ -74,6 +76,9 @@ class Person
   
   # Callbacks
   before_save {
+    # Check organization
+    self.add_to_organization(self.organization) if self.organization
+    
     self.added_organization_ids = [] if self.added_organization_ids.nil?
     self.used_organization_ids = [] if self.used_organization_ids.nil?
   }

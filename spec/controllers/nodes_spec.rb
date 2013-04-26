@@ -5,7 +5,7 @@ describe NodesController do
     it "should return index without parameters" do
       chart = create_chart
       
-      get :index, { format: :json }
+      get :index, { format: :json, organization_id: chart.organization.id }
       body = parse_json(response.body)
       body.first.to_json.should be_json_eql(chart.to_json)
     end
@@ -22,7 +22,7 @@ describe NodesController do
         identities: chart.descendant_identities_and_self
       }
       
-      get :show, { format: :json, id: chart.id }
+      get :show, { format: :json, organization_id: chart.organization.id, id: chart.id }
       body = parse_json(response.body)
       body.to_json.should be_json_eql(expected.to_json)
     end
@@ -44,7 +44,7 @@ describe NodesController do
         identities: node2.descendant_identities_and_self
       }
       
-      get :show, { format: :json, id: node2.id }
+      get :show, { format: :json, organization_id: chart.organization.id, id: node2.id }
       body = parse_json(response.body)
       body.to_json.should be_json_eql(expected.to_json)
     end
@@ -112,7 +112,7 @@ describe NodesController do
       expected[:links] << link
       
       # Update
-      put :update, { format: :json, id: chart.id, node: {
+      put :update, { format: :json, organization_id: chart.organization.id, id: chart.id, node: {
         nodes: expected[:nodes],
         links: expected[:links],
         identities: expected[:identities]
@@ -123,7 +123,7 @@ describe NodesController do
       response.status.should be_eql(200)
       
       # Check
-      get :show, { format: :json, id: chart.id }
+      get :show, { format: :json, organization_id: chart.organization.id, id: chart.id }
       body = parse_json(response.body)
       body.to_json.should be_json_eql(expected.to_json).excluding("child_node_id")
       
@@ -154,7 +154,7 @@ describe NodesController do
       expected[:nodes] << node
       
       # Update
-      put :update, { format: :json, id: chart.id, node: {
+      put :update, { format: :json, organization_id: chart.organization.id, id: chart.id, node: {
         nodes: expected[:nodes],
         links: expected[:links],
         identities: expected[:identities]
@@ -184,7 +184,7 @@ describe NodesController do
       expected[:links] << link
       
       # Update
-      put :update, { format: :json, id: chart.id, node: {
+      put :update, { format: :json, organization_id: chart.organization.id, id: chart.id, node: {
         nodes: expected[:nodes],
         links: expected[:links],
         identities: expected[:identities]
