@@ -258,8 +258,8 @@ Returns a person search results.
 
 **Parameters**
 
-- ```search[q]``` — [String] Search query
-- ```search[local]``` — [Boolean] Include local search results
+- ```search[query]``` — [String] Search query
+- ```search[provider]``` — [String] "Local" or API name
 
 **Sample Queries**
 

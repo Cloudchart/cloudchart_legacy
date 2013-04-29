@@ -59,6 +59,7 @@ if !defined? LINKEDIN_KEY
         
         def normalize_profile(fetched)
           attrs = Hash[LINKEDIN_FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
+          attrs[:type] = "Linkedin"
           attrs.delete(nil)
           
           # Picture

@@ -11,14 +11,7 @@ class User
   # Relations
   # belongs_to :invitation
   # has_many :accesses, dependent: :destroy
-  has_many :persons do
-    def find_or_create_with_identifier(identifier)
-      type, external_id = identifier.split(":")
-      person = where(type: type, external_id: external_id).first_or_initialize
-      person.fetch! if person.new_record?
-      person
-    end
-  end
+  has_many :persons
 
   ## Omniauthable
   embeds_many :authorizations do
@@ -87,6 +80,10 @@ class User
 
   def god?
     Rails.env.development? ? true : self.is_god
+  end
+  
+  def providers
+    self.authorizations.map(&:provider)
   end
   
   # Clients

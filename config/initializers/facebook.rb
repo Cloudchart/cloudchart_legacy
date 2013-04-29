@@ -60,6 +60,7 @@ if !defined? FACEBOOK_KEY
         
         def normalize_profile(fetched)
           attrs = Hash[FACEBOOK_FIELDS_MAPPING.map { |k, v| [v, fetched[k.to_s]] }]
+          attrs[:type] = "Facebook"
           attrs.delete(nil)
           
           # Picture

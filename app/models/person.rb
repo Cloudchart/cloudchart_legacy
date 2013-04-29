@@ -83,6 +83,36 @@ class Person
     self.used_organization_ids = [] if self.used_organization_ids.nil?
   }
   
+  # Class methods
+  def self.identifier(params)
+    "#{params["type"]}:#{params["external_id"]}"
+  end
+  
+  def self.find_or_create_with_identifier(identifier, current_user)
+    type, external_id = identifier.split(":")
+    person = self.where(type: type, external_id: external_id).first_or_initialize
+    
+    # Get data and set user_id
+    if person.new_record?
+      person.user_id = current_user.id
+      person.fetch!
+    end
+    
+    person
+  end
+  
+  def self.find_or_create_with_params(params, current_user)
+    person = self.where(type: params["type"], external_id: params["external_id"]).first_or_initialize
+    
+    # Set data and user_id
+    if person.new_record?
+      person.user_id = current_user.id
+      person.update_attributes(params) if person.new_record?
+    end
+    
+    person
+  end
+  
   # Fields
   def serializable_hash(options = {})
     super (options || {}).merge(

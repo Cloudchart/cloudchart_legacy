@@ -29,36 +29,33 @@ class PersonsController < ApplicationController
     
     # Search
     @persons = []
-    @query = params[:search][:q].to_s.strip.gsub(/[^([:alnum:]|\.\s)]/, "")
+    @query = params[:search][:query].to_s.strip.gsub(/[^([:alnum:]|\.\s)]/, "")
     
     if @query.present?
-      if params[:search][:local] != "false"
-        begin
-          persons = Person.search({ load: true, page: params[:page], per_page: 20 }) { |search|
-            search.query { |query|
-              query.string @query
-            }
-            
-            # search.sort  { |sort|
-            #   sort.by :created_at, "desc"
-            # }
-          }
-          @persons.concat(persons.to_a)
-        # rescue Tire::Search::SearchRequestFailed => e
-        #   redirect_to root_path, alert: e.message and return
+      case params[:search][:provider]
+      when "Linkedin"
+        if current_user.linkedin?
+          persons = current_user.linkedin_client.normalized_people_search(@query)
+          persons.map! { |x| Person.find_or_create_with_params(x, current_user) }
+          @persons.concat(persons)
         end
-      end
-      
-      if current_user.linkedin?
-        persons = current_user.linkedin_client.normalized_people_search(@query)
-        persons.map! { |x| Person.linkedin.build(x) }
-        @persons.concat(persons)
-      end
-      
-      if current_user.facebook?
-        persons = current_user.facebook_client.normalized_people_search(@query)
-        persons.map! { |x| Person.facebook.build(x) }
-        @persons.concat(persons)
+      when "Facebook"
+        if current_user.facebook?
+          persons = current_user.facebook_client.normalized_people_search(@query)
+          persons.map! { |x| Person.find_or_create_with_params(x, current_user) }
+          @persons.concat(persons)
+        end
+      else
+        begin
+          persons = Person.search(load: true, page: params[:page], per_page: 20) do |search|
+            search.query { |query| query.string @query }
+            # search.sort  { |sort| sort.by :created_at, "desc" }
+          end
+          
+          @persons.concat(persons.to_a)
+        rescue Tire::Search::SearchRequestFailed
+          
+        end
       end
     end
     
@@ -74,7 +71,7 @@ class PersonsController < ApplicationController
     render json: { person: nil } and return unless user_signed_in?
     
     # Find or create person by identifier
-    person = current_user.persons.find_or_create_with_identifier(params[:id])
+    person = Person.find_or_create_with_identifier(params[:id], current_user)
     person.add_to_organization(@organization)
     
     respond_to do |format|
@@ -90,7 +87,7 @@ class PersonsController < ApplicationController
     render json: { person: nil } and return unless user_signed_in?
     
     # Find or create person by identifier
-    person = current_user.persons.find_or_create_with_identifier(params[:id])
+    person = Person.find_or_create_with_identifier(params[:id], current_user)
     person.add_to_organization(@organization)
     person.update_attributes(resource_params)
     

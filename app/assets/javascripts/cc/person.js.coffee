@@ -11,7 +11,7 @@ class PersonsView
     # Elements
     @container = attributes.container
     @form = @container.find("[data-behavior=form]")
-    @input = @form.find("input[name='search[q]']")
+    @input = @form.find("input[name='search[query]']")
     @list = @container.find("[data-behavior=list]")
     @loader = @container.find("[data-behavior=loader]")
     
@@ -19,8 +19,11 @@ class PersonsView
     @path = @container.attr("data-path")
     @is_loading = false
     @value = ""
+    @providers = @container.attr("data-providers").split(",")
+    
+    # Person collections
     @results = {}
-    @persisted = []
+    @loaded = []
     
     # Bind events
     @form.on("submit", false)
@@ -75,7 +78,7 @@ class PersonsView
         console.error error
       
       .done (result) ->
-        self.persisted = result.persons
+        self.store(result.persons)
         self.render()
   
   search: ->
@@ -92,18 +95,30 @@ class PersonsView
       search_key = @value
       return if search_key == ""
       
-      @loading()
-      $.ajax(url: @form.attr("action"), data: @form.serialize(), dataType: "json", type: @form.attr("method"))
-        .always ->
-          self.loading(false)
+      # Start loading
+      @loading(10)
+      
+      # Async requests for each provider
+      @providers.forEach (provider) =>
+        @form.find("input[name='search[provider]']").val(provider)
+        data = @form.serialize()
+        @form.find("input[name='search[provider]']").val("Local")
         
-        .error (xhr, status, error) ->
+        $.ajax(
+          url: @form.attr("action"),
+          data: data,
+          dataType: "json",
+          type: @form.attr("method")
+        ).always(->
+          progress = Math.round(90/self.providers.length)
+          self.loading(self.progress+progress)
+        ).error((xhr, status, error) ->
           console.error error
-        
-        .done (result) ->
-          self.results[search_key] = result.persons
+        ).done((result) ->
+          self.store(result.persons, search_key)
           if search_key == self.value
             self.render(search_key)
+        )
     , 1000)
   
   update: (params, callback) ->
@@ -117,16 +132,17 @@ class PersonsView
         console.error error
       
       .done (result) ->
-        self.index()
-        # self.persisted = result.persons
-        # self.render()
+        self.store([result.person])
+        self.render()
   
   # View
-  loading: (flag = true) ->
-    @is_loading = flag
+  loading: (progress = 0) ->
+    @is_loading = progress < 100
+    @progress = if @is_loading then progress else 0
+    
     if @is_loading
       @loader.css(opacity: 1)
-      @loader.find(".bar").css(width: "10%")
+      @loader.find(".bar").css(width: "#{progress}%")
       @list.addClass("loading")
     else
       @loader.find(".bar").css(width: "100%")
@@ -135,24 +151,34 @@ class PersonsView
         @loader.css(opacity: 0)
         @loader.find(".bar").css(width: "0%")
         @list.removeClass("loading")
-      , 500)
+      , 400)
+  
+  store: (persons, search_key = null) ->
+    storage  = if search_key then @results[search_key] else @loaded
+    storage ?= []
+    
+    storage = storage.concat(persons)
+    if search_key
+      @results[search_key] = storage
+    else
+      @loaded = storage
   
   render: (search_key = null) ->
     search_key ?= @value
     search_exp = new RegExp(RegExp.escape(search_key), "ig")
     
-    # Search through persisted persons
-    persons = $.grep(@persisted, (v) ->
+    # Search through loaded persons
+    persons = $.grep(@loaded, (v) ->
       return true if search_key == ""
       v.name.match(search_exp)
     )
     
     # Merge with search results
     results = @results[search_key]
-    persons = persons.concat(results) if results && results[0]
+    persons = persons.concat(results) if results && results.length > 0
     
     # Remove duplicates
-    identifiers = $.map(@persisted, (v) -> v.identifier )
+    identifiers = $.map(@loaded, (v) -> v.identifier )
     persons = $.grep(persons, (v) ->
       return false if !v.is_persisted && $.inArray(v.identifier, identifiers) > -1
       true

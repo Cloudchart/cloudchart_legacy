@@ -20,7 +20,7 @@ describe PersonsController do
       person.index.refresh
       sign_in person.user
       
-      get :search, { format: :json, organization_id: organization.id, search: { q: person.first_name } }
+      get :search, { format: :json, organization_id: organization.id, search: { query: person.first_name } }
       body = parse_json(response.body)
       body.to_json.should be_json_eql({ persons: [person] }.to_json)
       
@@ -35,7 +35,7 @@ describe PersonsController do
       other_person.index.refresh
       sign_in person.user
       
-      get :search, { format: :json, organization_id: organization.id, search: { q: person.employer } }
+      get :search, { format: :json, organization_id: organization.id, search: { query: person.employer } }
       body = parse_json(response.body)
       body.to_json.should be_json_eql({ persons: [person, other_person] }.to_json)
       
@@ -49,7 +49,7 @@ describe PersonsController do
       person.index.refresh
       sign_in person.user
       
-      get :search, { format: :json, organization_id: organization.id, search: { q: "#{person.first_name} #{person.employer}" } }
+      get :search, { format: :json, organization_id: organization.id, search: { query: "#{person.first_name} #{person.employer}" } }
       body = parse_json(response.body)
       body.to_json.should be_json_eql({ persons: [person] }.to_json)
       

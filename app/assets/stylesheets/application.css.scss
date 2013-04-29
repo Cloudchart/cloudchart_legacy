@@ -7,6 +7,7 @@
 @import "compass/utilities/text/ellipsis";
 @import "compass/css3/opacity";
 @import "compass/css3/box-sizing";
+@import "compass/css3/transition";
 
 /* Persons */
 .persons {
@@ -27,6 +28,10 @@
     @include opacity(0);
     height: 5px;
     margin: 0 0 5px 0;
+    
+    .bar {
+      @include transition-duration(0.4s);
+    }
   }
   
   .list {
