@@ -11,9 +11,11 @@
           {{/if}}
         </div>
         <div class="right pull-left">
+          {{#unless is_used}}
           <button class="btn btn-mini{{#if is_starred}} active{{/if}}" data-behavior="star">
             <i class="icon icon-star"></i>
           </button>
+          {{/unless}}
         </div>
       </li>
     {{/with}}

@@ -181,20 +181,17 @@ class PersonsView
     search_exp = new RegExp(RegExp.escape(search_key), "ig")
     
     # Search through loaded persons
+    identifiers = $.map(@loaded, (v) -> v.identifier )
     persons = $.grep(@loaded, (v) ->
       return true if search_key == ""
       v.name.match(search_exp)
     )
     
     # Merge with search results
-    results = @results[search_key]
-    persons = persons.concat(results) if results && results.length > 0
-    
-    # Remove duplicates
-    identifiers = $.map(@loaded, (v) -> v.identifier )
-    persons = $.grep(persons, (v) ->
-      return false if !v.is_persisted && $.inArray(v.identifier, identifiers) > -1
-      true
+    results = @results[search_key] || []
+    results.forEach((v) ->
+      if $.inArray(v.identifier, identifiers) == -1
+        persons.push(v)
     )
     
     @list.find("ul").remove()

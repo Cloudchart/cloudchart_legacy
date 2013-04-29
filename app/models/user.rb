@@ -86,6 +86,12 @@ class User
     self.authorizations.map(&:provider)
   end
   
+  # TODO: Unmock
+  def identities
+    # Identity.in(organization_id: self.organizations.map(&:id))
+    Identity.in(organization_id: Organization.all.map(&:id))
+  end
+  
   # Clients
   def linkedin
     @linkedin ||= self.authorizations.where(provider: "Linkedin").first

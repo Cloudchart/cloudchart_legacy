@@ -11,14 +11,7 @@ class Organization
     end
   end
   has_many :links, dependent: :destroy
-  
-  # Persons
-  has_and_belongs_to_many :added_persons, class_name: "Person", inverse_of: "added_organizations"
-  has_and_belongs_to_many :used_persons, class_name: "Person", inverse_of: "used_organizations"
-  
-  def persons
-    Person.in(id: self.added_person_ids + self.used_person_ids)
-  end
+  has_many :identities, dependent: :destroy
   
   # Fields
   attr_accessible :title

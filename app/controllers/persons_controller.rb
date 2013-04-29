@@ -3,22 +3,22 @@ class PersonsController < ApplicationController
     if user_signed_in?
       if params[:filters]
         if params[:filters].include?("all")
-          @persons = current_user.persons
+          @persons = current_user.identities
         else
-          @persons = @organization.persons
+          @persons = @organization.identities
         end
         
         @persons = @persons.used if params[:filters].include?("used") && !params[:filters].include?("unused")
         @persons = @persons.unused if params[:filters].include?("unused") && !params[:filters].include?("used")
       else
-        @persons = @organization.persons
+        @persons = @organization.identities
       end
     end
     
     respond_to do |format|
       format.html
       format.json {
-        render json: { persons: @persons || [] }
+        render json: { persons: @persons.map(&:to_person) || [] }
       }
     end
   end
@@ -88,18 +88,33 @@ class PersonsController < ApplicationController
     
     # Find or create person by identifier
     person = Person.find_or_create_with_identifier(params[:id], current_user)
-    person.add_to_organization(@organization)
-    person.update_attributes(resource_params)
+    identity = person.add_to_organization(@organization)
+    
+    # Update identity
+    is_starred = resource_params.delete(:is_starred)
+    if !is_starred.nil?
+      identity.set(:is_starred, is_starred)
+    end
     
     # Mark as used
-    if params[:used]
-      person.use_in_organization(@organization)
+    # TODO: Unmock
+    is_used = resource_params.delete(:is_used)
+    if is_used
+      person.use_in_organization(@organization, Node.new)
+    end
+    
+    # Update person
+    if resource_params.any?
+      person.update_attributes(resource_params)
+      
+      # Reload nested person
+      identity.entity.reload
     end
     
     respond_to do |format|
       format.html
       format.json {
-        render json: { person: person }
+        render json: { person: identity.to_person }
       }
     end
   end

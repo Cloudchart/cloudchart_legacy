@@ -3,8 +3,14 @@ class Identity
   include Mongoid::Timestamps
   store_in collection: "identities"
   
+  # Scopes
+  scope :persons, -> { all.in(type: %w(person employee freelancer)) }
+  scope :used, -> { all.ne(node_id: nil) }
+  scope :unused, -> { all.where(node_id: nil) }
+  
   # Relations
-  belongs_to :node, validate: true
+  belongs_to :organization
+  belongs_to :node
   
   # Fields
   field :type, type: String, default: "vacancy"
@@ -12,6 +18,7 @@ class Identity
   
   # field :title, type: String
   field :position, type: String
+  field :is_starred,  type: Boolean, default: false
   
   # TODO: Indexes
   
@@ -24,10 +31,26 @@ class Identity
   end
   
   def type_enum
-    %w(vacancy employee freelancer)
+    %w(person vacancy employee freelancer)
   end
   
   # Entities
+  def to_person
+    entity = self.entity
+    if entity.is_a?(Person)
+      entity.is_starred = self.is_starred
+      entity.is_used = self.node_id.present?
+      entity
+    else
+      nil
+    end
+  end
+  
+  def person!(person, params = {})
+    self.update_attributes(params.merge(type: "person", entity_id: person.id))
+    self.save
+  end
+  
   def vacancy!(params = {})
     self.update_attributes(params.merge(type: "vacancy"))
     self
@@ -46,13 +69,15 @@ class Identity
   # Representation
   def entity
     case self.type
-    when "employee", "freelancer"
+    when "person", "employee", "freelancer"
       Person.find(self.entity_id) if self.entity_id
     end
   end
   
   def title
     case self.type
+    when "person"
+      self.entity.name
     when "vacancy"
       self.position
     when "employee"

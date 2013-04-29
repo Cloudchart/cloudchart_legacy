@@ -30,7 +30,7 @@ $ ->
         node.css(backgroundImage: "url(#{picture})") if picture
         
         # Mark person as used
-        container.data("personsView").update(id: identifier, used: true, ->
-          alert("Used!")
+        container.data("personsView").update(id: identifier, person: { is_used: true }, ->
+          container.data("personsView").index()
         )
     )

@@ -7,19 +7,15 @@ class Person
   scope :ordered, order_by(:id.asc)
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
-  scope :used, -> { all.ne(used_organization_ids: []) }
-  scope :unused, -> { all.where(used_organization_ids: []) }
   
   scope :linkedin, where(type: "Linkedin")
   scope :facebook, where(type: "Facebook")
   
   # Relations
-  has_and_belongs_to_many :added_organizations, class_name: "Organization", inverse_of: "added_persons"
-  has_and_belongs_to_many :used_organizations, class_name: "Organization", inverse_of: "used_persons"
   belongs_to :user
   
   # Fields
-  attr_accessor :organization
+  attr_accessor :organization, :is_starred, :is_used
   
   ## General
   field :type,        type: String
@@ -48,9 +44,6 @@ class Person
   field :status,      type: String
   field :family,      type: Array
   
-  ## Flags
-  field :is_starred,  type: Boolean, default: false
-  
   # Validations
   validates :type, presence: true
   validates :external_id, presence: true
@@ -78,9 +71,6 @@ class Person
   before_save {
     # Check organization
     self.add_to_organization(self.organization) if self.organization
-    
-    self.added_organization_ids = [] if self.added_organization_ids.nil?
-    self.used_organization_ids = [] if self.used_organization_ids.nil?
   }
   
   # Class methods
@@ -119,7 +109,7 @@ class Person
       except: [:_id, :picture_url],
       methods: [
         :id, :identifier, :name, :picture, :employer, :position, :headline,
-        :is_persisted, :is_starred
+        :is_persisted, :is_starred, :is_used
       ]
     )
   end
@@ -159,13 +149,16 @@ class Person
   
   # Organization
   def add_to_organization(organization)
-    ids = self.added_organization_ids + self.used_organization_ids
-    self.added_organizations.push(organization) unless ids.include?(organization.id)
+    identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize
+    identity.person!(self) if identity.new_record?
+    identity
   end
   
-  def use_in_organization(organization)
-    self.added_organizations.delete(organization)
-    self.used_organizations.push(organization)
+  def use_in_organization(organization, node)
+    identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize
+    identity.person!(self) if identity.new_record?
+    identity.set(:node_id, node.id)
+    identity
   end
   
   # External
