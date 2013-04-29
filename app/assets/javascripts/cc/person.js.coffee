@@ -133,8 +133,10 @@ class PersonsView
         console.error error
       
       .done (result) ->
-        self.store([result.person])
-        self.render()
+        # Don't reload when searching
+        if self.value == ""
+          self.store([result.person])
+          self.render()
   
   # View
   loading: (progress = 0) ->
