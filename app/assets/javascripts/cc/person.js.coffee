@@ -78,7 +78,8 @@ class PersonsView
         console.error error
       
       .done (result) ->
-        self.store(result.persons)
+        # Reload loaded persons
+        self.loaded = result.persons
         self.render()
   
   search: ->
@@ -157,7 +158,19 @@ class PersonsView
     storage  = if search_key then @results[search_key] else @loaded
     storage ?= []
     
-    storage = storage.concat(persons)
+    # Unique results
+    identifiers = $.map(storage, (v) -> v.identifier)
+    persons.forEach((v) ->
+      # Update
+      if $.inArray(v.identifier, identifiers) > -1
+        storage = storage.map((s) ->
+          if s.identifier == v.identifier then v else s
+        )
+      # Append
+      else
+        storage.push(v)
+    )
+    
     if search_key
       @results[search_key] = storage
     else
