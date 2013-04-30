@@ -1,13 +1,5 @@
 # CloudChart 2.0ß database schema
 
-**Todo**
-
-- Timeline support for chart?
-
-**Workarounds**
-
-```rspec spec/prototypes/organizations_spec.rb```
-
 **Persons**
 
 - ФИО (латиница, на родном языке) (**fb?, ln?**)

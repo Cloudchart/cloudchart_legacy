@@ -20,8 +20,9 @@
 	- [ ] Imaginary links support (as a boolean flag)
 		- [ ] Destroy imaginary links when adding real ones
 		- [ ] Check all nodes has only one link
-	- [ ] Atomic update actions on nodes
 	- [ ] Implement cancan abilities
+	- [ ] Atomic update actions on nodes
+	- [ ] Timeline support
 - Persons controller
 	- [x] Sign in with Linkedin/Facebook
 	- [x] Search people using Linkedin/Facebook
