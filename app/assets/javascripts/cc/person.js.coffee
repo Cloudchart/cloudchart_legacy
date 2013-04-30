@@ -18,12 +18,14 @@ class PersonsView
     # Properties
     @path = @container.attr("data-path")
     @is_loading = false
+    @progress = 0
     @value = ""
     @providers = @container.attr("data-providers").split(",")
     
     # Person collections
     @results = {}
     @loaded = []
+    @rendered = []
     
     # Bind events
     @form.on("submit", false)
@@ -183,7 +185,7 @@ class PersonsView
     search_exp = new RegExp(RegExp.escape(search_key), "ig")
     
     # Search through loaded persons
-    identifiers = $.map(@loaded, (v) -> v.identifier )
+    identifiers = $.map(@loaded, (v) -> v.identifier)
     persons = $.grep(@loaded, (v) ->
       return true if search_key == ""
       v.name.match(search_exp)
@@ -196,12 +198,32 @@ class PersonsView
         persons.push(v)
     )
     
+    # Mark unrendered as collapsed when search is in progress
+    identifiers = $.map(@rendered, (v) -> v.identifier)
+    if identifiers.length > 0 && @progress >= 10
+      persons.forEach((v) ->
+        v.is_collapsed = $.inArray(v.identifier, identifiers) == -1
+      )
+    
+    # Sort persons by name
+    persons = persons.sort((a, b) ->
+      a.name.toLowerCase().localeCompare(b.name.toLowerCase())
+    )
+    
     @list.find("ul").remove()
     @list.append(
       HandlebarsTemplates["persons/list"](
         persons: persons
       )
     )
+    
+    # Store all rendered persons
+    @rendered.concat(persons)
+    
+    # Appear collapsed items with animation
+    setTimeout(=>
+      @list.find(".collapsed").addClass("appear")
+    , 200)
     
     # Bind drag
     @list.find("[data-behavior=draggable]").draggable(

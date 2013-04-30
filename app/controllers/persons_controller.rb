@@ -48,7 +48,7 @@ class PersonsController < ApplicationController
       else
         begin
           persons = Person.search(load: true, page: params[:page], per_page: 20) do |search|
-            search.query { |query| query.string @query }
+            search.query { |query| query.string @query, default_operator: "AND" }
             # search.sort  { |sort| sort.by :created_at, "desc" }
           end
           

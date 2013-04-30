@@ -47,6 +47,7 @@
     ul {
       li {
         @include clearfix;
+        height: 40px;
         margin: 0 0 5px 0;
         
         &:last-child {
@@ -67,6 +68,17 @@
               color: #4962a4;
             }
           }
+        }
+        
+        &.collapsed {
+          height: 0;
+          margin: 0;
+        }
+        
+        &.appear {
+          @include transition(height .2s ease);
+          height: 40px;
+          margin: 0 0 5px 0;
         }
         
         .left {

@@ -1,7 +1,10 @@
 <ul class="unstyled">
   {{#each persons}}
     {{#with this}}
-      <li class="draggable-person {{type}}" data-behavior="draggable" data-identifier="{{identifier}}" data-picture="{{picture}}">
+      <li class="draggable-person {{type}}{{#if is_collapsed}} collapsed{{/if}}"
+          data-behavior="draggable"
+          data-identifier="{{identifier}}"
+          data-picture="{{picture}}">
         <div class="left pull-left">
           <div class="img"{{#if picture}} style="background-image: url({{picture}})"{{/if}}></div>
           

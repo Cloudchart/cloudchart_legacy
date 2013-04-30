@@ -86,7 +86,7 @@ if !defined? LINKEDIN_KEY
           end
           
           # Education
-          if attrs[:education]
+          if attrs[:education] && attrs[:education].all
             educations = attrs[:education].all
             attrs[:education] = educations.map { |x|
               education = {}
@@ -100,7 +100,7 @@ if !defined? LINKEDIN_KEY
           end
           
           # Work
-          if attrs[:work]
+          if attrs[:work] && attrs[:work].all
             works = attrs[:work].all
             attrs[:work] = works.map { |x|
               work = {}
