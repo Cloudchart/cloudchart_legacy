@@ -31,6 +31,7 @@ class PersonsView
     @form.on("submit", false)
     @input.on("textchange", =>
       @value = @input.val()
+      @rendered = [] if @value == ""
       @search()
     )
     
@@ -200,7 +201,7 @@ class PersonsView
     
     # Mark unrendered as collapsed when search is in progress
     identifiers = $.map(@rendered, (v) -> v.identifier)
-    if identifiers.length > 0 && @progress >= 10
+    if @progress >= 10
       persons.forEach((v) ->
         v.is_collapsed = $.inArray(v.identifier, identifiers) == -1
       )
@@ -218,7 +219,7 @@ class PersonsView
     )
     
     # Store all rendered persons
-    @rendered.concat(persons)
+    @rendered = @rendered.concat(persons)
     
     # Appear collapsed items with animation
     setTimeout(=>
