@@ -25,6 +25,7 @@ class Node
   attr_accessor :params
   attr_accessible :organization_id, :type, :title
   attr_accessible :title, as: :modify
+  
   field :type, type: String
   field :title, type: String
   

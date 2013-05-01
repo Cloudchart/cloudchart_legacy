@@ -15,6 +15,7 @@ class Organization
   
   # Fields
   attr_accessible :title
+  
   field :title, type: String
   
   # Validations

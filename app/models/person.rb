@@ -16,6 +16,10 @@ class Person
   
   # Fields
   attr_accessor :organization, :is_starred, :is_used
+  attr_accessible :type, :external_id, :profile_url, :picture_url,
+                  :first_name, :last_name, :birthday, :gender, :hometown, :location,
+                  :education, :work, :skills, :description,
+                  :phones, :status, :family
   
   ## General
   field :type,        type: String

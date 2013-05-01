@@ -14,8 +14,10 @@ class Link
   belongs_to :child_node, class_name: "Node", inverse_of: nil, validate: true
   
   # Fields
-  attr_accessible :organization_id, :parent_node_id, :child_node_id, :type
+  attr_accessible :organization_id, :parent_node_id, :child_node_id, :type, :is_imaginary
+  
   field :type, type: String, default: "direct"
+  field :is_imaginary, type: Boolean, default: false
   
   # TODO: Indexes
   

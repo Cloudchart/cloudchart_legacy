@@ -13,8 +13,10 @@ class Identity
   belongs_to :node
   
   # Fields
-  field :type, type: String, default: "vacancy"
+  attr_accessible :organization_id, :node_id, :entity_id, :type, :position, :is_starred
+  
   field :entity_id, type: Moped::BSON::ObjectId
+  field :type, type: String, default: "vacancy"
   
   # field :title, type: String
   field :position, type: String
