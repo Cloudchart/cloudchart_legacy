@@ -97,6 +97,8 @@ if !defined? LINKEDIN_KEY
               education[:end_year] = x.end_date.year if x.end_date
               education.stringify_keys
             }
+          else
+            attrs.delete(:education)
           end
           
           # Work
@@ -111,6 +113,8 @@ if !defined? LINKEDIN_KEY
               work[:end_date] = %w(year month day).map { |k| x.end_date[k] }.compact.join("-") if x.end_date
               work.stringify_keys
             }
+          else
+            attrs.delete(:work)
           end
           
           # Skills

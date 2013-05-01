@@ -108,12 +108,12 @@ class PersonsView
         data = @form.serialize()
         @form.find("input[name='search[provider]']").val("Local")
         
-        $.ajax(
+        $.ajaxq("search", {
           url: @form.attr("action"),
           data: data,
           dataType: "json",
           type: @form.attr("method")
-        ).always(->
+        }).always(->
           progress = Math.round(90/self.providers.length)
           self.loading(self.progress+progress)
         ).error((xhr, status, error) ->
@@ -206,6 +206,9 @@ class PersonsView
         v.is_collapsed = $.inArray(v.identifier, identifiers) == -1
       )
     
+    # Store all rendered persons
+    @rendered = @rendered.concat(persons)
+    
     # Sort persons by name
     persons = persons.sort((a, b) ->
       a.name.toLowerCase().localeCompare(b.name.toLowerCase())
@@ -217,9 +220,6 @@ class PersonsView
         persons: persons
       )
     )
-    
-    # Store all rendered persons
-    @rendered = @rendered.concat(persons)
     
     # Appear collapsed items with animation
     setTimeout(=>
