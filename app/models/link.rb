@@ -47,6 +47,10 @@ class Link
     end
   end
   
+  def style
+    self.is_imaginary ? "dotted" : "solid"
+  end
+  
   # Modify tree methods
   def ensure_attributes(params)
     self.detach_link
