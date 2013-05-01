@@ -1,0 +1,11 @@
+<div class="welcome">
+  <div class="buttons">
+    <%= button_to "Create", organizations_path, class: "btn btn-large btn-primary" %>
+  </div>
+  
+  <ul>
+    <% @organizations.each do |organization| %>
+    <li><%= link_to organization.title, organization_path(organization) %></li>
+    <% end %>
+  </ul>
+</div>

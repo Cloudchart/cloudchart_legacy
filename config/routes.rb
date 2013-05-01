@@ -21,5 +21,5 @@ Cloudchart::Application.routes.draw do
   #   post "/users/invite" => "registrations#invite", as: :user_invite
   # end
   
-  root to: "application#home"
+  root to: "welcome#index"
 end

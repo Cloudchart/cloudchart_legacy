@@ -9,6 +9,15 @@
 @import "compass/css3/box-sizing";
 @import "compass/css3/transition";
 
+/* Welcome */
+.welcome {
+  margin: 20px;
+  
+  .buttons {
+    text-align: center;
+  }
+}
+
 /* Persons */
 .persons {
   margin: 20px;

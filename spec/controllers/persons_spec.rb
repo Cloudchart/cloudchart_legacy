@@ -37,7 +37,8 @@ describe PersonsController do
       
       get :search, { format: :json, organization_id: organization.id, search: { query: person.employer } }
       body = parse_json(response.body)
-      body.to_json.should be_json_eql({ persons: [person, other_person] }.to_json)
+      body["persons"].to_json.should include_json(person.to_json)
+      body["persons"].to_json.should include_json(other_person.to_json)
       
       person.destroy
       other_person.destroy
@@ -73,13 +74,14 @@ describe PersonsController do
     it "should be able to mark person starred" do
       organization = create :organization
       person = create :person, organization: organization
+      identity = organization.identities.first
       sign_in person.user
       
       put :update, { format: :json, organization_id: organization.id, id: person.identifier, person: { is_starred: true } }
       body = parse_json(response.body)
-      body.to_json.should be_json_eql({ person: person.reload }.to_json)
+      body.to_json.should be_json_eql({ person: identity.reload.to_person }.to_json)
       
-      person.is_starred.should be_true
+      identity.is_starred.should be_true
     end
   end
 end
