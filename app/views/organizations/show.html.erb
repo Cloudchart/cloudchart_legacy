@@ -1,0 +1,8 @@
+<h1><%= @organization.title %></h1>
+
+<%= render partial: "/persons/list", locals: { organization: @organization } %>
+
+<div class="drop">
+  <div data-behavior="droppable"></div>
+  <div data-behavior="droppable"></div>
+</div>

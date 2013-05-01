@@ -1,6 +1,19 @@
 class OrganizationsController < ApplicationController
   def index
-    organization = Organization.where(title: ["Test 1", "Test 2"].sample).first_or_create
-    redirect_to organization_persons_path(organization)
+    @organizations = Organization.all
   end
+  
+  def create
+    organization = Organization.where(title: "Test").first_or_create
+    redirect_to organization_path(organization)
+  end
+  
+  def show
+  end
+  
+    def preload
+      super
+      
+      @organization = Organization.find(params[:id]) if params[:id]
+    end
 end

@@ -1,0 +1,13 @@
+<div class="welcome">
+  <div class="buttons">
+    <% if user_signed_in? %>
+      <h1><%= current_user.name %></h1>
+      <p>Providers: <%= current_user.providers %></p>
+      <%= link_to "Organizations", organizations_path, class: "btn btn-primary" %>
+      <%= link_to "Sign out", destroy_user_session_path, class: "btn" %>
+    <% else %>
+      <%= link_to "Linkedin", user_omniauth_authorize_path(provider: :linkedin), class: "btn btn-large btn-primary" %>
+      <%= link_to "Facebook", user_omniauth_authorize_path(provider: :facebook), class: "btn btn-large btn-primary" %>
+    <% end %>
+  </div>
+</div>
