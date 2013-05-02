@@ -26,6 +26,7 @@
 	- [x] Sign in with Linkedin/Facebook
 	- [x] Search people using Linkedin/Facebook
 	- [x] Add people to database and search using Elasticsearch
+	- [ ] Rename persons client namespace, move initializer to PersonsView, bind events globally
 - Ability to select/group nodes?
 - Data mapping layer?
 
