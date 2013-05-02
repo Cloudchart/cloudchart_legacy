@@ -101,8 +101,8 @@ class Node
     self.errors.add(:base, :link_invalid) and return if children.length != self.params[:links].length
     
     # Check links uniqueness
-    # child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
-    # self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x != 1 }.any?
+    child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
+    self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x != 1 }.any?
   end
   
   def save_params
