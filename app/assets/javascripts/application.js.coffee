@@ -7,30 +7,6 @@
 //= require twitter/bootstrap
 //= require bootstrap
 //= require plugins
-//= require cc
+//= require persons
 //= require_tree ./templates
 
-$ ->
-  # Init PersonsView
-  container = $("[data-behavior=persons-view]")
-  if container.length == 1
-    container.data("personsView", new cc.PersonsView(
-      container: container
-    ))
-    
-    # Drop
-    $("[data-behavior=droppable]").droppable(
-      hoverClass: "active"
-      drop: (event, ui) ->
-        $this = ui.draggable
-        identifier = $this.attr("data-identifier")
-        picture = $this.attr("data-picture")
-        
-        node = $('<div class="img"></div>').appendTo(this)
-        node.css(backgroundImage: "url(#{picture})") if picture
-        
-        # Mark person as used
-        container.data("personsView").update(id: identifier, person: { is_used: true }, ->
-          container.data("personsView").index()
-        )
-    )

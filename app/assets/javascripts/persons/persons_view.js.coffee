@@ -1,10 +1,6 @@
 root        = @
-@cc        ?= {}
-scope       = @cc
-
-# class Person extends cc.Model
-#   constructor: (attributes = {}) ->
-#     super attributes
+@persons   ?= {}
+scope       = @persons
 
 class PersonsView
   constructor: (attributes = {}) ->
@@ -27,41 +23,11 @@ class PersonsView
     @loaded = []
     @rendered = []
     
-    # Bind events
-    @form.on("submit", false)
+    # Textchange event
     @input.on("textchange", =>
       @value = @input.val()
       @rendered = [] if @value == ""
       @search()
-    )
-    
-    # List events
-    self = this
-    @list.on("click", "[data-behavior=star]", ->
-      $this = $(this)
-      $this.toggleClass("active")
-      $this.addClass("disabled")
-      
-      resource_params = { is_starred: $this.hasClass("active") }
-      identifier = $this.closest("[data-identifier]").attr("data-identifier")
-      
-      self.update({ id: identifier, person: resource_params }, ->
-        $this.removeClass("disabled")
-      )
-      
-      false
-    )
-    
-    # Filters events
-    @container.on("click", "[data-behavior=filter]", ->
-      $this = $(this)
-      $this.toggleClass("active")
-      
-      self.input.val("")
-      self.input.trigger("textchange")
-      
-      self.index()
-      false
     )
     
     # Load persons
@@ -231,7 +197,67 @@ class PersonsView
       helper: "clone"
       appendTo: "body"
     )
-    
+
+# Add to scope
 $.extend scope,
-  # Person: Person,
   PersonsView: PersonsView
+
+# Bind events
+$(document).on("submit", "[data-behavior=persons-view] [data-behavior=form]", ->
+  false
+)
+
+# List events
+$(document).on("click", "[data-behavior=persons-view] [data-behavior=star]", ->
+  @self = $(this).closest("[data-behavior=persons-view]").data("personsView")
+  
+  $this = $(this)
+  $this.toggleClass("active")
+  $this.addClass("disabled")
+  
+  resource_params = { is_starred: $this.hasClass("active") }
+  identifier = $this.closest("[data-identifier]").attr("data-identifier")
+  
+  @self.update({ id: identifier, person: resource_params }, ->
+    $this.removeClass("disabled")
+  )
+  
+  false
+)
+
+# Filters events
+$(document).on("click", "[data-behavior=persons-view] [data-behavior=filter]", ->
+  @self = $(this).closest("[data-behavior=persons-view]").data("personsView")
+  
+  $this = $(this)
+  $this.toggleClass("active")
+  
+  @self.input.val("")
+  @self.input.trigger("textchange")
+  
+  @self.index()
+  false
+)
+
+$ ->
+  # Init PersonsView
+  $container = $("[data-behavior=persons-view]")
+  if $container.length == 1
+    $container.data("personsView", new persons.PersonsView(container: $container))
+    
+    # Drop
+    $("[data-behavior=droppable]").droppable(
+      hoverClass: "active"
+      drop: (event, ui) ->
+        $this = ui.draggable
+        identifier = $this.attr("data-identifier")
+        picture = $this.attr("data-picture")
+        
+        node = $('<div class="img"></div>').appendTo(this)
+        node.css(backgroundImage: "url(#{picture})") if picture
+        
+        # Mark person as used
+        container.data("personsView").update(id: identifier, person: { is_used: true }, ->
+          container.data("personsView").index()
+        )
+    )
