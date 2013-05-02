@@ -25,6 +25,7 @@ class Node
   attr_accessor :params
   attr_accessible :organization_id, :type, :title
   attr_accessible :title, as: :modify
+  
   field :type, type: String
   field :title, type: String
   
@@ -95,9 +96,13 @@ class Node
     wrong_links = Link.in(id: link_ids).select { |link| link.organization_id != self.organization_id }
     self.errors.add(:base, :link_invalid) and return if wrong_links.any?
     
+    # Check child nodes and links equality
+    children = self.params[:nodes].select { |x| !x["type"] }
+    self.errors.add(:base, :link_invalid) and return if children.length != self.params[:links].length
+    
     # Check links uniqueness
-    child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
-    self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x != 1 }.any?
+    # child_link_counts = self.params[:links].group_by { |link| link[:child_node_id] }.values.map(&:count)
+    # self.errors.add(:base, :link_invalid) and return if child_link_counts.select { |x| x != 1 }.any?
   end
   
   def save_params
@@ -304,7 +309,7 @@ class Node
           child_node = graph_nodes[link.child_node.id]
           next if !parent_node || !child_node
           
-          graph.add_edges(parent_node, child_node, dir: link.dir)
+          graph.add_edges(parent_node, child_node, dir: link.dir, style: link.style)
         end
       end
     end

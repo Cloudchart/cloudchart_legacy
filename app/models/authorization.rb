@@ -5,6 +5,8 @@ class Authorization
   embedded_in :user
 
   # Fields
+  attr_accessible :provider, :uid, :token, :secret, :name, :link
+
   field :provider,  type: String
   field :uid,       type: String
   field :token,     type: String

@@ -96,6 +96,9 @@ describe NodesController do
       link["type"] = "indirect"
       node["level"] = 1
       
+      # Imaginary link
+      link["is_imaginary"] = true
+      
       # Delete link and add new one
       deleted = expected[:links].delete_at(3)
       node = expected[:nodes].at(4)

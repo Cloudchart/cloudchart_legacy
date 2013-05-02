@@ -17,11 +17,12 @@
 		- [x] Tree validation
 			- [x] Rights
 			- [x] Multiple child_ids
-	- [ ] Imaginary links support (as a boolean flag)
-		- [ ] Destroy imaginary links when adding real ones
-		- [ ] Check all nodes has only one link
-	- [ ] Atomic update actions on nodes
+	- [x] Imaginary links support (as a boolean flag)
+		- [?] Destroy imaginary links when adding real ones
+		- [x] Check all nodes has only one link
 	- [ ] Implement cancan abilities
+	- [ ] Atomic update actions on nodes
+	- [ ] Timeline support
 - Persons controller
 	- [x] Sign in with Linkedin/Facebook
 	- [x] Search people using Linkedin/Facebook
@@ -138,8 +139,11 @@ curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000
 	links: [
 		{
 			child_node_id: "515abdf44660f3d5fc000002",
+			created_at: "2013-04-08T10:01:07Z",
+			is_imaginary: false,
 			parent_node_id: "516295634660f3bad5000001",
 			type: "direct",
+			updated_at: "2013-04-08T10:01:07Z",
 			id: "516295634660f3bad5000002"
 		}
 	],
@@ -151,21 +155,7 @@ curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000
 			type: "employee",
 			id: "5162d9154660f37731000006",
 			entity: {
-				description: null,
-				external_id: "1",
-				first_name: "Daria",
-				headline: null,
-				last_name: "Nifontova",
-				note: null,
-				profile_url: null,
-				type: null,
-				user_id: null,
-				id: "5162d8f84660f37731000005",
-				identifier: "Daria Nifontova(ln:1)",
-				name: "Daria Nifontova",
-				picture: "/images/ico-person.png",
-				position: null,
-				company: null
+				/* Person attributes */
 			}
 		},
 		{
@@ -208,7 +198,6 @@ HTTP status: {200, 422}
 	]
 }
 ```
-
 
 ### Persons
 
