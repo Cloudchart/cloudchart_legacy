@@ -10,7 +10,7 @@ class User
 
   # Relations
   # belongs_to :invitation
-  # has_many :accesses, dependent: :destroy
+  has_many :accesses, dependent: :destroy
   has_many :persons
 
   ## Omniauthable
@@ -84,6 +84,11 @@ class User
   
   def providers
     self.authorizations.map(&:provider)
+  end
+  
+  # TODO
+  def access!(chart, level = :public!)
+    self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
   end
   
   # TODO: Unmock
