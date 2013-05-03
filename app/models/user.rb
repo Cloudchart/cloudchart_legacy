@@ -86,15 +86,21 @@ class User
     self.authorizations.map(&:provider)
   end
   
-  # TODO
-  def access!(chart, level = :public!)
-    self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
+  # Data with access
+  def access!(entity, level = :public!)
+    self.accesses
+      .send(entity.class.to_s.downcase.pluralize)
+      .where(entity_id: entity.id)
+      .first_or_initialize
+      .send(level)
   end
   
-  # TODO: Unmock
+  def organizations
+    Organization.in(id: self.accesses.organizations.map(&:entity_id))
+  end
+  
   def identities
-    # Identity.in(organization_id: self.organizations.map(&:id))
-    Identity.in(organization_id: Organization.all.map(&:id))
+    Identity.in(organization_id: self.accesses.organizations.map(&:entity_id))
   end
   
   # Clients

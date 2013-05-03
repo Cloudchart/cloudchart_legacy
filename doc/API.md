@@ -20,7 +20,7 @@
 	- [x] Imaginary links support (as a boolean flag)
 		- [?] Destroy imaginary links when adding real ones
 		- [x] Check all nodes has only one link
-	- [ ] Implement cancan abilities
+	- [x] Implement cancan abilities
 	- [ ] Atomic update actions on nodes
 	- [ ] Timeline support
 - Persons controller
