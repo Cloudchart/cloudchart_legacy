@@ -33,6 +33,10 @@
 		- [ ] Improve parallel loading
 		- [ ] Improve animation
 		- [ ] Improve client-side search
+	- [ ] Merge people from different sources
+	- [ ] Save user connections to our database
+	- [ ] Natural language search
+	- [ ] Multiple selection and drag-n-drop
 - Ability to select/group nodes?
 - Data mapping layer?
 
