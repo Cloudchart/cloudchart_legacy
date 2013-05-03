@@ -1,4 +1,4 @@
-<h1><%= @organization.title %></h1>
+<h1><%= @organization.title %>, <%= can?(:edit, @organization) %></h1>
 
 <%= render partial: "/persons/list", locals: { organization: @organization } %>
 

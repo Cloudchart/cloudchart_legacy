@@ -7,6 +7,9 @@ class Access
   scope :ordered, order_by(:updated_at.desc)
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   
+  scope :organizations, -> { where(type: "organization") }
+  scope :nodes, -> { where(type: "node") }
+  
   scope :publics, -> { where(level: "public") }
   scope :tokens, -> { where(level: "token") }
   scope :owners, -> { where(level: "owner") }
@@ -14,15 +17,18 @@ class Access
   
   # Relations
   belongs_to :user
-  # TODO
-  belongs_to :organization
-  belongs_to :node
   
   # Fields
+  field :entity_id, type: Moped::BSON::ObjectId
+  field :type, type: String
   field :level, type: String, default: "public"
   
+  def type_enum
+    %w(organization node)
+  end
+  
   def level_enum
-    ["public", "token", "owner"]
+    %w(public token owner)
   end
   
   def public!

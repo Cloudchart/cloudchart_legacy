@@ -1,10 +1,11 @@
 class OrganizationsController < ApplicationController
   def index
-    @organizations = Organization.all
+    @organizations = current_user.organizations
   end
   
   def create
-    organization = Organization.where(title: "Test").first_or_create
+    organization = Organization.where(title: "Test (#{Date.today})").first_or_create
+    current_user.access!(organization, :owner!)
     redirect_to organization_path(organization)
   end
   
