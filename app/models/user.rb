@@ -77,7 +77,7 @@ class User
       methods: [:id]
     )
   end
-
+  
   def god?
     Rails.env.development? ? true : self.is_god
   end
@@ -129,13 +129,4 @@ class User
   def facebook_client
     @facebook_client ||= Koala::Facebook::API.new(self.facebook.token)
   end
-  
-  # Access
-  # def access!(chart, level = :public!)
-  #   self.accesses.where(chart_id: chart.id).first_or_initialize.send(level)
-  # end
-  # 
-  # def charts
-  #   self.accesses.ordered.map(&:chart)
-  # end
 end

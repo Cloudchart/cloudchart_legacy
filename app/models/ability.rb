@@ -1,7 +1,6 @@
 class Ability
   include CanCan::Ability
   
-  # TODO
   def initialize(user)
     # User abilities
     if !user
