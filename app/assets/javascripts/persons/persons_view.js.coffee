@@ -14,6 +14,7 @@ class PersonsView
     # Properties
     @path = @container.attr("data-path")
     @is_loading = false
+    @is_rendering = false
     @progress = 0
     @value = ""
     @providers = @container.attr("data-providers").split(",")
@@ -52,11 +53,12 @@ class PersonsView
         self.render()
   
   search: ->
-    # Check for results
-    clearTimeout(@timeout) if @timeout
-    
     # Render
     @render()
+    
+    # Check for results
+    clearTimeout(@timeout) if @timeout
+    return if @progress > 0
     
     # Run search
     @timeout = setTimeout(=>
@@ -64,6 +66,11 @@ class PersonsView
       
       search_key = @value
       return if search_key == ""
+      
+      # Render from cache
+      if @results[search_key] && @results[search_key].length > 0
+        @render()
+        return
       
       # Start loading
       @loading(10)
@@ -74,7 +81,7 @@ class PersonsView
         data = @form.serialize()
         @form.find("input[name='search[provider]']").val("Local")
         
-        $.ajaxq("search", {
+        $.ajax({
           url: @form.attr("action"),
           data: data,
           dataType: "json",
@@ -83,13 +90,13 @@ class PersonsView
           progress = Math.round(90/self.providers.length)
           self.loading(self.progress+progress)
         ).error((xhr, status, error) ->
-          console.error error
+          alert error
         ).done((result) ->
           self.store(result.persons, search_key)
           if search_key == self.value
             self.render(search_key)
         )
-    , 1000)
+    , 400)
   
   update: (params, callback) ->
     self = this
@@ -148,6 +155,8 @@ class PersonsView
       @loaded = storage
   
   render: (search_key = null) ->
+    @is_rendering = true
+    
     search_key ?= @value
     search_exp = new RegExp(RegExp.escape(search_key), "ig")
     
@@ -188,9 +197,16 @@ class PersonsView
     )
     
     # Appear collapsed items with animation
-    setTimeout(=>
-      @list.find(".collapsed").addClass("appear")
-    , 200)
+    if @list.find(".collapsed").length > 0
+      setTimeout(=>
+        @list.find(".collapsed").addClass("appear")
+        
+        setTimeout(=>
+          @is_rendering = false
+        , 200)
+      , 200)
+    else
+      @is_rendering = false
     
     # Bind drag
     @list.find("[data-behavior=draggable]").draggable(

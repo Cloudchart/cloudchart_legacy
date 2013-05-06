@@ -29,10 +29,10 @@
 	- [x] Add people to database and search using Elasticsearch
 	- [x] Rename persons client namespace, move initializer to PersonsView, bind 	events globally
 	- [ ] Autocomplete
-		- [ ] Fix loading when text is changing
-		- [ ] Improve parallel loading
+		- [x] Fix loading when text is changing
+		- [x] Improve parallel loading
 		- [ ] Improve animation
-		- [ ] Improve client-side search
+		- [?] Show results when backspacing search term
 	- [ ] Merge people from different sources
 	- [ ] Save user connections to our database
 	- [ ] Natural language search
