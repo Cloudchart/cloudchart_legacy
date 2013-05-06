@@ -7,6 +7,7 @@
 //= require twitter/bootstrap
 //= require bootstrap
 //= require plugins
-//= require persons
 //= require_tree ./templates
+//= require persons
+//= require cc
 

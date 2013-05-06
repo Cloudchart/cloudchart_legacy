@@ -1,0 +1,84 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#container {
+    float: left;
+    
+    #controls,
+    #settings,
+    #log {
+        border-right: 1px solid #ccc;
+        clear: left;
+        float: left;
+        padding: 1em 10px;
+        width: 300px;
+    }
+    
+    #controls {
+        border-bottom: 1px solid #ccc;
+    }
+    
+    #settings {
+        border-bottom: 1px solid #ccc;
+    }
+    
+    #chart {
+        border-left: 1px solid #ccc;
+        min-height: 500px;
+        padding: 1em 10px;
+        position: relative;
+        width: 900px;
+        
+        .node {
+            background-color: #fff;
+            border: 2px solid #333;
+            cursor: pointer;
+            position: absolute;
+            padding: .5em .5em;
+            text-align: center;
+            
+            em {
+                color: #666;
+                display: block;
+                text-align: center;
+            }
+            
+            &.active {
+            
+                .before,
+                .after {
+                    background: #000;
+                    height: 10px;
+                    left: 50%;
+                    margin-left: -10px;
+                    position: absolute;
+                    width: 20px;
+                }
+            
+            
+                .before {
+                    border-radius: 10px 10px 0 0;
+                    top: -12px;
+                }
+            
+                .after {
+                    border-radius: 0 0 10px 10px;
+                    bottom: -12px;
+                }
+
+            }
+            
+            &.active {
+                background: #ccc;
+            }
+            
+        }
+        
+        svg {
+            position: absolute;
+        }
+        
+    }
+    
+}

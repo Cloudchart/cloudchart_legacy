@@ -20,6 +20,7 @@
 
 /* Persons */
 .persons {
+  float: left;
   margin: 20px;
   width: 300px;
   
@@ -161,10 +162,6 @@
 }
 
 .drop {
-  position: absolute;
-  left: 400px;
-  top: 0;
-  
   > div {
     margin: 20px;
     width: 95px;
