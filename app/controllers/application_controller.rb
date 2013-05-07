@@ -10,4 +10,16 @@ class ApplicationController < ActionController::Base
   
     def preload
     end
+    
+    def unauthorized
+      respond_to do |format|
+        format.html {
+          redirect_to root_path, notice: I18n.t("devise.failure.unauthenticated")
+        }
+        
+        format.json {
+          render json: { errors: [I18n.t("devise.failure.unauthenticated")] }, status: :unauthorized
+        }
+      end
+    end
 end

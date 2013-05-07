@@ -20,7 +20,9 @@
 	- [x] Imaginary links support (as a boolean flag)
 		- [?] Destroy imaginary links when adding real ones
 		- [x] Check all nodes has only one link
-	- [x] Implement cancan abilities
+	- [ ] Implement cancan abilities
+		- [ ] Implement nodes access properly
+		- [ ] Add test cases for unauthorized users etc
 	- [ ] Atomic update actions on nodes
 	- [ ] Timeline support
 - Persons controller

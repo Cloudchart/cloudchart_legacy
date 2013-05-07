@@ -1,6 +1,7 @@
 class NodesController < ApplicationController
   def index
-    @nodes = Node.charts
+    return unauthorized unless can?(:read, @organization)
+    @nodes = @organization.nodes.charts
     
     respond_to do |format|
       format.json { render json: @nodes }
@@ -8,6 +9,8 @@ class NodesController < ApplicationController
   end
   
   def show
+    return unauthorized unless can?(:read, @organization)
+    
     respond_to do |format|
       format.json {
         render json: @node.serialized_params
@@ -16,6 +19,8 @@ class NodesController < ApplicationController
   end
   
   def update
+    return unauthorized unless can?(:update, @organization)
+    
     @node.prepare_params(resource_params)
     @node.save
     
@@ -33,6 +38,9 @@ class NodesController < ApplicationController
   private
   
     def preload
+      super
+      
+      @organization = Organization.find(params[:organization_id])
       @node = Node.find(params[:id]) if params[:id]
     end
     

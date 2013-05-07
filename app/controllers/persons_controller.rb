@@ -1,22 +1,21 @@
 class PersonsController < ApplicationController
   def index
-    if user_signed_in?
-      if params[:filters]
-        if params[:filters].include?("all")
-          @persons = current_user.identities
-        else
-          @persons = @organization.identities
-        end
-        
-        @persons = @persons.used if params[:filters].include?("used") && !params[:filters].include?("unused")
-        @persons = @persons.unused if params[:filters].include?("unused") && !params[:filters].include?("used")
+    return unauthorized unless can?(:update, @organization)
+    
+    if params[:filters]
+      if params[:filters].include?("all")
+        @persons = current_user.identities
       else
         @persons = @organization.identities
       end
+      
+      @persons = @persons.used if params[:filters].include?("used") && !params[:filters].include?("unused")
+      @persons = @persons.unused if params[:filters].include?("unused") && !params[:filters].include?("used")
+    else
+      @persons = @organization.identities
     end
     
     respond_to do |format|
-      format.html
       format.json {
         render json: { persons: @persons.map(&:to_person) || [] }
       }
@@ -24,8 +23,7 @@ class PersonsController < ApplicationController
   end
   
   def search
-    # not_found unless can?(:update, @chart)
-    render json: { persons: [] } and return unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
     
     # Search
     @persons = []
@@ -67,8 +65,7 @@ class PersonsController < ApplicationController
   end
   
   def show
-    # not_found unless can?(:update, @chart)
-    render json: { person: nil } and return unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
     
     # Find or create person by identifier
     person = Person.find_or_create_with_identifier(params[:id], current_user)
@@ -83,8 +80,7 @@ class PersonsController < ApplicationController
   end
   
   def update
-    # not_found unless can?(:update, @chart)
-    render json: { person: nil } and return unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
     
     # Find or create person by identifier
     person = Person.find_or_create_with_identifier(params[:id], current_user)

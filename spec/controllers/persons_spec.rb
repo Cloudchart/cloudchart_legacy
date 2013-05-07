@@ -1,11 +1,15 @@
 require "spec_helper"
 
 describe PersonsController do
+  before do
+    @user = create :user
+    sign_in @user
+  end
+  
   describe "index" do
     it "should return stored persons" do
-      organization = create :organization
-      person = create :person, organization: organization
-      sign_in person.user
+      organization = create :organization_with_owner, user: @user
+      person = create :person, user: @user, organization: organization
       
       get :index, { format: :json, organization_id: organization.id }
       body = parse_json(response.body)
@@ -15,10 +19,9 @@ describe PersonsController do
   
   describe "search" do
     it "should return search results for name" do
-      organization = create :organization
-      person = create :person, organization: organization
+      organization = create :organization_with_owner, user: @user
+      person = create :person, user: @user, organization: organization
       person.index.refresh
-      sign_in person.user
       
       get :search, { format: :json, organization_id: organization.id, search: { query: person.first_name } }
       body = parse_json(response.body)
@@ -28,12 +31,11 @@ describe PersonsController do
     end
     
     it "should return search results for employer" do
-      organization = create :organization
-      person = create :person_with_work, organization: organization
+      organization = create :organization_with_owner, user: @user
+      person = create :person_with_work, user: @user, organization: organization
       person.index.refresh
-      other_person = create :person, work: person.work, organization: organization
+      other_person = create :person, user: @user, organization: organization, work: person.work
       other_person.index.refresh
-      sign_in person.user
       
       get :search, { format: :json, organization_id: organization.id, search: { query: person.employer } }
       body = parse_json(response.body)
@@ -45,8 +47,8 @@ describe PersonsController do
     end
     
     it "should return search results for name and employer" do
-      organization = create :organization
-      person = create :person_with_work, organization: organization
+      organization = create :organization_with_owner, user: @user
+      person = create :person_with_work, user: @user, organization: organization
       person.index.refresh
       sign_in person.user
       
@@ -60,9 +62,8 @@ describe PersonsController do
   
   describe "show" do
     it "should return person" do
-      organization = create :organization
-      person = create :person, organization: organization
-      sign_in person.user
+      organization = create :organization_with_owner, user: @user
+      person = create :person, user: @user, organization: organization
       
       get :show, { format: :json, organization_id: organization.id, id: person.identifier }
       body = parse_json(response.body)
@@ -72,10 +73,9 @@ describe PersonsController do
   
   describe "update" do
     it "should be able to mark person starred" do
-      organization = create :organization
-      person = create :person, organization: organization
+      organization = create :organization_with_owner, user: @user
+      person = create :person, user: @user, organization: organization
       identity = organization.identities.first
-      sign_in person.user
       
       put :update, { format: :json, organization_id: organization.id, id: person.identifier, person: { is_starred: true } }
       body = parse_json(response.body)

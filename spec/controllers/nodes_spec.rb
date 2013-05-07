@@ -1,9 +1,14 @@
 require "spec_helper"
 
 describe NodesController do
+  before do
+    @user = create :user
+    sign_in @user
+  end
+  
   describe "index" do
     it "should return index without parameters" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       
       get :index, { format: :json, organization_id: chart.organization.id }
       body = parse_json(response.body)
@@ -13,7 +18,7 @@ describe NodesController do
   
   describe "show" do
     it "should return show for root node" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       expected = {
         root_id: chart.id,
         ancestor_ids: chart.ancestor_ids,
@@ -28,7 +33,7 @@ describe NodesController do
     end
     
     it "should return show for nested node" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       node1 = chart.create_nested_node(title: "Directors")
       node2 = node1.create_nested_node(title: "Developers")
       node3 = node1.create_nested_node(title: "Designers")
@@ -52,7 +57,7 @@ describe NodesController do
   
   describe "update" do
     it "should update nodes attributes" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       node1 = chart.create_nested_node(title: "Directors")
       node2 = node1.create_nested_node(title: "Developers")
       node3 = node1.create_nested_node(title: "Designers")
@@ -137,10 +142,10 @@ describe NodesController do
     end
     
     it "should not update other nodes" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       node1 = chart.create_nested_node(title: "Directors")
       
-      other_chart = create_chart
+      other_chart = create_chart_with_owner(@user)
       node2 = other_chart.create_nested_node(title: "Other directors")
       
       expected = {
@@ -169,7 +174,7 @@ describe NodesController do
     end
     
     it "should not create multiple links" do
-      chart = create_chart
+      chart = create_chart_with_owner(@user)
       node1 = chart.create_nested_node(title: "Directors")
       node2 = chart.create_nested_node(title: "Designers")
       

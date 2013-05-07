@@ -1,12 +1,13 @@
 class Ability
   include CanCan::Ability
   
+  # User abilities
   def initialize(user)
-    # User abilities
     if !user
       can :read, :all
     elsif user && user.is_god?
       can :manage, :all
+      can :token, :all
     else
       can :read, :all
       can :manage, Organization, id: user.accesses.organizations.editables.map(&:entity_id)
