@@ -1,6 +1,12 @@
 if !defined? FACEBOOK_KEY
-  FACEBOOK_KEY = "357925437647513"
-  FACEBOOK_SECRET = "656052578bf673df1a10a99f3406bc70"
+  if Rails.env.development?
+    FACEBOOK_KEY = "191576587661270"
+    FACEBOOK_SECRET = "765a9ac73d1f2e35df770dd120e9a810"
+  else
+    FACEBOOK_KEY = "357925437647513"
+    FACEBOOK_SECRET = "656052578bf673df1a10a99f3406bc70"
+  end
+  
   FACEBOOK_SCOPE = [
     "email",
     "user_birthday",
@@ -53,6 +59,13 @@ if !defined? FACEBOOK_KEY
         
         def normalized_people_search(query)
           fetched = search(query, type: :user, fields: FACEBOOK_FIELDS_MAPPING.keys.join(","))
+          (fetched || []).map { |attrs|
+            normalize_profile(attrs)
+          }
+        end
+        
+        def normalized_connections
+          fetched = get_object("/me/friends", fields: FACEBOOK_FIELDS_MAPPING.keys.join(","))
           (fetched || []).map { |attrs|
             normalize_profile(attrs)
           }

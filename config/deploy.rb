@@ -1,5 +1,6 @@
 require "capistrano_colors"
 require "rvm/capistrano"
+require "sidekiq/capistrano"
 default_run_options[:pty] = true
 
 # Application
@@ -28,6 +29,7 @@ set   :rvm_ruby_string, "ruby-1.9.3-p392@cloudchart"
 set   :rvm_type, :user
 set   :keep_releases, 3
 set   :shared_children, shared_children + %w(tmp/sockets)
+set   :sidekiq_role, :sidekiq
 
 # Bundler
 after "deploy:finalize_update", "bundler:install"

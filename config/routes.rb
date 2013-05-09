@@ -21,5 +21,12 @@ Cloudchart::Application.routes.draw do
   #   post "/users/invite" => "registrations#invite", as: :user_invite
   # end
   
+  # God
+  require "sidekiq/web"
+  god = lambda { |request| Rails.env.development? || (request.env["warden"].authenticate? and request.env["warden"].user.god?) }
+  constraints god do
+    mount Sidekiq::Web => "/sidekiq"
+  end
+  
   root to: "welcome#index"
 end

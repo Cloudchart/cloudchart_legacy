@@ -5,4 +5,5 @@ set   :domain, "dev.cloudorgchart.com"
 role  :web, domain
 role  :app, domain
 role  :db, domain, primary: true
+role  :sidekiq, domain
 set   :branch, "staging"

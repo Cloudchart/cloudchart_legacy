@@ -118,6 +118,11 @@ class OmniauthController < Devise::OmniauthCallbacksController
         authorization = user.authorizations.build(provider: provider)
       end
 
+      # Update auth
+      auth.delete(:email)
+      auth.delete(:picture)
+      authorization.update_attributes(auth)
+
       # Update user
       if auth[:picture].present?
         # Get picture by API
@@ -128,11 +133,8 @@ class OmniauthController < Devise::OmniauthCallbacksController
         user.save
       end
 
-      # Update auth
-      auth.delete(:email)
-      auth.delete(:picture)
-      authorization.update_attributes(auth)
-
+      # Run import in background
+      Importer.perform_async(user.id, provider)
       user
     end
 

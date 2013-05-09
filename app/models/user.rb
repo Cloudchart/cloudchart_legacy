@@ -129,4 +129,18 @@ class User
   def facebook_client
     @facebook_client ||= Koala::Facebook::API.new(self.facebook.token)
   end
+  
+  # Import
+  def import!(provider)
+    persons = case provider
+    when "Linkedin"
+      self.linkedin_client.normalized_connections
+    when "Facebook"
+      self.facebook_client.normalized_connections
+    end
+    
+    Sidekiq.logger.debug "[User ##{self.id}] Provider #{provider}, found #{persons.count} persons"
+    persons.each { |x| Person.find_or_create_with_params(x, self) }
+    Sidekiq.logger.debug "[User ##{self.id}] Provider #{provider}, saved #{persons.count} persons"
+  end
 end

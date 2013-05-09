@@ -38,6 +38,10 @@ gem "crashlog"
 gem "postmark-rails"
 gem "tire"
 gem "simple_form"
+gem "sidekiq"
+gem "kiqstand"
+gem "sidekiq-middleware"
+gem "sidekiq-failures"
 
 # Users
 gem "devise"

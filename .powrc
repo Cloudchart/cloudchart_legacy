@@ -2,3 +2,6 @@ if [ -f "$rvm_path/scripts/rvm" ]; then
   source "$rvm_path/scripts/rvm"
   rvm 2.0.0@cloudchart
 fi
+
+# Redis
+redis-server config/redis.conf

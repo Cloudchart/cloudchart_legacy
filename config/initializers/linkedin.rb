@@ -57,6 +57,14 @@ if !defined? LINKEDIN_KEY
           }
         end
         
+        def normalized_connections
+          fetched = connections(fields: LINKEDIN_FIELDS_MAPPING.keys)
+          
+          (fetched.all || []).reject { |attrs| attrs.id == "private" }.map { |attrs|
+            normalize_profile(attrs)
+          }
+        end
+        
         def normalize_profile(fetched)
           attrs = Hash[LINKEDIN_FIELDS_MAPPING.map { |k, v| [v, fetched[k]] }]
           attrs[:type] = "Linkedin"

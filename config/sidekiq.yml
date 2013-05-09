@@ -1,0 +1,15 @@
+# Sample configuration file for Sidekiq.
+# Options here can still be overridden by cmd line args.
+#   sidekiq -C config.yml
+---
+:redis:
+  :url: "redis://localhost:6379/"
+  :namespace: "cloudchart"
+  :server_size: 15
+  :client_size: 5
+:verbose: true
+:concurrency: 10
+:timeout: 5
+:queues:
+  - [importer, 1]
+
