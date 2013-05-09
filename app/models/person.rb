@@ -7,6 +7,7 @@ class Person
   scope :ordered, order_by(:id.asc)
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
+  scope :permanent, where(is_permanent: true)
   
   scope :linkedin, where(type: "Linkedin")
   scope :facebook, where(type: "Facebook")
@@ -47,6 +48,9 @@ class Person
   ## Relationships
   field :status,      type: String
   field :family,      type: Array
+  
+  # Other fields
+  field :is_permanent, type: Boolean, default: false
   
   # Validations
   validates :type, presence: true
@@ -153,16 +157,22 @@ class Person
   
   # Organization
   def add_to_organization(organization)
+    self.permanent!
     identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize
     identity.person!(self) if identity.new_record?
     identity
   end
   
   def use_in_organization(organization, node)
+    self.permanent!
     identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize
     identity.person!(self) if identity.new_record?
     identity.set(:node_id, node.id)
     identity
+  end
+  
+  def permanent!
+    self.set(:is_permanent, true)
   end
   
   # External

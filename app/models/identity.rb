@@ -20,7 +20,7 @@ class Identity
   
   # field :title, type: String
   field :position, type: String
-  field :is_starred,  type: Boolean, default: false
+  field :is_starred, type: Boolean, default: false
   
   # TODO: Indexes
   
