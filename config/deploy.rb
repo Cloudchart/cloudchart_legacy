@@ -25,7 +25,7 @@ set   :user, "cloudchart"
 
 ## Options
 set   :use_sudo, false
-set   :rvm_ruby_string, "ruby-1.9.3-p392@cloudchart"
+set   :rvm_ruby_string, "ruby-2.0.0-p0@cloudchart"
 set   :rvm_type, :user
 set   :keep_releases, 3
 set   :shared_children, shared_children + %w(tmp/sockets)
