@@ -33,7 +33,11 @@
 	- [ ] Autocomplete
 		- [x] Fix loading when text is changing
 		- [x] Improve parallel loading
-		- [ ] Improve animation
+		- [x] Fix animation when dragging
+		- [x] Show dropped people at the bottom of chart
+		- [x] Remove dropped person from the bottom of chart
+		- [x] Unstar to remove
+		- [x] Improve animation
 		- [?] Show results when backspacing search term
 	- [ ] Merge people from different sources
 	- [ ] Save user connections to our database

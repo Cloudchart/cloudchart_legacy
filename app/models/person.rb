@@ -156,6 +156,11 @@ class Person
   end
   
   # Organization
+  def find_in_organization(organization)
+    identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize
+    identity unless identity.new_record?
+  end
+  
   def add_to_organization(organization)
     self.permanent!
     identity = Identity.persons.where(organization_id: organization.id, entity_id: self.id).first_or_initialize

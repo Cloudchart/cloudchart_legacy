@@ -48,6 +48,10 @@ class Identity
     end
   end
   
+  def used?
+    !!self.node_id
+  end
+  
   def person!(person, params = {})
     self.update_attributes(params.merge(type: "person", entity_id: person.id))
     self.save

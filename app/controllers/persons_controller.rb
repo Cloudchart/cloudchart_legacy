@@ -115,6 +115,22 @@ class PersonsController < ApplicationController
     end
   end
   
+  def destroy
+    return unauthorized unless can?(:update, @organization)
+    
+    # Find or create person by identifier
+    person = Person.find_or_create_with_identifier(params[:id], current_user)
+    identity = person.find_in_organization(@organization)
+    identity.destroy if identity
+    
+    respond_to do |format|
+      format.html
+      format.json {
+        render json: { }
+      }
+    end
+  end
+  
   private
   
     def preload

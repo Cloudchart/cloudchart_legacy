@@ -7,6 +7,12 @@
     <div class="nodes">
     </div>
   </div>
+  <div id="persons">
+    <% @organization.identities.select(&:used?).each do |identity| %>
+        <% person = identity.to_person %>
+        <div class="img" style="background-image: url(<%= person.picture_url %>)" data-url="<%= organization_person_path(organization_id: @organization.id, id: person.identifier) %>"></div>
+    <% end %>
+  </div>
 </div>
 
 <script type="text/javascript" charset="utf-8">

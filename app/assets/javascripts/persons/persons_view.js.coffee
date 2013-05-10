@@ -90,7 +90,7 @@ class PersonsView
           progress = Math.round(90/self.providers.length)
           self.loading(self.progress+progress)
         ).error((xhr, status, error) ->
-          alert error
+          console.error error
         ).done((result) ->
           self.store(result.persons, search_key)
           if search_key == self.value
@@ -113,6 +113,21 @@ class PersonsView
         if self.value == ""
           self.store([result.person])
           self.render()
+  
+  destroy: (params, callback) ->
+    self = this
+    
+    $.ajax(url: "#{@path}/#{params.id}", data: params, dataType: "json", type: "DELETE")
+      .always ->
+        callback()
+        
+      .error (xhr, status, error) ->
+        console.error error
+      
+      .done (result) ->
+        # Don't reload when searching
+        if self.value == ""
+          self.index()
   
   # View
   loading: (progress = 0) ->
@@ -197,11 +212,13 @@ class PersonsView
     )
     
     # Appear collapsed items with animation
-    if @list.find(".collapsed").length > 0
+    if @progress >= 10 && @list.find(".collapsed").length > 0
       setTimeout(=>
-        @list.find(".collapsed").addClass("appear")
+        collapsed = @list.find(".collapsed")
+        collapsed.addClass("appear")
         
         setTimeout(=>
+          collapsed.removeClass("collapsed")
           @is_rendering = false
         , 200)
       , 200)
@@ -234,9 +251,17 @@ $(document).on("click", "[data-behavior=persons-view] [data-behavior=star]", ->
   resource_params = { is_starred: $this.hasClass("active") }
   identifier = $this.closest("[data-identifier]").attr("data-identifier")
   
-  @self.update({ id: identifier, person: resource_params }, ->
-    $this.removeClass("disabled")
-  )
+  # Update when starred
+  if resource_params.is_starred
+    @self.update({ id: identifier, person: resource_params }, ->
+      $this.removeClass("disabled")
+    )
+  
+  # Destroy when unstarred
+  else
+    @self.destroy({ id: identifier, person: resource_params }, ->
+      $this.removeClass("disabled")
+    )
   
   false
 )
@@ -255,6 +280,26 @@ $(document).on("click", "[data-behavior=persons-view] [data-behavior=filter]", -
   false
 )
 
+# TODO: Unmock
+# Persons events
+$(document).on("click", "#persons [data-url]", ->
+  self = $("[data-behavior=persons-view]").data("personsView")
+  $this = $(this)
+  
+  $.ajax(url: $this.attr("data-url"), dataType: "json", type: "DELETE")
+    # .always ->
+    #   callback()
+    #   
+    .error (xhr, status, error) ->
+      console.error error
+    
+    .done (result) ->
+      $this.remove()
+      self.index()
+  
+  false
+)
+
 $ ->
   # Init PersonsView
   $container = $("[data-behavior=persons-view]")
@@ -269,7 +314,7 @@ $ ->
         identifier = $this.attr("data-identifier")
         picture = $this.attr("data-picture")
         
-        node = $('<div class="img"></div>').appendTo(this)
+        node = $('<div class="img"></div>').appendTo($("#persons"))
         node.css(backgroundImage: "url(#{picture})") if picture
         
         # Mark person as used
