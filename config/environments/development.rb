@@ -16,8 +16,7 @@ Cloudchart::Application.configure do
   # Postmark
   # config.action_mailer.delivery_method = :file
   # config.action_mailer.default_url_options = { host: "cloudchart.dev" }
-  config.action_mailer.delivery_method   = :postmark
-  config.action_mailer.postmark_settings = { api_key: "72a89cbb-7351-466e-9b31-c515f84f9155" }
+  config.action_mailer.delivery_method   = :file
 
   # Don't care if the mailer can't send
   config.action_mailer.raise_delivery_errors = false

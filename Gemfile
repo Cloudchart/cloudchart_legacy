@@ -46,6 +46,7 @@ gem "sidekiq-failures"
 # Users
 gem "devise"
 gem "devise_invitable"
+gem "devise-encryptable"
 gem "cancan"
 gem "omniauth"
 gem "omniauth-linkedin"

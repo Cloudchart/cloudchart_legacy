@@ -4,9 +4,8 @@ class User
   include Mongoid::Paperclip
 
   # Include default devise modules
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
-         :invitable, :omniauthable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable,
+         :trackable, :validatable, :confirmable, :omniauthable#, :invitable
 
   # Relations
   # belongs_to :invitation
@@ -47,12 +46,14 @@ class User
   field :invitation_accepted_at,  type: Time
   field :invitation_limit,        type: Integer
 
+  ## Confirmable
+  field :confirmation_token,     type: String
+  field :confirmed_at,           type: Time
+  field :confirmation_sent_at,   type: Time
+  field :unconfirmed_email,      type: String
+
   # Other
   field :is_god, type: Boolean
-
-  # Validations
-  validates_presence_of :email
-  validates_presence_of :encrypted_password
 
   # Indexes
   ## Unique

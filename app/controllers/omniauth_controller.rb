@@ -143,6 +143,7 @@ class OmniauthController < Devise::OmniauthCallbacksController
         user
       else
         user = User.new(email: email, password: Devise.friendly_token[0,20]) 
+        user.skip_confirmation!
       end
 
       user

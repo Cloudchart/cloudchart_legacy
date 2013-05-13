@@ -39,8 +39,8 @@
 		- [x] Unstar to remove
 		- [x] Improve animation
 		- [?] Show results when backspacing search term
+	- [x] Save user connections to our database
 	- [ ] Merge people from different sources
-	- [ ] Save user connections to our database
 	- [ ] Natural language search
 	- [ ] Multiple selection and drag-n-drop
 - Ability to select/group nodes?
