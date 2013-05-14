@@ -40,6 +40,11 @@
 		- [x] Improve animation
 		- [?] Show results when backspacing search term
 	- [x] Save user connections to our database
+	- [ ] Allow users to edit profile
+		- [ ] Store tokens in separate collection
+		- [ ] Implement ability to create person token		- [ ] Implement authentication strategy
+		- [ ] Implement edit form
+		- [ ] Allow user to sign in while editing
 	- [ ] Merge people from different sources
 	- [ ] Natural language search
 	- [ ] Multiple selection and drag-n-drop
