@@ -10,6 +10,7 @@ class PersonsView
     @input = @form.find("input[name='search[query]']")
     @list = @container.find("[data-behavior=list]")
     @loader = @container.find("[data-behavior=loader]")
+    @modal = null
     
     # Properties
     @path = @container.attr("data-path")
@@ -280,26 +281,40 @@ $(document).on("click", "[data-behavior=persons-view] [data-behavior=filter]", -
   false
 )
 
-# TODO: Unmock
-# Persons events
-$(document).on("click", "#persons [data-url]", ->
+# Person events
+$(document).on("click", "[data-behavior=person-manage]", ->
   self = $("[data-behavior=persons-view]").data("personsView")
-  $this = $(this)
   
-  $.ajax(url: $this.attr("data-url"), dataType: "json", type: "DELETE")
-    # .always ->
-    #   callback()
-    #   
+  $.ajax(url: $(this).attr("data-url"), type: "GET")
     .error (xhr, status, error) ->
       console.error error
     
     .done (result) ->
-      $this.remove()
-      self.index()
+      self.modal = $("<div class='modal hide fade'>#{result}</div>")
+      self.modal.modal()
   
   false
 )
 
+$(document).on("click", "[data-behavior=person-destroy]", ->
+  self = $("[data-behavior=persons-view]").data("personsView")
+  
+  self.modal.modal("hide")
+  self.modal.on("hidden", -> self.modal.remove())
+  
+  $this = $(this)
+  $manage = $("[data-behavior=person-manage][data-identifier='#{$this.attr("data-identifier")}']")
+  
+  $.ajax(url: $this.attr("data-url"), dataType: "json", type: "DELETE")
+    .error (xhr, status, error) ->
+      console.error error
+    
+    .done (result) ->
+      $manage.remove()
+      self.index()
+  
+  false
+)
 $ ->
   # Init PersonsView
   $container = $("[data-behavior=persons-view]")

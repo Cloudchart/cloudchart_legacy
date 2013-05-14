@@ -28,7 +28,6 @@ end
 gem "unicorn"
 gem "paperclip"
 gem "mongoid"
-gem "mongoid_token"
 gem "mongoid-paperclip"
 gem "mongoid-slugify"
 gem "mongoid_rails_migrations"

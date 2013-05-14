@@ -40,11 +40,11 @@ class User
   field :last_sign_in_ip,    type: String
 
   ## Invitable
-  include Mongoid::Token
-  token length: 16, field_name: :invitation_token
-  field :invitation_sent_at,      type: Time
-  field :invitation_accepted_at,  type: Time
-  field :invitation_limit,        type: Integer
+  # include Mongoid::Token
+  # token length: 16, field_name: :invitation_token
+  # field :invitation_sent_at,      type: Time
+  # field :invitation_accepted_at,  type: Time
+  # field :invitation_limit,        type: Integer
 
   ## Confirmable
   field :confirmation_token,     type: String

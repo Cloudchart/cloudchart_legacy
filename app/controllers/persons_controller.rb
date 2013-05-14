@@ -68,23 +68,41 @@ class PersonsController < ApplicationController
     return unauthorized unless can?(:update, @organization)
     
     # Find or create person by identifier
-    person = Person.find_or_create_with_identifier(params[:id], current_user)
-    person.add_to_organization(@organization)
+    @person = Person.find_or_create_with_identifier(params[:id], current_user)
+    @person.add_to_organization(@organization)
     
     respond_to do |format|
       format.html
       format.json {
-        render json: { person: person }
+        render json: { person: @person }
       }
     end
+  end
+  
+  def manage
+    return unauthorized unless can?(:update, @organization)
+    
+    # Find or create person by identifier
+    @person = Person.find_or_create_with_identifier(params[:id], current_user)
+    
+    respond_to do |format|
+      format.html {
+        render layout: false
+      }
+    end
+  end
+  
+  def token
+    @person = Person.find_by_identifier(params[:id])
+    raise can?(:edit, @person).inspect
   end
   
   def update
     return unauthorized unless can?(:update, @organization)
     
     # Find or create person by identifier
-    person = Person.find_or_create_with_identifier(params[:id], current_user)
-    identity = person.add_to_organization(@organization)
+    @person = Person.find_or_create_with_identifier(params[:id], current_user)
+    identity = @person.add_to_organization(@organization)
     
     # Update identity
     is_starred = resource_params.delete(:is_starred)
@@ -96,12 +114,12 @@ class PersonsController < ApplicationController
     # TODO: Unmock
     is_used = resource_params.delete(:is_used)
     if is_used
-      person.use_in_organization(@organization, Node.new)
+      @person.use_in_organization(@organization, Node.new)
     end
     
     # Update person
     if resource_params.any?
-      person.update_attributes(resource_params)
+      @person.update_attributes(resource_params)
       
       # Reload nested person
       identity.entity.reload
@@ -119,8 +137,8 @@ class PersonsController < ApplicationController
     return unauthorized unless can?(:update, @organization)
     
     # Find or create person by identifier
-    person = Person.find_or_create_with_identifier(params[:id], current_user)
-    identity = person.find_in_organization(@organization)
+    @person = Person.find_or_create_with_identifier(params[:id], current_user)
+    identity = @person.find_in_organization(@organization)
     identity.destroy if identity
     
     respond_to do |format|

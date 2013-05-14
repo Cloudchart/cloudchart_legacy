@@ -6,6 +6,10 @@ Cloudchart::Application.routes.draw do
       collection do
         get :search
       end
+      member do
+        get :manage
+        get :token
+      end
     end
   end
   

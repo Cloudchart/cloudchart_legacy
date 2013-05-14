@@ -81,9 +81,24 @@ class Person
     self.add_to_organization(self.organization) if self.organization
   }
   
+  # Token
+  def token
+    Token.where(type: self.class.to_s, entity_id: self.id, level: "update").first_or_create
+  end
+  
+  def self.find_by_token(digest)
+    token = Token.where(type: self.class.to_s, digest: digest).first
+    self.class.find(token.entity_id) if token
+  end
+  
   # Class methods
   def self.identifier(params)
     "#{params["type"]}:#{params["external_id"]}"
+  end
+  
+  def self.find_by_identifier(identifier)
+    type, external_id = identifier.split(":")
+    self.where(type: type, external_id: external_id).first
   end
   
   def self.find_or_create_with_identifier(identifier, current_user)

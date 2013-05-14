@@ -3,12 +3,18 @@ class ApplicationController < ActionController::Base
   before_filter :preload
   
   def current_ability
-    @current_ability ||= Ability.new(current_user)
+    if params[:token]
+      @token = Token.where(digest: params[:token]).first
+      @current_ability ||= Ability.new(current_user, @token)
+    else
+      @current_ability ||= Ability.new(current_user)
+    end
   end
   
   private
   
     def preload
+      current_ability
     end
     
     def unauthorized

@@ -190,8 +190,6 @@ GEM
       bundler (>= 1.0.0)
       rails (>= 3.2.0)
       railties (>= 3.2.0)
-    mongoid_token (1.1.1)
-      mongoid (~> 3.0)
     moped (1.4.5)
     multi_json (1.7.2)
     multipart-post (1.2.0)
@@ -418,7 +416,6 @@ DEPENDENCIES
   mongoid-paperclip
   mongoid-slugify
   mongoid_rails_migrations
-  mongoid_token
   omniauth
   omniauth-facebook
   omniauth-linkedin

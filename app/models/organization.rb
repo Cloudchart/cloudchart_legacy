@@ -1,7 +1,6 @@
 class Organization
   include Mongoid::Document
   include Mongoid::Timestamps
-  include Mongoid::Token
   store_in collection: "organizations"
   
   # Relations
@@ -20,9 +19,6 @@ class Organization
   
   # Validations
   validates :title, presence: true
-  
-  # Token
-  token length: 16
   
   # Representation
   def to_param
