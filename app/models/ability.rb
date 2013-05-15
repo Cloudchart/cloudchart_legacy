@@ -14,6 +14,8 @@ class Ability
       can :token, Organization, id: user.accesses.organizations.owners.map(&:entity_id)
       can :manage, Node, id: user.accesses.nodes.editables.map(&:entity_id)
       can :token, Node, id: user.accesses.nodes.owners.map(&:entity_id)
+      
+      # TODO: Person
     end
     
     # Token abilities

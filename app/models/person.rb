@@ -81,6 +81,10 @@ class Person
     self.add_to_organization(self.organization) if self.organization
   }
   
+  def gender_enum
+    %w(male female)
+  end
+  
   # Token
   def token
     Token.where(type: self.class.to_s, entity_id: self.id, level: "update").first_or_create

@@ -1,0 +1,25 @@
+<%= simple_form_for([@organization, @person], html: { class: "form-horizontal" }) do |f| %>
+  <h1>Personal</h1>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.input :gender, as: :select, collection: @person.gender_enum %>
+  <%= f.input :hometown %>
+  <%= f.input :location %>
+  <%= f.input :description %>
+  
+  <h1>Education</h1>
+  <%= f.input :education %>
+  
+  <h1>Work</h1>
+  <%= f.input :work %>
+  
+  <h1>Skills</h1>
+  <%= f.input :skills %>
+  
+  <h1>Contact</h1>
+  <%= f.input :phones %>
+  
+  <h1>Family</h1>
+  <%= f.input :status %>
+  <%= f.input :family %>
+<% end %>

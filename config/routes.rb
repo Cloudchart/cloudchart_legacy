@@ -8,7 +8,6 @@ Cloudchart::Application.routes.draw do
       end
       member do
         get :manage
-        get :token
       end
     end
   end

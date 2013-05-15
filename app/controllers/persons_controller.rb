@@ -92,9 +92,9 @@ class PersonsController < ApplicationController
     end
   end
   
-  def token
+  def edit
     @person = Person.find_by_identifier(params[:id])
-    raise can?(:edit, @person).inspect
+    return unauthorized unless can?(:update, @person)
   end
   
   def update

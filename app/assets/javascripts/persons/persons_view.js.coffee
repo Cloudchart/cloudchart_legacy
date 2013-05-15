@@ -87,15 +87,20 @@ class PersonsView
           data: data,
           dataType: "json",
           type: @form.attr("method")
-        }).always(->
+        }).error((xhr, status, error) ->
+          console.error error
+          
+          # Loading
           progress = Math.round(90/self.providers.length)
           self.loading(self.progress+progress)
-        ).error((xhr, status, error) ->
-          console.error error
         ).done((result) ->
           self.store(result.persons, search_key)
           if search_key == self.value
             self.render(search_key)
+          
+          # Loading
+          progress = Math.round(90/self.providers.length)
+          self.loading(self.progress+progress)
         )
     , 400)
   
@@ -331,6 +336,10 @@ $ ->
         
         node = $('<div class="img"></div>').appendTo($("#persons"))
         node.css(backgroundImage: "url(#{picture})") if picture
+        
+        node.attr("data-behavior", "person-manage")
+        node.attr("data-identifier", identifier)
+        node.attr("data-url", "#{$container.data("personsView").path}/#{identifier}/manage")
         
         # Mark person as used
         $container.data("personsView").update(id: identifier, person: { is_used: true }, ->
