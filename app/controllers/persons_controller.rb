@@ -128,7 +128,11 @@ class PersonsController < ApplicationController
     
     respond_to do |format|
       format.html {
-        redirect_to edit_organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token])
+        if @person.valid?
+          redirect_to edit_organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token])
+        else
+          render :edit
+        end
       }
       format.json {
         render json: { person: identity.to_person }

@@ -1,4 +1,6 @@
 <%= simple_form_for([@organization, @person], url: organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token]), html: { class: "form-horizontal", data: { behavior: "person-edit"} }) do |f| %>
+  <%= debug @person.errors.full_messages if @person.errors.any? %>
+  
   <h1>Personal</h1>
   <%= f.input :first_name %>
   <%= f.input :last_name %>
@@ -15,12 +17,12 @@
       <div>
         <h2 data-behavior="index"><%= i %></h2>
         <%= f.simple_fields_for :education do |n| %>
-          <%= n.input :name, input_html: { name: "person[education][#{i}][name]", value: education["name"] } %>
+          <%= n.input :name, required: true, input_html: { name: "person[education][#{i}][name]", value: education["name"] } %>
           <%= n.input :type, required: false, input_html: { name: "person[education][#{i}][type]", value: education["type"] } %>
-          <%= n.input :degree, input_html: { name: "person[education][#{i}][degree]", value: education["degree"] } %>
-          <%= n.input :concentration, input_html: { name: "person[education][#{i}][concentration]", value: education["concentration"] } %>
-          <%= n.input :start_year, input_html: { name: "person[education][#{i}][start_year]", value: education["start_year"] } %>
-          <%= n.input :end_year, input_html: { name: "person[education][#{i}][end_year]", value: education["end_year"] } %>
+          <%= n.input :degree, required: false, input_html: { name: "person[education][#{i}][degree]", value: education["degree"] } %>
+          <%= n.input :concentration, required: false, input_html: { name: "person[education][#{i}][concentration]", value: education["concentration"] } %>
+          <%= n.input :start_year, required: false, input_html: { name: "person[education][#{i}][start_year]", value: education["start_year"] } %>
+          <%= n.input :end_year, required: false, input_html: { name: "person[education][#{i}][end_year]", value: education["end_year"] } %>
         <% end %>
       </div>
       <% end %>
@@ -30,12 +32,12 @@
     <div class="hidden" data-behavior="template">
       <h2 data-behavior="index">-1</h2>
       <%= f.simple_fields_for :education do |n| %>
-        <%= n.input :name, input_html: { name: "person[education][%i][name]" } %>
+        <%= n.input :name, required: true, input_html: { name: "person[education][%i][name]" } %>
         <%= n.input :type, required: false, input_html: { name: "person[education][%i][type]" } %>
-        <%= n.input :degree, input_html: { name: "person[education][%i][degree]" } %>
-        <%= n.input :concentration, input_html: { name: "person[education][%i][concentration]" } %>
-        <%= n.input :start_year, input_html: { name: "person[education][%i][start_year]" } %>
-        <%= n.input :end_year, input_html: { name: "person[education][%i][end_year]" } %>
+        <%= n.input :degree, required: false, input_html: { name: "person[education][%i][degree]" } %>
+        <%= n.input :concentration, required: false, input_html: { name: "person[education][%i][concentration]" } %>
+        <%= n.input :start_year, required: false, input_html: { name: "person[education][%i][start_year]" } %>
+        <%= n.input :end_year, required: false, input_html: { name: "person[education][%i][end_year]" } %>
       <% end %>
     </div>
     
@@ -50,12 +52,12 @@
       <div>
         <h2 data-behavior="index"><%= i %></h2>
         <%= f.simple_fields_for :work do |n| %>
-          <%= n.input :employer_id, as: :hidden, input_html: { name: "person[work][#{i}][employer][id]", value: work["employer"]["id"] } %>
-          <%= n.input :employer_name, input_html: { name: "person[work][#{i}][employer][name]", value: work["employer"]["name"] } %>
-          <%= n.input :position, input_html: { name: "person[work][#{i}][position]", value: work["position"] } %>
-          <%= n.input :description, input_html: { name: "person[work][#{i}][description]", value: work["description"] } %>
-          <%= n.input :start_date, input_html: { name: "person[work][#{i}][start_date]", value: work["start_date"] } %>
-          <%= n.input :end_date, input_html: { name: "person[work][#{i}][end_date]", value: work["end_date"] } %>
+          <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][#{i}][employer][id]", value: work["employer"]["id"] } %>
+          <%= n.input :employer_name, required: false, input_html: { name: "person[work][#{i}][employer][name]", value: work["employer"]["name"] } %>
+          <%= n.input :position, required: true, input_html: { name: "person[work][#{i}][position]", value: work["position"] } %>
+          <%= n.input :description, required: false, input_html: { name: "person[work][#{i}][description]", value: work["description"] } %>
+          <%= n.input :start_date, required: false, input_html: { name: "person[work][#{i}][start_date]", value: work["start_date"] } %>
+          <%= n.input :end_date, required: false, input_html: { name: "person[work][#{i}][end_date]", value: work["end_date"] } %>
         <% end %>
       </div>
       <% end %>
@@ -65,12 +67,12 @@
     <div class="hidden" data-behavior="template">
       <h2 data-behavior="index">0</h2>
       <%= f.simple_fields_for :work do |n| %>
-        <%= n.input :employer_id, as: :hidden, input_html: { name: "person[work][%i][employer][id]" } %>
-        <%= n.input :employer_name, input_html: { name: "person[work][%i][employer][name]" } %>
-        <%= n.input :position, input_html: { name: "person[work][%i][position]" } %>
-        <%= n.input :description, input_html: { name: "person[work][%i][description]" } %>
-        <%= n.input :start_date, input_html: { name: "person[work][%i][start_date]" } %>
-        <%= n.input :end_date, input_html: { name: "person[work][%i][end_date]" } %>
+        <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][%i][employer][id]" } %>
+        <%= n.input :employer_name, required: false, input_html: { name: "person[work][%i][employer][name]" } %>
+        <%= n.input :position, required: true, input_html: { name: "person[work][%i][position]" } %>
+        <%= n.input :description, required: false, input_html: { name: "person[work][%i][description]" } %>
+        <%= n.input :start_date, required: false, input_html: { name: "person[work][%i][start_date]" } %>
+        <%= n.input :end_date, required: false, input_html: { name: "person[work][%i][end_date]" } %>
       <% end %>
     </div>
     

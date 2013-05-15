@@ -58,6 +58,19 @@ class Person
   validates :first_name, presence: true
   validates :last_name, presence: true
   
+  VALIDATION = {
+    education: {
+      fields: {
+        name: { required: true }
+      }
+    },
+    work: {
+      fields: {
+        position: { required: true }
+      }
+    }
+  }
+  
   # Indexes
   ## Unique
   index({ user_id: 1, type: 1, external_id: 1 }, { unique: true })
@@ -154,13 +167,24 @@ class Person
     return true unless self.params
     
     # Normalize
-    self.params.delete(:token)
     self.fields.select { |k, v| v.type == Array }.keys.each do |k|
-      self.params[k] = self.params[k].delete_if { |k, v| k == "%i" }.map { |k, v| v } if self.params[k]
+      if self.params[k]
+        self.params[k].delete_if { |k, v| k == "%i" }
+        self.params[k] = self.params[k].map { |k, v| v } if self.params[k].is_a?(Hash)
+      end
     end
-    # raise self.params.inspect
     
     # Validate
+    VALIDATION.each do |k, v|
+      if self.params[k]
+        v[:fields].each do |field, options|
+          if options[:required]
+            valid = !self.params[k].map { |x| x[field].present? }.include?(false)
+            self.errors.add(:base, "#{field}_required") if !valid
+          end
+        end
+      end
+    end
   end
   
   def save_params
