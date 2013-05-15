@@ -42,8 +42,10 @@
 	- [x] Save user connections to our database
 	- [ ] Allow users to edit profile
 		- [x] Store tokens (access types) in separate collection
-		- [x] Implement ability to create person token		- [ ] Implement edit form
-		- [ ] Allow user to sign in while editing
+		- [x] Implement ability to create person token
+		- [ ] Implement edit form
+		- [ ] Allow user to add multiple emails
+		- [ ] Allow user to connect social profiles
 	- [ ] Merge people from different sources
 	- [ ] Natural language search
 	- [ ] Multiple selection and drag-n-drop
