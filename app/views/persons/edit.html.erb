@@ -1,4 +1,4 @@
-<%= simple_form_for([@organization, @person], html: { class: "form-horizontal" }) do |f| %>
+<%= simple_form_for([@organization, @person], url: organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token]), html: { class: "form-horizontal" }) do |f| %>
   <h1>Personal</h1>
   <%= f.input :first_name %>
   <%= f.input :last_name %>
@@ -8,18 +8,68 @@
   <%= f.input :description %>
   
   <h1>Education</h1>
-  <%= f.input :education %>
+  <% if @person.education %>
+    <% @person.education.each_with_index do |education, i| %>
+      <h2><%= i+1 %></h2>
+      <%= f.input :name, input_html: { name: "person[education][#{i}][name]", value: education["name"] } %>
+      <%= f.input :type, required: false, input_html: { name: "person[education][#{i}][type]", value: education["type"] } %>
+      <%= f.input :degree, input_html: { name: "person[education][#{i}][degree]", value: education["degree"] } %>
+      <%= f.input :concentration, input_html: { name: "person[education][#{i}][concentration]", value: education["concentration"] } %>
+      <%= f.input :start_year, input_html: { name: "person[education][#{i}][start_year]", value: education["start_year"] } %>
+      <%= f.input :end_year, input_html: { name: "person[education][#{i}][start_year]", value: education["end_year"] } %>
+    <% end %>
+  <% else %>
+    ...
+  <% end %>
   
   <h1>Work</h1>
-  <%= f.input :work %>
+  <% if @person.work %>
+    <% @person.work.each_with_index do |work, i| %>
+      <h2><%= i+1 %></h2>
+      <%= f.input :employer_id, as: :hidden, input_html: { name: "person[work][#{i}][employer][id]", value: work["employer"]["id"] } %>
+      <%= f.input :employer_name, input_html: { name: "person[work][#{i}][employer][name]", value: work["employer"]["name"] } %>
+      <%= f.input :position, input_html: { name: "person[work][#{i}][position]", value: work["position"] } %>
+      <%= f.input :description, input_html: { name: "person[work][#{i}][description]", value: work["description"] } %>
+      <%= f.input :start_date, input_html: { name: "person[work][#{i}][start_date]", value: work["start_date"] } %>
+      <%= f.input :end_date, input_html: { name: "person[work][#{i}][end_date]", value: work["end_date"] } %>
+    <% end %>
+  <% else %>
+    ...
+  <% end %>
   
   <h1>Skills</h1>
-  <%= f.input :skills %>
+  <% if @person.skills %>
+    <% @person.skills.each do |skill| %>
+      <%= f.input :skill, input_html: { name: "person[skills][]", value: skill } %>
+    <% end %>
+  <% else %>
+    ...
+  <% end %>
   
   <h1>Contact</h1>
-  <%= f.input :phones %>
+  <% if @person.phones %>
+    <% @person.phones.each_with_index do |phone, i| %>
+      <h2><%= i+1 %></h2>
+      <%= f.input :type, required: false, input_html: { name: "person[phones][#{i}][type]", value: phone["type"] } %>
+      <%= f.input :number, input_html: { name: "person[phones][#{i}][number]", value: phone["number"] } %>
+    <% end %>
+  <% else %>
+    ...
+  <% end %>
   
   <h1>Family</h1>
   <%= f.input :status %>
-  <%= f.input :family %>
+  <% if @person.family %>
+    <% @person.family.each_with_index do |family, i| %>
+      <h2><%= i+1 %></h2>
+      <%= f.input :id, as: :hidden, input_html: { name: "person[family][#{i}][id]", value: family["id"] } %>
+      <%= f.input :name, input_html: { name: "person[family][#{i}][name]", value: family["name"] } %>
+      <%= f.input :relationship, input_html: { name: "person[family][#{i}][relationship]", value: family["relationship"] } %>
+    <% end %>
+  <% else %>
+    ...
+  <% end %>
+  
+  <br />
+  <%= f.submit "Save", class: "btn btn-primary" %>
 <% end %>

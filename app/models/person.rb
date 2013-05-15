@@ -16,7 +16,7 @@ class Person
   belongs_to :user
   
   # Fields
-  attr_accessor :organization, :is_starred, :is_used
+  attr_accessor :organization, :params, :is_starred, :is_used
   attr_accessible :type, :external_id, :profile_url, :picture_url,
                   :first_name, :last_name, :birthday, :gender, :hometown, :location,
                   :education, :work, :skills, :description,
@@ -81,6 +81,10 @@ class Person
     self.add_to_organization(self.organization) if self.organization
   }
   
+  # Callbacks for params
+  before_validation :check_params
+  before_save :save_params
+  
   def gender_enum
     %w(male female)
   end
@@ -139,6 +143,28 @@ class Person
         :is_persisted, :is_starred, :is_used
       ]
     )
+  end
+  
+  # Params
+  def prepare_params(params)
+    self.params = params
+  end
+  
+  def check_params
+    return true unless self.params
+    
+    # Normalize
+    self.params.delete(:token)
+    self.fields.select { |k, v| v.type == Array }.keys.each do |k|
+      self.params[k] = self.params[k].map { |k, v| v } if self.params[k]
+    end
+  end
+  
+  def save_params
+    return true unless self.params
+    
+    self.params.each { |k, v| self.send("#{k}=", v) }
+    self.params = nil
   end
   
   # Representation

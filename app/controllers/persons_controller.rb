@@ -119,14 +119,17 @@ class PersonsController < ApplicationController
     
     # Update person
     if resource_params.any?
-      @person.update_attributes(resource_params)
+      @person.prepare_params(resource_params)
+      @person.save
       
       # Reload nested person
       identity.entity.reload
     end
     
     respond_to do |format|
-      format.html
+      format.html {
+        redirect_to edit_organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token])
+      }
       format.json {
         render json: { person: identity.to_person }
       }
