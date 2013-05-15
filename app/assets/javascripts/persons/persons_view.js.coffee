@@ -320,6 +320,28 @@ $(document).on("click", "[data-behavior=person-destroy]", ->
   
   false
 )
+
+$(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=new]", ->
+  $template = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=template]").clone()
+  $sets = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=sets]")
+  
+  index = Math.max($.map($(this).closest("[data-behavior=fieldset]").find("[data-behavior=index]"), (v) ->
+    value = $(v).html()
+    if value != "" then parseInt(value) else 0
+  )...) + 1
+  
+  $template.removeClass("hidden")
+  $template.attr("data-behavior", "")
+  $template.find("[data-behavior=index]").text(index)
+  $template.find("input").each(->
+    $this = $(this)
+    $this.attr("name", $this.attr("name").replace("%i", index))
+  )
+  
+  $template.appendTo($sets)
+  false
+)
+
 $ ->
   # Init PersonsView
   $container = $("[data-behavior=persons-view]")

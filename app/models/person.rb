@@ -156,8 +156,11 @@ class Person
     # Normalize
     self.params.delete(:token)
     self.fields.select { |k, v| v.type == Array }.keys.each do |k|
-      self.params[k] = self.params[k].map { |k, v| v } if self.params[k]
+      self.params[k] = self.params[k].delete_if { |k, v| k == "%i" }.map { |k, v| v } if self.params[k]
     end
+    # raise self.params.inspect
+    
+    # Validate
   end
   
   def save_params
