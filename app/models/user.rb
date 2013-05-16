@@ -11,6 +11,7 @@ class User
   # belongs_to :invitation
   has_many :accesses, dependent: :destroy
   has_many :persons
+  has_many :owned_persons, class_name: "Person", foreign_key: "owner_id"
 
   ## Omniauthable
   embeds_many :authorizations do

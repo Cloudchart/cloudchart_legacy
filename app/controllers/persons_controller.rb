@@ -161,7 +161,7 @@ class PersonsController < ApplicationController
     def preload
       super
       
-      @organization = Organization.find(params[:organization_id])
+      @organization = Organization.find(params[:organization_id]) if params[:organization_id]
     end
     
     def resource_params

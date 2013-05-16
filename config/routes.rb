@@ -12,6 +12,8 @@ Cloudchart::Application.routes.draw do
     end
   end
   
+  resources :persons, only: [:edit]
+  
   # Users
   devise_for :users, controllers: {
     omniauth_callbacks: "omniauth",
