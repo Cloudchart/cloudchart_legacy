@@ -16,6 +16,7 @@ class Ability
       can :token, Node, id: user.accesses.nodes.owners.map(&:entity_id)
       
       # TODO: Person
+      can :manage, Person, owner_id: user.id
     end
     
     # Token abilities

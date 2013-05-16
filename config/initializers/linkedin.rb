@@ -114,7 +114,10 @@ if !defined? LINKEDIN_KEY
             works = attrs[:work].all
             attrs[:work] = works.map { |x|
               work = {}
-              work[:employer] = { id: x.company.id, name: x.company.name }.stringify_keys if x.company
+              if x.company
+                work[:employer_id] = x.company.id
+                work[:employer_name] = x.company.name
+              end
               work[:position] = x.title if x.title
               work[:description] = x.summary if x.summary
               work[:start_date] = %w(year month day).map { |k| x.start_date[k] }.compact.join("-") if x.start_date

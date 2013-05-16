@@ -58,6 +58,7 @@
 ## Person
 
 - **Belongs to** user
+- **Belongs to** owner (class: User)
 - ? **Has many** identities
 - type [Enum: Linkedin, Facebook, …]
 - external_id [String]

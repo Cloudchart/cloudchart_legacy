@@ -46,6 +46,7 @@
 		- [ ] Implement edit form
 		- [ ] Allow user to add multiple emails
 		- [ ] Allow user to connect social profiles
+	- [ ] Store relationships
 	- [ ] Merge people from different sources
 	- [ ] Natural language search
 	- [ ] Multiple selection and drag-n-drop

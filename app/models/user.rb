@@ -96,6 +96,15 @@ class User
       .send(level)
   end
   
+  def ensure_persons_ownership
+    self.authorizations.each do |authorization|
+      person = Person.find_by_identifier("#{authorization.provider}:#{authorization.uid}")
+      next unless person
+      
+      person.set(:owner_id, self.id) if person.owner_id != self.id
+    end
+  end
+  
   def organizations
     Organization.in(id: self.accesses.organizations.map(&:entity_id))
   end

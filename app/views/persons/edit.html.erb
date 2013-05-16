@@ -52,8 +52,8 @@
       <div>
         <h2 data-behavior="index"><%= i %></h2>
         <%= f.simple_fields_for :work do |n| %>
-          <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][#{i}][employer][id]", value: work["employer"]["id"] } %>
-          <%= n.input :employer_name, required: false, input_html: { name: "person[work][#{i}][employer][name]", value: work["employer"]["name"] } %>
+          <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][#{i}][employer_id]", value: work["employer_id"] } %>
+          <%= n.input :employer_name, required: false, input_html: { name: "person[work][#{i}][employer_name]", value: work["employer_name"] } %>
           <%= n.input :position, required: true, input_html: { name: "person[work][#{i}][position]", value: work["position"] } %>
           <%= n.input :description, required: false, input_html: { name: "person[work][#{i}][description]", value: work["description"] } %>
           <%= n.input :start_date, required: false, input_html: { name: "person[work][#{i}][start_date]", value: work["start_date"] } %>
@@ -67,8 +67,8 @@
     <div class="hidden" data-behavior="template">
       <h2 data-behavior="index">0</h2>
       <%= f.simple_fields_for :work do |n| %>
-        <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][%i][employer][id]" } %>
-        <%= n.input :employer_name, required: false, input_html: { name: "person[work][%i][employer][name]" } %>
+        <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][%i][employer_id]" } %>
+        <%= n.input :employer_name, required: false, input_html: { name: "person[work][%i][employer_name]" } %>
         <%= n.input :position, required: true, input_html: { name: "person[work][%i][position]" } %>
         <%= n.input :description, required: false, input_html: { name: "person[work][%i][description]" } %>
         <%= n.input :start_date, required: false, input_html: { name: "person[work][%i][start_date]" } %>

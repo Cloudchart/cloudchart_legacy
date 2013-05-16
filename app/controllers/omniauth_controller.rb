@@ -135,6 +135,10 @@ class OmniauthController < Devise::OmniauthCallbacksController
 
       # Run import in background
       Importer.perform_async(user.id, provider)
+
+      # Ensure user is set as owner to corresponding persons
+      user.ensure_persons_ownership
+  
       user
     end
 

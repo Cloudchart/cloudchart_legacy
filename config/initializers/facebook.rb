@@ -108,7 +108,10 @@ if !defined? FACEBOOK_KEY
             works = attrs[:work]
             attrs[:work] = works.map { |x|
               work = {}
-              work[:employer] = { id: x["employer"]["id"], name: x["employer"]["name"] }.stringify_keys if x["employer"]
+              if x["employer"]
+                work[:employer_id] = x["employer"]["id"]
+                work[:employer_name] = x["employer"]["name"]
+              end
               work[:position] = x["position"]["name"] if x["position"]
               work[:description] = x["description"] if x["description"]
               work[:start_date] = x["start_date"] if x["start_date"]

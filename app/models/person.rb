@@ -14,6 +14,7 @@ class Person
   
   # Relations
   belongs_to :user
+  belongs_to :owner, class_name: "User"
   
   # Fields
   attr_accessor :organization, :params, :is_starred, :is_used
@@ -220,7 +221,7 @@ class Person
   end
   
   def employer
-    self.recent_work["employer"]["name"] if self.recent_work
+    self.recent_work["employer_name"] if self.recent_work
   end
   
   def headline
