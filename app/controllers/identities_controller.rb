@@ -22,6 +22,43 @@ class IdentitiesController < ApplicationController
     end
   end
   
+  def new
+    return unauthorized unless can?(:update, @organization)
+    @person = Person.new
+    
+    respond_to do |format|
+      format.html {
+        render layout: false
+      }
+    end
+  end
+  
+  def create
+    return unauthorized unless can?(:update, @organization)
+    @person = Person.find_or_initialize_with_email(resource_params[:email])
+    
+    # Create person
+    if @person.new_record?
+      @person.update_attributes(resource_params)
+      @person.save!
+      @person.use_in_organization(@organization, Node.new)
+      
+      # Send profile email
+      ApplicationMailer.profile(current_user, @person.email, {
+        link: edit_person_url(id: @person.id, token: @person.token.digest)
+      }).deliver
+    end
+    
+    respond_to do |format|
+      format.html {
+        redirect_to organization_path(@organization)
+      }
+      format.json {
+        render json: { person: @person }
+      }
+    end
+  end
+  
   def show
     return unauthorized unless can?(:update, @organization)
     

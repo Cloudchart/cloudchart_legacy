@@ -9,6 +9,7 @@ class Person
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
   scope :permanent, where(is_permanent: true)
   
+  scope :local, where(type: "Local")
   scope :linkedin, where(type: "Linkedin")
   scope :facebook, where(type: "Facebook")
   
@@ -28,7 +29,7 @@ class Person
   field :external_id, type: String
   field :profile_url, type: String
   field :picture_url, type: String
-  field :emails,      type: Array
+  field :email,       type: String
   
   ## Personal
   field :first_name,  type: String, default: ""
@@ -56,7 +57,7 @@ class Person
   
   # Validations
   validates :type, presence: true
-  validates :external_id, presence: true
+  validates :external_id, presence: true, if: -> { self.type != "Local" }
   validates :first_name, presence: true
   validates :last_name, presence: true
   
@@ -146,6 +147,14 @@ class Person
       person.update_attributes(params) if person.new_record?
     end
     
+    person
+  end
+  
+  def self.find_or_initialize_with_email(email)
+    person = self.where(email: email).first_or_initialize
+    if person.new_record?
+      person.type = "Local"
+    end
     person
   end
   

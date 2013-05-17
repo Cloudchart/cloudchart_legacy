@@ -166,12 +166,18 @@
     width: 900px;
     
     .img {
+      @include box-sizing(border-box);
       float: left;
       margin: 5px 0 0 5px;
       width: 40px;
       height: 40px;
       background: url(ico-person.png) no-repeat center center;
       background-size: 40px 40px;
+    }
+    
+    .new {
+      border: 1px solid #ccc;
+      background: #fff;
     }
   }
 }

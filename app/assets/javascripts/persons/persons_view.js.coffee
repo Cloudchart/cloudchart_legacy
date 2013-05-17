@@ -287,7 +287,7 @@ $(document).on("click", "[data-behavior=persons-view] [data-behavior=filter]", -
 )
 
 # Person events
-$(document).on("click", "[data-behavior=person-manage]", ->
+$(document).on("click", "[data-behavior=person-manage], [data-behavior=person-new]", ->
   self = $("[data-behavior=persons-view]").data("personsView")
   
   $.ajax(url: $(this).attr("data-url"), type: "GET")

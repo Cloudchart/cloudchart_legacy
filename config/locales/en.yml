@@ -73,6 +73,7 @@ en:
   # App
   app:
     loading: "Loading..."
+    anonymous: "Anonymous"
   
   # Persons
   persons:
@@ -81,3 +82,12 @@ en:
       used: "Used"
       unused: "Unused"
       all: "All charts"
+  
+  # Mailer
+  mailer:
+    profile:
+      subject: "Edit your profile"
+      body: |
+        %{name} invited you to edit your profile.
+        Here is a link: %{link}
+  
