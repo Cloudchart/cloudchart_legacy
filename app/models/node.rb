@@ -53,7 +53,7 @@ class Node
   
   # Callbacks for params
   before_validation :check_params
-  before_save :save_params
+  before_validation :save_params
   
   # Fields
   def serializable_hash(options)
@@ -107,6 +107,7 @@ class Node
   
   def save_params
     return true unless self.params
+    return false if self.errors.messages.any?
     
     # Ids mapping
     mapping = {}

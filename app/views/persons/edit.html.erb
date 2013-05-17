@@ -1,4 +1,4 @@
-<%= simple_form_for(@person, url: person_path(id: @person.identifier, token: params[:token]), html: { class: "form-horizontal", data: { behavior: "person-edit"} }) do |f| %>
+<%= simple_form_for(@person, url: person_path(id: @person.id, token: params[:token]), html: { class: "form-horizontal", data: { behavior: "person-edit"} }) do |f| %>
   <%= debug @person.errors.full_messages if @person.errors.any? %>
   
   <h1>Personal</h1>

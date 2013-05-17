@@ -28,6 +28,7 @@ class Person
   field :external_id, type: String
   field :profile_url, type: String
   field :picture_url, type: String
+  field :emails,      type: Array
   
   ## Personal
   field :first_name,  type: String, default: ""
@@ -97,7 +98,7 @@ class Person
   
   # Callbacks for params
   before_validation :check_params
-  before_save :save_params
+  before_validation :save_params
   
   def gender_enum
     %w(male female)
@@ -186,6 +187,8 @@ class Person
         end
       end
     end
+    
+    true
   end
   
   def save_params
@@ -193,6 +196,9 @@ class Person
     
     self.params.each { |k, v| self.send("#{k}=", v) }
     self.params = nil
+    
+    return false if self.errors.messages.any?
+    true
   end
   
   # Representation

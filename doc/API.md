@@ -30,6 +30,8 @@
 	- [x] Search people using Linkedin/Facebook
 	- [x] Add people to database and search using Elasticsearch
 	- [x] Rename persons client namespace, move initializer to PersonsView, bind 	events globally
+	- [x] Save user connections to our database
+	- [x] Store persons ownership when it is possible (persons with specific ownership are merged)
 	- [ ] Autocomplete
 		- [x] Fix loading when text is changing
 		- [x] Improve parallel loading
@@ -39,15 +41,16 @@
 		- [x] Unstar to remove
 		- [x] Improve animation
 		- [?] Show results when backspacing search term
-	- [x] Save user connections to our database
 	- [ ] Allow users to edit profile
 		- [x] Store tokens (access types) in separate collection
 		- [x] Implement ability to create person token
-		- [ ] Implement edit form
+		- [x] Implement edit form
+		- [ ] Allow owner to send invitation for editing
+		- [ ] Allow owner to create person with invitation
 		- [ ] Allow user to add multiple emails
 		- [ ] Allow user to connect social profiles
+		- [ ] Add update specs
 	- [ ] Store relationships
-	- [ ] Merge people from different sources
 	- [ ] Natural language search
 	- [ ] Multiple selection and drag-n-drop
 - Ability to select/group nodes?
