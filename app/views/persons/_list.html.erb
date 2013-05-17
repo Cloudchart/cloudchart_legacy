@@ -1,9 +1,9 @@
 <div class="persons"
      data-behavior="persons-view"
-     data-path="<%= organization_persons_path(organization) %>"
+     data-path="<%= organization_identities_path(organization) %>"
      data-providers="Local<%= user_signed_in? ? "," + current_user.providers.join(",") : "" %>">
   <%=
-    simple_form_for :search, url: search_organization_persons_path(organization), method: :get, html: {
+    simple_form_for :search, url: search_persons_path, method: :get, html: {
       data: { behavior: "form" },
       class: "form-search"
     } do |f|

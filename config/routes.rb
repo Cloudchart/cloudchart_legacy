@@ -2,17 +2,18 @@ Cloudchart::Application.routes.draw do
   # App
   resources :organizations do
     resources :nodes, only: [:index, :show, :update]
-    resources :persons do
-      collection do
-        get :search
-      end
+    resources :identities, except: [:edit] do
       member do
         get :manage
       end
     end
   end
   
-  resources :persons, only: [:edit]
+  resources :persons, only: [:edit, :update] do
+    collection do
+      get :search
+    end
+  end
   
   # Users
   devise_for :users, controllers: {

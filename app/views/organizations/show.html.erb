@@ -10,7 +10,7 @@
   <div id="persons">
     <% @organization.identities.select(&:used?).each do |identity| %>
         <% person = identity.to_person %>
-        <div class="img" style="background-image: url(<%= person.picture_url %>)" data-behavior="person-manage" data-identifier="<%= person.identifier %>" data-url="<%= manage_organization_person_path(organization_id: @organization.id, id: person.identifier) %>"></div>
+        <div class="img" style="background-image: url(<%= person.picture_url %>)" data-behavior="person-manage" data-identifier="<%= person.identifier %>" data-url="<%= manage_organization_identity_path(organization_id: @organization.id, id: person.identifier) %>"></div>
     <% end %>
   </div>
 </div>

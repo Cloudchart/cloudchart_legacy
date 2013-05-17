@@ -81,7 +81,7 @@ Node.find(…).ensure_parent(Node.find(...), { type: "direct" })
 
 ### Organizations
 
-Includes nested **nodes** and **persons**.
+Includes nested **nodes** and **identities**.
 
 ### Nodes
 
@@ -221,13 +221,13 @@ HTTP status: {200, 422}
 }
 ```
 
-### Persons
+### Identities
 
 #### Index
 
 **Description**
 
-Returns a list of stored persons for user.
+Returns a list of stored persons for organization.
 
 **Sample Queries**
 
@@ -261,7 +261,9 @@ curl -X GET http://cloudchart.dev/organizations/{id}/persons.json
 	]
 }
 ```
-		
+
+### Persons
+
 #### Search
 
 **Description**

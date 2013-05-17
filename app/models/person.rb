@@ -13,8 +13,8 @@ class Person
   scope :facebook, where(type: "Facebook")
   
   # Relations
-  belongs_to :user
-  belongs_to :owner, class_name: "User"
+  belongs_to :user, inverse_of: :persons
+  belongs_to :owner, class_name: "User", inverse_of: :owned_persons
   
   # Fields
   attr_accessor :organization, :params, :is_starred, :is_used

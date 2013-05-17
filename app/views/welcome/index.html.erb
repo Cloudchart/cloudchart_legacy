@@ -6,7 +6,7 @@
       
       <% if current_user.owned_persons.any? %>
       <p>
-        Edit profile: <%= current_user.owned_persons.map { |person| link_to person.type, edit_person_path(person.identifier) }.join(",").html_safe %>
+        Edit profile: <%= current_user.owned_persons.map { |person| link_to person.type, edit_person_path(person.id) }.join(",").html_safe %>
       </p>
       <% end %>
       

@@ -1,29 +1,6 @@
 class PersonsController < ApplicationController
-  def index
-    return unauthorized unless can?(:update, @organization)
-    
-    if params[:filters]
-      if params[:filters].include?("all")
-        @persons = current_user.identities
-      else
-        @persons = @organization.identities
-      end
-      
-      @persons = @persons.used if params[:filters].include?("used") && !params[:filters].include?("unused")
-      @persons = @persons.unused if params[:filters].include?("unused") && !params[:filters].include?("used")
-    else
-      @persons = @organization.identities
-    end
-    
-    respond_to do |format|
-      format.json {
-        render json: { persons: @persons.map(&:to_person) || [] }
-      }
-    end
-  end
-  
   def search
-    return unauthorized unless can?(:update, @organization)
+    return unauthorized unless user_signed_in?
     
     # Search
     @persons = []
@@ -51,8 +28,8 @@ class PersonsController < ApplicationController
           end
           
           @persons.concat(persons.to_a)
-        rescue Tire::Search::SearchRequestFailed
-          
+        # rescue Tire::Search::SearchRequestFailed
+        #   
         end
       end
     end
@@ -64,106 +41,34 @@ class PersonsController < ApplicationController
     end
   end
   
-  def show
-    return unauthorized unless can?(:update, @organization)
-    
-    # Find or create person by identifier
-    @person = Person.find_or_create_with_identifier(params[:id], current_user)
-    @person.add_to_organization(@organization)
-    
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: { person: @person }
-      }
-    end
-  end
-  
-  def manage
-    return unauthorized unless can?(:update, @organization)
-    
-    # Find or create person by identifier
-    @person = Person.find_or_create_with_identifier(params[:id], current_user)
-    
-    respond_to do |format|
-      format.html {
-        render layout: false
-      }
-    end
-  end
-  
   def edit
-    @person = Person.find_by_identifier(params[:id])
+    @person = Person.find(params[:id])
     return unauthorized unless can?(:update, @person)
   end
   
   def update
-    return unauthorized unless can?(:update, @organization)
-    
-    # Find or create person by identifier
-    @person = Person.find_or_create_with_identifier(params[:id], current_user)
-    identity = @person.add_to_organization(@organization)
-    
-    # Update identity
-    is_starred = resource_params.delete(:is_starred)
-    if !is_starred.nil?
-      identity.set(:is_starred, is_starred)
-    end
-    
-    # Mark as used
-    # TODO: Unmock
-    is_used = resource_params.delete(:is_used)
-    if is_used
-      @person.use_in_organization(@organization, Node.new)
-    end
+    @person = Person.find(params[:id])
+    return unauthorized unless can?(:update, @person)
     
     # Update person
     if resource_params.any?
       @person.prepare_params(resource_params)
       @person.save
-      
-      # Reload nested person
-      identity.entity.reload
     end
     
     respond_to do |format|
       format.html {
         if @person.valid?
-          redirect_to edit_organization_person_path(organization_id: @organization.id, id: @person.identifier, token: params[:token])
+          redirect_to edit_person_path(id: @person.id, token: params[:token])
         else
           render :edit
         end
-      }
-      format.json {
-        render json: { person: identity.to_person }
-      }
-    end
-  end
-  
-  def destroy
-    return unauthorized unless can?(:update, @organization)
-    
-    # Find or create person by identifier
-    @person = Person.find_or_create_with_identifier(params[:id], current_user)
-    identity = @person.find_in_organization(@organization)
-    identity.destroy if identity
-    
-    respond_to do |format|
-      format.html
-      format.json {
-        render json: { }
       }
     end
   end
   
   private
   
-    def preload
-      super
-      
-      @organization = Organization.find(params[:organization_id]) if params[:organization_id]
-    end
-    
     def resource_params
       params[:person]
     end

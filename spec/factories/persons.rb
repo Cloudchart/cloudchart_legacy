@@ -8,7 +8,8 @@ FactoryGirl.define do
     
     factory :person_with_work do
       work [{
-        employer: { id: Faker.numerify("###"), name: Faker::Name.name }.stringify_keys,
+        employer_id: Faker.numerify("###"),
+        employer_name: Faker::Name.name,
         position: Faker::Name.name
       }.stringify_keys]
     end
