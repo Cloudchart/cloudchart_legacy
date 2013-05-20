@@ -1,0 +1,6 @@
+<% if user_signed_in? %>
+  <%= t("persons.errors.wrong_authorization", provider: @person.type) %>
+<% else %>
+  <%= t("persons.errors.sign_using_account", provider: @person.type, name: @person.name) %>
+  <%= render partial: "/shared/sign" %>
+<% end %>

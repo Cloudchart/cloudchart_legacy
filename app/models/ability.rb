@@ -21,7 +21,13 @@ class Ability
     
     # Token abilities
     if token
-      can token.level.to_sym, token.type.constantize, id: token.entity_id
+      case token.type
+      when "Person"
+        # Allow token abilities only for local persons
+        can token.level.to_sym, token.type.constantize, id: token.entity_id if token.entity.local?
+      else
+        can token.level.to_sym, token.type.constantize, id: token.entity_id
+      end
     end
   end
 end

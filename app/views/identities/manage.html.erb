@@ -1,9 +1,9 @@
 <h1><%= @person.name %></h1>
 
-<div>
-  <% token = edit_person_url(id: @person.id, token: @person.token.digest) %>
-  <%= link_to "Token", token %>
-</div>
+<%= simple_form_for(@person, url: invite_organization_identity_path(organization_id: @organization.id, id: @person.identifier), html: { class: "form-horizontal", data: { behavior: "person-invite"} }) do |f| %>
+  <%= f.input :email, required: true, input_html: { value: "" } %>
+  <%= f.submit "Invite", class: "btn" %>
+<% end %>
 
 <div>
   <button class="btn btn-danger" data-behavior="person-destroy" data-identifier="<%= @person.identifier %>" data-url="<%= organization_identity_path(organization_id: @organization.id, id: @person.identifier) %>">Delete</button>

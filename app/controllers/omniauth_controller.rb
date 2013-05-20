@@ -38,14 +38,17 @@ class OmniauthController < Devise::OmniauthCallbacksController
         @user.remember_me!
 
         sign_in @user
-        # render "/users/success"
+        redirect_to after_oauth_path_for(@user, kind)
 
-        if session[:redirect_to]
-          sign_in @user
-          redirect_to session.delete(:redirect_to)
-        else
-          sign_in_and_redirect @user, event: :authentication
-        end
+        # sign_in @user
+        # render "/users/success"
+        # 
+        # if session[:redirect_to]
+        #   sign_in @user
+        #   redirect_to session.delete(:redirect_to)
+        # else
+        #   sign_in_and_redirect @user, event: :authentication
+        # end
       end
     end
 
@@ -133,12 +136,6 @@ class OmniauthController < Devise::OmniauthCallbacksController
         user.save
       end
 
-      # Run import in background
-      Importer.perform_async(user.id, provider)
-
-      # Ensure user is set as owner to corresponding persons
-      user.ensure_persons_ownership
-  
       user
     end
 

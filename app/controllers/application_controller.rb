@@ -11,10 +11,32 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def after_sign_in_path_for(user)
+    # Ensure user is set as owner to corresponding persons
+    user.ensure_persons_ownership
+    
+    # Redirect
+    session.delete(:redirect_to) || root_path
+  end
+  
+  def after_oauth_path_for(user, provider)
+    # Run import in background
+    Importer.perform_async(user.id, provider)
+    
+    # Ensure user is set as owner to corresponding persons
+    user.ensure_persons_ownership
+    
+    # Redirect
+    session.delete(:redirect_to) || root_path
+  end
+  
   private
   
     def preload
-      current_ability
+      is_authenticating = %w(omniauth sessions registrations confirmations).include?(params[:controller])
+      if !is_authenticating && (!flash[:notice] && !flash[:error]) && params[:format] != "json"
+        session[:redirect_to] = request.fullpath
+      end
     end
     
     def unauthorized

@@ -102,7 +102,10 @@ class User
       person = Person.find_by_identifier("#{authorization.provider}:#{authorization.uid}")
       next unless person
       
-      person.set(:owner_id, self.id) if person.owner_id != self.id
+      # Update person
+      person.owner_id = self.id if person.owner_id != self.id
+      person.email = self.email
+      person.save if person.changed?
     end
   end
   

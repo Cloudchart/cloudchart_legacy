@@ -57,7 +57,7 @@ class Person
   
   # Validations
   validates :type, presence: true
-  validates :external_id, presence: true, if: -> { self.type != "Local" }
+  validates :external_id, presence: true
   validates :first_name, presence: true
   validates :last_name, presence: true
   
@@ -84,14 +84,20 @@ class Person
   mapping do
     indexes :id,           index:     :not_analyzed
     indexes :name,         analyzer:  "standard", boost: 100
+    indexes :email,        analyzer:  "standard", boost: 100
     indexes :employer,     analyzer:  "standard", boost: 50
     indexes :position,     analyzer:  "standard", boost: 50
   end
   def to_indexed_json
-    { id: self.id, name: self.name, employer: self.employer, position: self.position }.to_json
+    { id: self.id, name: self.name, email: self.email, employer: self.employer, position: self.position }.to_json
   end
   
   # Callbacks
+  before_validation {
+    # Store local external_id
+    self.external_id = self.id if self.local?
+  }
+  
   before_save {
     # Check organization
     self.add_to_organization(self.organization) if self.organization
@@ -211,6 +217,10 @@ class Person
   end
   
   # Representation
+  def local?
+    self.type == "Local"
+  end
+  
   def is_persisted
     self.persisted?
   end

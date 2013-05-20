@@ -72,4 +72,12 @@ class PersonsController < ApplicationController
     def resource_params
       params[:person]
     end
+    
+    def unauthorized
+      respond_to do |format|
+        format.html {
+          render :unauthorized
+        }
+      end
+    end
 end

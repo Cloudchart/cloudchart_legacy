@@ -1,5 +1,3 @@
-<h1></h1>
-
 <%= simple_form_for(@person, url: organization_identities_path(organization_id: @organization.id), html: { class: "form-horizontal", data: { behavior: "person-create"} }) do |f| %>
   <%= f.input :first_name, required: true %>
   <%= f.input :last_name, required: true %>

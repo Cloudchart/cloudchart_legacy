@@ -82,6 +82,9 @@ en:
       used: "Used"
       unused: "Unused"
       all: "All charts"
+    errors:
+      wrong_authorization: "You are signed in with another account"
+      sign_using_account: "Please sign in using %{provider} account %{name} to be able to edit this profile."
   
   # Mailer
   mailer:

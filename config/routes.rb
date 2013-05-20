@@ -5,6 +5,7 @@ Cloudchart::Application.routes.draw do
     resources :identities, except: [:edit] do
       member do
         get :manage
+        put :invite
       end
     end
   end
@@ -18,8 +19,9 @@ Cloudchart::Application.routes.draw do
   # Users
   devise_for :users, controllers: {
     omniauth_callbacks: "omniauth",
-    registrations: "registrations",
     sessions: "sessions",
+    registrations: "registrations",
+    confirmations: "confirmations",
     invitations: "invitations"
   }
   

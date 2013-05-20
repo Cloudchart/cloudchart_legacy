@@ -46,9 +46,9 @@
 		- [x] Implement ability to create person token
 		- [x] Implement edit form
 		- [x] Allow owner to create person with invitation
-		- [ ] Allow owner to send invitation for editing (user should approve his social account and email should be linked to person then)
+		- [x] Allow owner to send invitation for editing (user should approve his social account and email should be linked to person then)
+		- [x] Allow user to connect social profiles
 		- [ ] Allow user to add multiple emails
-		- [ ] Allow user to connect social profiles
 		- [ ] Add update specs
 	- [ ] Store relationships
 	- [ ] Natural language search

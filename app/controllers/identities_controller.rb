@@ -114,6 +114,27 @@ class IdentitiesController < ApplicationController
     end
   end
   
+  def invite
+    return unauthorized unless can?(:update, @organization)
+    
+    # Find or create person by identifier
+    @person = Person.find_or_create_with_identifier(params[:id], current_user)
+    
+    # Send profile email
+    ApplicationMailer.profile(current_user, params[:person][:email], {
+      link: edit_person_url(id: @person.id, token: @person.token.digest)
+    }).deliver
+    
+    respond_to do |format|
+      format.html {
+        redirect_to organization_path(@organization)
+      }
+      format.json {
+        render json: { person: @person }
+      }
+    end
+  end
+  
   def destroy
     return unauthorized unless can?(:update, @organization)
     
