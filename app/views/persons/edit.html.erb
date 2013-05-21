@@ -1,3 +1,7 @@
+<% if !user_signed_in? %>
+  <%= render partial: "/shared/sign" %>
+<% end %>
+
 <%= simple_form_for(@person, url: person_path(id: @person.id, token: params[:token]), html: { class: "form-horizontal", data: { behavior: "person-edit"} }) do |f| %>
   <%= debug @person.errors.full_messages if @person.errors.any? %>
   

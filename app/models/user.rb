@@ -98,10 +98,11 @@ class User
   end
   
   def ensure_persons_ownership
-    self.authorizations.each do |authorization|
-      person = Person.find_by_identifier("#{authorization.provider}:#{authorization.uid}")
-      next unless person
-      
+    persons = (self.authorizations.map { |authorization|
+      Person.find_by_identifier("#{authorization.provider}:#{authorization.uid}")
+    } + [Person.local.where(email: self.email).first]).compact
+    
+    persons.each do |person|
       # Update person
       person.owner_id = self.id if person.owner_id != self.id
       person.email = self.email
