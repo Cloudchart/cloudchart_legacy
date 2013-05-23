@@ -187,7 +187,7 @@ class Person
     self.fields.select { |k, v| v.type == Array }.keys.each do |k|
       if self.params[k]
         self.params[k].delete_if { |k, v| k == "%i" }
-        self.params[k] = self.params[k].map { |k, v| v } if self.params[k].is_a?(Hash)
+        self.params[k] = self.params[k].map { |k, v| v.present? ? v : nil }.uniq.compact if self.params[k].is_a?(Hash)
       end
     end
     
@@ -197,7 +197,7 @@ class Person
         v[:fields].each do |field, options|
           if options[:required]
             valid = !self.params[k].map { |x| x[field].present? }.include?(false)
-            self.errors.add(:base, "#{field}_required") if !valid
+            self.errors.add(:base, :"#{field}_required") if !valid
           end
         end
       end
@@ -210,10 +210,13 @@ class Person
     return true unless self.params
     
     self.params.each { |k, v| self.send("#{k}=", v) }
-    self.params = nil
     
-    return false if self.errors.messages.any?
-    true
+    if self.errors.messages.any?
+      false
+    else
+      self.params = nil
+      true
+    end
   end
   
   # Representation

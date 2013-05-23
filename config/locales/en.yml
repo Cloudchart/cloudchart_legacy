@@ -69,6 +69,11 @@ en:
             base:
               node_invalid: "Node is invalid"
               link_invalid: "Link is invalid"
+        person:
+          attributes:
+            base:
+              name_required: "Name is required"
+              position_required: "Position is required"
   
   # App
   app:

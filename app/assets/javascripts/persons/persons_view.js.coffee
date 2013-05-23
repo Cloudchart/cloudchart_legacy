@@ -342,6 +342,11 @@ $(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [d
   false
 )
 
+$(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=index]", ->
+  $container = $(this).parent()
+  $container.remove()
+)
+
 $ ->
   # Init PersonsView
   $container = $("[data-behavior=persons-view]")
