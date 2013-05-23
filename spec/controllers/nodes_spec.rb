@@ -34,12 +34,12 @@ describe NodesController do
     
     it "should return show for nested node" do
       chart = create_chart_with_owner(@user)
-      node1 = chart.create_nested_node(title: "Directors")
-      node2 = node1.create_nested_node(title: "Developers")
-      node3 = node1.create_nested_node(title: "Designers")
-      node4 = node2.create_nested_node(title: "Junior Developers")
-      node5 = node2.create_nested_node(title: "Middle Developers")
-      node6 = node2.create_nested_node(title: "Senior Developers")
+      node1 = chart.create_nested_node({ title: "Directors" }, { position: 1 })
+      node2 = node1.create_nested_node({ title: "Developers" }, { position: 1 })
+      node3 = node1.create_nested_node({ title: "Designers" }, { position: 2 })
+      node4 = node2.create_nested_node({ title: "Junior Developers" }, { position: 1 })
+      node5 = node2.create_nested_node({ title: "Middle Developers" }, { position: 2 })
+      node6 = node2.create_nested_node({ title: "Senior Developers" }, { position: 3 })
       
       expected = {
         root_id: node2.id,
@@ -58,14 +58,14 @@ describe NodesController do
   describe "update" do
     it "should update nodes attributes" do
       chart = create_chart_with_owner(@user)
-      node1 = chart.create_nested_node(title: "Directors")
-      node2 = node1.create_nested_node(title: "Developers")
-      node3 = node1.create_nested_node(title: "Designers")
-      node4 = node2.create_nested_node(title: "Junior Developers")
-      node5 = node2.create_nested_node(title: "Middle Developers")
-      node6 = node2.create_nested_node(title: "Senior Developers")
-      node7 = node4.create_nested_node(title: "Ivan")
-      node8 = node4.create_nested_node(title: "Nikolay")
+      node1 = chart.create_nested_node({ title: "Directors" }, { position: 1 })
+      node2 = node1.create_nested_node({ title: "Developers" }, { position: 1 })
+      node3 = node1.create_nested_node({ title: "Designers" }, { position: 2 })
+      node4 = node2.create_nested_node({ title: "Junior Developers" }, { position: 1 })
+      node5 = node2.create_nested_node({ title: "Middle Developers" }, { position: 2 })
+      node6 = node2.create_nested_node({ title: "Senior Developers" }, { position: 3 })
+      node7 = node4.create_nested_node({ title: "Ivan" }, { position: 1 })
+      node8 = node4.create_nested_node({ title: "Nikolay" }, { position: 2 })
       
       chart.to_png!
       `open #{chart.picture.path}`
@@ -107,14 +107,14 @@ describe NodesController do
       # Delete link and add new one
       deleted = expected[:links].delete_at(3)
       node = expected[:nodes].at(4)
-      link = Link.new(parent_node_id: expected[:nodes].first["id"]).as_json
+      link = Link.new(parent_node_id: expected[:nodes].first["id"], position: 3).as_json
       link["id"] = "_1"
       link["child_node_id"] = deleted["child_node_id"]
       node["level"] = 1
       expected[:links] << link
       
       # Add link
-      link = Link.new(parent_node_id: expected[:nodes].first["id"]).as_json
+      link = Link.new(parent_node_id: expected[:nodes].first["id"], position: 4).as_json
       link["id"] = "_1"
       link["child_node_id"] = "_1"
       expected[:links] << link

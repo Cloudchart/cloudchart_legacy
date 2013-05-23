@@ -167,6 +167,7 @@ curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000
 			created_at: "2013-04-08T10:01:07Z",
 			is_imaginary: false,
 			parent_node_id: "516295634660f3bad5000001",
+			position: 0,
 			type: "direct",
 			updated_at: "2013-04-08T10:01:07Z",
 			id: "516295634660f3bad5000002"
