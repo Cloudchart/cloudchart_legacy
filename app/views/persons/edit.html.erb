@@ -6,12 +6,29 @@
   <%= debug @person.errors.full_messages if @person.errors.any? %>
   
   <h1>Personal</h1>
-  <%= f.input :first_name %>
-  <%= f.input :last_name %>
-  <%= f.input :gender, as: :select, collection: @person.gender_enum %>
-  <%= f.input :hometown %>
-  <%= f.input :location %>
-  <%= f.input :description %>
+  <div data-behavior="fieldset">
+    <div data-behavior="container">
+      <div class="preview" data-behavior="preview">
+        <p><%= %w(first_name last_name gender hometown location description).map { |x|
+          value = @person.send(x)
+          value.present? ? "<strong>#{x.humanize}</strong>: #{value}" : nil
+        }.compact.join("<br />").html_safe %></p>
+        
+        <div class="buttons">
+          <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+        </div>
+      </div>
+      
+      <div class="set" data-behavior="set">
+        <%= f.input :first_name %>
+        <%= f.input :last_name %>
+        <%= f.input :gender, as: :select, collection: @person.gender_enum %>
+        <%= f.input :hometown %>
+        <%= f.input :location %>
+        <%= f.input :description %>
+      </div>
+    </div>
+  </div>
   
   <h1>Education</h1>
   <div data-behavior="fieldset">
