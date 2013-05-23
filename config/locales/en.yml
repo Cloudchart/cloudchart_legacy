@@ -74,6 +74,8 @@ en:
             base:
               name_required: "Name is required"
               position_required: "Position is required"
+              number_required: "Number is required"
+              relationship_required: "Relationship is required"
   
   # App
   app:

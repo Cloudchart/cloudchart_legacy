@@ -67,9 +67,24 @@ class Person
         name: { required: true }
       }
     },
+    
     work: {
       fields: {
         position: { required: true }
+      }
+    },
+    
+    phones: {
+      fields: {
+        type: { required: true },
+        number: { required: true }
+      }
+    },
+    
+    family: {
+      fields: {
+        name: { required: true },
+        relationship: { required: true }
       }
     }
   }

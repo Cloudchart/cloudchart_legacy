@@ -321,6 +321,7 @@ $(document).on("click", "[data-behavior=person-destroy]", ->
   false
 )
 
+# Edit person
 $(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=new]", ->
   $template = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=template]").clone()
   $sets = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=sets]")
@@ -331,8 +332,9 @@ $(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [d
   )...) + 1
   
   $template.removeClass("hidden")
-  $template.attr("data-behavior", "")
+  $template.attr("data-behavior", "container")
   $template.find("[data-behavior=index]").text(index)
+  $template.find("[data-behavior=set]").show()
   $template.find("input").each(->
     $this = $(this)
     $this.attr("name", $this.attr("name").replace("%i", index))
@@ -342,9 +344,21 @@ $(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [d
   false
 )
 
-$(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=index]", ->
-  $container = $(this).parent()
+$(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=set-destroy]", ->
+  $container = $(this).closest("[data-behavior=container]")
   $container.remove()
+  
+  false
+)
+
+$(document).on("click", "[data-behavior=person-edit] [data-behavior=fieldset] [data-behavior=set-edit]", ->
+  $preview = $(this).closest("[data-behavior=preview]")
+  $set = $preview.closest("[data-behavior=container]").find("[data-behavior=set]")
+  
+  $preview.hide()
+  $set.show()
+  
+  false
 )
 
 $ ->

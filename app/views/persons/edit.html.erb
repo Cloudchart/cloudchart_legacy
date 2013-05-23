@@ -2,7 +2,7 @@
   <%= render partial: "/shared/sign" %>
 <% end %>
 
-<%= simple_form_for(@person, url: person_path(id: @person.id, token: params[:token]), html: { class: "form-horizontal", data: { behavior: "person-edit"} }) do |f| %>
+<%= simple_form_for(@person, url: person_path(id: @person.id, token: params[:token]), html: { class: "form-horizontal person-edit", data: { behavior: "person-edit"} }) do |f| %>
   <%= debug @person.errors.full_messages if @person.errors.any? %>
   
   <h1>Personal</h1>
@@ -18,8 +18,20 @@
     <div data-behavior="sets">
     <% if @person.education %>
       <% @person.education.each_with_index do |education, i| %>
-      <div>
-        <h2 data-behavior="index"><%= i %></h2>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+        
+        <div class="preview" data-behavior="preview">
+          <h3><%= education["name"] %></h3>
+          <p><%= %w(concentration degree type end_year).map { |x| education[x].present? ? education[x] : nil }.compact.join(", ") %></p>
+          
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+        
+        <div class="set" data-behavior="set">
         <%= f.simple_fields_for :education do |n| %>
           <%= n.input :name, required: true, input_html: { name: "person[education][#{i}][name]", value: education["name"] } %>
           <%= n.input :type, required: false, input_html: { name: "person[education][#{i}][type]", value: education["type"] } %>
@@ -28,13 +40,16 @@
           <%= n.input :start_year, required: false, input_html: { name: "person[education][#{i}][start_year]", value: education["start_year"] } %>
           <%= n.input :end_year, required: false, input_html: { name: "person[education][#{i}][end_year]", value: education["end_year"] } %>
         <% end %>
+        </div>
       </div>
       <% end %>
     <% end %>
     </div>
     
     <div class="hidden" data-behavior="template">
-      <h2 data-behavior="index">-1</h2>
+      <span class="hidden" data-behavior="index">-1</span>
+      
+      <div class="set" data-behavior="set">
       <%= f.simple_fields_for :education do |n| %>
         <%= n.input :name, required: true, input_html: { name: "person[education][%i][name]" } %>
         <%= n.input :type, required: false, input_html: { name: "person[education][%i][type]" } %>
@@ -43,18 +58,32 @@
         <%= n.input :start_year, required: false, input_html: { name: "person[education][%i][start_year]" } %>
         <%= n.input :end_year, required: false, input_html: { name: "person[education][%i][end_year]" } %>
       <% end %>
+      </div>
     </div>
     
     <a href="#" class="btn" data-behavior="new">New</a>
   </div>
+  <hr />
   
   <h1>Work</h1>
   <div data-behavior="fieldset">
     <div data-behavior="sets">
     <% if @person.work %>
       <% @person.work.each_with_index do |work, i| %>
-      <div>
-        <h2 data-behavior="index"><%= i %></h2>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+        
+        <div class="preview" data-behavior="preview">
+          <h3><%= work["position"] %></h3>
+          <p><%= %w(employer_name end_date).map { |x| work[x].present? ? work[x] : nil }.compact.join(", ") %></p>
+          
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+        
+        <div class="set" data-behavior="set">
         <%= f.simple_fields_for :work do |n| %>
           <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][#{i}][employer_id]", value: work["employer_id"] } %>
           <%= n.input :employer_name, required: false, input_html: { name: "person[work][#{i}][employer_name]", value: work["employer_name"] } %>
@@ -63,13 +92,16 @@
           <%= n.input :start_date, required: false, input_html: { name: "person[work][#{i}][start_date]", value: work["start_date"] } %>
           <%= n.input :end_date, required: false, input_html: { name: "person[work][#{i}][end_date]", value: work["end_date"] } %>
         <% end %>
+        </div>
       </div>
       <% end %>
     <% end %>
     </div>
     
     <div class="hidden" data-behavior="template">
-      <h2 data-behavior="index">0</h2>
+      <span class="hidden" data-behavior="index">-1</span>
+      
+      <div class="set" data-behavior="set">
       <%= f.simple_fields_for :work do |n| %>
         <%= n.input :employer_id, as: :hidden, required: false, input_html: { name: "person[work][%i][employer_id]" } %>
         <%= n.input :employer_name, required: false, input_html: { name: "person[work][%i][employer_name]" } %>
@@ -78,62 +110,96 @@
         <%= n.input :start_date, required: false, input_html: { name: "person[work][%i][start_date]" } %>
         <%= n.input :end_date, required: false, input_html: { name: "person[work][%i][end_date]" } %>
       <% end %>
+      </div>
     </div>
     
     <a href="#" class="btn" data-behavior="new">New</a>
   </div>
+  <hr />
   
   <h1>Skills</h1>
   <div data-behavior="fieldset">
     <div data-behavior="sets">
     <% if @person.skills %>
       <% @person.skills.each_with_index do |skill, i| %>
-      <div>
-        <h2 data-behavior="index"><%= i %></h2>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+        
+        <div class="preview" data-behavior="preview">
+          <p><%= skill %></p>
+          
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+        
+        <div class="set" data-behavior="set">
         <%= f.simple_fields_for :skills do |n| %>
           <%= n.input :skill, input_html: { name: "person[skills][#{i}]", value: skill } %>
         <% end %>
+        </div>
       </div>
       <% end %>
     <% end %>
     </div>
     
     <div class="hidden" data-behavior="template">
-      <h2 data-behavior="index">0</h2>
+      <span class="hidden" data-behavior="index">-1</span>
+      
+      <div class="set" data-behavior="set">
       <%= f.simple_fields_for :skills do |n| %>
         <%= n.input :skill, input_html: { name: "person[skills][%i]" } %>
       <% end %>
+      </div>
     </div>
     
     <a href="#" class="btn" data-behavior="new">New</a>
   </div>
+  <hr />
   
   <h1>Contact</h1>
   <div data-behavior="fieldset">
     <div data-behavior="sets">
     <% if @person.phones %>
       <% @person.phones.each_with_index do |phone, i| %>
-      <div>
-        <h2 data-behavior="index"><%= i %></h2>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+        
+        <div class="preview" data-behavior="preview">
+          <p><%= phone["number"] %> (<%= phone["type"] %>)</p>
+          
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+        
+        <div class="set" data-behavior="set">
         <%= f.simple_fields_for :phones do |n| %>
-          <%= n.input :type, required: false, input_html: { name: "person[phones][#{i}][type]", value: phone["type"] } %>
-          <%= n.input :number, input_html: { name: "person[phones][#{i}][number]", value: phone["number"] } %>
+          <%= n.input :type, required: true, input_html: { name: "person[phones][#{i}][type]", value: phone["type"] } %>
+          <%= n.input :number, required: true, input_html: { name: "person[phones][#{i}][number]", value: phone["number"] } %>
         <% end %>
+        </div>
       </div>
       <% end %>
     <% end %>
     </div>
     
     <div class="hidden" data-behavior="template">
-      <h2 data-behavior="index">0</h2>
+      <span class="hidden" data-behavior="index">-1</span>
+      
+      <div class="set" data-behavior="set">
       <%= f.simple_fields_for :phones do |n| %>
-        <%= n.input :type, required: false, input_html: { name: "person[phones][%i][type]" } %>
-        <%= n.input :number, input_html: { name: "person[phones][%i][number]" } %>
+        <%= n.input :type, required: true, input_html: { name: "person[phones][%i][type]" } %>
+        <%= n.input :number, required: true, input_html: { name: "person[phones][%i][number]" } %>
       <% end %>
+      </div>
     </div>
     
     <a href="#" class="btn" data-behavior="new">New</a>
   </div>
+  <hr />
   
   <h1>Family</h1>
   <%= f.input :status %>
@@ -142,25 +208,40 @@
     <div data-behavior="sets">
     <% if @person.family %>
       <% @person.family.each_with_index do |family, i| %>
-      <div>
-        <h2 data-behavior="index"><%= i %></h2>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+        
+        <div class="preview" data-behavior="preview">
+          <p><%= family["name"] %> (<%= family["relationship"] %>)</p>
+          
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+        
+        <div class="set" data-behavior="set">
         <%= f.simple_fields_for :family do |n| %>
           <%= n.input :id, as: :hidden, input_html: { name: "person[family][#{i}][id]", value: family["id"] } %>
-          <%= n.input :name, input_html: { name: "person[family][#{i}][name]", value: family["name"] } %>
-          <%= n.input :relationship, input_html: { name: "person[family][#{i}][relationship]", value: family["relationship"] } %>
+          <%= n.input :name, required: true, input_html: { name: "person[family][#{i}][name]", value: family["name"] } %>
+          <%= n.input :relationship, required: true, input_html: { name: "person[family][#{i}][relationship]", value: family["relationship"] } %>
         <% end %>
+        </div>
       </div>
       <% end %>
     <% end %>
     </div>
     
     <div class="hidden" data-behavior="template">
-      <h2 data-behavior="index">0</h2>
+      <span class="hidden" data-behavior="index">-1</span>
+      
+      <div class="set" data-behavior="set">
       <%= f.simple_fields_for :family do |n| %>
         <%= n.input :id, as: :hidden, input_html: { name: "person[family][%i][id]" } %>
-        <%= n.input :name, input_html: { name: "person[family][%i][name]" } %>
-        <%= n.input :relationship, input_html: { name: "person[family][%i][relationship]" } %>
+        <%= n.input :name, required: true, input_html: { name: "person[family][%i][name]" } %>
+        <%= n.input :relationship, required: true, input_html: { name: "person[family][%i][relationship]" } %>
       <% end %>
+      </div>
     </div>
     
     <a href="#" class="btn" data-behavior="new">New</a>
