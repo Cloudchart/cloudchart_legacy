@@ -48,7 +48,7 @@
 		- [x] Allow owner to create person with invitation
 		- [x] Allow owner to send invitation for editing (user should approve his social account and email should be linked to person then)
 		- [x] Allow user to connect social profiles
-		- [ ] Allow user to add multiple emails
+		- [x] Allow user to add multiple emails
 		- [ ] Add update specs
 	- [ ] Store relationships
 	- [ ] Natural language search
