@@ -7,6 +7,8 @@ class ConfirmationsController < Devise::ConfirmationsController
       if authorization.persisted?
         authorization.set(:is_confirmed, true)
         redirect_to edit_user_registration_path
+      else
+        super
       end
     else
       super
