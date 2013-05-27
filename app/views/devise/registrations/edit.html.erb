@@ -1,6 +1,6 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
 
-<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => "user-edit", :data => { :behavior => "user-edit" } }) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
@@ -13,6 +13,52 @@
 
     <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
     <%= f.input :password_confirmation, :required => false %>
+  </div>
+
+  <h2>Emails</h2>
+  <div data-behavior="fieldset">
+    <div data-behavior="sets">
+    <% if resource.authorizations.email %>
+      <% resource.authorizations.email.each_with_index do |email, i| %>
+      <div data-behavior="container">
+        <span class="hidden" data-behavior="index"><%= i %></span>
+
+        <div class="preview" data-behavior="preview">
+          <p>
+            <%= email.uid %>
+            
+            <% if !email.confirmed? %>
+              — <i>unconfirmed</i>
+            <% end %>
+          </p>
+
+          <div class="buttons">
+            <a href="#" class="btn btn-mini" data-behavior="set-destroy"><i class="icon-remove"></i></a>
+            <a href="#" class="btn btn-mini" data-behavior="set-edit"><i class="icon-edit"></i></a>
+          </div>
+        </div>
+
+        <div class="set" data-behavior="set">
+        <%= f.simple_fields_for :emails do |n| %>
+          <%= n.input :uid, label: "Email", input_html: { name: "user[emails][#{i}]", value: email.uid } %>
+        <% end %>
+        </div>
+      </div>
+      <% end %>
+    <% end %>
+    </div>
+
+    <div class="hidden" data-behavior="template">
+      <span class="hidden" data-behavior="index">-1</span>
+
+      <div class="set" data-behavior="set">
+      <%= f.simple_fields_for :emails do |n| %>
+        <%= n.input :uid, label: "Email", input_html: { name: "user[emails][%i]" } %>
+      <% end %>
+      </div>
+    </div>
+
+    <a href="#" class="btn" data-behavior="new">New</a>
   </div>
 
   <div class="form-actions">
