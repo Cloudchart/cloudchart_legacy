@@ -27,18 +27,36 @@ class RegistrationsController < Devise::RegistrationsController
   
     def update_emails(emails)
       emails = emails.select { |k, v| v =~ Devise.email_regexp }.values
+      authorizations = []
       confirmations = []
+      
       emails.each do |email|
         authorization = current_user.authorizations.email.where(uid: email).first_or_initialize
+        authorizations << authorization
+        
         if authorization.new_record?
-          current_user.authorizations << authorization
           confirmations << authorization
         end
       end
       
+      current_user.authorizations = authorizations
+      
       if confirmations.any?
         current_user.save
-        # TODO: Send confirmation emails
+        
+        # Send confirmation emails
+        confirmations.each do |authorization|
+          # Set confirmation data
+          current_user.email = authorization.uid
+          current_user.confirmation_token = authorization.token
+          current_user.confirmed_at = nil
+          
+          # Send email
+          Devise::Mailer.confirmation_instructions(current_user).deliver
+          
+          # Discard changes
+          current_user.reload
+        end
       end
     end
     
