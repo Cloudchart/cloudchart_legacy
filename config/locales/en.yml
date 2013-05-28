@@ -79,8 +79,13 @@ en:
   
   # App
   app:
+    name: "CloudChart"
+    words: 
+      - Cloud
+      - Chart
     loading: "Loading..."
     anonymous: "Anonymous"
+    search_charts: "Find companies and charts"
   
   # Persons
   persons:

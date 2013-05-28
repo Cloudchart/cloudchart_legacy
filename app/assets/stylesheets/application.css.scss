@@ -3,11 +3,112 @@
  *= require_tree .
 */
 
+@import "mixins";
 @import "compass/utilities/general/clearfix";
 @import "compass/utilities/text/ellipsis";
 @import "compass/css3/opacity";
 @import "compass/css3/box-sizing";
+@import "compass/css3/box-shadow";
 @import "compass/css3/transition";
+@import "compass/css3/border-radius";
+
+/* Shared */
+header {
+  @include box-sizing(border-box);
+  height: 130px;
+  background: #e8e8e8;
+  border-bottom: 1px solid #eeeeee;
+  
+  .logo {
+    float: left;
+    height: 64px;
+    margin: 33px 0 0 30px;
+    
+    img {
+      width: 96px;
+      height: 64px;
+      vertical-align: top;
+    }
+    
+    h1 {
+      display: inline-block;
+      margin: 0 0 0 22px;
+      line-height: 64px;
+      vertical-align: top;
+      font-size: 44px;
+      font-weight: 300;
+      color: #000;
+    }
+  }
+  
+  .search {
+    float: left;
+    position: relative;
+    height: 64px;
+    margin: 33px 0 0 48px;
+    
+    form {
+      margin: 0;
+      
+      input {
+        @include box-sizing(border-box);
+        @include box-shadow(none);
+        @include border-radius(7px);
+        @include input-placeholder(#aaa);
+        width: 394px;
+        height: 64px;
+        line-height: 64px;
+        border-color: #cdcdcd;
+        border-width: 2px 0 0 0;
+        color: #aaa;
+        font-size: 22px;
+        font-weight: 300;
+        padding: 0 0 0 60px;
+        
+        &:focus {
+          @include box-shadow(none);
+          border-color: #cdcdcd;
+        }
+      }
+      
+      button {
+        position: absolute;
+        top: 17px;
+        left: 15px;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: none;
+        
+        i {
+          font-size: 29px;
+        }
+      }
+    }
+  }
+  
+  .profile {
+    float: right;
+    width: 72px;
+    height: 72px;
+    margin: 29px 20px 0 0;
+  }
+  
+  .menu {
+    float: right;
+    width: 72px;
+    height: 72px;
+    margin: 29px 20px 0 0;
+    
+    img {
+      width: 72px;
+      height: 72px;
+    }
+    
+  }
+}
 
 /* Welcome */
 .welcome {

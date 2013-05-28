@@ -1,0 +1,31 @@
+<header>
+  <div class="row-fluid">
+    <div class="span9">
+      <div class="logo">
+        <%= link_to image_tag("logo.svg", alt: t("app.name"), title: t("app.name")), root_path %>
+        <h1><%= t("app.words").first %><strong><%= t("app.words").last %></strong></h1>
+      </div>
+      
+      <div class="search">
+        <%= form_for(:search, html: { class: "form-search" }) do |f| %>
+          <%= f.text_field :query, placeholder: t("app.search_charts") %>
+          <%= f.button raw("<i class='icon-search'></i>") %>
+        <% end %>
+      </div>
+    </div>
+    
+    <div class="span3">
+      <div class="menu">
+        <%= link_to image_tag("ico-menu.svg", alt: t("app.name"), title: t("app.name")), "#" %>
+      </div>
+      
+      <div class="profile">
+        <% if user_signed_in? %>
+          <%= link_to image_tag(current_user.picture.url), edit_user_registration_path %>
+        <% else %>
+          <%= link_to image_tag("ico-person.png"), new_user_session_path %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</header>
