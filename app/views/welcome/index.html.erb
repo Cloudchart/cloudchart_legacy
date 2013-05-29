@@ -1,5 +1,5 @@
 <div class="welcome">
-  <div class="buttons">
+  <!--<div class="buttons">
     <% if user_signed_in? %>
       <h1><%= current_user.name %></h1>
       <p>Providers: <%= current_user.providers %></p>
@@ -16,5 +16,29 @@
     <% else %>
       <%= render partial: "/shared/sign" %>
     <% end %>
+  </div>-->
+  
+  <div class="samples">
+    <h1><%= t("welcome.samples") %></h1>
+    
+    <div class="row-fluid">
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+    </div>
+    
+    <a href="#" class="btn btn-large btn-try">Learn More</a>
+  </div>
+  
+  <div class="samples">
+    <h1><%= t("welcome.samples") %></h1>
+    
+    <div class="row-fluid">
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+      <div class="span4"><%= link_to image_tag("ico-chart-sample.jpg"), "#" %></div>
+    </div>
+    
+    <a href="#" class="btn btn-large btn-try">Try Now</a>
   </div>
 </div>

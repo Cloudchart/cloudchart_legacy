@@ -110,6 +110,10 @@ en:
     blog:
       title: "Blog"
   
+  # Welcome
+  welcome:
+    samples: "Explore Great Companies"
+  
   # Persons
   persons:
     search: "Search for people names, positions or companies"

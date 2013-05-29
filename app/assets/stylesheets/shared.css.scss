@@ -1,3 +1,4 @@
+/* Layout */
 header {
   @include box-sizing(border-box);
   height: 130px;
@@ -155,6 +156,59 @@ footer {
           color: #706f6f;
         }
       }
+    }
+  }
+}
+
+/* Buttons */
+.btn {
+  &.btn-try {
+    @include background(linear-gradient(top center, #f9eed9, #f3dcaf));
+    border: 1px solid #c4b890;
+    color: #008d36;
+    text-shadow: none;
+    
+    &.btn-large {
+      padding: 15px 25px;
+      font-size: 28px;
+    }
+    
+    &:hover {
+      @include background(linear-gradient(top center, #f6e4c3, #f3dcaf));
+      color: #008d36;
+    }
+  }
+}
+
+/* Pages */
+.grid {
+  @include box-sizing(border-box);
+  min-height: 60%;
+  padding: 20px;
+  background: url(bg-grid.png) repeat center center;
+}
+
+.welcome {
+  .buttons {
+    text-align: center;
+  }
+  
+  .samples {
+    margin: 30px 0 0 0;
+    text-align: center;
+    
+    &:last-child {
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      font-weight: normal;
+      font-size: 60px;
+      line-height: 90px;
+    }
+    
+    .btn {
+      margin-top: 35px;
     }
   }
 }
