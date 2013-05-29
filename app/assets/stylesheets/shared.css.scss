@@ -24,6 +24,77 @@ header {
       font-size: 44px;
       font-weight: 300;
       color: #000;
+      
+      strong {
+        @include ellipsis;
+        
+        display: inline-block;
+        max-width: 320px;
+      }
+      
+      .arrow {
+        display: inline-block;
+        position: relative;
+        top: -3px;
+        padding: 0 14px 0 7px;
+        font-size: 30px;
+      }
+    }
+  }
+  
+  .title {
+    float: left;
+    position: relative;
+    height: 64px;
+    margin: 33px 0 0 0;
+    
+    form {
+      margin: 0;
+      
+      input {
+        @include box-sizing(border-box);
+        @include box-shadow(none);
+        @include border-radius(7px);
+        @include input-placeholder(#aaa);
+        width: 250px;
+        height: 64px;
+        line-height: 64px;
+        border-color: #cdcdcd;
+        border-width: 2px 0 0 0;
+        color: #aaa;
+        font-size: 22px;
+        font-weight: 300;
+        padding: 0 0 0 10px;
+        
+        &:focus {
+          @include box-shadow(none);
+          border-color: #cdcdcd;
+        }
+      }
+    }
+  }
+  
+  .controls {
+    float: left;
+    height: 64px;
+    margin: 33px 0 0 30px;
+    
+    a {
+      display: inline-block;
+      margin: 0 20px 0 0;
+      line-height: 64px;
+      vertical-align: top;
+      font-size: 44px;
+      font-weight: 300;
+      color: #000;
+      
+      &:last-child {
+        margin-right: 0;
+      }
+      
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   

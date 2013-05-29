@@ -1,23 +1,4 @@
-<div class="welcome">
-  <!--<div class="buttons">
-    <% if user_signed_in? %>
-      <h1><%= current_user.name %></h1>
-      <p>Providers: <%= current_user.providers %></p>
-      
-      <% if current_user.owned_persons.any? %>
-      <p>
-        Edit profile: <%= current_user.owned_persons.map { |person| link_to person.type, edit_person_path(person.id) }.join(",").html_safe %>
-      </p>
-      <% end %>
-      
-      <%= link_to "Organizations", organizations_path, class: "btn btn-primary" %>
-      <%= link_to "Edit profile", edit_user_registration_path, class: "btn" %>
-      <%= link_to "Sign out", destroy_user_session_path, class: "btn" %>
-    <% else %>
-      <%= render partial: "/shared/sign" %>
-    <% end %>
-  </div>-->
-  
+<div class="welcome">  
   <div class="samples">
     <h1><%= t("welcome.samples") %></h1>
     
