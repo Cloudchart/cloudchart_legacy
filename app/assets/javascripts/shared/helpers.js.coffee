@@ -1,3 +1,10 @@
+# Navigation
+$(document).on("click", "[data-behavior=toggle-navigation]", ->
+  $("[data-behavior=navigation]").slideToggle()
+  $("[data-behavior=navigation-overlay]").fadeToggle()
+  false
+)
+
 # Form helpers
 $(document).on("click", "[data-behavior$=-edit] [data-behavior=fieldset] [data-behavior=new]", ->
   $template = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=template]").clone()

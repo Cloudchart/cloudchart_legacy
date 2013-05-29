@@ -84,13 +84,20 @@ en:
     words: 
       - Cloud
       - Chart
+    phone: "+1-800-CHART-DREAM"
     loading: "Loading..."
     anonymous: "Anonymous"
     search_charts: "Find companies and charts"
-    phone: "+1-800-CHART-DREAM"
+    recently_viewed: "Recently viewed"
   
   # Pages
   pages:
+    main:
+      title: "Main Page"
+    explore:
+      title: "Explore"
+    search:
+      title: "Search"
     privacy:
       title: "Our Privacy Policy"
     terms:

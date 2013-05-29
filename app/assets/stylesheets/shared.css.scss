@@ -96,6 +96,69 @@ header {
   }
 }
 
+.navigation-overlay {
+  @include opacity(0.5);
+  display: none;
+  background: #000;
+  position: absolute;
+  top: 130px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.navigation {
+  @include box-sizing(border-box);
+  display: none;
+  position: absolute;
+  top: 130px;
+  left: 0;
+  right: 0;
+  padding: 25px 30px;
+  background: #f6f6f6;
+  border-bottom: 1px solid #eeeeee;
+  
+  ul {
+    margin-bottom: 20px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+    
+    li {
+      line-height: 40px;
+      font-size: 22px;
+      font-weight: 300;
+      color: #575756;
+      
+      &.header {
+        font-weight: bold;
+        
+        a {
+          font-weight: bold;
+        }
+      }
+      
+      a {
+        color: #575756;
+        
+        &:hover {
+          color: #575756;
+        }
+      }
+      
+      span {
+        font-weight: normal;
+      }
+      
+      .arrow {
+        padding: 0 5px;
+        font-style: normal;
+      }
+    }
+  }
+}
+
 footer {
   @include box-sizing(border-box);
   height: 265px;
