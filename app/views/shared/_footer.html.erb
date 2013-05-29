@@ -1,0 +1,39 @@
+<footer>
+  <div class="row-fluid">
+    <div class="span3 left-side">
+      <h2><%= raw t("app.copy") %></h2>
+      
+      <ul class="unstyled">
+        <li><%= link_to t("pages.about.title"), "#" %></li>
+        <li><%= link_to t("pages.why.title"), "#" %></li>
+        <li><%= link_to t("pages.contact.title"), "#" %></li>
+      </ul>
+    </div>
+    
+    <div class="span3">
+      <h2>&nbsp;</h2>
+      
+      <ul class="unstyled">
+        <li><%= link_to t("pages.support.title"), "#" %></li>
+        <li><%= link_to t("pages.kb.title"), "#" %></li>
+        <li><%= link_to t("pages.api.title"), "#" %></li>
+      </ul>
+    </div>
+    
+    <div class="span6 right-side">
+      <%= link_to t("pages.privacy.title"), "#", class: "h2" %>
+      <%= link_to t("pages.terms.title"), "#", class: "h2" %>
+      
+      <ul class="unstyled">
+        <li class="icons">
+          <%= link_to content_tag(:i, class: "icon-facebook-sign") {}, "#" %>
+          <%= link_to content_tag(:i, class: "icon-twitter-sign") {}, "#" %>
+          <%= link_to content_tag(:i, class: "icon-linkedin-sign") {}, "#" %>
+          <%= link_to content_tag(:i, class: "icon-github-sign") {}, "#" %>
+        </li>
+        <li><%= link_to t("pages.blog.title"), "#" %></li>
+        <li><%= link_to t("app.phone"), "tel:#{t("app.phone")}" %></li>
+      </ul>
+    </div>
+  </div>
+</footer>

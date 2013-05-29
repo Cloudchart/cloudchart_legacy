@@ -67,4 +67,4 @@ group :assets do
 end
 
 gem "jquery-ui-rails"
-gem "twitter-bootstrap-rails"
+gem "twitter-bootstrap-rails", github: "seyhunak/twitter-bootstrap-rails"

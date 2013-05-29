@@ -1,0 +1,160 @@
+header {
+  @include box-sizing(border-box);
+  height: 130px;
+  background: #e8e8e8;
+  border-bottom: 1px solid #eeeeee;
+  
+  .logo {
+    float: left;
+    height: 64px;
+    margin: 33px 0 0 30px;
+    
+    img {
+      width: 96px;
+      height: 64px;
+      vertical-align: top;
+    }
+    
+    h1 {
+      display: inline-block;
+      margin: 0 0 0 22px;
+      line-height: 64px;
+      vertical-align: top;
+      font-size: 44px;
+      font-weight: 300;
+      color: #000;
+    }
+  }
+  
+  .search {
+    float: left;
+    position: relative;
+    height: 64px;
+    margin: 33px 0 0 0;
+    
+    form {
+      margin: 0;
+      
+      input {
+        @include box-sizing(border-box);
+        @include box-shadow(none);
+        @include border-radius(7px);
+        @include input-placeholder(#aaa);
+        width: 394px;
+        height: 64px;
+        line-height: 64px;
+        border-color: #cdcdcd;
+        border-width: 2px 0 0 0;
+        color: #aaa;
+        font-size: 22px;
+        font-weight: 300;
+        padding: 0 0 0 60px;
+        
+        &:focus {
+          @include box-shadow(none);
+          border-color: #cdcdcd;
+        }
+      }
+      
+      button {
+        position: absolute;
+        top: 17px;
+        left: 15px;
+        width: 30px;
+        height: 30px;
+        border: 0;
+        padding: 0;
+        margin: 0;
+        background: none;
+        
+        i {
+          font-size: 29px;
+        }
+      }
+    }
+  }
+  
+  .profile {
+    float: right;
+    width: 72px;
+    height: 72px;
+    margin: 29px 20px 0 0;
+  }
+  
+  .menu {
+    float: right;
+    width: 72px;
+    height: 72px;
+    margin: 29px 20px 0 0;
+    
+    img {
+      width: 72px;
+      height: 72px;
+    }
+    
+  }
+}
+
+footer {
+  @include box-sizing(border-box);
+  height: 265px;
+  background: #dadada;
+  border-top: 15px solid #ededed;
+  
+  .left-side {
+    padding: 0 0 0 25px;
+  }
+  
+  .right-side {
+    padding: 0 25px 0 0;
+    text-align: right;
+    
+    .h2 {
+      &:not(first-child) {
+        margin-left: 25px;
+      }
+    }
+  }
+  
+  .span3, .span6 {
+    padding-top: 25px;
+  }
+  
+  h2, .h2 {
+    margin: 0;
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 25px;
+    color: #000;
+    
+    &:hover {
+      color: #000;
+    }
+  }
+  
+  ul {
+    margin: 35px 0 0 0;
+    
+    li {
+      line-height: 36px;
+      
+      &.icons {
+        a {
+          &:hover {
+            text-decoration: none;
+          }
+        }
+      }
+      
+      a {
+        color: #706f6f;
+        font-size: 22px;
+        font-weight: 300;
+        
+        &:hover {
+          color: #706f6f;
+        }
+      }
+    }
+  }
+}

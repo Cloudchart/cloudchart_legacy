@@ -80,12 +80,35 @@ en:
   # App
   app:
     name: "CloudChart"
+    copy: "&copy; CloudChart LLC., 2013."
     words: 
       - Cloud
       - Chart
     loading: "Loading..."
     anonymous: "Anonymous"
     search_charts: "Find companies and charts"
+    phone: "+1-800-CHART-DREAM"
+  
+  # Pages
+  pages:
+    privacy:
+      title: "Our Privacy Policy"
+    terms:
+      title: "Terms Of Use"
+    about:
+      title: "About"
+    why:
+      title: "Why CloudChart?"
+    contact:
+      title: "Contact Us"
+    support:
+      title: "Support"
+    kb:
+      title: "Knowdlege Base"
+    api:
+      title: "API"
+    blog:
+      title: "Blog"
   
   # Persons
   persons:
