@@ -5,7 +5,7 @@ header {
   background: #e8e8e8;
   border-bottom: 1px solid #eeeeee;
   
-  .logo {
+  .logo, .title {
     float: left;
     height: 64px;
     margin: 33px 0 0 30px;
@@ -36,19 +36,29 @@ header {
         display: inline-block;
         position: relative;
         top: -3px;
-        padding: 0 14px 0 7px;
+        padding: 0 0 0 7px;
         font-size: 30px;
       }
     }
   }
   
+  .organization {
+    display: none;
+  }
+  
   .title {
-    float: left;
     position: relative;
-    height: 64px;
-    margin: 33px 0 0 0;
+    margin: 33px 0 0 14px;
+    
+    h1 {
+      @include ellipsis;
+      
+      max-width: 250px;
+      margin-left: 0;
+    }
     
     form {
+      display: none;
       margin: 0;
       
       input {
@@ -75,6 +85,7 @@ header {
   }
   
   .controls {
+    display: none;
     float: left;
     height: 64px;
     margin: 33px 0 0 30px;
@@ -176,6 +187,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
+  z-index: 1;
 }
 
 .navigation {
@@ -188,6 +200,7 @@ header {
   padding: 25px 30px;
   background: #f6f6f6;
   border-bottom: 1px solid #eeeeee;
+  z-index: 2;
   
   ul {
     margin-bottom: 20px;

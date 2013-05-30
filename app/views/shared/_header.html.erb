@@ -1,4 +1,4 @@
-<header>
+<header data-behavior="toggle-navigation">
   <div class="row-fluid">
     <% if @organization.nil? %>
       <div class="span4">
@@ -9,7 +9,7 @@
       </div>
       
       <div class="span5">
-        <div class="search">
+        <div class="search" data-skip-toggle>
           <%= form_for(:search, html: { class: "form-search" }) do |f| %>
             <%= f.text_field :query, placeholder: t("app.search_charts") %>
             <%= f.button content_tag(:i, class: "icon-search") {} %>
@@ -20,16 +20,22 @@
       <div class="span7">
         <div class="logo">
           <%= link_to image_tag("logo.svg", alt: t("app.name"), title: t("app.name")), root_path %>
-          <h1><strong><%= @organization.title %></strong> <i class="arrow icon-arrow-right"></i></h1>
+          
+          <div class="organization" data-behavior="toggle-inline-with-navigation">
+            <h1>
+              <strong><%= @organization.title %></strong> <i class="arrow icon-arrow-right"></i>
+            </h1>
+          </div>
         </div>
-        <div class="title">
-          <%= form_for(:title, html: { class: "form-title" }) do |f| %>
-            <%= f.text_field :title, value: "Main Orgchart"  %>
+        <div class="title" data-behavior="edit-title">
+          <h1>Main Orgchart</h1>
+          <%= form_for(:title, html: { class: "form-title", data: { :"skip-toggle" => "" } }) do |f| %>
+            <%= f.text_field :title, value: "Main Orgchart" %>
           <% end %>
         </div>
       </div>
       <div class="span2">
-        <div class="controls">
+        <div class="controls" data-behavior="toggle-with-navigation" data-skip-toggle>
           <%= link_to content_tag(:i, class: "icon-share-alt icon-flip-horizontal") {}, "#" %>
           <%= link_to content_tag(:i, class: "icon-star") {}, "#" %>
           <%= link_to content_tag(:i, class: "icon-cog") {}, "#" %>
@@ -39,10 +45,10 @@
     
     <div class="span3">
       <div class="menu">
-        <%= link_to image_tag("ico-menu.svg", alt: t("app.name"), title: t("app.name")), "#", data: { behavior: "toggle-navigation" } %>
+        <%= link_to image_tag("ico-menu.svg", alt: t("app.name"), title: t("app.name")), "#" %>
       </div>
       
-      <div class="profile">
+      <div class="profile" data-skip-toggle>
         <% if user_signed_in? %>
           <%= link_to image_tag(current_user.picture.url), edit_user_registration_path %>
         <% else %>

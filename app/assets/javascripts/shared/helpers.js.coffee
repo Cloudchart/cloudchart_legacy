@@ -1,8 +1,44 @@
 # Navigation
-$(document).on("click", "[data-behavior=toggle-navigation]", ->
-  $("[data-behavior=navigation]").slideToggle()
-  $("[data-behavior=navigation-overlay]").fadeToggle()
+$(document).on("click", "[data-behavior=toggle-navigation]", (e) ->
+  $target = $(e.target)
+  if $target.closest("[data-skip-toggle]").length > 0
+    return true
+  
+  if !$("[data-behavior=navigation]").is(":visible")
+    $("[data-behavior=navigation]").slideDown()
+    $("[data-behavior=navigation-overlay]").fadeIn()
+    $("[data-behavior=toggle-with-navigation]").fadeIn()
+    $("[data-behavior=toggle-inline-with-navigation]").css("opacity", 0).css("display", "inline-block").animate(opacity: 1)
+  else
+    $("[data-behavior=navigation]").slideUp()
+    $("[data-behavior=navigation-overlay]").fadeOut()
+    $("[data-behavior=toggle-with-navigation]").fadeOut()
+    $("[data-behavior=toggle-inline-with-navigation]").fadeOut()
+  
   false
+)
+
+# Title edit form
+$(document).on("mouseenter", "[data-behavior=edit-title]", (e) ->
+  $header = $("[data-behavior=edit-title]").find("h1")
+  $form = $("[data-behavior=edit-title]").find("form")
+  
+  if $("[data-behavior=navigation]").is(":visible")
+    $header.hide()
+    $form.show()
+)
+
+$(document).on("mouseleave", "[data-behavior=edit-title]", (e) ->
+  $header = $("[data-behavior=edit-title]").find("h1")
+  $form = $("[data-behavior=edit-title]").find("form")
+  
+  if !$form.find("input").is(":focus")
+    $header.show()
+    $form.hide()
+)
+
+$(document).on("blur", "[data-behavior=edit-title] input", (e) ->
+  $("[data-behavior=edit-title]").trigger("mouseleave")
 )
 
 # Form helpers

@@ -3,10 +3,10 @@
 **Todo**
 
 - Layout
-  - [ ] Adjust proportions
-  - [ ] Make navigation opening when tapping on header
-  - [ ] Show company name and controls when navigation is opened
-  - [ ] Show title edit field when hovering or when using touch device
+  - [ ] Adjust proportions (divide by 2)
+  - [x] Make navigation opening when tapping on header
+  - [x] Show company name and controls when navigation is opened
+  - [?] Show title edit field when hovering or when using touch device
 - Proper nodes editing
   - [x] More helper methods for tree purpose
   - [x] Rename left, right to parent, child
