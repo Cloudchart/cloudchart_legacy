@@ -3,7 +3,7 @@
 **Todo**
 
 - Layout
-  - [ ] Adjust proportions (divide by 2)
+  - [x] Adjust proportions (divide by 2)
   - [x] Make navigation opening when tapping on header
   - [x] Show company name and controls when navigation is opened
   - [?] Show title edit field when hovering or when using touch device

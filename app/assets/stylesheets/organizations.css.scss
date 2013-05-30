@@ -1,0 +1,16 @@
+.organization {
+  .sidebar {
+    @include box-sizing(border-box);
+    
+    position: absolute;
+    top: 65px;
+    left: 0;
+    background: #f6f6f6;
+    width: 20%;
+    padding: 15px;
+    
+    .contents {
+      display: none;
+    }
+  }
+}
