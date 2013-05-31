@@ -3,14 +3,50 @@
     @include box-sizing(border-box);
     
     position: absolute;
+    overflow: hidden;
     top: 65px;
+    right: 0;
     left: 0;
+    bottom: 67px;
     background: #f6f6f6;
     width: 20%;
     padding: 15px;
     
+    height: 80px;
+    min-height: 80px;
+    
     .contents {
-      display: none;
+      padding: 15px 0 0 0;
+      
+      p {
+        font-size: 14px;
+      }
+      
+      ul {
+        margin: 10px 0 0 0;
+        
+        li {
+          line-height: 32px;
+          
+          .icon-stack {
+            font-size: 9px;
+            line-height: 16px;
+            
+            .icon-stack-base {
+              color: #009fe3;
+            }
+          }
+          
+          a {
+            color: #575756;
+            font-size: 16px;
+            
+            &:hover {
+              color: #575756;
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -19,20 +19,23 @@
   </div>
   <div style="clear: both;"></div>
   
-  <div class="sidebar">
+  <div class="sidebar" data-behavior="organization-sidebar">
     <div class="logo">
       <%= image_tag("ico-company-sample.jpg") %>
     </div>
-    <div class="contents">
+    <div class="contents" data-behavior="contents">
       <p>Digital October Center is a place for globally-minded technology entrepreneurship community. The Center is built around two core themes: new technologies and technology entrepreneurship.</p>
       <p>Key international professional conferences and presentations of new technology products take place in the Center.</p>
       
-      <ul>
+      <ul class="unstyled">
         <li><%= link_to "About", "#" %></li>
         <li><%= link_to "Chart", "#" %></li>
         <li><%= link_to "People", "#" %></li>
         <li><%= link_to "Work Here", "#" %></li>
         <li><%= link_to "Contacts", "#" %></li>
+        <li>
+          <span class="icon-stack"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span><%= link_to "digitaloctober.ru", "http://digitaloctober.ru" %>
+        </li>
       </ul>
     </div>
   </div>

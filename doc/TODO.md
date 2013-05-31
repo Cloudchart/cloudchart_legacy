@@ -7,6 +7,7 @@
   - [x] Make navigation opening when tapping on header
   - [x] Show company name and controls when navigation is opened
   - [?] Show title edit field when hovering or when using touch device
+  - [ ] Company page
 - Proper nodes editing
   - [x] More helper methods for tree purpose
   - [x] Rename left, right to parent, child

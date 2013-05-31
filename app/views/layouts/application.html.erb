@@ -16,7 +16,7 @@
 <%= raw "<div class='alert alert-info'><a class='close' data-dismiss='alert' href='#'>×</a>#{notice}</div>" if notice.present? %>
 <%= raw "<div class='alert alert-error'><a class='close' data-dismiss='alert' href='#'>×</a>#{alert}</div>" if alert.present? %>
 
-<div class="grid">
+<div class="grid" data-behavior="container">
   <%= yield %>
 </div>
 
