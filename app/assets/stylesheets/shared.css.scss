@@ -86,7 +86,7 @@ header {
   
   .controls {
     display: none;
-    float: left;
+    float: right;
     height: 32px;
     margin: 16px 0 0 15px;
     
@@ -204,7 +204,7 @@ header {
     }
     
     li {
-      line-height: 26px;
+      line-height: 32px;
       font-size: 16px;
       font-weight: 300;
       color: #575756;
@@ -239,16 +239,16 @@ header {
 
 footer {
   @include box-sizing(border-box);
-  height: 132px;
+  height: 160px;
   background: #dadada;
   border-top: 7px solid #ededed;
   
   .left-side {
-    padding: 0 0 0 15px;
+    padding: 0 0 0 10px;
   }
   
   .right-side {
-    padding: 0 15px 0 0;
+    padding: 0 10px 0 0;
     text-align: right;
     
     .h2 {
@@ -275,10 +275,10 @@ footer {
   }
   
   ul {
-    margin: 16px 0 0 0;
+    margin: 10px 0 0 0;
     
     li {
-      line-height: 22px;
+      line-height: 32px;
       
       &.icons {
         a {
@@ -290,7 +290,7 @@ footer {
       
       a {
         color: #706f6f;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 300;
         
         &:hover {

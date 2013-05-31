@@ -20,6 +20,10 @@ $(document).on("click", "[data-behavior=toggle-navigation]", (e) ->
   false
 )
 
+$(document).on("click", "[data-behavior=navigation-overlay]", (e) ->
+  $("[data-behavior=toggle-navigation]").trigger("click")
+)
+
 # Form helpers
 $(document).on("click", "[data-behavior$=-edit] [data-behavior=fieldset] [data-behavior=new]", ->
   $template = $(this).closest("[data-behavior=fieldset]").find("[data-behavior=template]").clone()
