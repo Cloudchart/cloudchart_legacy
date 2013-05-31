@@ -37,6 +37,8 @@ class ApplicationController < ActionController::Base
       if !is_authenticating && (!flash[:notice] && !flash[:error]) && params[:format] != "json"
         session[:redirect_to] = request.fullpath
       end
+      
+      @organizations = current_user.organizations
     end
     
     def unauthorized

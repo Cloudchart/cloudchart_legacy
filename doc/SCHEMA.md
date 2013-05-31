@@ -52,6 +52,8 @@
 - **Has many** links
 - **Has many** identities
 - title [String]
+- description [String]
+- contacts [String]
 - token [String]
 - …
 

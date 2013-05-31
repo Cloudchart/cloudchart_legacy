@@ -321,6 +321,17 @@ footer {
   }
 }
 
+/* Icons */
+.icon-verified {
+  font-size: 9px;
+  line-height: 16px;
+  
+  .icon-stack-base {
+    color: #009fe3;
+  }
+}
+
+
 /* Pages */
 .grid {
   @include box-sizing(border-box);

@@ -79,20 +79,23 @@
     <div class="span2">
       <ul class="unstyled">
         <li class="header">
-          <%= link_to "Zeptolab", "#" %> <i class="icon-ok"></i>
+          <i class="icon-plus-sign"></i> <%= link_to t("organizations.new_organization"), new_organization_path %>
         </li>
-        <li><%= link_to "Organization", "#" %></li>
-        <li><%= link_to "Promo", "#" %></li>
-        <li><%= link_to "New project", "#" %></li>
       </ul>
       
-      <ul class="unstyled">
-        <li class="header">
-          <%= link_to "Kittyhug", "#" %> <i class="icon-ok"></i>
-        </li>
-        <li><%= link_to "Dream team", "#" %></li>
-        <li><%= link_to "New chart", "#" %></li>
-      </ul>
+      <% if @organizations && @organizations.any? %>
+        <% @organizations.each do |organization| %>
+        <ul class="unstyled">
+          <li class="header">
+            <%= link_to organization.title, organization_path(organization) %> <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span>
+          </li>
+          
+          <!--<li><%= link_to "Organization", "#" %></li>
+          <li><%= link_to "Promo", "#" %></li>
+          <li><%= link_to "New project", "#" %></li>-->
+        </ul>
+        <% end %>
+      <% end %>
     </div>
     
     <div class="span2">

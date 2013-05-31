@@ -13,9 +13,11 @@ class Organization
   has_many :identities, dependent: :destroy
   
   # Fields
-  attr_accessible :title
+  attr_accessible :title, :description, :contacts
   
   field :title, type: String
+  field :description, type: String
+  field :contacts, type: String
   
   # Validations
   validates :title, presence: true

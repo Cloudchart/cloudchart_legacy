@@ -132,6 +132,11 @@ en:
       wrong_authorization: "You are signed in with another account"
       sign_using_account: "Please sign in using %{provider} account %{name} to be able to edit this profile."
   
+  # Organizations
+  organizations:
+    new_organization: "Add organization"
+    create: "Create"
+  
   # Mailer
   mailer:
     profile:
