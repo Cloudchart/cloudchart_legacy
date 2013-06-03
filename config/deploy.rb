@@ -18,7 +18,7 @@ load "deploy/assets"
 
 ## Source
 set   :scm, "git"
-set   :repository, "git@github.com:krasnoukhov/#{project}.git"
+set   :repository, "git@github.com:Cloudchart/#{project}.git"
 set   :repository_cache, "git"
 set   :deploy_via, :remote_cache
 set   :user, "cloudchart"
