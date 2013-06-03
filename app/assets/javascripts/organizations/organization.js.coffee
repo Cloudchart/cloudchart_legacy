@@ -22,12 +22,15 @@ $(document).on("blur", "[data-behavior=edit-title] input", (e) ->
 )
 
 # Sidebar
+$ ->
+  $("[data-behavior=organization-sidebar]").sticky(topSpacing: 20)
+
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
   $this = $(this)
-  $this.animate(height: $("[data-behavior=container]").outerHeight())
+  $this.find(".contents").stop().slideDown()
 )
 
 $(document).on("mouseleave", "[data-behavior=organization-sidebar]", (e) ->
   $this = $(this)
-  $this.animate(height: $this.css("minHeight"))
+  $this.find(".contents").stop().slideUp()
 )

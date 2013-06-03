@@ -1,6 +1,7 @@
 class Organization
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::Paperclip
   store_in collection: "organizations"
   
   # Relations
@@ -13,7 +14,7 @@ class Organization
   has_many :identities, dependent: :destroy
   
   # Fields
-  attr_accessible :title, :description, :contacts
+  attr_accessible :title, :description, :contacts, :picture
   
   field :title, type: String
   field :description, type: String
@@ -21,6 +22,10 @@ class Organization
   
   # Validations
   validates :title, presence: true
+  
+  # Picture
+  has_mongoid_attached_file :picture,
+    styles: { preview: ["500x", :jpg] }
   
   # Representation
   def to_param

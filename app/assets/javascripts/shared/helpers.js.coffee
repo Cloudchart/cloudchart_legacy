@@ -5,16 +5,16 @@ $(document).on("click", "[data-behavior=toggle-navigation]", (e) ->
     return true
   
   if !$("[data-behavior=navigation]").is(":visible")
-    $("[data-behavior=navigation]").slideDown()
-    $("[data-behavior=navigation-overlay]").fadeIn()
-    $("[data-behavior=toggle-with-navigation]").fadeIn()
-    # $("[data-behavior=toggle-inline-with-navigation]").css("opacity", 0).css("display", "inline-block").animate(opacity: 1)
+    $("[data-behavior=navigation]").stop().slideDown()
+    $("[data-behavior=navigation-overlay]").stop().fadeIn()
+    $("[data-behavior=toggle-with-navigation]").stop().fadeIn()
+    # $("[data-behavior=toggle-inline-with-navigation]").stop().css("opacity", 0).css("display", "inline-block").animate(opacity: 1)
     $("[data-behavior=toggle-inline-with-navigation]").css("display", "inline-block")
   else
-    $("[data-behavior=navigation]").slideUp()
-    $("[data-behavior=navigation-overlay]").fadeOut()
-    $("[data-behavior=toggle-with-navigation]").fadeOut()
-    # $("[data-behavior=toggle-inline-with-navigation]").fadeOut()
+    $("[data-behavior=navigation]").stop().slideUp()
+    $("[data-behavior=navigation-overlay]").stop().fadeOut()
+    $("[data-behavior=toggle-with-navigation]").stop().fadeOut()
+    # $("[data-behavior=toggle-inline-with-navigation]").stop().fadeOut()
     $("[data-behavior=toggle-inline-with-navigation]").css("display", "none")
   
   false

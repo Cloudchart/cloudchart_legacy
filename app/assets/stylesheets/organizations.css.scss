@@ -1,21 +1,19 @@
 .organization {
+  .sticky-wrapper {
+    position: absolute;
+    top: 85px;
+    left: 20px;
+  }
+  
   .sidebar {
     @include box-sizing(border-box);
     
-    position: absolute;
-    overflow: hidden;
-    top: 65px;
-    right: 0;
-    left: 0;
-    bottom: 67px;
     background: #f6f6f6;
-    width: 20%;
+    width: 280px;
     padding: 15px;
     
-    height: 80px;
-    min-height: 80px;
-    
     .contents {
+      display: none;
       padding: 15px 0 0 0;
       
       p {
