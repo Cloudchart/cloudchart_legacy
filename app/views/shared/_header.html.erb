@@ -77,6 +77,7 @@
     </div>
     
     <div class="span2">
+    <% if user_signed_in? %>
       <ul class="unstyled">
         <li class="header">
           <i class="icon-plus-sign"></i> <%= link_to t("organizations.new_organization"), new_organization_path %>
@@ -96,6 +97,7 @@
         </ul>
         <% end %>
       <% end %>
+    <% end %>
     </div>
     
     <div class="span2">

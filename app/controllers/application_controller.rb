@@ -38,7 +38,9 @@ class ApplicationController < ActionController::Base
         session[:redirect_to] = request.fullpath
       end
       
-      @organizations = current_user.organizations
+      if user_signed_in?
+        @organizations = current_user.organizations
+      end
     end
     
     def unauthorized

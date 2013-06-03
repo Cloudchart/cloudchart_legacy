@@ -50,7 +50,7 @@ gem "cancan"
 gem "omniauth"
 gem "omniauth-linkedin"
 gem "omniauth-facebook"
-gem "linkedin", github: "krasnoukhov/linkedin"
+gem "linkedin", github: "Cloudchart/linkedin"
 gem "koala"
 
 # Client

@@ -1,9 +1,9 @@
 GIT
-  remote: git://github.com/krasnoukhov/linkedin.git
-  revision: b80a1c7785b9a02f52e91490e593b9de3661b1e5
+  remote: git://github.com/Cloudchart/linkedin.git
+  revision: a74edbd15bad832b1416cc3833960b4b267a5c13
   specs:
-    linkedin (0.3.7)
-      hashie
+    linkedin (0.4.0)
+      hashie (>= 1.2, < 2.1)
       multi_json (~> 1.0)
       oauth (~> 0.4)
 
