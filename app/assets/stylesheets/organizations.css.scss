@@ -12,13 +12,15 @@
     width: 280px;
     padding: 15px;
     
-    .contents {
-      display: none;
-      padding: 15px 0 0 0;
-      
+    .header {
       p {
+        margin: 10px 0 0 0;
         font-size: 14px;
       }
+    }
+    
+    .contents {
+      display: none;
       
       ul {
         margin: 10px 0 0 0;
@@ -32,6 +34,28 @@
             
             &:hover {
               color: #575756;
+            }
+          }
+        }
+      }
+      
+      .edit {
+        border-top: 1px solid #575756;
+        margin: 10px 0 0 0;
+        padding: 10px 0 0 0;
+        
+        p {
+          margin: 0;
+        }
+        
+        ul {
+          margin: 0;
+          
+          li {
+            line-height: 28px;
+            
+            a {
+              font-size: 12px;
             }
           }
         }

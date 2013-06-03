@@ -1,14 +1,14 @@
 <div class="sidebar" data-behavior="organization-sidebar">
-  <div class="logo">
+  <div class="header">
     <% if @organization.picture? %>
       <%= image_tag(@organization.picture.url(:preview)) %>
     <% else %>
       <h1><%= @organization.title %></h1>
     <% end %>
+    
+    <%= simple_format @organization.description %>
   </div>
   <div class="contents" data-behavior="contents">
-    <%= simple_format @organization.description %>
-    
     <ul class="unstyled">
       <li><%= link_to "About", "#" %></li>
       <li><%= link_to "Chart", "#" %></li>
@@ -19,5 +19,16 @@
         <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span><%= link_to "digitaloctober.ru", "http://digitaloctober.ru" %>
       </li>
     </ul>
+    
+    <% if can?(:update, @organization) %>
+    <div class="edit">
+      <p><%= t("organizations.you_are_owner") %></p>
+      
+      <ul class="unstyled">
+        <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
+        <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
+      </ul>
+    </div>
+    <% end %>
   </div>
 </div>

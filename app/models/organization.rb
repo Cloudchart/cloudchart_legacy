@@ -28,6 +28,10 @@ class Organization
     styles: { preview: ["500x", :jpg] }
   
   # Representation
+  def charts
+    self.nodes.charts
+  end
+  
   def to_param
     self.id
   end

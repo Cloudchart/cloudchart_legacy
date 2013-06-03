@@ -134,8 +134,11 @@ en:
   
   # Organizations
   organizations:
-    new_organization: "Add organization"
     create: "Create"
+    new_organization: "Add organization"
+    edit_organization: "Edit organization"
+    you_are_owner: "You are the owner."
+    add_chart: "Add chart"
   
   # Mailer
   mailer:

@@ -91,9 +91,9 @@
             <%= link_to organization.title, organization_path(organization) %> <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span>
           </li>
           
-          <!--<li><%= link_to "Organization", "#" %></li>
-          <li><%= link_to "Promo", "#" %></li>
-          <li><%= link_to "New project", "#" %></li>-->
+          <% organization.charts.each do |chart| %>
+          <li><%= link_to chart.title, organization_chart_path(organization, chart) %></li>
+          <% end %>
         </ul>
         <% end %>
       <% end %>
