@@ -8,6 +8,8 @@
   - [x] Show company name and controls when navigation is opened
   - [?] Show title edit field when hovering or when using touch device
   - [x] Company page
+  - [ ] Choose organization image
+  - [ ] Add chart: organization select + fields
 - Proper nodes editing
   - [x] More helper methods for tree purpose
   - [x] Rename left, right to parent, child
