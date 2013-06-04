@@ -53,9 +53,15 @@
 - **Has many** identities
 - title [String]
 - description [String]
-- contacts [String]
-- token [String]
+- domain [String]
+- widgets [Hash: about, charts, people, work_here, contacts, … - Widget [Array]]
 - …
+
+## Widget
+
+- type [Enum: text, header, chart, image, person, split, …]
+- keys (pre-defined for each type) [Hash: type, source, …]
+- values [Hash: keys]
 
 ## Person
 
