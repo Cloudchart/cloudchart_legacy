@@ -139,6 +139,10 @@ en:
     edit_organization: "Edit organization"
     you_are_owner: "You are the owner."
     add_chart: "Add chart"
+    no_charts: "This company hasn't added any charts yet."
+    sections:
+      charts: "Charts"
+      identities: "People"
   
   # Mailer
   mailer:

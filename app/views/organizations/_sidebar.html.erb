@@ -6,18 +6,30 @@
       <h1><%= @organization.title %></h1>
     <% end %>
     
-    <%= simple_format @organization.description %>
+    <% if @organization.description.present? %>
+      <%= simple_format @organization.description %>
+    <% end %>
   </div>
   <div class="contents" data-behavior="contents">
     <ul class="unstyled">
-      <li><%= link_to "About", "#" %></li>
-      <li><%= link_to "Chart", "#" %></li>
+      <% if @organization.has_charts? %>
+      <li><%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %></li>
+      <% end %>
+      
+      <% if @organization.has_identities? %>
+      <li><%= link_to t("organizations.sections.identities"), organization_identities_path(@organization) %></li>
+      <% end %>
+      
+      <!--<li><%= link_to "About", "#" %></li>
       <li><%= link_to "People", "#" %></li>
       <li><%= link_to "Work Here", "#" %></li>
-      <li><%= link_to "Contacts", "#" %></li>
+      <li><%= link_to "Contacts", "#" %></li>-->
+      
+      <% if @organization.domain.present? %>
       <li>
-        <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span><%= link_to "digitaloctober.ru", "http://digitaloctober.ru" %>
+        <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span><%= link_to @organization.domain, "http://#{@organization.domain}" %>
       </li>
+      <% end %>
     </ul>
     
     <% if can?(:update, @organization) %>

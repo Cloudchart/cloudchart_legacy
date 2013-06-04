@@ -14,10 +14,11 @@ class Organization
   has_many :identities, dependent: :destroy
   
   # Fields
-  attr_accessible :title, :description, :contacts, :picture
+  attr_accessible :title, :description, :contacts, :domain, :picture
   
   field :title, type: String
   field :description, type: String
+  field :domain, type: String
   field :contacts, type: String
   
   # Validations
@@ -28,8 +29,16 @@ class Organization
     styles: { preview: ["500x", :jpg] }
   
   # Representation
+  def has_charts?
+    !self.nodes.charts.count.zero?
+  end
+  
   def charts
     self.nodes.charts
+  end
+  
+  def has_identities?
+    !self.identities.count.zero?
   end
   
   def to_param

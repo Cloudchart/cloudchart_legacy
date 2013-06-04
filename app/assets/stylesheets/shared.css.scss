@@ -333,14 +333,18 @@ footer {
 
 
 /* Pages */
-.grid {
+.contents {
   @include box-sizing(border-box);
   min-height: 60%;
-  padding: 20px;
+}
+
+.grid {
   background: url(bg-grid.png) repeat center center;
 }
 
 .welcome {
+  padding: 20px;
+  
   .buttons {
     text-align: center;
   }

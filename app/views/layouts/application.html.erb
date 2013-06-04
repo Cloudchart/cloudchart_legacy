@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Cloudchart</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-  
-  <script type="text/javascript" src="//use.typekit.net/nsy8hjq.js"></script>
-  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  <%= render partial: "/shared/meta" %>
 </head>
 <body>
 
 <%= render partial: "/shared/header" %>
+<%= render partial: "/shared/alerts" %>
 
-<%= raw "<div class='alert alert-info'><a class='close' data-dismiss='alert' href='#'>×</a>#{notice}</div>" if notice.present? %>
-<%= raw "<div class='alert alert-error'><a class='close' data-dismiss='alert' href='#'>×</a>#{alert}</div>" if alert.present? %>
-
-<div class="grid" data-behavior="container">
+<div class="contents" data-behavior="contents">
   <%= yield %>
 </div>
 
 <%= render partial: "/shared/footer" %>
+<%= render partial: "/shared/scripts" %>
 
 </body>
 </html>
