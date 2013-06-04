@@ -1,4 +1,11 @@
 class ChartsController < ApplicationController
+  def index
+    return unauthorized unless user_signed_in?
+    
+    @nodes = @organization.charts
+    render "/organizations/charts"
+  end
+  
   def new
     return unauthorized unless user_signed_in?
     

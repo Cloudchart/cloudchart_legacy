@@ -1,7 +1,7 @@
 Cloudchart::Application.routes.draw do
   # App
   resources :organizations do
-    resources :charts, only: [:new, :create, :show]
+    resources :charts, only: [:index, :new, :create, :show]
     resources :nodes, only: [:index, :show, :update]
     resources :identities, except: [:edit] do
       member do
