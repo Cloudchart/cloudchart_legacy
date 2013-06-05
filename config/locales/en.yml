@@ -144,6 +144,8 @@ en:
     sections:
       charts: "Charts"
       identities: "People"
+    widgets:
+      save: "Save"
   
   # Mailer
   mailer:

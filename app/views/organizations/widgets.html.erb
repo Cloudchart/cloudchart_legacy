@@ -8,9 +8,15 @@
       <div class="area <%= area %>">
         <span><%= area.humanize %></span>
         <div class="contents" data-area="<%= area %>" data-behavior="sortable">
+          <% if @organization.widgets && @organization.widgets[area] %>
+            <% @organization.widgets[area].each do |widget| %>
+              <%= content_tag(:div, data: { behavior: "render", json: widget } ) {} %>
+            <% end %>
+          <% end %>
         </div>
       </div>
       <% end %>
+      <button class="btn btn-primary" data-behavior="save" data-action="<%= organization_path(@organization) %>"><%= t("organizations.widgets.save") %></button>
     </div>
     <div class="span2 widgets">
       <% Widget.type_enum.each do |type| %>

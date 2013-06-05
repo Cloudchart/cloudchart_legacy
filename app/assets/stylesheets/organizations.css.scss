@@ -82,11 +82,39 @@
         
         .ui-state-highlight {
           @include box-sizing(border-box);
-          border-top: 1px solid #ccc;
+          border-top: 50px solid #ccc;
         }
         
         .widget {
+          position: relative;
           margin: 5px 0;
+          padding: 5px;
+          border: 1px solid #ccc;
+          background: #fff;
+          
+          .form {
+            margin: 10px 0 0 0;
+            
+            input {
+              @include box-sizing(border-box);
+              width: 100%;
+              margin: 0 0 5px 0;
+              border: 1px solid #ccc;
+            }
+            
+            textarea {
+              @include box-sizing(border-box);
+              width: 100%;
+              margin: 0 0 5px 0;
+              border: 1px solid #ccc;
+            }
+          }
+          
+          .buttons {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+          }
         }
       }
     }

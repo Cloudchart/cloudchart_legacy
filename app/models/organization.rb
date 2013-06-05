@@ -48,4 +48,15 @@ class Organization
   def to_param
     self.id
   end
+  
+  def update_widgets(input)
+    widgets = Hash[self.widgets_enum.map do |area|
+      next unless input[area]
+      
+      widgets = input[area].map { |k, v| v.present? ? v : nil }.uniq.compact
+      [area, widgets]
+    end]
+    
+    self.update_attribute(:widgets, widgets)
+  end
 end

@@ -4,7 +4,13 @@
       <%= render partial: "/organizations/sidebar" %>
     </div>
     <div class="span9">
-      <h1><%= t("organizations.no_charts") %></h1>
+      <% if @organization.has_charts? %>
+        <%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %>
+      <% else %>
+        <h1><%= t("organizations.no_charts") %></h1>
+      <% end %>
+      
+      <%= debug @organization.widgets %>
     </div>
   </div>
 </div>

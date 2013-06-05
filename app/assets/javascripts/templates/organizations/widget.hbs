@@ -1,0 +1,14 @@
+<div class="widget {{type}}" data-type="{{type}}" data-behavior="widget" data-dropped="true">
+  <span>{{type}}</span>
+  
+  {{#with values}}
+  <form class="form">
+    <input name="title" value="{{title}}" />
+    <textarea name="contents">{{contents}}</textarea>
+  </form>
+  {{/with}}
+  
+  <div class="buttons">
+    <a href="#" class="btn btn-mini" data-behavior="widget-destroy"><i class="icon-remove"></i></a>
+  </div>
+</div>

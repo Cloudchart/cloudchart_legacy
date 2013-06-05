@@ -2,3 +2,4 @@
 //= require plugins/textchange
 //= require plugins/ajaxq
 //= require plugins/sticky
+//= require plugins/serialize-object

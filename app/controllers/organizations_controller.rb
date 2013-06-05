@@ -35,9 +35,17 @@ class OrganizationsController < ApplicationController
   def update
     return unauthorized unless can?(:update, @organization)
     
-    @organization.update_attributes(resource_params)
+    if params[:widgets]
+      @organization.update_widgets(params[:widgets])
+    else
+      @organization.update_attributes(resource_params)
+    end
+    
     if @organization.valid?
-      redirect_to organization_path(@organization)
+      respond_to do |format|
+        format.json { render json: {} }
+        format.html { redirect_to organization_path(@organization) }
+      end
     else
       render :form
     end
