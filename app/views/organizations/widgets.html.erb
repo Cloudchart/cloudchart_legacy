@@ -1,0 +1,19 @@
+<div class="organization container" data-behavior="organization-widgets">
+  <div class="row">
+    <div class="span3">
+      <%= render partial: "/organizations/sidebar" %>
+    </div>
+    <div class="span7 constructor">
+      <% @organization.widgets_enum.each do |type| %>
+      <div class="area <%= type %>" data-area="<%= type %>" data-behavior="droppable">
+        <span><%= type.humanize %></span>
+      </div>
+      <% end %>
+    </div>
+    <div class="span2 widgets">
+      <% Widget.type_enum.each do |type| %>
+      <div class="widget <%= type %>" data-behavior="draggable"><%= type.humanize %></div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,7 @@ class Organization
   field :title, type: String
   field :description, type: String
   field :domain, type: String
-  field :contacts, type: String
+  field :widgets, type: Hash
   
   # Validations
   validates :title, presence: true
@@ -39,6 +39,10 @@ class Organization
   
   def has_identities?
     !self.identities.count.zero?
+  end
+  
+  def widgets_enum
+    %w(about charts people work_here contacts)
   end
   
   def to_param

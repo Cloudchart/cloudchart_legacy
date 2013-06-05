@@ -137,6 +137,7 @@ en:
     create: "Create"
     new_organization: "Add organization"
     edit_organization: "Edit organization"
+    edit_widgets: "Edit profile"
     you_are_owner: "You are the owner."
     add_chart: "Add chart"
     no_charts: "This company hasn't added any charts yet."
