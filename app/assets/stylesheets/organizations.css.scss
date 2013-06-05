@@ -70,16 +70,24 @@
   .constructor {
     .area {
       @include box-sizing(border-box);
-      
       border-top: 3px solid #ccc;
-      min-height: 50px;
-      
-      &.active {
-        background: #eee;
-      }
       
       span {
         color: #ccc;
+      }
+      
+      .contents {
+        margin: 10px 0 10px 0;
+        min-height: 10px;
+        
+        .ui-state-highlight {
+          @include box-sizing(border-box);
+          border-top: 1px solid #ccc;
+        }
+        
+        .widget {
+          margin: 5px 0;
+        }
       }
     }
   }

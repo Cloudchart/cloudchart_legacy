@@ -4,15 +4,17 @@
       <%= render partial: "/organizations/sidebar" %>
     </div>
     <div class="span7 constructor">
-      <% @organization.widgets_enum.each do |type| %>
-      <div class="area <%= type %>" data-area="<%= type %>" data-behavior="droppable">
-        <span><%= type.humanize %></span>
+      <% @organization.widgets_enum.each do |area| %>
+      <div class="area <%= area %>">
+        <span><%= area.humanize %></span>
+        <div class="contents" data-area="<%= area %>" data-behavior="sortable">
+        </div>
       </div>
       <% end %>
     </div>
     <div class="span2 widgets">
       <% Widget.type_enum.each do |type| %>
-      <div class="widget <%= type %>" data-behavior="draggable"><%= type.humanize %></div>
+      <div class="widget <%= type %>" data-type="<%= type %>" data-behavior="draggable"><%= type.humanize %></div>
       <% end %>
     </div>
   </div>

@@ -23,7 +23,9 @@ $(document).on("blur", "[data-behavior=edit-title] input", (e) ->
 
 # Sidebar
 $ ->
-  $("[data-behavior=organization-sidebar]").sticky(topSpacing: 20)
+  $sidebar = $("[data-behavior=organization-sidebar]")
+  $sidebar.sticky(topSpacing: 20)
+  $sidebar.css(maxWidth: $sidebar.outerWidth())
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
   $this = $(this)
