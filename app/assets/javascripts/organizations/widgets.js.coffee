@@ -77,10 +77,11 @@ $ ->
         
         # Newly created item
         if !item.attr("data-dropped")
+          console.log JSON.parse($container.attr("data-collections"))
           item.replaceWith(
             HandlebarsTemplates["organizations/widget"](
               type: item.attr("data-type")
-              keys: item.attr("data-keys")
+              keys: JSON.parse(item.attr("data-keys"))
               collections: JSON.parse($container.attr("data-collections"))
               values: {}
             )

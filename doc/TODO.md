@@ -11,7 +11,9 @@
   - [x] Choose organization image
   - [x] Add chart
   - [x] Organization page
-  - [ ] Organization widgets
+  - [x] Organization widgets
+  	- [ ] Sidebar sections (with split)
+  	
 - Proper nodes editing
   - [x] More helper methods for tree purpose
   - [x] Rename left, right to parent, child
