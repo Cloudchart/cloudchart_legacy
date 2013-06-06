@@ -59,4 +59,13 @@ class Organization
     
     self.update_attribute(:widgets, widgets)
   end
+  
+  def initialize_widgets
+    return {} unless self.widgets
+    
+    @rendered_widgets ||= Hash[self.widgets.map do |area, widgets|
+      widgets.map! { |v| Widget.new(v) }
+      [area, widgets]
+    end]
+  end
 end

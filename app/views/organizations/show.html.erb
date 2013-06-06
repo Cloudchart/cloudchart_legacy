@@ -10,7 +10,13 @@
         <h1><%= t("organizations.no_charts") %></h1>
       <% end %>
       
-      <%= debug @organization.widgets %>
+      <% @organization.initialize_widgets.each do |area, widgets| %>
+        <% widgets.each do |widget| %>
+        <div class="widget <%= widget.type %>">
+          <%= render partial: "/widgets/#{widget.type}", locals: { widget: widget } %>
+        </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>

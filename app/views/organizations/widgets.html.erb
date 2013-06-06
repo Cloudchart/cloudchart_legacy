@@ -10,7 +10,7 @@
         <div class="contents" data-area="<%= area %>" data-behavior="sortable">
           <% if @organization.widgets && @organization.widgets[area] %>
             <% @organization.widgets[area].each do |widget| %>
-              <%= content_tag(:div, data: { behavior: "render", json: widget } ) {} %>
+              <%= content_tag(:div, data: { behavior: "render", keys: Widget.type_keys[widget["type"].to_sym], json: widget } ) {} %>
             <% end %>
           <% end %>
         </div>
@@ -20,7 +20,7 @@
     </div>
     <div class="span2 widgets">
       <% Widget.type_enum.each do |type| %>
-      <div class="widget <%= type %>" data-type="<%= type %>" data-behavior="draggable"><%= type.humanize %></div>
+      <div class="widget <%= type %>" data-type="<%= type %>" data-keys="<%= Widget.type_keys[type.to_sym].to_json %>" data-behavior="draggable"><%= type.humanize %></div>
       <% end %>
     </div>
   </div>

@@ -1,12 +1,21 @@
 <div class="widget {{type}}" data-type="{{type}}" data-behavior="widget" data-dropped="true">
   <span>{{type}}</span>
   
-  {{#with values}}
   <form class="form">
-    <input name="title" value="{{title}}" />
-    <textarea name="contents">{{contents}}</textarea>
+    {{#each keys}}
+      {{#with this}}
+        {{#if_eq as compare="string"}}
+        <input name="{{name}}" placeholder="{{name}}" value="{{get_value name ../../../values}}" />
+        {{/if_eq}}
+        {{#if_eq as compare="text"}}
+        <textarea name="{{name}}" placeholder="{{name}}">{{get_value name ../../../values}}</textarea>
+        {{/if_eq}}
+      {{/with}}
+    {{/each}}
+    
+    <!--<input name="title" value="{{title}}" />
+    <textarea name="contents">{{contents}}</textarea>-->
   </form>
-  {{/with}}
   
   <div class="buttons">
     <a href="#" class="btn btn-mini" data-behavior="widget-destroy"><i class="icon-remove"></i></a>

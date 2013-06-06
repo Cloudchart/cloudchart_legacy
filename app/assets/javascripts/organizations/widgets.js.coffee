@@ -50,7 +50,11 @@ $ ->
     $container.find("[data-behavior=render]").each(->
       json = JSON.parse($(this).attr("data-json"))
       $(this).replaceWith(
-        HandlebarsTemplates["organizations/widget"](json)
+        HandlebarsTemplates["organizations/widget"](
+          type: json.type
+          keys: JSON.parse($(this).attr("data-keys"))
+          values: json.values
+        )
       )
     )
     
@@ -75,6 +79,7 @@ $ ->
           item.replaceWith(
             HandlebarsTemplates["organizations/widget"](
               type: item.attr("data-type")
+              keys: item.attr("data-keys")
               values: {}
             )
           )
