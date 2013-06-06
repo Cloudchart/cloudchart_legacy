@@ -5,10 +5,19 @@
     {{#each keys}}
       {{#with this}}
         {{#if_eq as compare="string"}}
-        <input name="{{name}}" placeholder="{{name}}" value="{{get_value name ../../../values}}" />
+        <input name="{{name}}" placeholder="{{name}}" value="{{get_value name context=../../../values}}" />
         {{/if_eq}}
+        
         {{#if_eq as compare="text"}}
-        <textarea name="{{name}}" placeholder="{{name}}">{{get_value name ../../../values}}</textarea>
+        <textarea name="{{name}}" placeholder="{{name}}">{{get_value name context=../../../values}}</textarea>
+        {{/if_eq}}
+        
+        {{#if_eq as compare="select"}}
+        <select name="{{name}}">
+          {{#each_with_value collection context=../../../collections}}
+            <option value="{{get_value 0 context=this}}">{{get_value 1 context=this}}</option>
+          {{/each_with_value}}
+        </select>
         {{/if_eq}}
       {{/with}}
     {{/each}}

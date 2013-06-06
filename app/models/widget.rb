@@ -3,6 +3,8 @@ class Widget
   include Mongoid::Timestamps
   
   # Fields
+  attr_accessor :chart, :person
+  
   field :type, type: String
   field :values, type: Hash
   
@@ -20,11 +22,13 @@ class Widget
         { name: :title, as: :string }
       ],
       chart: [
+        { name: :id, as: :select, collection: "charts" }
       ],
       image: [
         { name: :link, as: :string }
       ],
       person: [
+        { name: :id, as: :select, collection: "persons" }
       ],
       split: [
       ]
@@ -33,5 +37,14 @@ class Widget
   
   def type_enum
     self.class.type_enum
+  end
+  
+  def preload
+    case self.type
+    when "chart"
+      self.chart = Node.find(self.values["id"]) if self.values["id"].present?
+    end
+    
+    self
   end
 end

@@ -13,7 +13,7 @@
       <% @organization.initialize_widgets.each do |area, widgets| %>
         <% widgets.each do |widget| %>
         <div class="widget <%= widget.type %>">
-          <%= render partial: "/widgets/#{widget.type}", locals: { widget: widget } %>
+          <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
         </div>
         <% end %>
       <% end %>

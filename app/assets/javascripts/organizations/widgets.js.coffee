@@ -53,6 +53,7 @@ $ ->
         HandlebarsTemplates["organizations/widget"](
           type: json.type
           keys: JSON.parse($(this).attr("data-keys"))
+          collections: JSON.parse($container.attr("data-collections"))
           values: json.values
         )
       )
@@ -80,6 +81,7 @@ $ ->
             HandlebarsTemplates["organizations/widget"](
               type: item.attr("data-type")
               keys: item.attr("data-keys")
+              collections: JSON.parse($container.attr("data-collections"))
               values: {}
             )
           )

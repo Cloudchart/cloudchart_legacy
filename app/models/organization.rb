@@ -64,7 +64,7 @@ class Organization
     return {} unless self.widgets
     
     @rendered_widgets ||= Hash[self.widgets.map do |area, widgets|
-      widgets.map! { |v| Widget.new(v) }
+      widgets.map! { |v| Widget.new(v).preload }
       [area, widgets]
     end]
   end
