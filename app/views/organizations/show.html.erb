@@ -12,8 +12,8 @@
       
       <% @widgets.each do |area, widgets| %>
         <% widgets.each do |widget| %>
+        <% break if widget.split? %>
         <div class="widget <%= widget.type %>">
-          <% break if widget.split? %>
           <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
         </div>
         <% end %>

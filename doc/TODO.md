@@ -12,7 +12,10 @@
   - [x] Add chart
   - [x] Organization page
   - [x] Organization widgets
-  	- [ ] Sidebar sections (with split)
+  	- [x] Sidebar sections (with split)
+  	- [ ] Automatically display charts (show+editor, implement it as default widget)
+  	- [ ] Sticky widgets
+  	- [ ] Disallow multiple splits in area
   	
 - Proper nodes editing
   - [x] More helper methods for tree purpose

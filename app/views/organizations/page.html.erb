@@ -5,8 +5,8 @@
     </div>
     <div class="span9">
       <% @widgets.each do |widget| %>
+        <% next if widget.split? %>
         <div class="widget <%= widget.type %>">
-          <% next if widget.split? %>
           <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
         </div>
       <% end %>
