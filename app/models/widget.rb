@@ -39,6 +39,10 @@ class Widget
     self.class.type_enum
   end
   
+  def split?
+    self.type == "split"
+  end
+  
   def preload
     case self.type
     when "chart"

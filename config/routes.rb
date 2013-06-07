@@ -3,6 +3,7 @@ Cloudchart::Application.routes.draw do
   resources :organizations do
     member do
       get :widgets
+      get :"page/:page", action: :page, as: :page
     end
     
     resources :charts, only: [:index, :new, :create, :show]

@@ -68,4 +68,10 @@ class Organization
       [area, widgets]
     end]
   end
+  
+  def widget_areas
+    return [] unless self.widgets
+    
+    self.widgets.select { |area, widgets| widgets.any? }.keys
+  end
 end

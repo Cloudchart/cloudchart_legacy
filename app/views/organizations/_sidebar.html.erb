@@ -14,18 +14,19 @@
   </div>
   <div class="contents" data-behavior="contents">
     <ul class="unstyled">
-      <% if @organization.has_charts? %>
+      <!--<% if @organization.has_charts? %>
       <li><%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %></li>
       <% end %>
       
       <% if @organization.has_identities? %>
       <li><%= link_to t("organizations.sections.identities"), organization_identities_path(@organization) %></li>
-      <% end %>
+      <% end %>-->
       
-      <!--<li><%= link_to "About", "#" %></li>
-      <li><%= link_to "People", "#" %></li>
-      <li><%= link_to "Work Here", "#" %></li>
-      <li><%= link_to "Contacts", "#" %></li>-->
+      <% if @organization.widget_areas.any? %>
+        <% @organization.widget_areas.each do |area| %>
+        <li><%= link_to area.humanize, page_organization_path(@organization, page: area) %></li>
+        <% end %>
+      <% end %>
       
       <% if @organization.domain.present? %>
       <li>

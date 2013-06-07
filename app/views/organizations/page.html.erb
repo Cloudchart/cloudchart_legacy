@@ -4,19 +4,11 @@
       <%= render partial: "/organizations/sidebar" %>
     </div>
     <div class="span9">
-      <% if @organization.has_charts? %>
-        <!--<%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %>-->
-      <% else %>
-        <h1><%= t("organizations.no_charts") %></h1>
-      <% end %>
-      
-      <% @widgets.each do |area, widgets| %>
-        <% widgets.each do |widget| %>
+      <% @widgets.each do |widget| %>
         <div class="widget <%= widget.type %>">
-          <% break if widget.split? %>
+          <% next if widget.split? %>
           <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
         </div>
-        <% end %>
       <% end %>
     </div>
   </div>

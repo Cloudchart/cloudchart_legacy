@@ -24,6 +24,17 @@ class OrganizationsController < ApplicationController
   
   def show
     return unauthorized unless can?(:read, @organization)
+    
+    @widgets = @organization.initialize_widgets
+  end
+  
+  def page
+    return unauthorized unless can?(:read, @organization)
+    
+    @widgets = @organization.initialize_widgets[params[:page]]
+    if !@widgets
+      redirect_to organization_path(@organization) and return
+    end
   end
   
   def edit
