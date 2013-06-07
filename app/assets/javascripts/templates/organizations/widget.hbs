@@ -1,8 +1,8 @@
-<div class="widget {{type}}" data-type="{{type}}" data-behavior="widget" data-dropped="true">
+<div class="widget {{type}}" data-type="{{type}}" data-config="{{stringify_json config}}" data-behavior="widget" data-dropped="true">
   <span>{{type}}</span>
   
   <form class="form">
-    {{#each keys}}
+    {{#each_with_value "keys" context=config}}
       {{#with this}}
         {{#if_eq as compare="string"}}
         <input name="{{name}}" placeholder="{{name}}" value="{{get_value name context=../../../values}}" />
@@ -20,7 +20,7 @@
         </select>
         {{/if_eq}}
       {{/with}}
-    {{/each}}
+    {{/each_with_value}}
   </form>
   
   <div class="buttons">

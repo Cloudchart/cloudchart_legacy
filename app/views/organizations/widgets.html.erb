@@ -16,7 +16,7 @@
         <div class="contents" data-area="<%= area %>" data-behavior="sortable">
           <% if @organization.widgets && @organization.widgets[area] %>
             <% @organization.widgets[area].each do |widget| %>
-              <%= content_tag(:div, data: { behavior: "render", keys: Widget.type_keys[widget["type"].to_sym], json: widget } ) {} %>
+              <%= content_tag(:div, data: { behavior: "render", config: Widget.type_config[widget["type"].to_sym], json: widget } ) {} %>
             <% end %>
           <% end %>
         </div>
@@ -24,10 +24,12 @@
       <% end %>
       <button class="btn btn-primary" data-behavior="save" data-action="<%= organization_path(@organization) %>"><%= t("organizations.widgets.save") %></button>
     </div>
-    <div class="span2 widgets">
-      <% Widget.type_enum.each do |type| %>
-      <div class="widget <%= type %>" data-type="<%= type %>" data-keys="<%= Widget.type_keys[type.to_sym].to_json %>" data-behavior="draggable"><%= type.humanize %></div>
-      <% end %>
+    <div class="span2">
+      <div class="widgets" data-behavior="widgets">
+        <% Widget.type_enum.each do |type| %>
+        <div class="widget <%= type %>" data-type="<%= type %>" data-config="<%= Widget.type_config[type.to_sym].to_json %>" data-behavior="draggable"><%= type.humanize %></div>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

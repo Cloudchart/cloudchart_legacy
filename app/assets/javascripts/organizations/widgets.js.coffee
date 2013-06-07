@@ -46,14 +46,22 @@ $ ->
     $sortable = $container.find("[data-behavior=sortable]")
     $draggable = $container.find("[data-behavior=draggable]")
     
+    # Sticky widgets
+    $widgets = $("[data-behavior=widgets]")
+    $widgets.sticky(topSpacing: 20)
+    $widgets.css(width: $widgets.outerWidth())
+    
     # Render
     $container.find("[data-behavior=render]").each(->
       json = JSON.parse($(this).attr("data-json"))
+      config = JSON.parse($(this).attr("data-config"))
+      collections = JSON.parse($container.attr("data-collections"))
+      
       $(this).replaceWith(
         HandlebarsTemplates["organizations/widget"](
           type: json.type
-          keys: JSON.parse($(this).attr("data-keys"))
-          collections: JSON.parse($container.attr("data-collections"))
+          config: config
+          collections: collections
           values: json.values
         )
       )
@@ -72,17 +80,41 @@ $ ->
       placeholder: "ui-state-highlight"
       axis: "y"
       connectWith: $sortable
+      
+      receive: (event, ui) ->
+        item = ui.item
+        type = item.attr("data-type")
+        config = JSON.parse(item.attr("data-config"))
+        
+        # Unique item
+        if config.unique
+          if $(this).find("[data-dropped][data-type=#{type}]").length != 0
+            # Move between lists
+            if ui.sender && ui.sender.hasClass("ui-sortable")
+              $(ui.sender).sortable("cancel")
+            
+            return false
+        
       stop: (event, ui) ->
         item = ui.item
         
         # Newly created item
         if !item.attr("data-dropped")
-          console.log JSON.parse($container.attr("data-collections"))
+          type = item.attr("data-type")
+          config = JSON.parse(item.attr("data-config"))
+          collections = JSON.parse($container.attr("data-collections"))
+          
+          # Unique item
+          if config.unique
+            if $(this).find("[data-dropped][data-type=#{type}]").length != 0
+              item.remove()
+              return true
+          
           item.replaceWith(
             HandlebarsTemplates["organizations/widget"](
-              type: item.attr("data-type")
-              keys: JSON.parse(item.attr("data-keys"))
-              collections: JSON.parse($container.attr("data-collections"))
+              type: type
+              config: config
+              collections: collections
               values: {}
             )
           )

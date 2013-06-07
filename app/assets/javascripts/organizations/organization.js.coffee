@@ -21,11 +21,11 @@ $(document).on("blur", "[data-behavior=edit-title] input", (e) ->
   $("[data-behavior=edit-title]").trigger("mouseleave")
 )
 
-# Sidebar
 $ ->
+  # Sticky sidebar
   $sidebar = $("[data-behavior=organization-sidebar]")
   $sidebar.sticky(topSpacing: 20)
-  $sidebar.css(maxWidth: $sidebar.outerWidth())
+  $sidebar.css(width: $sidebar.outerWidth())
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
   $this = $(this)

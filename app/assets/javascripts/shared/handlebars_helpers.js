@@ -168,4 +168,11 @@
       // return the finished buffer
       return buffer;
     });
+    
+    /**
+    * Stringify json
+    */
+    Handlebars.registerHelper('stringify_json', function(context) {
+      return JSON.stringify(context);
+    });
 }));

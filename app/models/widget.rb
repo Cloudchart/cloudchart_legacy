@@ -12,26 +12,39 @@ class Widget
     %w(text header chart image person split)
   end
   
-  def self.type_keys
+  def self.type_config
     {
-      text: [
-        { name: :title, as: :string },
-        { name: :contents, as: :text }
-      ],
-      header: [
-        { name: :title, as: :string }
-      ],
-      chart: [
-        { name: :id, as: :select, collection: "charts" }
-      ],
-      image: [
-        { name: :link, as: :string }
-      ],
-      person: [
-        { name: :id, as: :select, collection: "persons" }
-      ],
-      split: [
-      ]
+      text: {
+        keys: [
+          { name: :title, as: :string },
+          { name: :contents, as: :text }
+        ]
+      },
+      header: {
+        keys: [
+          { name: :title, as: :string }
+        ]
+      },
+      chart: {
+        keys: [
+          { name: :id, as: :select, collection: "charts" }
+        ]
+      },
+      image: {
+        keys: [
+          { name: :link, as: :string }
+        ]
+      },
+      person: {
+        keys: [
+          { name: :id, as: :select, collection: "persons" }
+        ]
+      },
+      split: {
+        unique: true,
+        keys: [
+        ]
+      }
     }
   end
   

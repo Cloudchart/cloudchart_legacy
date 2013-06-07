@@ -13,9 +13,9 @@
   - [x] Organization page
   - [x] Organization widgets
   	- [x] Sidebar sections (with split)
+  	- [x] Sticky widgets
+  	- [x] Disallow multiple splits in area
   	- [ ] Automatically display charts (show+editor, implement it as default widget)
-  	- [ ] Sticky widgets
-  	- [ ] Disallow multiple splits in area
   	
 - Proper nodes editing
   - [x] More helper methods for tree purpose
