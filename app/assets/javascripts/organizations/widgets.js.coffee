@@ -88,12 +88,10 @@ $ ->
         
         # Unique item
         if config.unique
-          if $(this).find("[data-dropped][data-type=#{type}]").length != 0
-            # Move between lists
+          # console.log "receive", $(this).find("[data-type=#{type}]").length
+          if $(this).find("[data-type=#{type}]").length > 1
             if ui.sender && ui.sender.hasClass("ui-sortable")
               $(ui.sender).sortable("cancel")
-            
-            return false
         
       stop: (event, ui) ->
         item = ui.item
@@ -106,7 +104,8 @@ $ ->
           
           # Unique item
           if config.unique
-            if $(this).find("[data-dropped][data-type=#{type}]").length != 0
+            # console.log "stop", $(this).find("[data-type=#{type}]").length
+            if $(this).find("[data-type=#{type}]").length > 1
               item.remove()
               return true
           
