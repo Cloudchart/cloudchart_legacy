@@ -30,7 +30,7 @@ $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=sav
       console.error error
       
     .done (result) ->
-      console.log result
+      location.href = result.redirect_to
   
   false
 )
@@ -73,6 +73,10 @@ $ ->
       revert: "invalid"
       helper: ->
         $(this).clone().css(width: $(this).outerWidth(), height: $(this).outerHeight())
+      start: ->
+        $(this).addClass("ui-draggable-active")
+      stop: ->
+        $(this).removeClass("ui-draggable-active")
     )
     
     # Drop
@@ -80,6 +84,12 @@ $ ->
       placeholder: "ui-state-highlight"
       axis: "y"
       connectWith: $sortable
+      
+      over: (event, ui) ->
+        ui.helper.addClass("ui-draggable-over")
+      
+      out: (event, ui) ->
+        ui.helper.removeClass("ui-draggable-over")
       
       receive: (event, ui) ->
         item = ui.item

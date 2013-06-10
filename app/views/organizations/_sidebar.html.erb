@@ -1,3 +1,6 @@
+<%
+  action ||= :show
+%>
 <div class="sidebar" data-behavior="organization-sidebar">
   <div class="header">
     <a href="<%= organization_path(@organization) %>">
@@ -8,20 +11,17 @@
     <% end %>
     </a>
     
-    <% if @organization.description.present? %>
-      <%= simple_format @organization.description %>
+    <% if action == :edit %>
+      <a class="btn btn-upload"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
+      <textarea placeholder="<%= t("organizations.edit.description_placeholder") %>" data-autosize><%= @organization.description %></textarea>
+    <% else %>
+      <% if @organization.description.present? %>
+        <%= simple_format @organization.description %>
+      <% end %>
     <% end %>
   </div>
-  <div class="contents" data-behavior="contents">
+  <div class="sections" data-behavior="sections">
     <ul class="unstyled">
-      <!--<% if @organization.has_charts? %>
-      <li><%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %></li>
-      <% end %>
-      
-      <% if @organization.has_identities? %>
-      <li><%= link_to t("organizations.sections.identities"), organization_identities_path(@organization) %></li>
-      <% end %>-->
-      
       <% if @organization.widget_areas.any? %>
         <% @organization.widget_areas.each do |area| %>
         <li><%= link_to area.humanize, page_organization_path(@organization, page: area) %></li>
@@ -41,7 +41,6 @@
       
       <ul class="unstyled">
         <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
-        <li><%= link_to t("organizations.edit_widgets"), widgets_organization_path(@organization), class: "btn btn-mini" %></li>
         <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
       </ul>
     </div>

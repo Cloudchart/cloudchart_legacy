@@ -28,11 +28,11 @@ $ ->
   $sidebar.css(width: $sidebar.outerWidth())
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
-  $this = $(this)
-  $this.find(".contents").stop().slideDown()
+  return if $(this).closest(".is-sticky").length == 0
+  $(this).find("[data-behavior=sections]").slideDown()
 )
 
 $(document).on("mouseleave", "[data-behavior=organization-sidebar]", (e) ->
-  $this = $(this)
-  $this.find(".contents").stop().slideUp()
+  return if $(this).closest(".is-sticky").length == 0
+  $(this).find("[data-behavior=sections]").slideUp()
 )

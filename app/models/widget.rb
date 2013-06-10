@@ -9,38 +9,43 @@ class Widget
   field :values, type: Hash
   
   def self.type_enum
-    %w(text header chart image person split)
+    %w(text picture chart person widget split)
   end
   
   def self.type_config
     {
       text: {
+        icon: "font",
         keys: [
           { name: :title, as: :string },
           { name: :contents, as: :text }
         ]
       },
-      header: {
-        keys: [
-          { name: :title, as: :string }
-        ]
-      },
-      chart: {
-        keys: [
-          { name: :id, as: :select, collection: "charts" }
-        ]
-      },
-      image: {
+      picture: {
+        icon: "picture",
         keys: [
           { name: :link, as: :string }
         ]
       },
+      chart: {
+        icon: "table",
+        keys: [
+          { name: :id, as: :select, collection: "charts" }
+        ]
+      },
       person: {
+        icon: "user",
         keys: [
           { name: :id, as: :select, collection: "persons" }
         ]
       },
+      widget: {
+        icon: "bar-chart",
+        keys: [
+        ]
+      },
       split: {
+        icon: "ellipsis-horizontal",
         unique: true,
         keys: [
         ]

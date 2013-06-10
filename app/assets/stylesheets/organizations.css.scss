@@ -3,29 +3,55 @@
   .organization {
     padding: 20px 0 0 0;
     
+    .is-sticky {
+      .sidebar {
+        .sections {
+          display: none;
+        }
+      }
+    }
+    
     .sidebar {
       @include box-sizing(border-box);
       
       background: #f6f6f6;
       width: 100%;
       padding: 15px;
+      position: relative;
       
       .header {
         h1 {
           margin: 0;
         }
         
-        p {
-          margin: 10px 0 0 0;
+        p, textarea {
+          margin: 10px 0 5px 0;
           font-size: 14px;
+          line-height: 18px;
+          color: #575756;
+        }
+        
+        .btn-upload {
+          position: absolute;
+          left: 15px;
+          top: 30px;
+        }
+        
+        textarea {
+          @include box-sizing(border-box);
+          @include box-shadow(none);
+          @include input-placeholder(#878787, normal, italic);
+          
+          width: 100%;
+          padding: 0;
+          background: none;
+          border: 0;
         }
       }
       
-      .contents {
-        display: none;
-        
+      .sections {
         ul {
-          margin: 10px 0 0 0;
+          margin: 0;
           
           li {
             line-height: 32px;
@@ -33,6 +59,7 @@
             a {
               color: #575756;
               font-size: 16px;
+              font-weight: bold;
               
               &:hover {
                 color: #575756;
@@ -117,18 +144,42 @@
     .widget {
       @include box-sizing(border-box);
       
-      padding: 20px;
-      border: 1px solid #000;
-      text-align: center;
+      padding: 15px;
+      margin: 0 0 2px 0;
       cursor: pointer;
+      background: #f6f6f6;
+      font-size: 16px;
       
-      &:not(:first-child) {
-        border-top-width: 0;
+      &.title {
+        color: #575756;
+        font-weight: normal;
+        
+        i {
+          color: #c6c6c6;
+        }
+      }
+      
+      &:not(.title) {
+        color: #575756;
+        font-weight: bold;
+        
+        i {
+          margin-right: 10px;
+        }
+      }
+      
+      &.ui-draggable-active {
+        background: none;
+        color: #dadada;
       }
       
       &.ui-draggable-dragging {
-        background: #fff;
-        border-top-width: 1px;
+        color: #008d36;
+      }
+      
+      &.ui-draggable-over {
+        background: #008d36;
+        color: #fff;
       }
       
       &.header {

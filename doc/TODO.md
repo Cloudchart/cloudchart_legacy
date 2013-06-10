@@ -2,6 +2,10 @@
 
 **Todo**
 
+- Internal
+  - [ ] Add lines about deamons required to be running to README
+  - [ ] Check mongodb/redis/elasticsearch connections on start
+  
 - Layout
   - [x] Adjust proportions (divide by 2)
   - [x] Make navigation opening when tapping on header

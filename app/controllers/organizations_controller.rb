@@ -39,8 +39,6 @@ class OrganizationsController < ApplicationController
   
   def edit
     return unauthorized unless can?(:update, @organization)
-    
-    render :form
   end
   
   def update
@@ -54,7 +52,7 @@ class OrganizationsController < ApplicationController
     
     if @organization.valid?
       respond_to do |format|
-        format.json { render json: {} }
+        format.json { render json: { redirect_to: organization_path(@organization) } }
         format.html { redirect_to organization_path(@organization) }
       end
     else

@@ -136,15 +136,17 @@ en:
   organizations:
     create: "Create"
     new_organization: "Add organization"
-    edit_organization: "Edit organization"
-    edit_widgets: "Edit profile"
+    edit_organization: "Edit"
     you_are_owner: "You are the owner."
     add_chart: "Add chart"
-    no_charts: "This company hasn't added any charts yet."
+    no_info: "This company hasn't added any information yet."
     sections:
       charts: "Charts"
       identities: "People"
-    widgets:
+    edit:
+      update_logo: "Upload new logo"
+      description_placeholder: "Type your company description. Be concise."
+      widgets_title: "This is the Editor. Drag to add"
       save: "Save"
   
   # Mailer
