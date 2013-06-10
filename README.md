@@ -4,7 +4,7 @@ CloudChart is a web app that is built on Rails and MongoDB.
 
 ## Installation
 
-1. Install system packages: ```brew install imagemagick mongodb redis elasticsearch graphviz```
+1. Install system packages: ```brew install imagemagick mongodb redis elasticsearch graphviz qt```
 1. Install Ruby ([rvm](http://rvm.io) is preferred, see ```.ruby-version``` for latest version)
 1. Create gemset: ```rvm gemset create cloudchart```
 1. Gems, of course: ```bundle```
