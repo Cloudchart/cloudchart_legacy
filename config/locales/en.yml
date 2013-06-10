@@ -146,6 +146,7 @@ en:
     edit:
       update_logo: "Upload new logo"
       description_placeholder: "Type your company description. Be concise."
+      widgets_title: "This is the Editor. Drag to add"
       save: "Save"
   
   # Mailer

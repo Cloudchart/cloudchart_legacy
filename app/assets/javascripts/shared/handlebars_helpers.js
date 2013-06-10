@@ -153,7 +153,7 @@
     * Iterate over array by key
     */
     Handlebars.registerHelper('each_with_value', function(key, options) {
-      var buffer = '', array = options.hash.context[key];
+      var buffer = '', array = options.hash.context ? options.hash.context[key] : [];
       
       for (var i = 0, j = array.length; i < j; i++) {
         var item = array[i];

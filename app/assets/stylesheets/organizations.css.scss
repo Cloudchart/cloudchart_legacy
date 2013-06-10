@@ -144,18 +144,42 @@
     .widget {
       @include box-sizing(border-box);
       
-      padding: 20px;
-      border: 1px solid #000;
-      text-align: center;
+      padding: 15px;
+      margin: 0 0 2px 0;
       cursor: pointer;
+      background: #f6f6f6;
+      font-size: 16px;
       
-      &:not(:first-child) {
-        border-top-width: 0;
+      &.title {
+        color: #575756;
+        font-weight: normal;
+        
+        i {
+          color: #c6c6c6;
+        }
+      }
+      
+      &:not(.title) {
+        color: #575756;
+        font-weight: bold;
+        
+        i {
+          margin-right: 10px;
+        }
+      }
+      
+      &.ui-draggable-active {
+        background: none;
+        color: #dadada;
       }
       
       &.ui-draggable-dragging {
-        background: #fff;
-        border-top-width: 1px;
+        color: #008d36;
+      }
+      
+      &.ui-draggable-over {
+        background: #008d36;
+        color: #fff;
       }
       
       &.header {

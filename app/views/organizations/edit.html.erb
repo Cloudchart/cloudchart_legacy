@@ -9,7 +9,7 @@
     <div class="span3">
       <%= render partial: "/organizations/sidebar", locals: { action: :edit } %>
     </div>
-    <div class="span7 constructor">
+    <div class="span6 constructor">
       <% @organization.widgets_enum.each do |area| %>
       <div class="area <%= area %>">
         <span><%= area.humanize %></span>
@@ -24,10 +24,18 @@
       <% end %>
       <button class="btn btn-primary" data-behavior="save" data-action="<%= organization_path(@organization) %>"><%= t("organizations.edit.save") %></button>
     </div>
-    <div class="span2">
+    <div class="span3">
       <div class="widgets" data-behavior="widgets">
+        <div class="widget title">
+          <span><%= t("organizations.edit.widgets_title") %></span>
+          <i class="icon-arrow-left"></i>
+        </div>
+        
         <% Widget.type_enum.each do |type| %>
-        <div class="widget <%= type %>" data-type="<%= type %>" data-config="<%= Widget.type_config[type.to_sym].to_json %>" data-behavior="draggable"><%= type.humanize %></div>
+        <div class="widget <%= type %>" data-type="<%= type %>" data-config="<%= Widget.type_config[type.to_sym].to_json %>" data-behavior="draggable">
+          <i class="icon-<%= Widget.type_config[type.to_sym][:icon] %>"></i>
+          <%= type.humanize %>
+        </div>
         <% end %>
       </div>
     </div>
