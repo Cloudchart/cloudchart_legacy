@@ -143,7 +143,9 @@ en:
     sections:
       charts: "Charts"
       identities: "People"
-    widgets:
+    edit:
+      update_logo: "Upload new logo"
+      description_placeholder: "Type your company description. Be concise."
       save: "Save"
   
   # Mailer

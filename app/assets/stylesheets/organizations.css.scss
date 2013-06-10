@@ -17,17 +17,35 @@
       background: #f6f6f6;
       width: 100%;
       padding: 15px;
+      position: relative;
       
       .header {
         h1 {
           margin: 0;
         }
         
-        p {
+        p, textarea {
           margin: 10px 0 5px 0;
           font-size: 14px;
           line-height: 18px;
           color: #575756;
+        }
+        
+        .btn-upload {
+          position: absolute;
+          left: 15px;
+          top: 30px;
+        }
+        
+        textarea {
+          @include box-sizing(border-box);
+          @include box-shadow(none);
+          @include input-placeholder(#878787, normal, italic);
+          
+          width: 100%;
+          padding: 0;
+          background: none;
+          border: 0;
         }
       }
       

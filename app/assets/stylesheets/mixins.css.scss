@@ -1,14 +1,22 @@
-@mixin input-placeholder($color) {
+@mixin input-placeholder($color, $weight: normal, $style: normal) {
   &.placeholder {
-    color: $color; 
+    color: $color;
+    font-weight: $weight;
+    font-style: $style;
   }
   &:-moz-placeholder {
     color: $color; 
+    font-weight: $weight;
+    font-style: $style;
   }
   &:-ms-input-placeholder {
     color: $color; 
+    font-weight: $weight;
+    font-style: $style;
   }
   &::-webkit-input-placeholder {
     color: $color; 
-  } 
+    font-weight: $weight;
+    font-style: $style;
+  }
 }

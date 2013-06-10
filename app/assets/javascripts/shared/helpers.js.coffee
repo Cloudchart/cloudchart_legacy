@@ -63,3 +63,7 @@ $(document).on("click", "[data-behavior$=-edit] [data-behavior=fieldset] [data-b
   
   false
 )
+
+# General initialization
+$ ->
+  $("textarea[data-autosize]").autosize()

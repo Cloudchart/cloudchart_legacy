@@ -1,3 +1,6 @@
+<%
+  action ||= :show
+%>
 <div class="sidebar" data-behavior="organization-sidebar">
   <div class="header">
     <a href="<%= organization_path(@organization) %>">
@@ -8,8 +11,13 @@
     <% end %>
     </a>
     
-    <% if @organization.description.present? %>
-      <%= simple_format @organization.description %>
+    <% if action == :edit %>
+      <a class="btn btn-upload"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
+      <textarea placeholder="<%= t("organizations.edit.description_placeholder") %>" data-autosize><%= @organization.description %></textarea>
+    <% else %>
+      <% if @organization.description.present? %>
+        <%= simple_format @organization.description %>
+      <% end %>
     <% end %>
   </div>
   <div class="sections" data-behavior="sections">
