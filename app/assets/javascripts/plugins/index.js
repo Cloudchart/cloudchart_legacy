@@ -3,3 +3,4 @@
 //= require plugins/ajaxq
 //= require plugins/sticky
 //= require plugins/serialize-object
+//= require plugins/autosize

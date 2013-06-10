@@ -30,7 +30,7 @@ $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=sav
       console.error error
       
     .done (result) ->
-      console.log result
+      location.href = result.redirect_to
   
   false
 )

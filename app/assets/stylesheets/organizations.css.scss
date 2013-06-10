@@ -3,6 +3,14 @@
   .organization {
     padding: 20px 0 0 0;
     
+    .is-sticky {
+      .sidebar {
+        .sections {
+          display: none;
+        }
+      }
+    }
+    
     .sidebar {
       @include box-sizing(border-box);
       
@@ -16,16 +24,16 @@
         }
         
         p {
-          margin: 10px 0 0 0;
+          margin: 10px 0 5px 0;
           font-size: 14px;
+          line-height: 18px;
+          color: #575756;
         }
       }
       
-      .contents {
-        display: none;
-        
+      .sections {
         ul {
-          margin: 10px 0 0 0;
+          margin: 0;
           
           li {
             line-height: 32px;
@@ -33,6 +41,7 @@
             a {
               color: #575756;
               font-size: 16px;
+              font-weight: bold;
               
               &:hover {
                 color: #575756;

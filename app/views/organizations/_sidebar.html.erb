@@ -12,16 +12,8 @@
       <%= simple_format @organization.description %>
     <% end %>
   </div>
-  <div class="contents" data-behavior="contents">
+  <div class="sections" data-behavior="sections">
     <ul class="unstyled">
-      <!--<% if @organization.has_charts? %>
-      <li><%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %></li>
-      <% end %>
-      
-      <% if @organization.has_identities? %>
-      <li><%= link_to t("organizations.sections.identities"), organization_identities_path(@organization) %></li>
-      <% end %>-->
-      
       <% if @organization.widget_areas.any? %>
         <% @organization.widget_areas.each do |area| %>
         <li><%= link_to area.humanize, page_organization_path(@organization, page: area) %></li>
@@ -41,7 +33,6 @@
       
       <ul class="unstyled">
         <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
-        <li><%= link_to t("organizations.edit_widgets"), widgets_organization_path(@organization), class: "btn btn-mini" %></li>
         <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
       </ul>
     </div>
