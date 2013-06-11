@@ -95,45 +95,110 @@
   
   /* Widgets page */
   .constructor {
+    margin-bottom: 20px;
+    
     .area {
       @include box-sizing(border-box);
-      border-top: 3px solid #ccc;
       
-      span {
-        color: #ccc;
+      .heading {
+        margin: 0;
+        padding: 10px 20px 10px 20px;
+        font-size: 22px;
+        font-style: italic;
+        line-height: 26px;
+        color: #c6c6c6;
       }
       
       .contents {
-        margin: 10px 0 10px 0;
-        min-height: 10px;
+        min-height: 62px;
         
-        .ui-state-highlight {
+        .ui-sortable-placeholder {
           @include box-sizing(border-box);
-          border-top: 50px solid #ccc;
+          
+          min-height: 60px;
+          line-height: 60px;
+          margin: 0 0 10px 0;
+          background: #f6f6f6;
+          border: 1px solid #dadada;
+          color: #c6c6c6;
+          text-align: center;
+          font-size: 16px;
+          
+          i {
+            margin-right: 10px;
+          }
+          
+          &.text {
+            margin: 10px 20px;
+          }
+          
+          &.picture {
+            min-height: 300px;
+            line-height: 300px;
+          }
+          
+          &.split {
+            margin: 0 20px;
+            min-height: 10px;
+            line-height: 10px;
+          }
         }
         
         .widget {
+          @include box-sizing(border-box);
+          
           position: relative;
-          margin: 5px 0;
-          padding: 5px;
-          border: 1px solid #ccc;
-          background: #fff;
+          margin: 10px 0;
           
           .form {
-            margin: 10px 0 0 0;
+            margin: 0;
             
             input, textarea, select {
               @include box-sizing(border-box);
+              @include input-placeholder(#c6c6c6, normal, italic);
+              
+              margin: 0;
               width: 100%;
-              margin: 0 0 5px 0;
-              border: 1px solid #ccc;
+              min-height: 60px;
+              font-size: 16px;
             }
           }
           
           .buttons {
             position: absolute;
-            top: 5px;
-            right: 5px;
+            top: 0;
+            right: -20px;
+          }
+          
+          /* Types */
+          &.text {
+            .form {
+              padding: 0 20px;
+              
+              textarea {
+                @include box-shadow(none);
+                
+                padding: 0;
+                background: none;
+                border: 0;
+              }
+            }
+          }
+          
+          &.split {
+            padding: 0 0 10px 0;
+            margin: 10px 20px 0 20px;
+            height: 1px;
+            border-top: 1px solid #008d36;
+            
+            .form {
+              display: none;
+            }
+            
+            .buttons {
+              right: -40px;
+              top: -11px;
+            }
           }
         }
       }

@@ -17,7 +17,6 @@ class Widget
       text: {
         icon: "font",
         keys: [
-          { name: :title, as: :string },
           { name: :contents, as: :text }
         ]
       },

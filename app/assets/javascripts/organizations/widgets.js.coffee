@@ -53,12 +53,14 @@ $ ->
     
     # Render
     $container.find("[data-behavior=render]").each(->
+      area = $(this).closest("[data-area]").attr("data-area")
       json = JSON.parse($(this).attr("data-json"))
       config = JSON.parse($(this).attr("data-config"))
       collections = JSON.parse($container.attr("data-collections"))
       
       $(this).replaceWith(
         HandlebarsTemplates["organizations/widget"](
+          area: area
           type: json.type
           config: config
           collections: collections
@@ -66,6 +68,7 @@ $ ->
         )
       )
     )
+    $container.find("textarea").autosize()
     
     # Drag
     $draggable.draggable(
@@ -81,15 +84,23 @@ $ ->
     
     # Drop
     $sortable.sortable(
-      placeholder: "ui-state-highlight"
+      placeholder: "ui-sortable-placeholder"
       axis: "y"
       connectWith: $sortable
       
       over: (event, ui) ->
+        # return if ui.helper.hasClass("ui-draggable-over")
+        
+        # Adjust placeholder
+        config = JSON.parse(ui.helper.attr("data-config"))
+        placeholder = $(this).find(".ui-sortable-placeholder")
+        placeholder.html("<i class='icon-#{config.icon}'></i> #{I18n.t("organizations.edit.widget_placeholder", type: ui.helper.attr("data-type").capitalize())}")
+        placeholder.addClass(ui.helper.attr("data-type"))
+        
         ui.helper.addClass("ui-draggable-over")
       
       out: (event, ui) ->
-        ui.helper.removeClass("ui-draggable-over")
+        ui.helper.removeClass("ui-draggable-over") if ui.helper
       
       receive: (event, ui) ->
         item = ui.item
@@ -108,6 +119,7 @@ $ ->
         
         # Newly created item
         if !item.attr("data-dropped")
+          area = $(this).closest("[data-area]").attr("data-area")
           type = item.attr("data-type")
           config = JSON.parse(item.attr("data-config"))
           collections = JSON.parse($container.attr("data-collections"))
@@ -121,11 +133,13 @@ $ ->
           
           item.replaceWith(
             HandlebarsTemplates["organizations/widget"](
+              area: area
               type: type
               config: config
               collections: collections
               values: {}
             )
           )
+          item.find("textarea").autosize()
         
     ).disableSelection()

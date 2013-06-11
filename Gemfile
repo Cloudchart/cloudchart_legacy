@@ -66,5 +66,6 @@ group :assets do
   gem "handlebars_assets"
 end
 
+gem "i18n-js"
 gem "jquery-ui-rails"
 gem "twitter-bootstrap-rails", github: "seyhunak/twitter-bootstrap-rails"

@@ -1,6 +1,4 @@
 <div class="widget {{type}}" data-type="{{type}}" data-config="{{stringify_json config}}" data-behavior="widget" data-dropped="true">
-  <span>{{type}}</span>
-  
   <form class="form">
     {{#each_with_value "keys" context=config}}
       {{#with this}}
@@ -9,7 +7,7 @@
         {{/if_eq}}
         
         {{#if_eq as compare="text"}}
-        <textarea name="{{name}}" placeholder="{{name}}">{{get_value name context=../../../values}}</textarea>
+        <textarea name="{{name}}" placeholder="Tell a short story about your company — what does your company do and why it’s important. Be brief, be clear, be straightforward. At about 70 words / 500 characters we’ll curb your enthusiasm.">{{get_value name context=../../../values}}</textarea>
         {{/if_eq}}
         
         {{#if_eq as compare="select"}}

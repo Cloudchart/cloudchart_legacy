@@ -12,7 +12,8 @@
     <div class="span6 constructor">
       <% @organization.widgets_enum.each do |area| %>
       <div class="area <%= area %>">
-        <span><%= area.humanize %></span>
+        <h1 class="heading"><%= area.humanize %></h1>
+        
         <div class="contents" data-area="<%= area %>" data-behavior="sortable">
           <% if @organization.widgets && @organization.widgets[area] %>
             <% @organization.widgets[area].each do |widget| %>
