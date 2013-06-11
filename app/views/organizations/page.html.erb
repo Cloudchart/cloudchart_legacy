@@ -3,7 +3,7 @@
     <div class="span3">
       <%= render partial: "/organizations/sidebar" %>
     </div>
-    <div class="span9">
+    <div class="span9 inner">
       <% @widgets.each do |widget| %>
         <% next if widget.split? %>
         <div class="widget <%= widget.type %>">

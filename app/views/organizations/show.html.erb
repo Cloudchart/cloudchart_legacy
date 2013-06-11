@@ -3,7 +3,7 @@
     <div class="span3">
       <%= render partial: "/organizations/sidebar" %>
     </div>
-    <div class="span9">
+    <div class="span9 inner">
       <% if @organization.has_charts? %>
         <!--<%= link_to t("organizations.sections.charts"), organization_charts_path(@organization) %>-->
       <% else %>

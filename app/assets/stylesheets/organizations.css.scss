@@ -35,6 +35,12 @@
           position: absolute;
           left: 15px;
           top: 30px;
+          
+          &.no-picture {
+            position: relative;
+            left: 0;
+            top: 0;
+          }
         }
         
         textarea {
@@ -97,6 +103,18 @@
         }
       }
     }
+    
+    .inner {
+      @include box-sizing(border-box);
+      padding: 10px 20px;
+      
+      .widget {
+        &.text {
+          font-size: 16px;
+          line-height: 20px;
+        }
+      }
+    }
   }
   
   /* Widgets page */
@@ -108,7 +126,7 @@
       
       .heading {
         margin: 0;
-        padding: 10px 20px 10px 20px;
+        padding: 10px 20px;
         font-size: 22px;
         font-style: italic;
         line-height: 26px;

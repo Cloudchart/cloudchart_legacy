@@ -7,13 +7,11 @@
     <a href="<%= organization_path(@organization) %>">
     <% if @organization.picture? %>
       <%= image_tag(@organization.picture.url(:preview)) %>
-    <% else %>
-      <h1><%= @organization.title %></h1>
     <% end %>
     </a>
     
     <% if action == :edit %>
-      <a class="btn btn-upload"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
+      <a class="btn btn-upload<%= " no-picture" unless @organization.picture? %>"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
       <%= form.input :description, as: :text, label: false, wrapper: "default", placeholder: t("organizations.edit.description_placeholder"), input_html: { cols: 0, rows: 0, data: { autosize: true } } %>
     <% else %>
       <% if @organization.description.present? %>
