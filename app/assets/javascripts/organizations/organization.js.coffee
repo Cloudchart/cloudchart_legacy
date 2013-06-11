@@ -26,6 +26,16 @@ $ ->
   $sidebar = $("[data-behavior=organization-sidebar]")
   $sidebar.sticky(topSpacing: 20)
   $sidebar.css(width: $sidebar.outerWidth())
+  
+  # Logo upload
+  $file = $sidebar.find("[data-behavior=picture-upload]")
+  $file.fileupload(
+    type: "PUT"
+    dataType: "json"
+    formData: {}
+    done: (e, data) ->
+      $sidebar.find("[data-behavior=picture]").attr("src", data.result.preview_url)
+  )
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
   return if $(this).closest(".is-sticky").length == 0

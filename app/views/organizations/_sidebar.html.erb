@@ -4,14 +4,20 @@
 %>
 <div class="sidebar" data-behavior="organization-sidebar">
   <div class="header">
-    <a href="<%= organization_path(@organization) %>">
+    <a class="picture" href="<%= organization_path(@organization) %>">
     <% if @organization.picture? %>
-      <%= image_tag(@organization.picture.url(:preview)) %>
+      <%= image_tag(@organization.picture.url(:preview), data: { behavior: "picture" }) %>
+    <% else %>
+      <%= image_tag("data:image/gif;base64,R0lGODlhAQABAID/AP///wAAACwAAAAAAQABAAACAkQBADs=", data: { behavior: "picture" }) %>
     <% end %>
     </a>
     
     <% if action == :edit %>
-      <a class="btn btn-upload<%= " no-picture" unless @organization.picture? %>"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
+      <div class="upload">
+        <input class="file-upload" type="file" name="picture" data-url="<%= organization_path(@organization) %>" data-behavior="picture-upload">
+        <a class="btn btn-upload"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
+      </div>
+      
       <%= form.input :description, as: :text, label: false, wrapper: "default", placeholder: t("organizations.edit.description_placeholder"), input_html: { cols: 0, rows: 0, data: { autosize: true } } %>
     <% else %>
       <% if @organization.description.present? %>

@@ -29,6 +29,16 @@ class Organization
     styles: { preview: ["500x", :jpg] }
   
   # Representation
+  def serializable_hash(options)
+    super (options || {}).merge(
+      except: [
+        :_id, :widgets,
+        :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at
+      ],
+      methods: [:id, :preview_url]
+    )
+  end
+  
   def has_charts?
     !self.nodes.charts.count.zero?
   end
@@ -47,6 +57,10 @@ class Organization
   
   def to_param
     self.id
+  end
+  
+  def preview_url
+    self.picture.url(:preview)
   end
   
   def update_widgets(input)

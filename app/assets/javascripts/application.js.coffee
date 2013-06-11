@@ -9,6 +9,7 @@
 //= require handlebars
 //= require twitter/bootstrap
 //= require bootstrap
+//= require jquery-fileupload/basic
 //= require plugins
 
 //= require shared

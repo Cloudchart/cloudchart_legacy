@@ -69,3 +69,5 @@ end
 gem "i18n-js"
 gem "jquery-ui-rails"
 gem "twitter-bootstrap-rails", github: "seyhunak/twitter-bootstrap-rails"
+gem "jquery-fileupload-rails"
+
