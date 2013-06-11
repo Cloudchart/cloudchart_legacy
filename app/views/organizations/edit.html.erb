@@ -4,10 +4,14 @@
     persons: @organization.identities.map { |x| [x.entity_id, x.title] }
   }
 %>
+
+<%= simple_form_for(@organization, html: { class: "form-horizontal organization-edit", data: { behavior: "organization-edit"} }) do |f| %>
+<%= f.input :widgets, as: :hidden, input_html: { value: "" } %>
+
 <div class="organization container" data-behavior="organization-widgets" data-collections="<%= collections.to_json %>">
   <div class="row">
     <div class="span3">
-      <%= render partial: "/organizations/sidebar", locals: { action: :edit } %>
+      <%= render partial: "/organizations/sidebar", locals: { action: :edit, form: f } %>
     </div>
     <div class="span6 constructor">
       <% @organization.widgets_enum.each do |area| %>
@@ -23,7 +27,6 @@
         </div>
       </div>
       <% end %>
-      <button class="btn btn-primary" data-behavior="save" data-action="<%= organization_path(@organization) %>"><%= t("organizations.edit.save") %></button>
     </div>
     <div class="span3">
       <div class="widgets" data-behavior="widgets">
@@ -42,3 +45,4 @@
     </div>
   </div>
 </div>
+<% end %>

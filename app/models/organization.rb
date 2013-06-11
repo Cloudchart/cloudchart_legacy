@@ -53,7 +53,8 @@ class Organization
     widgets = Hash[self.widgets_enum.map do |area|
       next unless input[area]
       
-      widgets = input[area].map { |k, v| v.present? ? v : nil }.uniq.compact
+      widgets = input[area].uniq.compact
+      # TODO: Validate
       [area, widgets]
     end]
     

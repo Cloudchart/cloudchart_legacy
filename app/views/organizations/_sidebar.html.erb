@@ -1,5 +1,6 @@
 <%
   action ||= :show
+  form ||= nil
 %>
 <div class="sidebar" data-behavior="organization-sidebar">
   <div class="header">
@@ -13,7 +14,7 @@
     
     <% if action == :edit %>
       <a class="btn btn-upload"><i class="icon-picture"></i> <%= t("organizations.edit.update_logo") %></a>
-      <textarea placeholder="<%= t("organizations.edit.description_placeholder") %>" data-autosize><%= @organization.description %></textarea>
+      <%= form.input :description, as: :text, label: false, wrapper: "default", placeholder: t("organizations.edit.description_placeholder"), input_html: { cols: 0, rows: 0, data: { autosize: true } } %>
     <% else %>
       <% if @organization.description.present? %>
         <%= simple_format @organization.description %>
@@ -40,8 +41,12 @@
       <p><%= t("organizations.you_are_owner") %></p>
       
       <ul class="unstyled">
-        <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
-        <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
+        <% if action == :edit %>
+          <%= form.submit t("organizations.edit.save"), class: "btn btn-mini" %>
+        <% else %>
+          <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
+          <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
+        <% end %>
       </ul>
     </div>
     <% end %>

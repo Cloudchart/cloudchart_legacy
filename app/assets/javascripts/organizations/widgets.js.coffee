@@ -3,9 +3,9 @@ $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=wid
   false
 )
 
-$(document).on("click", "[data-behavior=organization-widgets] [data-behavior=save]", (e) ->
-  $container = $(this).closest("[data-behavior=organization-widgets]")
-  $button = $(this)
+$(document).on("submit", "[data-behavior=organization-edit]", (e) ->
+  $container = $("[data-behavior=organization-widgets]")
+  $form = $(this)
   
   data = {}
   $container.find("[data-behavior=sortable]").each(->
@@ -21,18 +21,7 @@ $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=sav
     )
   )
   
-  $button.addClass("disabled")
-  $.ajax(url: $button.attr("data-action"), data: { widgets: data }, dataType: "json", type: "PUT")
-    .always ->
-      $button.removeClass("disabled")
-      
-    .error (xhr, status, error) ->
-      console.error error
-      
-    .done (result) ->
-      location.href = result.redirect_to
-  
-  false
+  $form.find("[name='organization[widgets]']").val(JSON.stringify(data))
 )
 
 $(document).on("submit", "[data-behavior=organization-widgets] [data-behavior=widget] form", (e) ->
