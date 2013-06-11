@@ -19,6 +19,7 @@
   	- [x] Sidebar sections (with split)
   	- [x] Sticky widgets
   	- [x] Disallow multiple splits in area
+  	- [ ] Edit -> save on edit page
   	- [ ] Automatically display charts (show+editor, implement it as default widget)
   	
 - Proper nodes editing
