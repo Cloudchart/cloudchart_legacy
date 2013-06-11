@@ -20,6 +20,8 @@
   	- [x] Sticky widgets
   	- [x] Disallow multiple splits in area
   	- [x] Edit -> save on edit page
+  	- [x] Align upload button on center
+  	- [x] Check widget fonts (show+edit)
   	- [ ] Automatically display charts (show+editor, implement it as default widget)
   	
 - Proper nodes editing
