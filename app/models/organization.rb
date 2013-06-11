@@ -26,7 +26,7 @@ class Organization
   
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["500x", :jpg] }
+    styles: { preview: ["500x", :png] }
   
   # Representation
   def serializable_hash(options)

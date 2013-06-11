@@ -64,7 +64,7 @@ class User
 
   # Picture
   has_mongoid_attached_file :picture,
-    styles: { preview: ["72x72#", :jpg] },
+    styles: { preview: ["72x72#", :png] },
     default_url: "/images/ico-person.png"
 
   # Class methods
