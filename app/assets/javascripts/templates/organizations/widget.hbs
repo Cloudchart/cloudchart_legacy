@@ -1,5 +1,54 @@
 <div class="widget {{type}}" data-type="{{type}}" data-config="{{stringify_json config}}" data-behavior="widget" data-dropped="true">
+  {{#if_eq type compare="text"}}
   <form class="form">
+    {{#if_eq area compare="about"}}
+      <textarea name="contents" placeholder="{{i18n "organizations.edit.widgets.text.about_placeholder"}}">{{get_value "contents" context=values}}</textarea>
+    {{else}}
+      <textarea name="contents" placeholder="">{{get_value "contents" context=values}}</textarea>
+    {{/if_eq}}
+  </form>
+  {{/if_eq}}
+  
+  {{#if_eq type compare="picture"}}
+  <form class="form">
+    <div class="selected">
+      <div class="actions">
+        <i class="icon-picture"></i> {{i18n "organizations.edit.widgets.picture.actions"}}
+      </div>
+    </div>
+  </form>
+  {{/if_eq}}
+  
+  {{#if_eq type compare="chart"}}
+  <form class="form">
+    <input type="hidden" name="id" value="{{get_value "id" context=values}}" data-behavior="id" />
+    
+    <div class="left">
+      <h3 data-behavior="title"></h3>
+      <a href="#" class="btn btn-action btn-select-view">
+        <i class="icon-list"></i> {{i18n "organizations.edit.widgets.chart.select_view"}}
+      </a>
+      
+      <div class="selected">
+        <a href="#" class="btn btn-action" data-behavior="browse-charts"><i class="icon-table"></i> {{i18n "organizations.edit.widgets.chart.browse_charts"}}</a>
+        <img data-behavior="picture" src="/images/ico-chart-sample.jpg" />
+      </div>
+    </div>
+    <div class="right">
+      <h3>{{i18n "app.recently_edited"}}</h3>
+      
+      <ul class="unstyled">
+        {{#each_with_value "recent_charts" context=collections}}
+          {{#with this}}
+          <li><a href="#" data-behavior="select-chart" data-chart="{{stringify_json this}}">{{title}}</a></li>
+          {{/with}}
+        {{/each_with_value}}
+      </ul>
+    </div>
+  </form>
+  {{/if_eq}}
+  
+  <!--<form class="form">
     {{#each_with_value "keys" context=config}}
       {{#with this}}
         {{#if_eq as compare="string"}}
@@ -7,7 +56,7 @@
         {{/if_eq}}
         
         {{#if_eq as compare="text"}}
-        <textarea name="{{name}}" placeholder="Tell a short story about your company — what does your company do and why it’s important. Be brief, be clear, be straightforward. At about 70 words / 500 characters we’ll curb your enthusiasm.">{{get_value name context=../../../values}}</textarea>
+        <textarea name="{{name}}" placeholder="{{name}}">{{get_value name context=../../../values}}</textarea>
         {{/if_eq}}
         
         {{#if_eq as compare="select"}}
@@ -19,9 +68,9 @@
         {{/if_eq}}
       {{/with}}
     {{/each_with_value}}
-  </form>
+  </form>-->
   
   <div class="buttons">
-    <a href="#" class="btn btn-mini" data-behavior="widget-destroy"><i class="icon-remove"></i></a>
+    <a href="#" data-behavior="widget-destroy"><i class="icon-remove"></i></a>
   </div>
 </div>

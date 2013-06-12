@@ -89,6 +89,7 @@ en:
     anonymous: "Anonymous"
     search_charts: "Find companies and charts"
     recently_viewed: "Recently viewed"
+    recently_edited: "Recently edited"
   
   # Pages
   pages:
@@ -151,6 +152,12 @@ en:
       widgets:
         text:
           about_placeholder: "Tell a short story about your company — what does your company do and why it’s important. Be brief, be clear, be straightforward. At about 70 words / 500 characters we’ll curb your enthusiasm."
+        picture:
+          actions: "Drag around / tap to change"
+        chart:
+          select_view: "Select Your View"
+          browse_charts: "Browse All Charts"
+          all_charts: "All charts"
       save: "Save"
   
   # Mailer

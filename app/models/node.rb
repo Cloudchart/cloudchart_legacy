@@ -62,7 +62,7 @@ class Node
         :_id, :organization_id, :parent_ids, :parent_link_ids, :child_link_ids,
         :picture_content_type, :picture_file_name, :picture_file_size, :picture_updated_at
       ],
-      methods: [:id, :level]
+      methods: [:id, :level, :picture_url]
     )
   end
   
@@ -248,6 +248,11 @@ class Node
   end
   
   # Representation
+  # TODO: Unmock
+  def picture_url
+    "/images/ico-chart-sample.jpg"
+  end
+  
   def to_png!
     io = Tempfile.new(['chart', '.png'])
     

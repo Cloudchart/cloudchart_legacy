@@ -29,13 +29,13 @@ class Widget
       chart: {
         icon: "table",
         keys: [
-          { name: :id, as: :select, collection: "charts" }
+          { name: :id }
         ]
       },
       person: {
         icon: "user",
         keys: [
-          { name: :id, as: :select, collection: "persons" }
+          { name: :id }
         ]
       },
       widget: {

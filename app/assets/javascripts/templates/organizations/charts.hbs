@@ -1,0 +1,7 @@
+<ul class="unstyled">
+{{#each charts}}
+  {{#with this}}
+    <li><a href="#" data-behavior="select-chart" data-chart="{{stringify_json this}}">{{title}}</a></li>
+  {{/with}}
+{{/each}}
+</ul>

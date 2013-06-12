@@ -175,4 +175,11 @@
     Handlebars.registerHelper('stringify_json', function(context) {
       return JSON.stringify(context);
     });
+    
+    /**
+    * Internationalization
+    */
+    Handlebars.registerHelper('i18n', function(context) {
+      return I18n.t(context);
+    });
 }));

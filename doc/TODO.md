@@ -22,6 +22,7 @@
   	- [x] Edit -> save on edit page
   	- [x] Align upload button on center
   	- [x] Check widget fonts (show+edit)
+  	- [ ] Implement chart, image widgets
   	- [ ] Automatically display charts (show+editor, implement it as default widget)
   	
 - Proper nodes editing

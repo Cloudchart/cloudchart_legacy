@@ -39,10 +39,12 @@ $ ->
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
   return if $(this).closest(".is-sticky").length == 0
-  $(this).find("[data-behavior=sections]").slideDown()
+  $(this).find("[data-behavior=sections]").slideDown(400)
 )
 
 $(document).on("mouseleave", "[data-behavior=organization-sidebar]", (e) ->
   return if $(this).closest(".is-sticky").length == 0
-  $(this).find("[data-behavior=sections]").slideUp()
+  $(this).find("[data-behavior=sections]").slideUp(400, ->
+    $(this).css("display", "")
+  )
 )

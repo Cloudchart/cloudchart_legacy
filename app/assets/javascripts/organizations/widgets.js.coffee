@@ -1,8 +1,103 @@
+root           = @
+@organization ?= {}
+scope          = @organization
+
+class Widget
+  @collections = {}
+  
+  constructor: (attributes = {}) ->
+    @container = attributes.container
+    
+    @area = @container.closest("[data-area]").attr("data-area")
+    @config = JSON.parse(@container.attr("data-config"))
+    
+    # Existent
+    if @container.attr("data-json")
+      json = JSON.parse(@container.attr("data-json"))
+      @type = json.type
+      @values = json.values
+      
+    # New
+    else
+      @type = @container.attr("data-type")
+      @values = {}
+    
+    @container = @container.replaceWithPush(
+      HandlebarsTemplates["organizations/widget"](
+        area: @area
+        type: @type
+        config: @config
+        collections: @constructor.collections
+        values: @values
+      )
+    )
+    
+    # Init plugins
+    @container.find("textarea").autosize()
+    
+    # Init specific
+    @["init_#{@type}"]() if @["init_#{@type}"]
+    
+    # Set widget
+    @container.data("widget", this)
+  
+  # Init methods
+  init_chart: ->
+    if @values.id
+      chart = $.grep(@constructor.collections.charts, (chart) => chart.id == @values.id)
+      @select_chart(chart[0]) if chart
+  
+  # Type methods
+  select_chart: (chart) ->
+    @container.find("[data-behavior=id]").val(chart.id)
+    @container.find("[data-behavior=title]").html(chart.title)
+    @container.find("[data-behavior=picture]").attr("src", chart.picture_url)
+
+# Add to scope
+$.extend scope,
+  Widget: Widget
+
+# Widget actions
 $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=widget-destroy]", (e) ->
   $(this).closest("[data-behavior=widget]").remove()
   false
 )
 
+## Chart
+$(document).on("click", "[data-behavior=organization-widgets] [data-behavior=browse-charts]", (e) ->
+  $modal = $("[data-behavior=organization-widgets] [data-behavior=modal]")
+  $modal.find("[data-behavior=title]").html(I18n.t("organizations.edit.widgets.chart.all_charts"))
+  $modal.find("[data-behavior=body]").html(
+    HandlebarsTemplates["organizations/charts"](
+      charts: Widget.collections.charts
+    )
+  )
+  
+  widget = $(this).closest("[data-behavior=widget]").data("widget")
+  $modal.data("widget", widget)
+  $modal.modal("toggle")
+  
+  false
+)
+
+$(document).on("click", "[data-behavior=organization-widgets] [data-behavior=select-chart]", (e) ->
+  $this = $(this)
+  $modal = null
+  
+  # Modal or inline
+  $modal = $this.closest("[data-behavior=modal]")
+  if $modal.length == 1
+    widget = $modal.data("widget")
+  else
+    widget = $this.closest("[data-behavior=widget]").data("widget")
+    
+  widget.select_chart(JSON.parse($this.attr("data-chart")))
+  $modal.modal("toggle") if $modal && $modal.length == 1
+  
+  false
+)
+
+# Save widgets
 $(document).on("submit", "[data-behavior=organization-edit]", (e) ->
   $container = $("[data-behavior=organization-widgets]")
   $form = $(this)
@@ -26,12 +121,16 @@ $(document).on("submit", "[data-behavior=organization-edit]", (e) ->
 
 $(document).on("submit", "[data-behavior=organization-widgets] [data-behavior=widget] form", (e) ->
   $("[data-behavior=organization-widgets] [data-behavior=save]").trigger("click")
+  
   false
 )
 
 $ ->
   $container = $("[data-behavior=organization-widgets]")
   if $container.length == 1
+    # Init Widget class
+    Widget.collections = JSON.parse($container.attr("data-collections"))
+    
     $sortable = $container.find("[data-behavior=sortable]")
     $draggable = $container.find("[data-behavior=draggable]")
     
@@ -42,22 +141,8 @@ $ ->
     
     # Render
     $container.find("[data-behavior=render]").each(->
-      area = $(this).closest("[data-area]").attr("data-area")
-      json = JSON.parse($(this).attr("data-json"))
-      config = JSON.parse($(this).attr("data-config"))
-      collections = JSON.parse($container.attr("data-collections"))
-      
-      $(this).replaceWith(
-        HandlebarsTemplates["organizations/widget"](
-          area: area
-          type: json.type
-          config: config
-          collections: collections
-          values: json.values
-        )
-      )
+      new Widget(container: $(this))
     )
-    $container.find("textarea").autosize()
     
     # Drag
     $draggable.draggable(
@@ -108,10 +193,8 @@ $ ->
         
         # Newly created item
         if !item.attr("data-dropped")
-          area = $(this).closest("[data-area]").attr("data-area")
           type = item.attr("data-type")
           config = JSON.parse(item.attr("data-config"))
-          collections = JSON.parse($container.attr("data-collections"))
           
           # Unique item
           if config.unique
@@ -120,15 +203,6 @@ $ ->
               item.remove()
               return true
           
-          item.replaceWith(
-            HandlebarsTemplates["organizations/widget"](
-              area: area
-              type: type
-              config: config
-              collections: collections
-              values: {}
-            )
-          )
-          item.find("textarea").autosize()
+          new Widget(container: item)
         
     ).disableSelection()

@@ -1,7 +1,7 @@
 <%
   collections = {
-    charts: @organization.charts.map { |x| [x.id, x.title] },
-    persons: @organization.identities.map { |x| [x.entity_id, x.title] }
+    charts: @organization.charts,
+    recent_charts: @organization.charts.order_by(:updated_at.desc).limit(5)
   }
 %>
 
@@ -42,6 +42,15 @@
         </div>
         <% end %>
       </div>
+    </div>
+  </div>
+  
+  <div class="modal hide fade" data-behavior="modal">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 data-behavior="title"></h3>
+    </div>
+    <div class="modal-body" data-behavior="body">
     </div>
   </div>
 </div>

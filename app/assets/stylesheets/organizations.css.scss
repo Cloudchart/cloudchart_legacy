@@ -53,9 +53,6 @@
               left: 0;
               max-width: 100%;
             }
-            
-            .btn-upload {
-            }
           }
         }
         
@@ -177,6 +174,11 @@
             line-height: 300px;
           }
           
+          &.chart {
+            min-height: 270px;
+            line-height: 270px;
+          }
+          
           &.split {
             margin: 0 20px;
             min-height: 10px;
@@ -207,7 +209,16 @@
           .buttons {
             position: absolute;
             top: 0;
-            right: -20px;
+            right: 0;
+            
+            a {
+              font-size: 18px;
+              color: #575756;
+              
+              &:hover {
+                text-decoration: none;
+              }
+            }
           }
           
           /* Types */
@@ -222,6 +233,106 @@
                 background: none;
                 border: 0;
               }
+            }
+          }
+          
+          &.picture {
+            @include box-sizing(border-box);
+            
+            padding: 20px;
+            background: #f6f6f6;
+            border: 1px dashed #dadada;
+            
+            .selected {
+              min-height: 100px;
+              position: relative;
+              
+              .actions {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                margin-top: -10px;
+                margin-left: -132px;
+                
+                color: #fff;
+                text-align: center;
+                font-size: 18px;
+                font-weight: bold;
+                
+                i {
+                  margin-right: 10px;
+                }
+              }
+            }
+            
+            .buttons {
+              top: 16px;
+              right: 12px;
+              
+              a {
+                color: #fff;
+              }
+            }
+          }
+          
+          &.chart {
+            @include box-sizing(border-box);
+            @include clearfix;
+            
+            min-height: 270px;
+            padding: 20px;
+            background: #f6f6f6;
+            border: 1px solid #dcdcdc;
+            
+            h3 {
+              margin: 0 0 8px 0;
+              color: #575756;
+              font-size: 18px;
+              line-height: 24px;
+            }
+            
+            .left {
+              float: left;
+              width: 60%;
+              
+              .btn-select-view {
+                margin: 0 0 8px 0;
+              }
+              
+              .selected {
+                position: relative;
+                max-width: 80%;
+                
+                .btn-action {
+                  position: absolute;
+                  top: 50%;
+                  left: 50%;
+                  margin-top: -15px;
+                  margin-left: -82px;
+                }
+              }
+            }
+            
+            .right {
+              float: right;
+              width: 40%;
+              
+              ul {
+                li {
+                  line-height: 32px;
+                  font-size: 16px;
+                  font-weight: 300;
+                  
+                  a {
+                    color: #575756;
+                  }
+                }
+              }
+            }
+            
+            .buttons {
+              top: 16px;
+              right: 12px;
             }
           }
           
