@@ -47,11 +47,31 @@ class Widget
       chart = $.grep(@constructor.collections.charts, (chart) => chart.id == @values.id)
       @select_chart(chart[0]) if chart
   
+  init_picture: ->
+    if @values.url
+      @select_picture(@values.url)
+    
+    # Picture upload
+    self = this
+    $file = @container.find("[data-behavior=picture-upload]")
+    $file.fileupload(
+      url: $("[data-behavior=organization-edit]").attr("action")
+      type: "PUT"
+      dataType: "json"
+      formData: {}
+      done: (e, data) ->
+        self.select_picture(data.result.preview_url)
+    )
+  
   # Type methods
   select_chart: (chart) ->
     @container.find("[data-behavior=id]").val(chart.id)
     @container.find("[data-behavior=title]").html(chart.title)
     @container.find("[data-behavior=picture]").attr("src", chart.picture_url)
+  
+  select_picture: (url) ->
+    @container.find("[data-behavior=url]").val(url)
+    @container.find("[data-behavior=selected]").css(backgroundImage: "url(#{url})")
 
 # Add to scope
 $.extend scope,
@@ -61,6 +81,11 @@ $.extend scope,
 $(document).on("click", "[data-behavior=organization-widgets] [data-behavior=widget-destroy]", (e) ->
   $(this).closest("[data-behavior=widget]").remove()
   false
+)
+
+## Picture
+$(document).on("click", "[data-behavior=organization-widgets] [data-type=picture] [data-behavior=actions]", (e) ->
+  $(this).closest("[data-behavior=widget]").find("[data-behavior=picture-upload]").click()
 )
 
 ## Chart

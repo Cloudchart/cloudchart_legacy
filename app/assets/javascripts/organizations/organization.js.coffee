@@ -27,7 +27,7 @@ $ ->
   $sidebar.sticky(topSpacing: 20)
   $sidebar.css(width: $sidebar.outerWidth())
   
-  # Logo upload
+  # Picture upload
   $file = $sidebar.find("[data-behavior=picture-upload]")
   $file.fileupload(
     type: "PUT"

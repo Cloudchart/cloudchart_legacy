@@ -23,7 +23,7 @@ class Widget
       picture: {
         icon: "picture",
         keys: [
-          { name: :link, as: :string }
+          { name: :url, as: :string }
         ]
       },
       chart: {

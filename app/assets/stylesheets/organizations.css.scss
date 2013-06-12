@@ -246,6 +246,17 @@
             .selected {
               min-height: 100px;
               position: relative;
+              overflow: hidden;
+              
+              .file-upload {
+                @include opacity(0);
+                
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+              }
               
               .actions {
                 position: absolute;
@@ -266,8 +277,8 @@
             }
             
             .buttons {
-              top: 16px;
-              right: 12px;
+              top: 36px;
+              right: 32px;
               
               a {
                 color: #fff;

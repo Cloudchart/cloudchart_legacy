@@ -28,6 +28,9 @@ class Organization
   has_mongoid_attached_file :picture,
     styles: { preview: ["500x", :png] }
   
+  # Uploads
+  has_many :uploads, class_name: "Picture"
+  
   # Representation
   def serializable_hash(options)
     super (options || {}).merge(

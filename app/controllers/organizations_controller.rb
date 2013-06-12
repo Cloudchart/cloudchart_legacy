@@ -44,6 +44,15 @@ class OrganizationsController < ApplicationController
   def update
     return unauthorized unless can?(:update, @organization)
     
+    # Upload
+    if params[:upload]
+      picture = @organization.uploads.create(picture: params[:upload])
+      
+      respond_to do |format|
+        format.json { render json: picture }
+      end and return
+    end
+    
     # Picture
     if params[:picture]
       @organization.picture = params[:picture]
