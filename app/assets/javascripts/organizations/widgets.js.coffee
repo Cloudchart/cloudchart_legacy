@@ -71,7 +71,8 @@ class Widget
   
   select_picture: (url) ->
     @container.find("[data-behavior=url]").val(url)
-    @container.find("[data-behavior=selected]").css(backgroundImage: "url(#{url})")
+    @container.addClass("active")
+    @container.find("[data-behavior=selected] img").attr("src", url)
 
 # Add to scope
 $.extend scope,
