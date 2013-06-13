@@ -155,6 +155,7 @@ en:
         picture:
           actions: "Drag around / tap to change"
         chart:
+          select_chart: "Choose chart"
           select_view: "Select Your View"
           browse_charts: "Browse All Charts"
           all_charts: "All charts"
