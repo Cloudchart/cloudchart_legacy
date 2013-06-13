@@ -4,7 +4,7 @@
     {{#if_eq area compare="about"}}
       <textarea name="contents" placeholder="{{i18n "organizations.edit.widgets.text.about_placeholder"}}">{{get_value "contents" context=values}}</textarea>
     {{else}}
-      <textarea name="contents" placeholder="">{{get_value "contents" context=values}}</textarea>
+      <textarea name="contents" placeholder="{{i18n "organizations.edit.widgets.text.placeholder"}}">{{get_value "contents" context=values}}</textarea>
     {{/if_eq}}
   </form>
   {{/if_eq}}

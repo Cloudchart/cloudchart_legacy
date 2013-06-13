@@ -76,10 +76,7 @@ class Organization
   end
   
   def has_widgets?
-    return false unless self.widgets
-    return self.widgets.select do |area, widgets|
-      widgets.select { |widget| widget.values.select { |k, v| v.present? }.any? }.any?
-    end.any?
+    self.widget_areas.any?
   end
   
   def update_widgets(input)
@@ -98,14 +95,22 @@ class Organization
     return {} unless self.widgets
     
     @rendered_widgets ||= Hash[self.widgets.map do |area, widgets|
-      widgets.map! { |v| Widget.new(v).preload }
-      [area, widgets]
+      rendered = widgets.map { |v| Widget.new(v).preload }
+      [area, rendered]
     end]
   end
   
   def widget_areas
     return [] unless self.widgets
     
-    self.widgets.select { |area, widgets| widgets.any? }.keys
+    self.widgets.select { |area, widgets|
+      if area == "charts" && self.has_charts?
+        true
+      else
+        widgets.select { |widget|
+          widget["values"].select { |k, v| v.present? }.any?
+        }.any?
+      end
+    }.keys
   end
 end

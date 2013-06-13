@@ -151,6 +151,7 @@ en:
       widget_placeholder: "{{type}} goes here"
       widgets:
         text:
+          placeholder: "Type your text here"
           about_placeholder: "Tell a short story about your company — what does your company do and why it’s important. Be brief, be clear, be straightforward. At about 70 words / 500 characters we’ll curb your enthusiasm."
         picture:
           actions: "Tap to change"

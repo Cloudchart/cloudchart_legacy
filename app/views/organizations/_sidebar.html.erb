@@ -8,8 +8,8 @@
       <a href="<%= organization_path(@organization) %>">
       <% if @organization.picture? %>
         <%= image_tag(@organization.picture.url(:preview), data: { behavior: "picture" }) %>
-      <% else %>
-        <%= image_tag("px.png", data: { behavior: "picture" }) %>
+      <% elsif action == :edit %>
+        <%= image_tag("px.png", width: "1", data: { behavior: "picture" }) %>
       <% end %>
       </a>
       
