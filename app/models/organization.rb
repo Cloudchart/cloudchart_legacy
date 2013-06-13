@@ -31,6 +31,15 @@ class Organization
   # Uploads
   has_many :uploads, class_name: "Picture"
   
+  # Callbacks
+  before_create {
+    # Default widgets
+    self.widgets = {
+      about: [{ "type" => "text", "values" => {} }],
+      charts: [{ "type" => "charts", "values" => {} }]
+    } unless self.widgets
+  }
+  
   # Representation
   def serializable_hash(options)
     super (options || {}).merge(
@@ -42,12 +51,20 @@ class Organization
     )
   end
   
+  def to_param
+    self.id
+  end
+  
+  def preview_url
+    self.picture.url(:preview)
+  end
+  
   def has_charts?
     !self.nodes.charts.count.zero?
   end
   
   def charts
-    self.nodes.charts
+    self.nodes.charts.cache
   end
   
   def has_identities?
@@ -58,12 +75,11 @@ class Organization
     %w(about charts people work_here contacts)
   end
   
-  def to_param
-    self.id
-  end
-  
-  def preview_url
-    self.picture.url(:preview)
+  def has_widgets?
+    return false unless self.widgets
+    return self.widgets.select do |area, widgets|
+      widgets.select { |widget| widget.values.select { |k, v| v.present? }.any? }.any?
+    end.any?
   end
   
   def update_widgets(input)

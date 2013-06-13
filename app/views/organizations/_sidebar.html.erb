@@ -9,7 +9,7 @@
       <% if @organization.picture? %>
         <%= image_tag(@organization.picture.url(:preview), data: { behavior: "picture" }) %>
       <% else %>
-        <%= image_tag("data:image/gif;base64,R0lGODlhAQABAID/AP///wAAACwAAAAAAQABAAACAkQBADs=", data: { behavior: "picture" }) %>
+        <%= image_tag("px.png", data: { behavior: "picture" }) %>
       <% end %>
       </a>
       

@@ -9,7 +9,7 @@ class Widget
   field :values, type: Hash
   
   def self.type_enum
-    %w(text picture chart person widget split)
+    %w(text picture chart charts person widget split)
   end
   
   def self.type_config
@@ -32,6 +32,11 @@ class Widget
           { name: :id }
         ]
       },
+      charts: {
+        icon: "list-alt",
+        hidden: true,
+        keys: []
+      },
       person: {
         icon: "user",
         keys: [
@@ -40,14 +45,12 @@ class Widget
       },
       widget: {
         icon: "bar-chart",
-        keys: [
-        ]
+        keys: []
       },
       split: {
         icon: "ellipsis-horizontal",
         unique: true,
-        keys: [
-        ]
+        keys: []
       }
     }
   end

@@ -36,8 +36,9 @@
         </div>
         
         <% Widget.type_enum.each do |type| %>
-        <div class="widget <%= type %>" data-type="<%= type %>" data-config="<%= Widget.type_config[type.to_sym].to_json %>" data-behavior="draggable">
-          <i class="icon-<%= Widget.type_config[type.to_sym][:icon] %>"></i>
+        <% config = Widget.type_config[type.to_sym] %>
+        <div class="widget <%= type %><%= " hidden" if config[:hidden] %>" data-type="<%= type %>" data-config="<%= config.to_json %>" data-behavior="draggable">
+          <i class="icon-<%= config[:icon] %>"></i>
           <%= type.humanize %>
         </div>
         <% end %>

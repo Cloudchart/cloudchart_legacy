@@ -53,6 +53,14 @@
   </form>
   {{/if_eq}}
   
+  {{#if_eq type compare="charts"}}
+  <form class="form">
+    <div class="title">
+      <i class="icon-list-alt"></i> {{i18n "organizations.edit.widgets.charts.title"}}
+    </div>
+  </form>
+  {{/if_eq}}
+  
   <!--<form class="form">
     {{#each_with_value "keys" context=config}}
       {{#with this}}
@@ -75,7 +83,9 @@
     {{/each_with_value}}
   </form>-->
   
+  {{#unless_eq type compare="charts"}}
   <div class="buttons">
     <a href="#" data-behavior="widget-destroy"><i class="icon-remove"></i></a>
   </div>
+  {{/unless_eq}}
 </div>

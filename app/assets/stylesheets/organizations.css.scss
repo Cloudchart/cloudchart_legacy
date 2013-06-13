@@ -174,7 +174,7 @@
             line-height: 300px;
           }
           
-          &.chart {
+          &.chart, &.charts {
             min-height: 270px;
             line-height: 270px;
           }
@@ -305,7 +305,7 @@
             }
           }
           
-          &.chart {
+          &.chart, &.charts {
             @include box-sizing(border-box);
             @include clearfix;
             
@@ -363,6 +363,25 @@
             .buttons {
               top: 16px;
               right: 12px;
+            }
+          }
+          
+          &.charts {
+            .title {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              margin-top: -10px;
+              margin-left: -55px;
+              
+              color: #565657;
+              text-align: center;
+              font-size: 18px;
+              font-weight: bold;
+              
+              i {
+                margin-right: 10px;
+              }
             }
           }
           

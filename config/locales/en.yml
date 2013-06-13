@@ -159,6 +159,8 @@ en:
           select_view: "Select Your View"
           browse_charts: "Browse All Charts"
           all_charts: "All charts"
+        charts:
+          title: "All charts"
       save: "Save"
   
   # Mailer
