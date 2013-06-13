@@ -36,6 +36,10 @@ port: 9200
 - Use [pow](http://pow.cx/) or just run it as ```rails server```.
 - Start [sidekiq](http://sidekiq.org/) for background job processing: ```sidekiq -C config/sidekiq.yml```.
 
+## Tasks
+
+See available tasks: ```rake -T | grep utils```
+
 ## Testing
 
 Just run ```rspec -fd```.
