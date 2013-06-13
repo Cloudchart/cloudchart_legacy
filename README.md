@@ -7,26 +7,34 @@ CloudChart is a web app that is built on Rails and MongoDB.
 - Install system packages: ```brew install imagemagick mongodb redis elasticsearch graphviz qt```
 - Make sure mongodb/redis/elasticsearch are running on current (default) configuration:
 
+[mongodb](http://docs.mongodb.org/manual/installation/)
+
 ```
-mongodb:
-	database name: cloudchart
-	host: localhost
-	port: 27017
+database name: cloudchart
+host: localhost
+port: 27017
+```
 
-redis:
-	namespace: cloudchart
-	host: localhost
-	port: 6379
+[redis](http://redis.io/download)
 
-elasticsearch:
-	host: localhost
-	port: 9200
+```
+namespace: cloudchart
+host: localhost
+port: 6379
+```
+
+[elasticsearch](http://www.elasticsearch.org/guide/reference/setup/installation/)
+
+```
+host: localhost
+port: 9200
 ```
 
 - Install Ruby ([rvm](http://rvm.io) is preferred, see ```.ruby-version``` for latest version)
 - Create gemset: ```rvm gemset create cloudchart```
 - Gems, of course: ```bundle```
 - Use [pow](http://pow.cx/) or just run it as ```rails server```.
+- Start [sidekiq](http://sidekiq.org/) for background job processing: ```sidekiq -C config/sidekiq.yml```.
 
 ## Testing
 
