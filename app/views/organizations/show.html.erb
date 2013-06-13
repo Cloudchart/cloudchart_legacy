@@ -6,11 +6,14 @@
     <div class="span9 inner">
       <% if @organization.has_widgets? || @organization.has_charts? %>
         <% @widgets.each do |area, widgets| %>
+          <% next unless widgets.any? %>
+          <h1><%= area.humanize %></h1>
+          
           <% widgets.each do |widget| %>
-          <% break if widget.split? %>
-          <div class="widget <%= widget.type %>">
-            <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
-          </div>
+            <% break if widget.split? %>
+            <div class="widget <%= widget.type %>">
+              <%= render partial: "/widgets/#{widget.type}", locals: { organization: @organization, widget: widget } %>
+            </div>
           <% end %>
         <% end %>
       <% else %>

@@ -4,6 +4,7 @@
       <%= render partial: "/organizations/sidebar" %>
     </div>
     <div class="span9 inner">
+      <h1><%= params[:page].humanize %></h1>
       <% @widgets.each do |widget| %>
         <% next if widget.split? %>
         <div class="widget <%= widget.type %>">

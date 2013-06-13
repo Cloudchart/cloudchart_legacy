@@ -24,7 +24,7 @@
   	- [x] Check widget fonts (show+edit)
   	- [x] Implement chart, image widgets
   	- [x] Automatically display charts (show+editor, implement it as default widget)
-  	- [ ] Fill company description from first about widget
+  	- [x] Fill company description from first about widget
   	- [ ] Edit company title
   	
 - Proper nodes editing

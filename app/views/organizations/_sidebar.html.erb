@@ -21,9 +21,7 @@
       <% end %>
     </div>
     
-    <% if action == :edit %>
-      <textarea name="organization[description]" placeholder="<%= t("organizations.edit.description_placeholder") %>" data-autosize><%= @organization.description %></textarea>
-    <% else %>
+    <% if action == :show %>
       <% if @organization.description.present? %>
         <%= simple_format @organization.description %>
       <% end %>

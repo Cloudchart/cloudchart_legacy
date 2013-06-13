@@ -14,10 +14,9 @@ class Organization
   has_many :identities, dependent: :destroy
   
   # Fields
-  attr_accessible :title, :description, :contacts, :domain, :picture
+  attr_accessible :title, :contacts, :domain, :picture
   
   field :title, type: String
-  field :description, type: String
   field :domain, type: String
   field :widgets, type: Hash
   
@@ -69,6 +68,12 @@ class Organization
   
   def has_identities?
     !self.identities.count.zero?
+  end
+  
+  def description
+    return nil unless has_widgets?
+    text = self.widgets["about"].find { |widget| widget["type"] == "text" }
+    text["values"]["contents"] if text
   end
   
   def widgets_enum

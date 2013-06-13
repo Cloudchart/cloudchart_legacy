@@ -1,5 +1,4 @@
 <% if @organization.charts.any? %>
-<h3>Charts</h3>
 <ul>
   <% @organization.charts.each do |node| %>
   <li><%= link_to node.title, organization_chart_path(@organization, node) %></li>
