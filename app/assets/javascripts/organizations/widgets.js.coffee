@@ -231,4 +231,4 @@ $ ->
           
           new Widget(container: item)
         
-    ).disableSelection()
+    )
