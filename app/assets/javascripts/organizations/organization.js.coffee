@@ -21,6 +21,23 @@ $(document).on("blur", "[data-behavior=edit-title] input", (e) ->
   $("[data-behavior=edit-title]").trigger("mouseleave")
 )
 
+$(document).on("submit", "[data-behavior=edit-title] form", (e) ->
+  $this = $(this)
+  
+  $.ajax(
+    url: $this.attr("action"),
+    type: $this.attr("method"),
+    data: $this.serialize(),
+    dataType: "json"
+  ).done((result) ->
+    $this.find("input[name$='[title]']").val(result.title)
+    $this.closest("[data-behavior=edit-title]").find("[data-behavior=title]").html(result.title)
+    $this.find("input[name$='[title]']").trigger("blur")
+  )
+  
+  false
+)
+
 $ ->
   # Sticky sidebar
   $sidebar = $("[data-behavior=organization-sidebar]")

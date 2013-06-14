@@ -33,15 +33,15 @@
         <% if @node.nil? %>
         <!-- Edit organization title -->
         <div class="title organization-title" data-behavior="edit-title">
-          <h1><%= @organization.title %></h1>
-          <%= form_for(:title, html: { class: "form-title", data: { :"skip-toggle" => "" } }) do |f| %>
-            <%= f.text_field :title, value: @organization.title %>
+          <h1 data-behavior="title"><%= @organization.title %></h1>
+          <%= simple_form_for(@organization, html: { class: "form-title", data: { :"skip-toggle" => "" } }) do |f| %>
+            <%= f.input_field :title %>
           <% end %>
         </div>
         <% else %>
         <!-- Edit chart title -->
         <div class="title" data-behavior="edit-title">
-          <h1><%= @node.title %></h1>
+          <h1 data-behavior="title"><%= @node.title %></h1>
           <%= form_for(:title, html: { class: "form-title", data: { :"skip-toggle" => "" } }) do |f| %>
             <%= f.text_field :title, value: @node.title %>
           <% end %>
