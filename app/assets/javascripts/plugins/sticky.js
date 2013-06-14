@@ -41,6 +41,10 @@
               .css('top', '');
             s.stickyElement.parent().removeClass(s.className);
             s.currentTop = null;
+
+            if (s.callback) {
+              s.callback.call(s.stickyElement[0], false);
+            }
           }
         }
         else {
@@ -62,6 +66,10 @@
 
             s.stickyElement.parent().addClass(s.className);
             s.currentTop = newTop;
+            
+            if (s.callback) {
+              s.callback.call(s.stickyElement[0], true);
+            }
           }
         }
       }
@@ -98,7 +106,8 @@
             currentTop: null,
             stickyWrapper: stickyWrapper,
             className: o.className,
-            getWidthFrom: o.getWidthFrom
+            getWidthFrom: o.getWidthFrom,
+            callback: o.callback
           });
         });
       },

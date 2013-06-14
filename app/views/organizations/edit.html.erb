@@ -8,8 +8,8 @@
 <%= simple_form_for(@organization, html: { class: "form-horizontal organization-edit", data: { behavior: "organization-edit"} }) do |f| %>
 <%= f.input :widgets, as: :hidden, input_html: { value: "" } %>
 
-<div class="organization container" data-behavior="organization-widgets" data-collections="<%= collections.to_json %>">
-  <div class="row">
+<div class="organization" data-behavior="organization-widgets" data-collections="<%= collections.to_json %>">
+  <div class="row-fluid">
     <div class="span3">
       <%= render partial: "/organizations/sidebar", locals: { action: :edit, form: f } %>
     </div>

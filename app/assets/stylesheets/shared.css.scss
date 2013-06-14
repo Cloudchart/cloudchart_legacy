@@ -1,4 +1,11 @@
 /* Layout */
+.wrapper {
+  @include box-sizing(border-box);
+  
+  min-height: 100%;
+  padding-bottom: 160px;
+}
+
 header {
   @include box-sizing(border-box);
   height: 65px;
@@ -245,7 +252,11 @@ header {
 
 footer {
   @include box-sizing(border-box);
+  @include clearfix;
+  
+  position: relative;
   height: 160px;
+  margin-top: -160px;
   background: #dadada;
   border-top: 7px solid #ededed;
   
@@ -358,7 +369,6 @@ footer {
 /* Pages */
 .contents {
   @include box-sizing(border-box);
-  min-height: 60%;
 }
 
 .grid {

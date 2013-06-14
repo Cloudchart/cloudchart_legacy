@@ -5,11 +5,13 @@
 </head>
 <body>
 
-<%= render partial: "/shared/header" %>
-<%= render partial: "/shared/alerts" %>
-
-<div class="contents" data-behavior="contents">
-  <%= yield %>
+<div class="wrapper">
+  <%= render partial: "/shared/header" %>
+  <%= render partial: "/shared/alerts" %>
+  
+  <div class="contents" data-behavior="contents">
+    <%= yield %>
+  </div>
 </div>
 
 <%= render partial: "/shared/footer" %>

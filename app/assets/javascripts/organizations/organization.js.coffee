@@ -41,7 +41,12 @@ $(document).on("submit", "[data-behavior=edit-title] form", (e) ->
 $ ->
   # Sticky sidebar
   $sidebar = $("[data-behavior=organization-sidebar]")
-  $sidebar.sticky(topSpacing: 20)
+  $sidebar.sticky(topSpacing: 20, callback: (active) ->
+    if active
+      $(this).trigger("mouseleave")
+    else
+      $(this).trigger("mouseenter")
+  )
   $sidebar.css(width: $sidebar.outerWidth())
   
   # Picture upload
@@ -55,13 +60,10 @@ $ ->
   )
 
 $(document).on("mouseenter", "[data-behavior=organization-sidebar]", (e) ->
-  return if $(this).closest(".is-sticky").length == 0
   $(this).find("[data-behavior=sections]").slideDown(400)
 )
 
 $(document).on("mouseleave", "[data-behavior=organization-sidebar]", (e) ->
   return if $(this).closest(".is-sticky").length == 0
-  $(this).find("[data-behavior=sections]").slideUp(400, ->
-    $(this).css("display", "")
-  )
+  $(this).find("[data-behavior=sections]").slideUp(400)
 )

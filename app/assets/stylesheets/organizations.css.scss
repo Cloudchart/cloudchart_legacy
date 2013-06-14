@@ -1,15 +1,7 @@
 .contents {
   /* Organization page */
   .organization {
-    padding: 20px 0 0 0;
-    
-    .is-sticky {
-      .sidebar {
-        .sections {
-          display: none;
-        }
-      }
-    }
+    padding: 20px 20px 100px 20px;
     
     .sidebar {
       @include box-sizing(border-box);
