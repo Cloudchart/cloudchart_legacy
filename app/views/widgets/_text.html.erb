@@ -1,7 +1,3 @@
-<% if widget.values["title"].present? %>
-  <h1><%= widget.values["title"] %></h1>
-<% end %>
-
 <% if widget.values["contents"].present? %>
-  <p><%= widget.values["contents"] %></p>
+  <%= simple_format widget.values["contents"] %>
 <% end %>

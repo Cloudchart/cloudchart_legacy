@@ -1,7 +1,8 @@
 <% if @organization.charts.any? %>
-<ul>
   <% @organization.charts.each do |node| %>
-  <li><%= link_to node.title, organization_chart_path(@organization, node) %></li>
+    <div class="grid">
+      <h3><%= node.title %></h3>
+      <%= link_to image_tag("ico-chart-sample.jpg"), organization_chart_path(@organization, node) %>
+    </div>
   <% end %>
-</ul>
 <% end %>

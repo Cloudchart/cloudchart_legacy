@@ -110,12 +110,35 @@
     
     .inner {
       @include box-sizing(border-box);
-      padding: 10px 20px;
+      
+      h1 {
+        padding: 0 25px;
+        font-size: 36px;
+        line-height: 42px;
+      }
       
       .widget {
+        margin-bottom: 30px;
+        
         &.text {
+          padding: 0 25px;
           font-size: 18px;
           line-height: 20px;
+        }
+        
+        &.chart, &.charts {
+          text-align: center;
+          
+          .grid {
+            @include box-sizing(border-box);
+            
+            background-position: top left;
+            min-height: 301px;
+            
+            h3 {
+              margin: 10px 0 0 0;
+            }
+          }
         }
       }
     }

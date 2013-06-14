@@ -1,4 +1,6 @@
 <% if widget.chart %>
-  <h2><%= widget.chart.title %></h2>
+<div class="grid">
+  <h3><%= widget.chart.title %></h3>
   <%= link_to image_tag("ico-chart-sample.jpg"), organization_chart_path(organization, widget.chart) %>
+</div>
 <% end %>
