@@ -25,7 +25,7 @@
   	- [x] Implement chart, image widgets
   	- [x] Automatically display charts (show+editor, implement it as default widget)
   	- [x] Fill company description from first about widget
-  	- [ ] Edit company title
+  	- [x] Edit company title
   	
 - Proper nodes editing
   - [x] More helper methods for tree purpose
