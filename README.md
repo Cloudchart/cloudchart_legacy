@@ -46,6 +46,12 @@ Just run ```rspec -fd```.
 
 Please use [Rspec](https://github.com/rspec/rspec) and [Capybara](https://github.com/jnicklas/capybara) to cover UX features and cases.
 
+## Deployment
+
+```cap deploy``` to deploy on dev
+
+```cap production deploy``` to deploy on production
+
 ## Contributing
 
 We use [successful git branching model](http://nvie.com/posts/a-successful-git-branching-model/) (also known as [git-flow](https://github.com/nvie/gitflow)).
