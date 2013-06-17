@@ -10,6 +10,7 @@ class Widget
     
     @area = @container.closest("[data-area]").attr("data-area")
     @config = JSON.parse(@container.attr("data-config"))
+    @index = @container.index()
     
     # Existent
     if @container.attr("data-json")
@@ -26,6 +27,7 @@ class Widget
       HandlebarsTemplates["organizations/widget"](
         area: @area
         type: @type
+        index: @index
         config: @config
         collections: @constructor.collections
         values: @values
@@ -42,6 +44,11 @@ class Widget
     @container.data("widget", this)
   
   # Init methods
+  init_text: ->
+    # Unescape
+    @container.find("[data-behavior=editor]").html(@container.find("[data-behavior=editor]").text())
+    @container.find("[data-behavior=editor]").wysiwyg()
+  
   init_chart: ->
     if @values.id
       chart = $.grep(@constructor.collections.charts, (chart) => chart.id == @values.id)
@@ -135,10 +142,20 @@ $(document).on("submit", "[data-behavior=organization-edit]", (e) ->
     
     $(this).find("[data-behavior=widget]").each(->
       $widget = $(this)
-      data[area].push(
-        type: $widget.attr("data-type")
-        values: $widget.find("form").serializeObject()
-      )
+      type = $widget.attr("data-type")
+      
+      if type == "text"
+        data[area].push(
+          type: type
+          values: {
+            contents: $widget.find("[data-name=contents]").cleanHtml()
+          }
+        )
+      else
+        data[area].push(
+          type: type
+          values: $widget.find("form").serializeObject()
+        )
     )
   )
   
@@ -184,6 +201,7 @@ $ ->
     
     # Drop
     $sortable.sortable(
+      cancel: ":input, button, a, [data-behavior]"
       placeholder: "ui-sortable-placeholder"
       axis: "y"
       connectWith: $sortable

@@ -41,6 +41,7 @@ gem "sidekiq"
 gem "kiqstand"
 gem "sidekiq-middleware"
 gem "sidekiq-failures"
+gem "sanitize"
 
 # Users
 gem "devise"

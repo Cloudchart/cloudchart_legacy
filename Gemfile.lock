@@ -317,6 +317,9 @@ GEM
     rubyzip (0.9.9)
     rvm-capistrano (1.2.7)
       capistrano (>= 2.0.0)
+    sanitize (2.0.3)
+      nokogiri (>= 1.4.4, < 1.6)
+      nokogiri (>= 1.4.4, < 1.6)
     sass (3.2.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
@@ -441,6 +444,7 @@ DEPENDENCIES
   rspec-rails
   ruby-graphviz
   rvm-capistrano
+  sanitize
   sass-rails
   sidekiq
   sidekiq-failures

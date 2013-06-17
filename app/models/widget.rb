@@ -16,6 +16,7 @@ class Widget
     {
       text: {
         icon: "font",
+        sanitize: true,
         keys: [
           { name: :contents, as: :text }
         ]
@@ -65,6 +66,8 @@ class Widget
   
   def preload
     case self.type
+    when "text"
+      self.values["contents"] = Sanitize.clean_wysiwyg(self.values["contents"])
     when "chart"
       self.chart = Node.find(self.values["id"]) if self.values["id"].present?
     end

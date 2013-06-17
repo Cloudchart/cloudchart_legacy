@@ -1,11 +1,16 @@
 <div class="widget {{type}}" data-type="{{type}}" data-config="{{stringify_json config}}" data-behavior="widget" data-dropped="true">
   {{#if_eq type compare="text"}}
   <form class="form">
-    {{#if_eq area compare="about"}}
-      <textarea name="contents" placeholder="{{i18n "organizations.edit.widgets.text.about_placeholder"}}">{{get_value "contents" context=values}}</textarea>
-    {{else}}
-      <textarea name="contents" placeholder="{{i18n "organizations.edit.widgets.text.placeholder"}}">{{get_value "contents" context=values}}</textarea>
-    {{/if_eq}}
+    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#{{area}}_{{type}}_{{index}}_editor">
+      <div class="btn-group">
+        <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
+        <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>
+      </div>
+    </div>
+    
+    <div id="{{area}}_{{type}}_{{index}}_editor" class="textarea" data-name="contents" data-placeholder="{{#if_eq area compare="about"}}{{i18n "organizations.edit.widgets.text.about_placeholder"}}{{else}}{{i18n "organizations.edit.widgets.text.placeholder"}}{{/if_eq}}" data-behavior="editor">
+      {{get_value "contents" context=values}}
+    </div>
   </form>
   {{/if_eq}}
   

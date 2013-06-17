@@ -210,7 +210,7 @@
           .form {
             margin: 0;
             
-            input, textarea, select {
+            input, textarea, select, .textarea {
               @include box-sizing(border-box);
               @include input-placeholder(#c6c6c6, normal, italic);
               
@@ -218,6 +218,10 @@
               width: 100%;
               min-height: 60px;
               font-size: 18px;
+              
+              &:focus {
+                outline: none;
+              }
             }
           }
           

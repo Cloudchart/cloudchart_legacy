@@ -4,3 +4,5 @@
 //= require plugins/sticky
 //= require plugins/serialize-object
 //= require plugins/autosize
+//= require plugins/hotkeys
+//= require plugins/bootstrap-wysiwyg
