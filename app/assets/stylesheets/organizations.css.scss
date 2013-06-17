@@ -214,6 +214,7 @@
               @include box-sizing(border-box);
               @include input-placeholder(#c6c6c6, normal, italic);
               
+              position: relative;
               margin: 0;
               width: 100%;
               min-height: 60px;
@@ -221,6 +222,15 @@
               
               &:focus {
                 outline: none;
+              }
+              
+              &:not(:focus):not([data-div-placeholder-content]):before {
+                content: attr(data-placeholder);
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #c6c6c6;
+                font-style: italic;
               }
             }
           }

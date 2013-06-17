@@ -46,8 +46,10 @@ class Widget
   # Init methods
   init_text: ->
     # Unescape
-    @container.find("[data-behavior=editor]").html(@container.find("[data-behavior=editor]").text())
-    @container.find("[data-behavior=editor]").wysiwyg()
+    $editor = @container.find("[data-behavior=editor]")
+    $editor.html($editor.text())
+    $editor.trigger("change")
+    $editor.wysiwyg()
   
   init_chart: ->
     if @values.id
