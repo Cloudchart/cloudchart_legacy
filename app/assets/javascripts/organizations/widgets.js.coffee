@@ -45,11 +45,42 @@ class Widget
   
   # Init methods
   init_text: ->
-    # Unescape
     $editor = @container.find("[data-behavior=editor]")
+    $toolbar = @container.find("[data-behavior=toolbar]")
+    
+    # Unescape
     $editor.html($editor.text())
     $editor.trigger("change")
-    $editor.wysiwyg()
+    
+    $editor.wysiwyg(toolbarSelector: "##{$toolbar.attr("id")}")
+    $editor.on("mouseup keyup blur", ->
+      sel = window.getSelection()
+      
+      # Calculate offset for toolbar
+      offset = $editor.offset()
+      offset.left -= parseInt($editor.parent().css("paddingLeft"))
+      
+      text = ""
+      range = null
+      rects = null
+      
+      if sel.getRangeAt && sel.rangeCount
+        range = sel.getRangeAt(0).cloneRange()
+        text = range.toString()
+      
+      if range && range.getClientRects
+        # range.collapse(true)
+        rects = range.getClientRects()[0]
+      
+      if rects && text != ""
+        $toolbar.css(
+          top: rects.top - offset.top - $toolbar.outerHeight()*1.5
+          left: rects.left - offset.left + rects.width/2 - $toolbar.outerWidth()/2
+        )
+        $toolbar.fadeIn("fast")
+      else
+        $toolbar.fadeOut("fast")
+    )
   
   init_chart: ->
     if @values.id

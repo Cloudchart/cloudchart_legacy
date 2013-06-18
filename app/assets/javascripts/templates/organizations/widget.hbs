@@ -1,7 +1,7 @@
 <div class="widget {{type}}" data-type="{{type}}" data-config="{{stringify_json config}}" data-behavior="widget" data-dropped="true">
   {{#if_eq type compare="text"}}
   <form class="form">
-    <div class="btn-toolbar" data-role="editor-toolbar" data-target="#{{area}}_{{type}}_{{index}}_editor">
+    <div id="{{area}}_{{type}}_{{index}}_toolbar" class="toolbar btn-toolbar" data-behavior="toolbar">
       <div class="btn-group">
         <a class="btn" data-edit="bold" title="Bold (Ctrl/Cmd+B)"><i class="icon-bold"></i></a>
         <a class="btn" data-edit="italic" title="Italic (Ctrl/Cmd+I)"><i class="icon-italic"></i></a>

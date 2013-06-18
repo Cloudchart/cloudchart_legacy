@@ -255,6 +255,12 @@
             .form {
               padding: 0 20px;
               
+              .toolbar {
+                position: absolute;
+                display: none;
+                z-index: 1;
+              }
+              
               textarea {
                 @include box-shadow(none);
                 
