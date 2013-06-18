@@ -259,6 +259,25 @@
                 position: absolute;
                 display: none;
                 z-index: 1;
+                
+                .btn {
+                  @include border-radius(0);
+                  @include box-shadow(none);
+                  
+                  width: 30px;
+                  padding: 5px 0;
+                  
+                  background: #009539;
+                  color: #fff;
+                  border-color: #0b923f;
+                  border-top-width: 0;
+                  border-bottom-width: 0;
+                  text-shadow: none;
+                  
+                  &.active {
+                    background: #00792a;
+                  }
+                }
               }
               
               textarea {
