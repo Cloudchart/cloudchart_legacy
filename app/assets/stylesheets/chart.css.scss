@@ -3,7 +3,7 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #container {
-    float: left;
+    /*float: left;*/
     
     #controls,
     #settings,
@@ -24,7 +24,6 @@
     }
     
     #chart {
-        border-left: 1px solid #ccc;
         min-height: 500px;
         padding: 1em 10px;
         position: relative;

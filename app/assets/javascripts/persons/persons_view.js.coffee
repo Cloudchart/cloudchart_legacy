@@ -233,7 +233,8 @@ class PersonsView
     
     # Bind drag
     @list.find("[data-behavior=draggable]").draggable(
-      helper: "clone"
+      helper: ->
+        $(this).clone().css(width: $(this).outerWidth(), height: $(this).outerHeight())
       appendTo: "body"
     )
 

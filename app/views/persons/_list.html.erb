@@ -9,7 +9,8 @@
     } do |f|
   %>
     <%= f.input :provider, as: :hidden, input_html: { value: "Local" } %>
-    <%= f.input :query, as: :search, label: false, required: false, placeholder: t("persons.search"), input_html: { class: "search-query" } %>
+    <%= f.input :query, label: false, required: false, placeholder: t("persons.search"), input_html: { class: "search-query" } %>
+    <button name="button" type="submit"><i class="icon-search"></i></button>
   <% end %>
   
   <div class="loader progress" data-behavior="loader">

@@ -1,31 +1,69 @@
 .persons {
-  float: left;
-  margin: 20px;
-  width: 300px;
+  @include box-sizing(border-box);
+  min-height: 600px;
   
   .form-search {
-    margin: 0 0 10px 0;
+    position: relative;
+    margin: 20px 20px 0 20px;
     
-    .search-query {
+    .control-group {
+      margin: 0;
+    }
+    
+    input {
       @include box-sizing(border-box);
-      width: 300px;
-      padding: 5px 10px;
+      @include box-shadow(none);
+      @include border-radius(7px);
+      @include input-placeholder(#aaa);
+      width: 100%;
+      height: 45px;
+      line-height: 45px;
+      border-color: #cdcdcd;
+      border-width: 2px 0 0 0;
+      color: #aaa;
+      font-size: 18px;
+      font-weight: 300;
+      padding: 0 0 0 40px;
+      
+      &:focus {
+        @include box-shadow(none);
+        border-color: #cdcdcd;
+      }
+    }
+    
+    button {
+      position: absolute;
+      top: 11px;
+      left: 11px;
+      width: 22px;
+      height: 23px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: none;
+      
+      i {
+        font-size: 22px;
+      }
     }
   }
   
   .loader {
     @include opacity(0);
     height: 5px;
-    margin: 0 0 5px 0;
+    margin: 10px 20px;
     
     .bar {
+      @include background(linear-gradient(top center, #008d36, #01af43));
       @include transition-duration(0.4s);
     }
   }
   
   .list {
-    width: 310px;
-    height: 310px;
+    @include box-sizing(border-box);
+    
+    width: 100%;
+    padding: 0 10px;
     overflow: auto;
     position: relative;
     
@@ -35,9 +73,11 @@
     
     ul {
       li {
+        @include box-sizing(border-box);
         @include clearfix;
-        height: 40px;
-        margin: 0 0 5px 0;
+        
+        height: 60px;
+        padding: 10px;
         
         &:last-child {
           margin-bottom: 0;
@@ -67,17 +107,17 @@
         &.appear {
           @include transition(height .2s ease);
           height: 40px;
-          margin: 0 0 5px 0;
+          margin: 0 0 20px 0;
         }
         
         .left {
-          width: 275px;
+          width: 90%;
           
           .img {
             float: left;
             width: 40px;
             height: 40px;
-            margin: 0 5px 0 0;
+            margin: 0 10px 0 0;
             background: url(ico-person.png) no-repeat center center;
             background-size: 40px 40px;
           }
@@ -85,16 +125,17 @@
           h1 {
             @include ellipsis;
             
-            margin: 5px 0 0 0;
-            font-size: 14px;
-            font-weight: normal;
-            line-height: 14px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: bold;
+            line-height: 22px;
+            color: #575756 !important;
           }
           
           p {
             @include ellipsis;
             
-            font-size: 14px;
+            font-size: 16px;
             margin: 0;
           }
         }
@@ -109,6 +150,7 @@
   }
   
   .filters {
+    display: none;
     margin: 10px 0 0 0;
     
     .btn {
@@ -121,16 +163,39 @@
   list-style: none;
   
   &.ui-draggable-dragging {
+    @include box-sizing(border-box);
+    
+    height: 60px;
+    padding: 10px;
+    background: #dadada;
+    
     .left {
+      width: 90%;
+      
       .img {
+        float: left;
         width: 40px;
         height: 40px;
+        margin: 0 10px 0 0;
         background: url(ico-person.png) no-repeat center center;
         background-size: 40px 40px;
       }
       
-      h1, p {
-        display: none;
+      h1 {
+        @include ellipsis;
+        
+        margin: 0;
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #575756 !important;
+      }
+      
+      p {
+        @include ellipsis;
+        
+        font-size: 16px;
+        margin: 0;
       }
     }
     

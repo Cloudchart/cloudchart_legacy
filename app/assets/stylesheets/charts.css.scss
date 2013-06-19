@@ -1,0 +1,10 @@
+.contents {
+  .chart {
+    @include clearfix;
+    padding: 0;
+    
+    .span3 {
+      background: #f6f6f6;
+    }
+  }
+}
