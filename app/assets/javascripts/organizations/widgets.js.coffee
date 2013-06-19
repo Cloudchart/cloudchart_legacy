@@ -253,7 +253,7 @@ $ ->
     
     # Drop
     $sortable.sortable(
-      cancel: ":input, button, a, [data-behavior]"
+      cancel: ":input, button, a, [contenteditable]"
       placeholder: "ui-sortable-placeholder"
       axis: "y"
       connectWith: $sortable
