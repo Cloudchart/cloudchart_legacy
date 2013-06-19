@@ -124,6 +124,24 @@
           padding: 0 25px;
           font-size: 18px;
           line-height: 20px;
+          
+          blockquote {
+            @include box-sizing(border-box);
+            
+            position: relative;
+            padding: 0 0 0 12px;
+            margin: 15px 0 15px -12px;
+            border-left: 1px solid #009539;
+          }
+          
+          a {
+            color: #009539;
+            text-decoration: none;
+            
+            &:hover {
+              text-decoration: underline;
+            }
+          }
         }
         
         &.chart, &.charts {
@@ -273,11 +291,38 @@
                   border-top-width: 0;
                   border-bottom-width: 0;
                   text-shadow: none;
+                  text-decoration: none;
                   
-                  &.active {
+                  &.active, &.keep-active {
                     background: #00792a;
                   }
                 }
+                
+                .link {
+                  display: none;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  z-index: 2;
+                  
+                  input {
+                    @include box-sizing(border-box);
+                    @include border-radius(0);
+                    @include box-shadow(none);
+                    @include input-placeholder(#ffffff);
+                    
+                    height: 30px;
+                    min-height: 30px;
+                    width: 120px;
+                    font-size: 14px;
+                    
+                    color: #fff;
+                    background: #009539;
+                    border: 0px solid #0b923f;
+                    border-right-width: 1px;
+                  }
+                }
+                
               }
               
               textarea {
@@ -286,6 +331,24 @@
                 padding: 0;
                 background: none;
                 border: 0;
+              }
+              
+              blockquote {
+                @include box-sizing(border-box);
+                
+                position: relative;
+                padding: 0 0 0 12px;
+                margin: 15px 0 15px -12px;
+                border-left: 1px solid #009539;
+              }
+              
+              a {
+                color: #009539;
+                text-decoration: none;
+                
+                &:hover {
+                  text-decoration: underline;
+                }
               }
             }
           }

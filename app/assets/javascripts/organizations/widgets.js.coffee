@@ -52,6 +52,17 @@ class Widget
     $editor.html($editor.text())
     $editor.trigger("change")
     
+    $toolbar.find("[data-toggle]").on("click", ->
+      toggle = $(this).attr("data-toggle")
+      $toolbar.find(".#{toggle}").toggle()
+    )
+    
+    $toolbar.find("input").on("keydown", (e) ->
+      if e.keyCode == 13
+        $(this).trigger("change")
+        return false
+    )
+    
     $editor.wysiwyg(
       toolbarSelector: "##{$toolbar.attr("id")}"
       activeToolbarClass: "active"
@@ -84,7 +95,9 @@ class Widget
           )
           $toolbar.fadeIn("fast")
         else
-          $toolbar.fadeOut("fast")
+          $toolbar.fadeOut("fast", ->
+            $toolbar.find(".link").hide()
+          )
       , 50)
     )
   
