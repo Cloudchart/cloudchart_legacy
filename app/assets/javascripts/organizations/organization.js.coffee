@@ -48,6 +48,9 @@ $ ->
       $(this).trigger("mouseenter")
   )
   $sidebar.css(width: $sidebar.outerWidth())
+  $(window).resize(->
+    $sidebar.css(width: $sidebar.parent().outerWidth())
+  )
   
   # Picture upload
   $file = $sidebar.find("[data-behavior=picture-upload]")

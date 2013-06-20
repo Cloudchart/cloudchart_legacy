@@ -10,7 +10,7 @@
 
 <div class="organization" data-behavior="organization-widgets" data-collections="<%= collections.to_json %>">
   <div class="row-fluid">
-    <div class="span3">
+    <div class="span3 leftbar">
       <%= render partial: "/organizations/sidebar", locals: { action: :edit, form: f } %>
     </div>
     <div class="span6 constructor">
@@ -28,10 +28,11 @@
       </div>
       <% end %>
     </div>
-    <div class="span3">
+    <div class="span3 rightbar">
       <div class="widgets" data-behavior="widgets">
         <div class="widget title">
-          <span><%= t("organizations.edit.widgets_title") %></span>
+          <span class="caption"><%= t("organizations.edit.widgets_title") %></span>
+          <span class="caption tablet"><%= t("organizations.edit.widgets_title_tablet") %></span>
           <i class="icon-arrow-left"></i>
         </div>
         
@@ -39,7 +40,7 @@
         <% config = Widget.type_config[type.to_sym] %>
         <div class="widget <%= type %><%= " hidden" if config[:hidden] %>" data-type="<%= type %>" data-config="<%= config.to_json %>" data-behavior="draggable">
           <i class="icon-<%= config[:icon] %>"></i>
-          <%= type.humanize %>
+          <span class="caption"><%= type.humanize %></span>
         </div>
         <% end %>
       </div>

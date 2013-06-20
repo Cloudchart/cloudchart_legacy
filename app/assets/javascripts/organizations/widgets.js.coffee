@@ -233,6 +233,9 @@ $ ->
     $widgets = $("[data-behavior=widgets]")
     $widgets.sticky(topSpacing: 20)
     $widgets.css(width: $widgets.outerWidth())
+    $(window).resize(->
+      $widgets.css(width: $widgets.parent().outerWidth())
+    )
     
     # Render
     $container.find("[data-behavior=render]").each(->
