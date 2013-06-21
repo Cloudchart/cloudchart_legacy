@@ -45,6 +45,7 @@ class Widget
   
   # Init methods
   init_text: ->
+    self = this
     $editor = @container.find("[data-behavior=editor]")
     $toolbar = @container.find("[data-behavior=toolbar]")
     
@@ -67,39 +68,73 @@ class Widget
       toolbarSelector: "##{$toolbar.attr("id")}"
       activeToolbarClass: "active"
     )
-    $editor.on("mouseup keyup", ->
+    $editor.on("mouseup keyup", =>
       setTimeout(=>
-        sel = window.getSelection()
-        
-        # Calculate offset for toolbar
-        offset = 
-          top: $editor.offset().top
-          left: $editor.offset().left - parseInt($editor.parent().css("paddingLeft"))
-        
-        text = ""
-        range = null
-        rects = null
-        
-        if sel.getRangeAt && sel.rangeCount
-          range = sel.getRangeAt(0).cloneRange()
-          text = range.toString()
-        
-        if range && range.getClientRects
-          # range.collapse(true)
-          rects = range.getClientRects()[0]
-        
-        if rects && text != ""
-          $toolbar.css(
-            top: rects.top - offset.top - $toolbar.outerHeight()*1.5
-            left: rects.left - offset.left + rects.width/2 - $toolbar.outerWidth()/2
-          )
-          $toolbar.fadeIn("fast")
-        else
-          $toolbar.fadeOut("fast", ->
-            $toolbar.find(".link").hide()
-          )
+        @refresh_text_wysiwyg()
       , 50)
     )
+    $toolbar.find("a[data-edit]").on("click", =>
+      setTimeout(=>
+        @refresh_text_wysiwyg()
+      , 50)
+    )
+  
+  refresh_text_wysiwyg: ->
+    $editor = @container.find("[data-behavior=editor]")
+    $toolbar = @container.find("[data-behavior=toolbar]")
+    sel = window.getSelection()
+    
+    # Calculate offset for toolbar
+    offset = 
+      top: $editor.offset().top
+      left: $editor.offset().left - parseInt($editor.parent().css("paddingLeft"))
+    
+    text = ""
+    range = null
+    rects = null
+    
+    if sel.getRangeAt && sel.rangeCount
+      range = sel.getRangeAt(0).cloneRange()
+      text = range.toString()
+    
+    # Reset defaults
+    $toolbar.find("[data-tag]").removeClass("keep-active")
+    $toolbar.find("[data-tag][data-edit!='']").each(->
+      tag = $(this).attr("data-tag")
+      $(this).attr("data-edit", "formatBlock #{tag}").data("edit", "formatBlock #{tag}")
+    )
+    
+    # Check for active element
+    if range
+      container = range.commonAncestorContainer
+      if container.nodeType != 1
+        container = container.parentNode
+      
+      tag = container.nodeName.toLowerCase()
+      $button = $toolbar.find("[data-tag=#{tag}]")
+      if $button
+        $button.addClass("keep-active")
+        
+        # Replace action
+        if $button.attr("data-edit") && $button.attr("data-edit").match(/^(formatBlock|removeFormat)/)
+          $button.attr("data-edit", "removeFormat").data("edit", "removeFormat")
+    
+    # Check coordinates
+    if range && range.getClientRects
+      # range.collapse(true)
+      rects = range.getClientRects()[0]
+    
+    # Show/hide toolbar
+    if rects && text != ""
+      $toolbar.css(
+        top: rects.top - offset.top - $toolbar.outerHeight()*1.5
+        left: rects.left - offset.left + rects.width/2 - $toolbar.outerWidth()/2
+      )
+      $toolbar.fadeIn("fast")
+    else
+      $toolbar.fadeOut("fast", ->
+        $toolbar.find(".link").hide()
+      )
   
   init_chart: ->
     if @values.id
