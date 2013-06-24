@@ -73,9 +73,27 @@ class Widget
         @refresh_text_wysiwyg()
       , 50)
     )
-    $toolbar.find("a[data-edit]").on("click", =>
-      setTimeout(=>
-        @refresh_text_wysiwyg()
+    $toolbar.find("a[data-edit]").on("click", (e) ->
+      # Custom removeFormat action
+      if $(this).data("edit") == "removeFormat"
+        tag = $(this).attr("data-tag")
+        sel = window.getSelection()
+        range = sel.getRangeAt(0) if sel.getRangeAt && sel.rangeCount
+        container = range.commonAncestorContainer if range
+        
+        if container
+          if container.nodeType != 1
+            container = container.parentNode
+          
+          if container.nodeName.toLowerCase() == tag
+            $(container).replaceWith(container.innerHTML)
+            sel.addRange(range)
+        
+        # e.preventDefault()
+        # e.stopPropagation()
+      
+      setTimeout(->
+        self.refresh_text_wysiwyg()
       , 50)
     )
   
@@ -116,7 +134,7 @@ class Widget
         $button.addClass("keep-active")
         
         # Replace action
-        if $button.attr("data-edit") && $button.attr("data-edit").match(/^(formatBlock|removeFormat)/)
+        if $button.attr("data-edit") && $button.attr("data-edit").match(/^formatBlock/)
           $button.attr("data-edit", "removeFormat").data("edit", "removeFormat")
     
     # Check coordinates
