@@ -63,6 +63,7 @@
     @include box-sizing(border-box);
     
     width: 100%;
+    max-height: 500px;
     padding: 0 10px;
     overflow: auto;
     position: relative;
@@ -102,12 +103,13 @@
         &.collapsed {
           height: 0;
           margin: 0;
+          padding: 0;
         }
         
         &.appear {
           @include transition(height .2s ease);
           height: 60px;
-          margin: 0 0 20px 0;
+          padding: 10px;
         }
         
         .left {
