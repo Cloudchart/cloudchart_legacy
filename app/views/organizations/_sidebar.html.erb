@@ -52,6 +52,7 @@
         <% else %>
           <li><%= link_to t("organizations.edit_organization"), edit_organization_path(@organization), class: "btn btn-mini" %></li>
           <li><%= link_to t("organizations.add_chart"), new_organization_chart_path(@organization), class: "btn btn-mini" %></li>
+          <li><%= link_to t("organizations.add_vacancy"), new_organization_vacancy_path(@organization), class: "btn btn-mini" %></li>
         <% end %>
       </ul>
     </div>

@@ -1,0 +1,8 @@
+<%= simple_form_for([@organization, @vacancy], html: { class: "form-horizontal vacancy-new", data: { behavior: "vacancy-new"} }) do |f| %>
+  <div class="form-inputs">
+    <%= f.input :title, :required => true, :autofocus => true %>
+  </div>
+  <div class="form-actions">
+    <%= f.button :submit, t("organizations.create"), class: "btn btn-primary" %>
+  </div>
+<% end %>

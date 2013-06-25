@@ -23,6 +23,9 @@ namespace :utils do
       ENV["CLASS"] = "Person"
       ENV["FORCE"] = "true"
       Rake::Task["tire:import:model"].execute
+      ENV["CLASS"] = "Vacancy"
+      ENV["FORCE"] = "true"
+      Rake::Task["tire:import:model"].execute
     end
   end
 end

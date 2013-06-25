@@ -86,6 +86,12 @@
 - status [String]
 - family [Array[Hash[name,id,relationship]]]
 
+## Vacancies
+
+- **Belongs to** organization
+- title [String]
+- …
+
 ## Node
 
 - **Belongs to** organization

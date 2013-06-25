@@ -12,6 +12,7 @@ class Organization
   end
   has_many :links, dependent: :destroy
   has_many :identities, dependent: :destroy
+  has_many :vacancies, dependent: :destroy
   
   # Fields
   attr_accessible :title, :contacts, :domain, :picture

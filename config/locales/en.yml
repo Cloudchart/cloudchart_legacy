@@ -140,6 +140,7 @@ en:
     edit_organization: "Edit"
     you_are_owner: "You are the owner."
     add_chart: "Add chart"
+    add_vacancy: "Add vacancy"
     no_info: "This company hasn't added any information yet."
     sections:
       charts: "Charts"
