@@ -20,6 +20,13 @@ class PersonsController < ApplicationController
           persons.map! { |x| Person.find_or_create_with_params(x, current_user) }
           @persons.concat(persons)
         end
+      when "Vacancies"
+        # TODO: Use proper controller
+        @vacancies = Vacancy.search(load: true, page: params[:page], per_page: 20) do |search|
+          search.query { |query| query.string @query, default_operator: "AND" }
+          # search.sort  { |sort| sort.by :created_at, "desc" }
+        end
+        @persons.concat(@vacancies.to_a)
       else
         begin
           persons = Person.search(load: true, page: params[:page], per_page: 20) do |search|

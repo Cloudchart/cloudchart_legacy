@@ -72,7 +72,7 @@ class Organization
   end
   
   def description
-    return nil unless has_widgets?
+    return nil unless self.widget_areas.include?("about")
     text = self.widgets["about"].find { |widget| widget["type"] == "text" }
     text["values"]["contents"] if text
   end
@@ -114,7 +114,7 @@ class Organization
         true
       else
         widgets.select { |widget|
-          widget["values"].select { |k, v| v.present? }.any?
+          (widget["values"] || {}).select { |k, v| v.present? }.any?
         }.any?
       end
     }.keys

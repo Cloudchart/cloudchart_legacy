@@ -1,4 +1,27 @@
 class VacanciesController < ApplicationController
+  def search
+    return unauthorized unless user_signed_in?
+    
+    # Search
+    @vacancies = []
+    @query = params[:search][:query].to_s.strip.gsub(/[^([:alnum:]|\.\s)]/, "")
+    
+    begin
+      @vacancies = Vacancy.search(load: true, page: params[:page], per_page: 20) do |search|
+        search.query { |query| query.string @query, default_operator: "AND" }
+        # search.sort  { |sort| sort.by :created_at, "desc" }
+      end
+    # rescue Tire::Search::SearchRequestFailed
+    #   
+    end
+    
+    respond_to do |format|
+      format.json {
+        render json: { vacancies: @vacancies }
+      }
+    end
+  end
+  
   def new
     return unauthorized unless user_signed_in?
     

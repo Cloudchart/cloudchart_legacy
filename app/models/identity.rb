@@ -13,13 +13,12 @@ class Identity
   belongs_to :node
   
   # Fields
-  attr_accessible :organization_id, :node_id, :entity_id, :type, :position, :is_starred
+  attr_accessible :organization_id, :node_id, :entity_id, :type, :is_starred
   
   field :entity_id, type: Moped::BSON::ObjectId
   field :type, type: String, default: "vacancy"
   
   # field :title, type: String
-  field :position, type: String
   field :is_starred, type: Boolean, default: false
   
   # TODO: Indexes
@@ -57,8 +56,8 @@ class Identity
     self.save
   end
   
-  def vacancy!(params = {})
-    self.update_attributes(params.merge(type: "vacancy"))
+  def vacancy!(vacancy, params = {})
+    self.update_attributes(params.merge(type: "vacancy", entity_id: vacancy.id))
     self
   end
   
@@ -77,6 +76,8 @@ class Identity
     case self.type
     when "person", "employee", "freelancer"
       Person.find(self.entity_id) if self.entity_id
+    when "vacancy"
+      Vacancy.find(self.entity_id) if self.entity_id
     end
   end
   
@@ -85,7 +86,7 @@ class Identity
     when "person"
       self.entity.name
     when "vacancy"
-      self.position
+      self.entity.title
     when "employee"
       self.entity.name
     when "freelancer"

@@ -120,5 +120,4 @@
 - type [Enum: person, employee, freelancer, vacancy]
 - entity_id [ObjectId: Person#id, ...]
 - title [String]
-- position [String]
 - …

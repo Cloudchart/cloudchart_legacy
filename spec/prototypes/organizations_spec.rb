@@ -54,9 +54,11 @@ describe Organization do
     
     person1 = create :person, first_name: "Daria", last_name: "Nifontova"
     person2 = create :person, first_name: "Anton", last_name: "Outkine"
+    vacancy1 = create :vacancy, title: "Someone 1"
+    vacancy2 = create :vacancy, title: "Someone 2"
     
-    node2.identities.build.vacancy!(position: "Someone 1")
-    node2.identities.build.vacancy!(position: "Someone 2")
+    node2.identities.build.vacancy!(vacancy1)
+    node2.identities.build.vacancy!(vacancy2)
     node3.identities.build.employee!(person1)
     node3.identities.build.employee!(person2)
     

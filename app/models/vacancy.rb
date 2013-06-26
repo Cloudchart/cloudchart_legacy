@@ -28,4 +28,19 @@ class Vacancy
   def to_indexed_json
     { id: self.id, title: self.title }.to_json
   end
+  
+  # Fields
+  def serializable_hash(options = {})
+    super (options || {}).merge(
+      except: [:_id],
+      methods: [
+        :id, :identifier, :name
+      ]
+    )
+  end
+  
+  # TODO: Adjust
+  def name
+    "Vacancy: #{self.title}"
+  end
 end

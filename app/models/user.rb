@@ -85,7 +85,7 @@ class User
   end
   
   def providers
-    self.authorizations.map(&:provider)
+    ["Vacancies"] + self.authorizations.map(&:provider).uniq - ["Email"]
   end
   
   # Data with access

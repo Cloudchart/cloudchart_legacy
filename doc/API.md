@@ -121,7 +121,6 @@ curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000
 		{
 			entity_id: "5162d8f84660f37731000005",
 			node_id: "5162bc9e4660f37731000003",
-			position: null,
 			type: "employee",
 			id: "5162d9154660f37731000006",
 			entity: {
@@ -129,12 +128,13 @@ curl -X GET http://cloudchart.dev/organizations/{id}/nodes/515abdf44660f3d5fc000
 			}
 		},
 		{
-			entity_id: null,
+			entity_id: "5162d8f84660f37731000006",
 			node_id: "5162bc9e4660f37731000003",
-			position: "Test",
 			type: "vacancy",
 			id: "5162da904660f37731000007",
-			entity: null
+			entity: {
+				/* Vacancy attributes */
+			}
 		}
 	]
 }
@@ -169,7 +169,7 @@ HTTP status: {200, 422}
 }
 ```
 
-### Identities
+### Persons
 
 #### Index
 
@@ -209,8 +209,6 @@ curl -X GET http://cloudchart.dev/organizations/{id}/persons.json
 	]
 }
 ```
-
-### Persons
 
 #### Search
 
@@ -287,6 +285,41 @@ curl -X GET http://cloudchart.dev/organizations/{id}/persons/search.json?q=Anton
 			picture: "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/573204_1631228798_775146040_q.jpg",
 			position: null,
 			company: null
+		}
+	]
+}
+```
+
+### Vacancies
+
+#### Search
+
+**Description**
+
+Returns a vacancy search results.
+
+**Parameters**
+
+- ```search[query]``` — [String] Search query
+
+**Sample Queries**
+
+```
+curl -X GET http://cloudchart.dev/organizations/{id}/vacancies/search.json?q=Anton
+```
+
+**Sample Response**
+
+```json
+{
+	vacancies: [
+		{
+			created_at: "2013-06-25T14:50:39Z",
+			organization_id: "51ac74944660f31b0700000a",
+			title: "Test",
+			updated_at: "2013-06-25T14:50:39Z",
+			id: "51c9ae3f4660f3e1e4000006",
+			name: "Vacancy: Test"
 		}
 	]
 }
