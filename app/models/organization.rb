@@ -71,6 +71,10 @@ class Organization
     !self.identities.count.zero?
   end
   
+  def has_vacancies?
+    !self.vacancies.count.zero?
+  end
+  
   def description
     return nil unless self.widget_areas.include?("about")
     text = self.widgets["about"].find { |widget| widget["type"] == "text" }

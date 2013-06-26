@@ -35,6 +35,10 @@
         <% end %>
       <% end %>
       
+      <% if @organization.has_vacancies? %>
+        <li><%= link_to t("organizations.vacancies"), organization_vacancies_path(@organization) %></li>
+      <% end %>
+      
       <% if @organization.domain.present? %>
       <li>
         <span class="icon-stack icon-verified"><i class="icon-certificate icon-stack-base"></i><i class="icon-ok icon-light"></i></span><%= link_to @organization.domain, "http://#{@organization.domain}" %>

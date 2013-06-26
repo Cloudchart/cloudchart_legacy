@@ -1,4 +1,10 @@
 class VacanciesController < ApplicationController
+  def index
+    return unauthorized unless user_signed_in?
+    
+    @vacancies = @organization.vacancies
+  end
+  
   def search
     return unauthorized unless user_signed_in?
     
@@ -34,7 +40,30 @@ class VacanciesController < ApplicationController
     
     @vacancy = @organization.vacancies.create(resource_params)
     if @vacancy.valid?
-      redirect_to organization_path(@organization)
+      redirect_to organization_vacancy_path(@organization, @vacancy)
+    else
+      render :form
+    end
+  end
+  
+  def show
+    return unauthorized unless user_signed_in?
+  end
+  
+  def edit
+    return unauthorized unless user_signed_in?
+    render :form
+  end
+  
+  def update
+    return unauthorized unless can?(:update, @organization)
+    
+    if resource_params
+      @vacancy.update_attributes(resource_params)
+    end
+    
+    if @vacancy.valid?
+      redirect_to organization_vacancy_path(@organization, @vacancy)
     else
       render :form
     end

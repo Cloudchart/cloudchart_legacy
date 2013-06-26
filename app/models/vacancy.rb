@@ -1,6 +1,7 @@
 class Vacancy
   include Mongoid::Document
   include Mongoid::Timestamps
+  include Mongoid::MultiParameterAttributes
   store_in collection: "vacancies"
   
   # Scopes
@@ -12,8 +13,17 @@ class Vacancy
   belongs_to :organization
   
   # Fields
-  attr_accessible :organization_id, :title
+  attr_accessible :organization_id, :title, :description, :requirements,
+                  :salary, :starts_at, :location, :contact, :is_enabled
+  
   field :title, type: String
+  field :description, type: String
+  field :requirements, type: String
+  field :salary, type: Integer
+  field :starts_at, type: Date
+  field :location, type: String
+  field :contact, type: String
+  field :is_enabled, type: Boolean, default: true
   
   # Validations
   validates :title, presence: true

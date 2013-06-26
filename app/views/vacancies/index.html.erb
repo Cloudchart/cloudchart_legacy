@@ -1,0 +1,16 @@
+<div class="organization">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: "/organizations/sidebar" %>
+    </div>
+    <div class="span9 inner">
+      <% @vacancies.each do |vacancy| %>
+        <h1><%= vacancy.title %></h1>
+        <div class="widget text">
+          <p><%= vacancy.description %></p>
+          <p><%= link_to "Edit", edit_organization_vacancy_path(@organization, vacancy), class: "btn btn-mini" %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

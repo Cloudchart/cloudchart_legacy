@@ -26,6 +26,15 @@
   	- [x] Automatically display charts (show+editor, implement it as default widget)
   	- [x] Fill company description from first about widget
   	- [x] Edit company title
+
+- Vacancies
+  - [x] Add fields: Title, Description, Requirements, Salary, Starts at, Location, Contact
+  - [ ] Index page
+  - [ ] Show page
+  - [ ] On/off
+  - [ ] Delete
+  - [ ] Ability to respond to vacancy
+  - [ ] List of responders on vacancy page
   	
 - Proper nodes editing
   - [x] More helper methods for tree purpose

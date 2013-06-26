@@ -14,7 +14,7 @@ Cloudchart::Application.routes.draw do
         put :invite
       end
     end
-    resources :vacancies, only: [:new, :create] do
+    resources :vacancies do
       collection do
         get :search
       end
