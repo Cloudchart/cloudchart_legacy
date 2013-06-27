@@ -8,6 +8,7 @@ class Vacancy
   scope :ordered, order_by(:id.asc)
   default_scope ordered
   scope :unordered, -> { all.tap { |criteria| criteria.options.store(:sort, nil) } }
+  scope :enabled, -> { where(is_enabled: true) }
   
   # Relations
   belongs_to :organization
@@ -47,6 +48,10 @@ class Vacancy
         :id, :identifier, :name
       ]
     )
+  end
+  
+  def enabled?
+    !!self.is_enabled
   end
   
   # TODO: Adjust

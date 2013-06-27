@@ -1,8 +1,10 @@
 class VacanciesController < ApplicationController
   def index
-    return unauthorized unless user_signed_in?
-    
-    @vacancies = @organization.vacancies
+    if can?(:update, @organization)
+      @vacancies = @organization.vacancies
+    else
+      @vacancies = @organization.vacancies.enabled
+    end
   end
   
   def search
@@ -29,14 +31,14 @@ class VacanciesController < ApplicationController
   end
   
   def new
-    return unauthorized unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
     
     @vacancy = @organization.vacancies.new(resource_params)
     render :form
   end
   
   def create
-    return unauthorized unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
     
     @vacancy = @organization.vacancies.create(resource_params)
     if @vacancy.valid?
@@ -47,11 +49,14 @@ class VacanciesController < ApplicationController
   end
   
   def show
-    return unauthorized unless user_signed_in?
+    if !can?(:update, @organization)
+      redirect_to organization_vacancies_path(@organization) and return unless @vacancy.enabled?
+    end
   end
   
   def edit
-    return unauthorized unless user_signed_in?
+    return unauthorized unless can?(:update, @organization)
+    
     render :form
   end
   
@@ -67,6 +72,13 @@ class VacanciesController < ApplicationController
     else
       render :form
     end
+  end
+  
+  def destroy
+    return unauthorized unless can?(:show, @organization)
+    
+    @vacancy.destroy
+    redirect_to organization_vacancies_path(@organization)
   end
   
   private

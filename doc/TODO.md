@@ -29,10 +29,10 @@
 
 - Vacancies
   - [x] Add fields: Title, Description, Requirements, Salary, Starts at, Location, Contact
-  - [ ] Index page
-  - [ ] Show page
-  - [ ] On/off
-  - [ ] Delete
+  - [x] Index page
+  - [x] On/off
+  - [x] Show page
+  - [x] Delete
   - [ ] Ability to respond to vacancy
   - [ ] List of responders on vacancy page
   	

@@ -5,10 +5,11 @@
     </div>
     <div class="span9 inner">
       <% @vacancies.each do |vacancy| %>
-        <h1><%= vacancy.title %></h1>
+        <h1><%= link_to vacancy.title, organization_vacancy_path(@organization, vacancy) %></h1>
         <div class="widget text">
           <p><%= vacancy.description %></p>
-          <p><%= link_to "Edit", edit_organization_vacancy_path(@organization, vacancy), class: "btn btn-mini" %></p>
+          <%= button_to "Edit", edit_organization_vacancy_path(@organization, vacancy),  method: :get, class: "btn btn-mini" %>
+          <%= button_to "Delete", organization_vacancy_path(@organization, vacancy), method: :delete, class: "btn btn-mini" %>
         </div>
       <% end %>
     </div>

@@ -4,7 +4,14 @@
       <%= render partial: "/organizations/sidebar" %>
     </div>
     <div class="span9 inner">
-      <%= debug @vacancy %>
+      <% %w(title description requirements salary starts_at location contact).each do |field| %>
+        <% if @vacancy[field].present? %>
+        <h1><%= field.humanize %></h1>
+        <div class="widget text">
+          <p><%= @vacancy[field] %></p>
+        </div>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
