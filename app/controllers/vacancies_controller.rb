@@ -74,6 +74,14 @@ class VacanciesController < ApplicationController
     end
   end
   
+  def respond
+    return unauthorized unless user_signed_in?
+    
+    @vacancy.respond!(current_user)
+    
+    redirect_to organization_vacancy_path(@organization, @vacancy)
+  end
+  
   def destroy
     return unauthorized unless can?(:show, @organization)
     

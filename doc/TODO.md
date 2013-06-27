@@ -33,8 +33,8 @@
   - [x] On/off
   - [x] Show page
   - [x] Delete
-  - [ ] Ability to respond to vacancy
-  - [ ] List of responders on vacancy page
+  - [x] Ability to respond to vacancy
+  - [x] List of responders on vacancy page
   	
 - Proper nodes editing
   - [x] More helper methods for tree purpose

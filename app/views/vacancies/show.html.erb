@@ -12,6 +12,23 @@
         </div>
         <% end %>
       <% end %>
+      
+      <% if can?(:update, @organization) %>
+        <% if @vacancy.responders.exists? %>
+        <h1>Responders</h1>
+        <div class="widget text">
+          <ul class="unstyled">
+            <% @vacancy.responders.each do |responder| %>
+              <li><%= responder.name %></li>
+            <% end %>
+          </ul>
+        </div>
+        <% end %>
+      <% elsif user_signed_in? && !@vacancy.responded?(current_user) %>
+      <div class="widget text">
+        <%= button_to "Respond", respond_organization_vacancy_path(@organization, @vacancy), class: "btn btn-large btn-primary" %>
+      </div>
+      <% end %>
     </div>
   </div>
 </div>

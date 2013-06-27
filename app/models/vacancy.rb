@@ -12,6 +12,7 @@ class Vacancy
   
   # Relations
   belongs_to :organization
+  has_and_belongs_to_many :responders, class_name: "User", inverse_of: nil
   
   # Fields
   attr_accessible :organization_id, :title, :description, :requirements,
@@ -52,6 +53,14 @@ class Vacancy
   
   def enabled?
     !!self.is_enabled
+  end
+  
+  def respond!(user)
+    self.responders.push(user) unless self.responded?(user)
+  end
+  
+  def responded?(user)
+    self.responder_ids.include?(user.id)
   end
   
   # TODO: Adjust

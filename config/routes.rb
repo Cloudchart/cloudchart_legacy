@@ -18,6 +18,9 @@ Cloudchart::Application.routes.draw do
       collection do
         get :search
       end
+      member do
+        post :respond
+      end
     end
   end
   
