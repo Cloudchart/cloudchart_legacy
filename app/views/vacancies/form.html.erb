@@ -1,15 +1,24 @@
-<%= simple_form_for([@organization, @vacancy], html: { class: "form-horizontal vacancy-new", data: { behavior: "vacancy-new"} }) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :title, :required => true, :autofocus => true %>
-    <%= f.input :description, as: :text, input_html: { rows: 10 } %>
-    <%= f.input :requirements, as: :text, input_html: { rows: 10 } %>
-    <%= f.input :salary, as: :integer %>
-    <%= f.input :starts_at, as: :date %>
-    <%= f.input :location %>
-    <%= f.input :contact, as: :text, input_html: { rows: 10 } %>
-    <%= f.input :is_enabled, as: :boolean %>
+<div class="organization">
+  <div class="row-fluid">
+    <div class="span3">
+      <%= render partial: "/organizations/sidebar" %>
+    </div>
+    <div class="span9 inner">
+      <%= simple_form_for([@organization, @vacancy], html: { class: "form-horizontal vacancy-new", data: { behavior: "vacancy-new"} }) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :title, :required => true, :autofocus => true %>
+          <%= f.input :description, as: :text, input_html: { rows: 10 } %>
+          <%= f.input :requirements, as: :text, input_html: { rows: 10 } %>
+          <%= f.input :salary, as: :integer %>
+          <%= f.input :starts_at, as: :date %>
+          <%= f.input :location %>
+          <%= f.input :contact, as: :text, input_html: { rows: 10 } %>
+          <%= f.input :is_enabled, as: :boolean %>
+        </div>
+        <div class="form-actions">
+          <%= f.button :submit, t("organizations.create"), class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, t("organizations.create"), class: "btn btn-primary" %>
-  </div>
-<% end %>
+</div>
